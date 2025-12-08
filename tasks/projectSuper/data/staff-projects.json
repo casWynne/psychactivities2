@@ -6,15 +6,16 @@
       "email": "staff1@university.ac.uk",
       "avatar": "images/fayme.png",
       "avatarPosition": "50% 5%",
-      "keywords": ["Stuttering", "Language", "Speech disorders", "Attitudes"],
+      "keywords": ["Sequences", "Serial Dependence", "Statistical Learning", "Implicit Learning", "Learning", "Memory"],
       "topics": [
         {
-          "title": "specific topic title 1 - cheese",
-          "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque.",
+          "title": "Implicit learning - frequencies, patterns, and sequences",
+          "description": "People are able to extract and learn information about regularieis in their environment (statistical learning) which can occur without their awareness (implicit learning). We are interested in how this happens and what people learn, without realising. Research rocuses for the most part on how we learn connections or relationships between stimuli that are linked, predict certain outcomes or co-occur. This becomes more complicated when the relationships occur across time, or the learning is about distributed aspects like frequency or variability of stimuli and more research is needed to understand these aspects. Projects will look at measuring how and what people learn about distributional and conditional features of tehri environment, with a focus on stimuli seperated across time - examining timeing, serial order, frequency, variability, and conditional relationships between stimuli and how these impact learning.",
           "ideas": [
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque.",
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque.",
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque."
+            "How do we learn distributed statistical information about different stimuli types (e.g. words, pictures, faces or auditory stimuli).",
+            "Using tasks such as the serial interception task (SISL) to examine distributional as well as conditional relationships between stimuli (try this out here: <a href='https://www.reberlab.psych.northwestern.edu/research/sisl-2' target='_blank'>SISL|ReberLab</a>)",
+            "Examining cue-competition and overshadowing effects between conditional and distributional aspects of stimuli. Does learning about conditional and distributional aspects of stimuli interact? Do we see cue-competition overshadowing?",
+            "Individual differences and statistical learning - how do people differ in their ability to learn about their environment statistically?"
           ]
         },
         {

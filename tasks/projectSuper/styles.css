@@ -5,20 +5,28 @@
 *::after {
   box-sizing: border-box;
 }
+
 html {
-  font-size: 20px;   /* default is ~16px → ~6–10% increase */
+  font-size: 20px;
+  /* default is ~16px → ~6–10% increase */
 }
 
 :root {
-  --bg: #FCFAF8;  /* soft warm neutral */
+  --bg: #FCFAF8;
+  /* soft warm neutral */
 
   /* Mid-saturation accents */
-  --accent-main: #E98A8A;   /* warm rose (chips/buttons) */
-  --accent-soft: #C9A7F5;   /* gentle lavender (header accents) */
-  --accent-mint: #8FD8C8;   /* soft mint/teal (toolbar) */
-  --accent-blue: #AFC4FF;   /* dusty periwinkle (keyword box) */
+  --accent-main: #E98A8A;
+  /* warm rose (chips/buttons) */
+  --accent-soft: #C9A7F5;
+  /* gentle lavender (header accents) */
+  --accent-mint: #8FD8C8;
+  /* soft mint/teal (toolbar) */
+  --accent-blue: #AFC4FF;
+  /* dusty periwinkle (keyword box) */
 
-  --card-bg: #F7E7DE;       /* warm light neutral */
+  --card-bg: #F7E7DE;
+  /* warm light neutral */
   --card-border: #E6C9BD;
 
   --text-main: #1A1A1A;
@@ -57,10 +65,12 @@ body {
 /* ---- Layout -------------------------------------------------------------- */
 
 .site-header {
-  text-align: center;          /* <-- centre everything */
+  text-align: center;
+  /* <-- centre everything */
   display: flex;
   flex-direction: column;
-  align-items: center;         /* centre any children horizontally */
+  align-items: center;
+  /* centre any children horizontally */
   justify-content: center;
   background-color: var(--brand-dark);
   color: var(--text-main);
@@ -134,11 +144,13 @@ body {
 .toolbar input[type="search"]:focus,
 .toolbar select:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(242, 187, 187, 0.6); /* soft accent-main ring */
+  box-shadow: 0 0 0 2px rgba(242, 187, 187, 0.6);
+  /* soft accent-main ring */
 }
 
 .toolbar select {
-  appearance: none; /* smoother look on mobile */
+  appearance: none;
+  /* smoother look on mobile */
 }
 
 /* optional: small tweak for very small screens */
@@ -283,9 +295,12 @@ body {
   border: 1px solid var(--card-border);
 
   /* animation + collapsed defaults */
-  margin-top: 0;                 /* no extra space when closed */
-  padding: 0 0.85rem;            /* no vertical padding when closed */
-  border-width: 0;               /* hide border when closed */
+  margin-top: 0;
+  /* no extra space when closed */
+  padding: 0 0.85rem;
+  /* no vertical padding when closed */
+  border-width: 0;
+  /* hide border when closed */
 
   max-height: 0;
   opacity: 0;
@@ -303,10 +318,12 @@ body {
 
 .profile-card.open .profile-details {
   margin-top: 0.6rem;
-  padding: 0.75rem 0.85rem;      /* full padding only when open */
+  padding: 0.75rem 0.85rem;
+  /* full padding only when open */
   border-width: 1px;
 
-  max-height: 1000px;            /* big enough for typical content */
+  max-height: none;
+  /* big enough for typical content */
   opacity: 1;
   transform: translateY(0);
 }
@@ -353,16 +370,18 @@ body {
   align-items: center;
   gap: 0.3rem;
 }
+
 .detail-btn-icon {
   font-size: 1.1rem;
 }
+
 .detail-btn:hover,
 .detail-btn:focus-visible {
   background: var(--accent-main);
   color: #ffffff;
   border-color: var(--accent-main);
   transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 /* ---- Helper states ------------------------------------------------------- */
@@ -383,6 +402,7 @@ body {
 
 /* ===== Mobile fine-tuning ===== */
 @media (max-width: 480px) {
+
   /* Slightly smaller base font on narrow screens */
   html {
     font-size: 15px;
@@ -422,14 +442,12 @@ body {
     border-radius: 16px;
   }
 
-.profile-avatar > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover !important;
-  object-position: 50% 15% !important; 
-}
-
-
+  .profile-avatar>img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover !important;
+    object-position: 50% 15% !important;
+  }
 
   .profile-name {
     font-size: 0.95rem;
@@ -453,7 +471,51 @@ body {
   .site-footer {
     padding: 0.75rem;
   }
+
+  .profile-header {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-items: flex-start;
+    column-gap: 0.6rem;
+    row-gap: 0.25rem;
+  }
+
+  /* Avatar can stay, or shrink a touch if you want */
+  .profile-avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* Put email/interest/details under the name+chips, full width */
+  .profile-actions {
+    grid-column: 1 / -1;
+    /* span both columns */
+    flex-direction: row;
+    /* buttons side-by-side */
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.15rem;
+  }
+
+  .profile-actions button {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.6rem;
+    white-space: nowrap;
+    /* stops them breaking mid-label */
+  }
+
+  /* A little extra breathing room so nothing feels chopped */
+  .profile-card {
+    padding-bottom: 0.9rem;
+  }
+  .profile-card.open .profile-details {
+    max-height: none;
+  }
+
 }
+
 @media (prefers-reduced-motion: reduce) {
   .profile-details {
     transition: none;
@@ -513,7 +575,7 @@ body {
 
 /* ===== Global keyword list at top ===== */
 
-.keywords{
+.keywords {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;

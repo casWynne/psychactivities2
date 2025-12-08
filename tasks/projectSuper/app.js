@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // === CONFIG ====================================================
     const showFilters = true;   // <-- toggle this to show/hide the filter bar
     const showKeywordLegend = true;    // show/hide the big keyword section
-    const enableKeywordChipFilter = true; // allow clicking chips to filter
+    const enableKeywordChipFilter = false; // allow clicking chips to filter
     // ===============================================================
 
     const profilesList = document.getElementById("profilesList");
@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const interestFormUrl = "https://forms.office.com/e/UT6nby4S1n";
     const toolbar = document.querySelector(".toolbar");
+    const keywordLegendSection = document.querySelector(".keywords"); // <-- add this
 
 
     // Search toolbar visibility
@@ -205,34 +206,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Build the keyword chip list at the top
     // Build the keyword chip list at the top
-    function renderKeywordList(keywords) {
-        // If the section is hidden in config, don't bother rendering
-        if (!keywordList || !showKeywordLegend) return;
+function renderKeywordList(keywords) {
+    // If the section is hidden in config, don't bother rendering
+    if (!keywordList || !showKeywordLegend) return;
 
-        keywordList.innerHTML = "";
+    keywordList.innerHTML = "";
 
-        keywords.forEach((kw) => {
-            const isInteractive = enableKeywordChipFilter;
+    keywords.forEach((kw) => {
+        // Always use the same element + classes for consistent styling
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "keyword-chip keyword-chip--global";
+        chip.textContent = kw;
 
-            // button if clickable, span if not
-            const chip = document.createElement(isInteractive ? "button" : "span");
-            chip.className = "keyword-chip" + (isInteractive ? " keyword-chip--global" : "");
-            chip.textContent = kw;
+        // Only add click behaviour if filtering is enabled
+        if (enableKeywordChipFilter) {
+            chip.addEventListener("click", () => {
+                if (!keywordSelect) return;
 
-            if (isInteractive) {
-                chip.type = "button";
-                chip.addEventListener("click", () => {
-                    if (!keywordSelect) return;
+                keywordSelect.value = kw;
+                updateKeywordClearVisibility();
+                applyFilters();
+            });
+        }
 
-                    keywordSelect.value = kw;
-                    updateKeywordClearVisibility();
-                    applyFilters();
-                });
-            }
+        keywordList.appendChild(chip);
+    });
+}
 
-            keywordList.appendChild(chip);
-        });
-    }
 
 
     function updateSearchClearVisibility() {

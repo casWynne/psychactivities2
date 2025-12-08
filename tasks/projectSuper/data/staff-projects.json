@@ -30,36 +30,39 @@
     },
     {
       "id": "staff-2",
-      "name": "Dr Staff Name 2",
-      "email": "staff2@university.ac.uk",
+      "name": "Dr Tim Vestner",
+      "email": "t.vestner@leedstrinity.ac.uk",
       "avatar": "",
-      "keywords": ["Maths anxiety", "Reading", "Attention"],
+      "keywords": ["Social Cognition", "Anxiety", "Stuttering", "Language Disorders", "Autism", "Visual Disorders"],
       "topics": [
         {
-          "title": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-          "description": "BananaLorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque.",
+          "title": "Attitudes towards stuttering and related language and speech disorders.",
+          "description": "People who stutter (PWS) are experiencing everyday difficulties with not just communication, but also social relationships. Consequently, PWS are more prone to anxiety and social phobia, which in large parts is caused by social attitudes towards stuttering. General attitudes towards stuttering are well studied but much is unknown about specific population groups, mechanisms, accommodations, and effects on social relationships. Most research in this area uses existing questionnaires but there is also room for qualitative explorations. This topic can extend to other language or speech disorders, and even to healthy but atypical presentations, such as accents.",
           "ideas": [
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque.",
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque.",
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque."
+            "Attitudes towards stuttering in minority populations, which could encompass either qualitative or quantitative approaches. Past students have, for example, successfully investigated attitudes towards stuttering in British-Pakistani populations, with their projects being currently under review for publication. This could be extended to other populations.",
+            "Attitudes towards stuttering in an intersectional context: Are people from certain (e.g. minoritised) groups more vulnerable to stigma resulting from stuttering?",
+            "Correlates of negative attitudes: Are people who have biases towards stuttering also more likely to have biases towards other things (e.g. dyslexia)? Are they more likely to have other characteristics (e.g. older, less educated etc.)? ",
+            "You can also work directly with people who stutter, but you would need to think of a good way to get enough participants who stutter. In this case, you could directly investigate self-stigma, anxiety, social phobia, or factors affecting social relationships. "
           ]
         }
       ]
     },
     {
       "id": "staff-3",
-      "name": "Dr Staff Name 3",
-      "email": "staff3@university.ac.uk",
-      "avatar": "",
-      "keywords": ["Neurodiversity", "Autism", "Assessment"],
+      "name": "Dr Paul McGivern",
+      "email": "p.mcgivern@leedstrinity.ac.uk",
+      "avatar": "images/paulmcgivern.jpg",
+      "avatarPosition": "50% 5%",
+      "keywords": ["Gambling", "Responsible Gambling", "Advertising", "Branding"],
       "topics": [
         {
-          "title": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-          "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque.",
+          "title": "The Role of Branding and Advertising on Gambling Uptake and Responsible Gambling.",
+          "description": "Gambling providers use a range of strategies and techniques to attract and retain customers. This includes use of humour, celebrity endorsement, and carefully crafted colour schemes to generate a unique brand. Whilst all UK gambling providers now offer a suite of responsible gambling tools, the way that these tools are promoted is still bound up within the branding of each gambling provider. Gambling research draws on both qualitative and quantitative methods, with more work needed in this area to better understand how these factors impact on gambling behaviours.",
           "ideas": [
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque.",
-            "Cream. Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque.",
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsa natus maxime error. Amet distinctio ullam et inventore maiores facilis omnis repellat vel doloribus, accusantium tenetur! Tempora odio eveniet atque."
+            "Based on branding psychology, how have certain UK providers drawn on such research and is it effective in establishing brand loyalty?",
+            "Does brand loyalty with a particular provider impact on the extent to which they would use responsible gambling tools and how does having such tools bound up in the branding impact?",
+            "How does brand loyalty impact on gambling behaviours?",
+            "These are just a few ideas, and you may have some of your own in this area, which could be taken from both qualitative and quantitative perspectives"
           ]
         }
       ]

@@ -10,24 +10,24 @@ html {
 }
 
 :root {
-  --bg: #FAFAFA;
+  --bg: #FCFAF8;  /* soft warm neutral */
 
-  /* Your pastel palette */
-  --accent-main: #F2BBBB;   /* primary accent (buttons, chips) */
-  --accent-soft: #F2D0E9;   /* lavender soft accent (header, hovers) */
-  --accent-mint: #ACF2DE;   /* mint highlight (toolbar background) */
-  --accent-blue: #dddcf2;  /* pale blue accent */
+  /* Mid-saturation accents */
+  --accent-main: #E98A8A;   /* warm rose (chips/buttons) */
+  --accent-soft: #C9A7F5;   /* gentle lavender (header accents) */
+  --accent-mint: #8FD8C8;   /* soft mint/teal (toolbar) */
+  --accent-blue: #AFC4FF;   /* dusty periwinkle (keyword box) */
 
-  --card-bg: #F2E0DC;       /* peachy cream card background */
-  --card-border: #e6ccc9;
+  --card-bg: #F7E7DE;       /* warm light neutral */
+  --card-border: #E6C9BD;
 
-  --text-main: #0D0D0D;
-  --text-soft: #444;
+  --text-main: #1A1A1A;
+  --text-soft: #555;
 
   /* Derived helpers */
-  --brand-dark: var(--accent-soft);  /* header background */
-  --bg-alt: var(--card-bg);          /* generic “card” background */
-  --bg-alt-light: #f7e6e0;           /* slightly lighter than card-bg */
+  --brand-dark: var(--accent-soft);
+  --bg-alt: var(--card-bg);
+  --bg-alt-light: #FCEEE7;
   --accent: var(--accent-main);
   --danger: #e54b4b;
 
@@ -38,9 +38,11 @@ html {
 
   --radius-lg: 9999px;
   --radius-card: 14px;
-  --shadow-soft: 0 4px 10px rgba(0, 0, 0, 0.12);
-  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-soft: 0 4px 10px rgba(0, 0, 0, 0.10);
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.10);
 }
+
+
 
 html,
 body {
@@ -55,10 +57,16 @@ body {
 /* ---- Layout -------------------------------------------------------------- */
 
 .site-header {
-  padding: 1.5rem 1.25rem 0.75rem;
-  background: var(--brand-dark);
+  text-align: center;          /* <-- centre everything */
+  display: flex;
+  flex-direction: column;
+  align-items: center;         /* centre any children horizontally */
+  justify-content: center;
+  background-color: var(--brand-dark);
   color: var(--text-main);
+  padding: 20px;
 }
+
 
 .site-header h1 {
   margin: 0 0 0.25rem;

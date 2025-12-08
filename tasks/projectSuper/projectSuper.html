@@ -23,38 +23,46 @@
                 Use the search box and keyword filter below to explore different staff projects.
                 Click on a card to see example project ideas and more details.
             </p>
-        </section>
-        <section class="toolbar">
-            <label class="field">
-                <span class="field-label">Search</span>
-                <div class="search-wrapper">
-                    <input id="searchInput" type="search" placeholder="Search name, topic, description..." />
-                    <button id="clearSearchBtn" class="field-clear-btn" type="button" aria-label="Clear search">
-                        ×
-                    </button>
+            <section class="keywords">
+                <div class="field">
+                    <span class="field-label">Keywords</span>
+                    <div class="keyword-container">
+                        <span id="keywordList"></span>
+                    </div>
                 </div>
-            </label>
+            </section>
 
-            <label class="field">
-                <span class="field-label">Filter by keyword</span>
-                <div class="keyword-wrapper">
-                    <select id="keywordSelect">
-                        <option value="">All keywords</option>
-                        <!-- Options will be added via JS -->
-                    </select>
-                    <button id="clearKeywordBtn" class="field-clear-btn" type="button"
-                        aria-label="Clear keyword filter">
-                        ×
-                    </button>
-                </div>
-            </label>
-        </section>
+            <section class="toolbar">
+                <label class="field">
+                    <span class="field-label">Search</span>
+                    <div class="search-wrapper">
+                        <input id="searchInput" type="search" placeholder="Search name, topic, description..." />
+                        <button id="clearSearchBtn" class="field-clear-btn" type="button" aria-label="Clear search">
+                            ×
+                        </button>
+                    </div>
+                </label>
+
+                <label class="field">
+                    <span class="field-label">Filter by keyword</span>
+                    <div class="keyword-wrapper">
+                        <select id="keywordSelect">
+                            <option value="">All keywords</option>
+                            <!-- Options will be added via JS -->
+                        </select>
+                        <button id="clearKeywordBtn" class="field-clear-btn" type="button"
+                            aria-label="Clear keyword filter">
+                            ×
+                        </button>
+                    </div>
+                </label>
+            </section>
 
 
-        <!-- Profiles injected by JS -->
-        <section id="profilesList" class="profiles-list" aria-live="polite">
-            <!-- Cards go here -->
-        </section>
+            <!-- Profiles injected by JS -->
+            <section id="profilesList" class="profiles-list" aria-live="polite">
+                <!-- Cards go here -->
+            </section>
     </main>
 
     <footer class="site-footer">

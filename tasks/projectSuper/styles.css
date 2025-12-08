@@ -16,6 +16,7 @@ html {
   --accent-main: #F2BBBB;   /* primary accent (buttons, chips) */
   --accent-soft: #F2D0E9;   /* lavender soft accent (header, hovers) */
   --accent-mint: #ACF2DE;   /* mint highlight (toolbar background) */
+  --accent-blue: #dddcf2;  /* pale blue accent */
 
   --card-bg: #F2E0DC;       /* peachy cream card background */
   --card-border: #e6ccc9;
@@ -500,4 +501,36 @@ body {
 .toolbar input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
   appearance: none;
+}
+
+/* ===== Global keyword list at top ===== */
+
+.keywords{
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--accent-blue);
+  padding: 0.75rem;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 1.5rem;
+}
+
+.keyword-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+/* Optional: slightly tweak global chips if you want them smaller/different */
+.keyword-chip--global {
+  cursor: pointer;
+  transition: transform 0.08s ease-out, box-shadow 0.08s ease-out;
+  margin: 3px;
+}
+
+.keyword-chip--global:hover,
+.keyword-chip--global:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-subtle);
 }

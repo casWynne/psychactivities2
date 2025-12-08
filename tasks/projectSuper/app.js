@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // === CONFIG ====================================================
     const showFilters = true;   // <-- toggle this to show/hide the filter bar
+    const showKeywordLegend = true;    // show/hide the big keyword section
+    const enableKeywordChipFilter = true; // allow clicking chips to filter
     // ===============================================================
 
     const profilesList = document.getElementById("profilesList");
@@ -14,12 +16,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const keywordWrapper = document.querySelector(".keyword-wrapper");
     const clearSearchBtn = document.getElementById("clearSearchBtn");
     const clearKeywordBtn = document.getElementById("clearKeywordBtn");
+    const keywordList = document.getElementById("keywordList");   // <-- add this
+
     const interestFormUrl = "https://forms.office.com/e/UT6nby4S1n";
     const toolbar = document.querySelector(".toolbar");
+
+
+    // Search toolbar visibility
     if (!showFilters && toolbar) {
         toolbar.style.display = "none";
         searchInput.disabled = true;
         keywordSelect.disabled = true;
+    }
+    // Keyword legend visibility
+    if (!showKeywordLegend && keywordLegendSection) {
+        keywordLegendSection.style.display = "none";
     }
 
 
@@ -34,13 +45,18 @@ document.addEventListener("DOMContentLoaded", () => {
             return res.json();
         })
         .then((data) => {
-            // Expecting { staff: [...] }
             allProfiles = data.staff || [];
-            buildKeywordDropdown(allProfiles);
+
+            const allKeywords = getAllUniqueKeywords(allProfiles);
+            buildKeywordDropdown(allKeywords);
+            renderKeywordList(allKeywords);
+
             updateSearchClearVisibility();
             updateKeywordClearVisibility();
             renderProfiles(allProfiles);
         })
+
+
         .catch((err) => {
             console.error(err);
             profilesList.innerHTML =
@@ -153,8 +169,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+
+
     // ---- Filtering ----------------------------------------------------------
-    function buildKeywordDropdown(profiles) {
+    // Collect all unique keywords across all profiles
+    function getAllUniqueKeywords(profiles) {
         const allKeywords = new Set();
 
         profiles.forEach((profile) => {
@@ -165,20 +184,57 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        const sorted = Array.from(allKeywords).sort((a, b) =>
+        return Array.from(allKeywords).sort((a, b) =>
             a.localeCompare(b, undefined, { sensitivity: "base" })
         );
+    }
 
-        // Clear existing options except the first "All keywords"
+    // Build the dropdown from a list of keywords
+    function buildKeywordDropdown(keywords) {
+        if (!keywordSelect) return;
+
         keywordSelect.innerHTML = '<option value="">All keywords</option>';
 
-        sorted.forEach((kw) => {
+        keywords.forEach((kw) => {
             const opt = document.createElement("option");
             opt.value = kw;
             opt.textContent = kw;
             keywordSelect.appendChild(opt);
         });
     }
+
+    // Build the keyword chip list at the top
+    // Build the keyword chip list at the top
+    function renderKeywordList(keywords) {
+        // If the section is hidden in config, don't bother rendering
+        if (!keywordList || !showKeywordLegend) return;
+
+        keywordList.innerHTML = "";
+
+        keywords.forEach((kw) => {
+            const isInteractive = enableKeywordChipFilter;
+
+            // button if clickable, span if not
+            const chip = document.createElement(isInteractive ? "button" : "span");
+            chip.className = "keyword-chip" + (isInteractive ? " keyword-chip--global" : "");
+            chip.textContent = kw;
+
+            if (isInteractive) {
+                chip.type = "button";
+                chip.addEventListener("click", () => {
+                    if (!keywordSelect) return;
+
+                    keywordSelect.value = kw;
+                    updateKeywordClearVisibility();
+                    applyFilters();
+                });
+            }
+
+            keywordList.appendChild(chip);
+        });
+    }
+
+
     function updateSearchClearVisibility() {
         if (!searchWrapper) return;
         if (!searchInput.value.trim()) {

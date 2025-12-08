@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Drag and Drop Timeline Activity</title>
+  <link rel="stylesheet" href="../css/drag_task.css">
+</head>
+
+<body>
+  <header>
+    <h1>Basic Drag Task</h1>
+</header>
+
+  <section class="task-description">
+    <h2>Task Description</h2>
+    <p><strong>Definition:</strong>This is a basic dragging task.</p>
+    <p><strong>Instructions:</strong>Drag an item below onto the timeline where you think it should go, if you are correct the border will turn green, incorrect the border will turn red.</p>
+    <p> </p>
+  </section>
+
+  <div id="task-container">
+    <!-- Storage Area -->
+    <div id="storage-container">
+      <h2>Storage Area</h2>
+      <div id="items-container">
+        <div class="draggable-item" draggable="true" data-number="2">
+          <p>A</p>
+        </div>
+        <div class="draggable-item" draggable="true" data-number="0">
+          <p>B</p>
+        </div>
+        <div class="draggable-item" draggable="true" data-number="3">
+          <p>C</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div id="timeline-container">
+      <div class="timeline-slot" data-number="0" data-label="Start"></div>
+      <div class="timeline-slot" data-number="1" data-label="Step One"></div>
+      <div class="timeline-slot" data-number="2" data-label="Step Two"></div>
+      <div class="timeline-slot" data-number="3" data-label="Step Three"></div>
+      <div class="timeline-slot" data-number="4" data-label="Finish"></div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Created by Caspar Wynne</p>
+  </footer>
+
+  <script src="../js/tasks/drag_task.js"></script>
+</body>
+
+</html>

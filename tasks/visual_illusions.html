@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Illusions in Psychology</title>
+    <link rel="stylesheet" href="../css/visual_illusions.css"> <!-- Ensure this path is correct -->
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>Understanding Visual Illusions in Psychology</h1>
+        <p>Visual illusions reveal how our brain processes information, showing the limitations and complexities of
+            perception. Explore the Contrast Effect below to learn more about how surrounding colours influence our
+            perception of brightness and shade.</p>
+    </header>
+
+    <!-- Main Content -->
+    <div id="illusion-container">
+
+        <!-- Contrast Effect Section -->
+        <section class="illusion-section">
+            <h2>Contrast Effect</h2>
+            <p><strong>Description:</strong> The Contrast Effect shows how the perceived brightness of an object is
+                influenced by its surroundings. The two central squares have the same colours, but they appear different
+                due to the contrast of their surrounding backgrounds.</p>
+
+            <!-- Interactive Example -->
+            <div id="contrast-illusion" class="contrast-illusion">
+                <div class="contrast-container">
+                    <div class="contrast-background dark-background">
+                        <div class="contrast-center" id="dark-center"></div>
+                    </div>
+                    <p>Surrounded by Dark</p>
+                </div>
+                <div class="contrast-container">
+                    <div class="contrast-background light-background">
+                        <div class="contrast-center" id="light-center"></div>
+                    </div>
+                    <p>Surrounded by Light</p>
+                </div>
+            </div>
+
+            <!-- Interactive Slider for Contrast Adjustment -->
+            <div class="contrast-slider">
+                <label for="contrast-range">Adjust Central Square colours:</label>
+                <input type="range" id="contrast-range" min="50" max="200" value="127"
+                    oninput="adjustContrast(this.value)">
+            </div>
+
+            <!-- Compare Button -->
+            <div class="compare-button-container">
+                <button onclick="compareContrast()">Compare</button>
+            </div>
+
+
+            <!-- Interpretation -->
+            <div class="interpretation">
+                <p><strong>What It Tells Us:</strong> The Contrast Effect demonstrates that our perception of brightness
+                    and colour is relative and influenced by the surrounding context. Even though the central squares
+                    are
+                    the same colour, the one surrounded by a darker background appears lighter, and the one surrounded
+                    by
+                    a lighter background appears darker.</p>
+            </div>
+        </section>
+
+        <section class="illusion-section">
+            <h2>Ebbinghaus Illusion</h2>
+            <p><strong>Description:</strong> The Ebbinghaus Illusion shows how the perception of the size of a central
+                circle is influenced by the size and proximity of surrounding circles. Even though both central circles
+                are the same size, they appear different due to the surrounding context.</p>
+
+            <div class="task-container">
+                <!-- Interactive Example -->
+                <div class="canvas-container">
+                    <canvas id="size-canvas" width="600" height="300"></canvas>
+                </div>
+
+                <!-- Slider Control -->
+                <div class="control-panel">
+                    <label for="circle-size-slider">Adjust Surrounding Circle Size:</label>
+                    <input type="range" id="circle-size-slider" min="5" max="25" value="1" step="1"
+                        oninput="updateCircleSize(this.value)">
+                </div>
+
+
+                <div class="canvas-container">
+                    <canvas id="distance-canvas" width="600" height="300"></canvas>
+                </div>
+                <div class="control-panel">
+                    <label for="circle-distance-slider">Adjust Distance from Central Circle:</label>
+                    <input type="range" id="circle-distance-slider" min="67" max="105" value="67" step="1"
+                        oninput="updateCircleDistance(this.value)">
+                </div>
+            </div>
+
+            <!-- Interpretation -->
+            <div class="interpretation">
+                <p><strong>What It Tells Us:</strong> This illusion highlights that our perception is not just about the
+                    direct properties of objects, but also about their relationship with surrounding elements. The
+                    Ebbinghaus Illusion is a powerful demonstration of contextual perception.</p>
+            </div>
+
+        </section>
+
+        <section class="illusion-section">
+            <h2>Rotating Snakes Illusion</h2>
+            <p><strong>Description:</strong> The Rotating Snakes Illusion consists of circular patterns that seem to
+                rotate even though they are static. The illusion is created by specific arrangements of colour and
+                shapes, which trick the brain into perceiving motion.</p>
+
+            <!-- Replace the canvas or inline SVG with an img tag -->
+            <div id="snakes-illusion">
+                <div class="snakes-container">
+                    <img src="../assets/rotating_snakes.svg" alt="Rotating Snakes Illusion" class="illusion-image">
+                </div>
+            </div>
+            <div class="attribution">
+                <p><strong>Image Credit:</strong> <em>Rotating Snakes</em> by <a
+                        href="https://commons.wikimedia.org/wiki/User:Cmglee" target="_blank">Cmglee</a> is licensed
+                    under <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank">CC BY-SA 3.0</a>. No
+                    changes were made.</p>
+            </div>
+
+            <!-- Interpretation -->
+            <div class="interpretation">
+                <p><strong>What It Tells Us:</strong> The Rotating Snakes Illusion demonstrates that our brain is highly
+                    sensitive to changes in contrast, colour, and luminance. These visual cues are processed as motion,
+                    even when there is none, highlighting how our perception can be influenced by visual patterns.</p>
+            </div>
+        </section>
+
+        <!-- Ponzo Illusion Section -->
+        <section class="illusion-section">
+            <h2>Ponzo Illusion</h2>
+            <p><strong>Description:</strong> The Ponzo Illusion shows how our perception of the length of two identical
+                lines is distorted by converging lines that create a sense of depth. The top line appears longer, even
+                though both lines are the same length.</p>
+
+            <!-- Interactive Example -->
+            <div class="ponzo-container">
+                <canvas id="ponzo-canvas" width="600" height="400"></canvas>
+            </div>
+
+            <!-- Control Panel for Ponzo Illusion -->
+            <div class="control-panel">
+                <label for="line-length-slider">Adjust Line Length:</label>
+                <input type="range" id="line-length-slider" min="50" max="300" value="100" step="1"
+                    oninput="updateLineLength(this.value)">
+            </div>
+            <div class="control-panel">
+                <label for="line-position-slider">Adjust Line Position:</label>
+                <input type="range" id="line-position-slider" min="50" max="350" value="100" step="1"
+                    oninput="updateLinePosition(this.value)">
+            </div>
+            <div class="control-panel">
+                <label for="angle-slider">Adjust Angle of Converging Lines:</label>
+                <input type="range" id="angle-slider" min="100" max="400" value="300" step="1"
+                    oninput="updateConvergingAngle(this.value)">
+            </div>
+
+            <!-- Interpretation -->
+            <div class="interpretation">
+                <p><strong>What It Tells Us:</strong> The Ponzo Illusion demonstrates how our brain interprets linear
+                    perspective and depth cues, leading to misperceptions of size. This is a powerful example of how
+                    context influences our visual perception.</p>
+            </div>
+        </section>
+
+        <section class="illusion-section">
+            <h2>Café Wall Illusion</h2>
+            <p><strong>Description:</strong> The Café Wall Illusion creates the appearance of slanted horizontal lines
+                due to the alternating black and white tiles. Adjusting the horizontal offset of the black squares can
+                change the illusion, making the lines appear straight or even.</p>
+
+            <!-- Interactive Example -->
+            <div class="canvas-container">
+                <canvas id="cafe-canvas" width="600" height="400"></canvas>
+            </div>
+
+            <!-- Control Panel for Café Wall Illusion -->
+            <div class="control-panel">
+                <label for="offset-slider">Adjust Horizontal Offset:</label>
+                <input type="range" id="offset-slider" min="0" max="30" value="15" step="1"
+                    oninput="updateCafeOffset(this.value)">
+            </div>
+
+            <!-- Interpretation -->
+            <div class="interpretation">
+                <p><strong>What It Tells Us:</strong> The Café Wall Illusion demonstrates that our visual system can be
+                    easily deceived by the arrangement of shapes and colours. Even though the horizontal lines are
+                    parallel, the alternating pattern causes them to appear slanted, showing how context can influence
+                    our perception.</p>
+            </div>
+        </section>
+        <section class="illusion-section">
+            <h2>Colour Afterimage Illusion</h2>
+            <p><strong>Description:</strong> Press the start button and stare at the black dot below. After 30 seconds the shapes will vanish. When the shapes disappear, you will see
+                their afterimages in complementary colours. This effect demonstrates how our visual system adapts to
+                prolonged exposure to certain colours. Try different shapes and colours using the options below.</p>
+
+                <div class="control-panel">
+                    <button class="shape-button" onclick="startAfterimage()">Start</button>
+                    <div class="timer" id="timer-display">30</div>
+                </div>
+
+            <!-- Interactive Example -->
+            <div class="canvas-container">
+                <canvas id="afterimage-canvas" width="400" height="400"></canvas>
+            </div>
+            <!-- Start/Reset Button and Timer -->
+    
+
+            <!-- Shape and Colour Selection -->
+            <div class="selection-panel">
+                <div class="shape-selector">
+                    <div class="shape-selector">
+                        <button class="shape-button" onclick="setShape('circle')">Circle</button>
+                        <button class="shape-button" onclick="setShape('square')">Square</button>
+                        <button class="shape-button" onclick="setShape('triangle')">Triangle</button>
+                    </div>
+                </div>
+
+                <div class="colour-selector">
+                    <button class="colour-option red" onclick="setColor('#ff6347')">Red</button>
+                    <button class="colour-option green" onclick="setColor('#32cd32')">Green</button>
+                    <button class="colour-option blue" onclick="setColor('#1e90ff')">Blue</button>
+                    <button class="colour-option yellow" onclick="setColor('#ffd700')">Yellow</button>
+                </div>
+            </div>
+
+            <!-- Interpretation -->
+            <div class="interpretation">
+                <p><strong>What It Tells Us:</strong> The Colour Afterimage Illusion shows how our visual system adapts
+                    to prolonged exposure to one colour, leading to the perception of its complementary colour when we
+                    look away. This occurs because the photoreceptors in our eyes become desensitized to the original
+                    colour.</p>
+            </div>
+        </section>
+
+        <button id="back-to-top" title="Back to Top">
+        </button>
+
+
+
+
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>Created by Caspar Wynne</p>
+    </footer>
+
+    <!-- JavaScript File -->
+    <script src="../js/tasks/visual_illusions.js"></script> <!-- Ensure this path is correct -->
+</body>
+
+</html>

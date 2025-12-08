@@ -1,0 +1,364 @@
+/* General Reset and Basic Styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #4A0021;
+    color: #ffffff;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin-bottom: 10px;
+}
+
+header p {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Illusion Container Styling */
+#illusion-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Illusion Section Styling */
+.illusion-section {
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.illusion-section h2 {
+    margin-top: 0;
+    color: #4A0021;
+}
+
+.illusion-section p {
+    margin-bottom: 15px;
+}
+
+/* Contrast Effect Styling */
+#contrast-illusion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.contrast-container {
+    text-align: center;
+    margin: 0 10px;
+}
+
+.contrast-background {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #333;
+    margin-bottom: 10px;
+}
+
+.dark-background {
+    background-color: #333333;
+}
+
+.light-background {
+    background-color: #cccccc;
+}
+
+.contrast-center {
+    width: 50px;
+    height: 50px;
+    background-color: rgb(127, 127, 127); /* Central square color */
+    transition: background-color 0.2s ease;
+}
+
+/* Contrast Slider */
+.contrast-slider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.contrast-slider label {
+    margin-right: 10px;
+}
+
+.contrast-slider input[type="range"] {
+    width: 300px;
+}
+
+/* Interpretation Section */
+.interpretation {
+    margin-top: 20px;
+    padding: 15px 20px;
+    background-color: #f9f9f9;
+    border-left: 4px solid #4A0021;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.interpretation p {
+    margin: 0;
+}
+
+/* Footer Styling */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #4A0021;
+    color: #ffffff;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+}
+/* Contrast Effect Styling */
+#contrast-illusion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+}
+
+.contrast-container {
+    text-align: center;
+    margin: 0 10px;
+}
+
+.contrast-background {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #333;
+    margin-bottom: 10px;
+    transition: transform 0.5s ease; /* Smooth transition for comparison */
+}
+
+.dark-background {
+    background-color: #333333;
+}
+
+.light-background {
+    background-color: #cccccc;
+}
+
+.contrast-center {
+    width: 50px;
+    height: 50px;
+    background-color: rgb(127, 127, 127); /* Central square color */
+    transition: background-color 0.2s ease, transform 0.5s ease;
+}
+
+/* Compare Animation */
+.compare .contrast-center {
+    transform: translateX(62px); /* Move towards each other */
+}
+
+.compare .contrast-center#light-center {
+    transform: translateX(-62px); /* Move towards each other */
+}
+
+/* Compare Button Styling */
+.compare-button-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.compare-button-container button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4A0021;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.compare-button-container button:hover {
+    background-color: #65002e;
+}
+
+.snakes-container svg {
+    width: 100%;
+    height: auto;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Ebbinghaus Illusion Styling */
+#ebbinghaus-illusion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+#ebbinghaus-canvas {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Control Panel for Interactivity */
+.control-panel {
+    text-align: center;
+    margin: 20px 0;
+    padding-bottom: 10px;
+}
+
+.control-panel label {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.control-panel input[type="range"] {
+    width: 300px;
+    margin-top: 10px;
+}
+
+/* Additional CSS for Ponzo Illusion */
+.ponzo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+#ponzo-canvas {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Canvas Container Styling */
+.canvas-container {
+    display: flex; /* Flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically if needed */
+    margin: 20px 0; /* Space around the canvas */
+}
+
+.task-container {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Shape and Color Selection Buttons */
+.selection-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    gap: 20px; /* Add some space between shape and color selectors */
+}
+
+.shape-selector,
+.color-selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Space between buttons */
+}
+
+.shape-button {
+    background-color: #9d9d9d;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.shape-button:hover {
+    background-color: #c4c4c4;
+}
+
+/* Color Buttons Styling */
+.colour-option {
+    color: #ffffff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.colour-option.red { background-color: #ff6347; }
+.colour-option.green { background-color: #32cd32; }
+.colour-option.blue { background-color: #1e90ff; }
+.colour-option.yellow { background-color: #ffd700; }
+
+.colour-option:hover {
+    opacity: 0.8;
+}
+
+/* Timer Display */
+.timer {
+    margin-left: 20px;
+    font-size: 24px;
+    color: #4a0021;
+}
+
+/* Control Panel */
+.control-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+/* Back to Top Button Styling */
+#back-to-top {
+    position: fixed; /* Fixed position on the screen */
+    bottom: 20px; /* Distance from the bottom of the screen */
+    right: 20px; /* Distance from the right of the screen */
+    width: 50px; /* Width of the button */
+    height: 50px; /* Height of the button */
+    border-radius: 50%; /* Make the button circular */
+    background-color: #4A0021; /* Background color */
+    color: #ffffff; /* Text color */
+    border: none; /* Remove default border */
+    font-size: 24px; /* Font size for the arrow */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    display: none; /* Hide the button initially */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 1000; /* Make sure it's on top of other elements */
+}
+
+/* Button Hover Effect */
+#back-to-top:hover {
+    background-color: #65002e; /* Slightly lighter background on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Deeper shadow on hover */
+}
+
+/* Arrow Styling */
+#back-to-top::before {
+    content: '↑'; /* Arrow character */
+    font-weight: bold; /* Make the arrow bold */
+}

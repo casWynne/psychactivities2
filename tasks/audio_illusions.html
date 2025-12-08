@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tritone Paradox Illusion</title>
+    <link rel="stylesheet" href="../css/audio_illusions.css"> <!-- Link to your CSS file -->
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>Tritone Paradox Illusion</h1>
+        <p>The Tritone Paradox demonstrates how our perception of pitch can vary based on the pitch class we hear. Listen to different pairs of tones and see if the second tone sounds higher or lower than the first.</p>
+    </header>
+
+    <!-- Control Panel -->
+    <div class="control-panel">
+        <div class="button-container">
+            <button onclick="playTritone('C')">Play Tritone C</button>
+            <button onclick="playTritone('D')">Play Tritone D</button>
+            <button onclick="playTritone('E')">Play Tritone E</button>
+            <button onclick="playTritone('F')">Play Tritone F</button>
+        </div>
+        <div class="button-container">
+            <button onclick="playTritone('G')">Play Tritone G</button>
+            <button onclick="playTritone('A')">Play Tritone A</button>
+            <button onclick="playTritone('B')">Play Tritone B</button>
+        </div>
+        <div class="button-container">
+            <button id="stop-btn" onclick="stopTritone()">Stop</button>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>Explore the Tritone Paradox and how different tones can lead to different perceptions of pitch.</p>
+    </footer>
+
+    <!-- JavaScript File -->
+    <script src="../js/tasks/audio_illusions.js"></script> <!-- Link to your JS file -->
+</body>
+
+</html>

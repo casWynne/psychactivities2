@@ -1,0 +1,157 @@
+  /* General Styles */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f4f8;
+    color: #333;
+    padding: 0px;
+    margin: 0px;
+  }
+
+  h1 {
+    text-align: center;
+    color: #4a90e2;
+  }
+
+  h2 {
+    color: #4a90e2;
+    margin-bottom: 10px;
+  }
+
+  /* Storage Container */
+  #storage-container {
+    margin-bottom: 40px;
+  }
+
+  #items-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 2px solid #d9e2ec;
+    border-radius: 8px;
+    min-height: 100px;
+  }
+
+  /* Timeline Container */
+  #timeline-container {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    padding: 30px;
+    background-color: #ffffff;
+    border: 2px solid #d9e2ec;
+    border-radius: 8px;
+    min-height: 150px;
+  }
+
+  /* Task Container Styling */
+  #task-container {
+    max-width: 800px; /* Increased width for better layout */
+    min-height: 200px; /* Increased height to better fit the task area */
+    margin: 50px auto;
+    background-color: #ffffff; /* White background for contrast */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Hide overflow to keep content within the box */
+    position: relative; /* Relative positioning for better control */
+  }
+
+  .timeline-slot {
+    position: relative;
+    width: 18%;
+    background-color: #e3f2fd;
+    border: 2px dashed #90caf9;
+    border-radius: 8px;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .timeline-slot:hover {
+    background-color: #bbdefb;
+  }
+
+  .timeline-slot::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #4a90e2;
+  }
+
+  header {
+    background-color: #3b7ea1; /* Muted blue for header */
+    color: #ffffff;
+    padding: 30px 20px;
+    text-align: center;
+  }
+
+  header h1 {
+    color: #ffffff;
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  /* Draggable Items */
+  .draggable-item {
+    width:60px;
+    height: 60px;
+    padding: 10px;
+    border: 2px solid #90a4ae;
+    background-color: #ffffff;
+    border-radius: 8px;
+    cursor: grab;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .draggable-item.correct {
+    border-color: #66bb6a;
+  }
+
+  .draggable-item.incorrect {
+    border-color: #ef5350;
+  }
+
+  /* Reset Button */
+  #reset-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4a90e2;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  #reset-button:hover {
+    background-color: #357ABD;
+  }
+
+
+  /* Task Description Section Styling */
+  .task-description {
+    max-width: 800px; /* Limit the width for better readability */
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #ffffff; /* White background for contrast */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center align the text */
+    line-height: 1.8; /* Increase line height for better readability */
+  }
+
+  /* Footer Styling */
+  footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #3b7ea1; /* Match header color */
+    color: #ffffff;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+  }

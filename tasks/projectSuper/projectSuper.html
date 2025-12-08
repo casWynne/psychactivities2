@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Dissertation Research Projects</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <header class="site-header">
+        <h1>Research Projects Directory</h1>
+        <p class="tagline">
+            Explore staff projects and find inspiration for your dissertation.
+        </p>
+    </header>
+
+    <main class="site-main">
+        <section class="intro-card">
+            <h2>How to use this page</h2>
+            <p>
+                Use the search box and keyword filter below to explore different staff projects.
+                Click on a card to see example project ideas and more details.
+            </p>
+        </section>
+        <section class="toolbar">
+            <label class="field">
+                <span class="field-label">Search</span>
+                <div class="search-wrapper">
+                    <input id="searchInput" type="search" placeholder="Search name, topic, description..." />
+                    <button id="clearSearchBtn" class="field-clear-btn" type="button" aria-label="Clear search">
+                        ×
+                    </button>
+                </div>
+            </label>
+
+            <label class="field">
+                <span class="field-label">Filter by keyword</span>
+                <div class="keyword-wrapper">
+                    <select id="keywordSelect">
+                        <option value="">All keywords</option>
+                        <!-- Options will be added via JS -->
+                    </select>
+                    <button id="clearKeywordBtn" class="field-clear-btn" type="button"
+                        aria-label="Clear keyword filter">
+                        ×
+                    </button>
+                </div>
+            </label>
+        </section>
+
+
+        <!-- Profiles injected by JS -->
+        <section id="profilesList" class="profiles-list" aria-live="polite">
+            <!-- Cards go here -->
+        </section>
+    </main>
+
+    <footer class="site-footer">
+
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

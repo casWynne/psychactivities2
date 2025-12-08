@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Morpheme Madness</title>
+  <link rel="stylesheet" href="../css/morpheme_madness.css">
+</head>
+
+<body>
+  <header>
+    <h1>Morpheme Madness</h1>
+    <p>Morphemes are integral to the psychological processes involved in language acquisition, cognitive development,
+      literacy, and effective communication. Studying morphemes provides valuable insights into how we understand,
+      process, and produce language, which is essential for both psychology and education. A morpheme is the smallest
+      meaningful unit in a language. Morphemes can be whole words (like "book" or "run") or parts of words (like
+      prefixes and suffixes). They are the building blocks of words, carrying semantic meaning or grammatical function.
+      There are 4 types of morphemes described below. Why not try and sort the different morphemes into their
+      categories.</p>
+  </header>
+
+  <section class="task-description">
+    <p><strong>Lexical:</strong> Content words that convey concrete meanings. They represent objects, actions,
+      qualities, and concepts. <em>For example: book, run, good, fun</em></p>
+    <p><strong>Functional:</strong> Grammatical words that have little meaning but serve to express grammatical
+      relationships between other words. <em>For example: the, and, she, on</em></p>
+    <p><strong>Derivational:</strong> Affixes (prefixes or suffixes) added to root words to create new words. They alter
+      the meaning or part of speech of a word.</p>
+    <p><em>For example: adding "un-" to the start of "happy", changes meaning of the root word. Adding the suffix
+        "-ness" to "happy" changes adjective "happy" to noun "happiness".</em></p>
+    <p><strong>Inflectional:</strong> Modifies a word's tense, number, aspect, mood, or possession without changing its
+      core meaning or grammatical category. They adjust words to fit grammatical context.</p>
+    <p><em>For example: adding "-s" to make a plural ("books"), adding "-ed" to make something past tense: "talked"
+        (past tense of "talk").</em></p>
+    <br>
+    <p><strong>Instructions:</strong> Try to sort the morphemes on the left hand side into the right morpheme category
+      on the right. If you get it right the border of the morpheme will turn green. </p>
+    <p> </p>
+  </section>
+
+  <div id="task-container">
+    <!-- Storage Area -->
+    <div id="storage-container">
+      <h2>Storage Area</h2>
+      <div id="items-container">
+        <!-- Draggable items will be generated dynamically here -->
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div id="timeline-container">
+      <div class="timeline-slot" data-number="0" data-label="Lexical"></div>
+      <div class="timeline-slot" data-number="1" data-label="Functional"></div>
+      <div class="timeline-slot" data-number="2" data-label="Derivational"></div>
+      <div class="timeline-slot" data-number="3" data-label="Inflectional"></div>
+    </div>
+  </div>
+
+  <div id="reset-container">
+    <button id="reset-button">Reset Activity</button>
+  </div>
+
+  <footer>
+    <p>Created by Caspar Wynne</p>
+  </footer>
+
+  <script src="../js/tasks/morepheme_madness.js"></script>
+</body>
+
+</html>

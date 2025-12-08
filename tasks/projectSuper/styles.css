@@ -1,0 +1,503 @@
+/* ---- Base ---------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  font-size: 20px;   /* default is ~16px → ~6–10% increase */
+}
+
+:root {
+  --bg: #FAFAFA;
+
+  /* Your pastel palette */
+  --accent-main: #F2BBBB;   /* primary accent (buttons, chips) */
+  --accent-soft: #F2D0E9;   /* lavender soft accent (header, hovers) */
+  --accent-mint: #ACF2DE;   /* mint highlight (toolbar background) */
+
+  --card-bg: #F2E0DC;       /* peachy cream card background */
+  --card-border: #e6ccc9;
+
+  --text-main: #0D0D0D;
+  --text-soft: #444;
+
+  /* Derived helpers */
+  --brand-dark: var(--accent-soft);  /* header background */
+  --bg-alt: var(--card-bg);          /* generic “card” background */
+  --bg-alt-light: #f7e6e0;           /* slightly lighter than card-bg */
+  --accent: var(--accent-main);
+  --danger: #e54b4b;
+
+  /* Chips */
+  --chip-bg: var(--accent-main);
+  --chip-border: var(--accent-main);
+  --chip-text: #ffffff;
+
+  --radius-lg: 9999px;
+  --radius-card: 14px;
+  --shadow-soft: 0 4px 10px rgba(0, 0, 0, 0.12);
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: var(--bg);
+  color: var(--text-main);
+}
+
+/* ---- Layout -------------------------------------------------------------- */
+
+.site-header {
+  padding: 1.5rem 1.25rem 0.75rem;
+  background: var(--brand-dark);
+  color: var(--text-main);
+}
+
+.site-header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.4rem;
+}
+
+.site-header .tagline {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-soft);
+}
+
+.site-main {
+  padding: 1rem 1.25rem 2rem;
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+.site-footer {
+  padding: 0.75rem 1.25rem 1.5rem;
+  font-size: 0.85rem;
+  color: var(--text-soft);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ---- Toolbar ------------------------------------------------------------- */
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--accent-mint);
+  padding: 0.75rem;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 1.5rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.field-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-soft);
+  opacity: 0.8;
+  margin-bottom: 0.15rem;
+}
+
+.toolbar input[type="search"],
+.toolbar select {
+  border-radius: 999px;
+  border: 1px solid var(--card-border);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  background: #ffffff;
+  outline: none;
+}
+
+.toolbar input[type="search"]:focus,
+.toolbar select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(242, 187, 187, 0.6); /* soft accent-main ring */
+}
+
+.toolbar select {
+  appearance: none; /* smoother look on mobile */
+}
+
+/* optional: small tweak for very small screens */
+@media (max-width: 480px) {
+  .toolbar select {
+    padding: 0.45rem 0.7rem;
+    font-size: 0.85rem;
+  }
+}
+
+.clear-btn {
+  align-self: flex-end;
+  border-radius: var(--radius-lg);
+  border: none;
+  padding: 0.4rem 0.9rem;
+  background: var(--danger);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 0.25rem;
+  box-shadow: var(--shadow-subtle);
+}
+
+.clear-btn:hover,
+.clear-btn:focus-visible {
+  filter: brightness(1.1);
+}
+
+/* On wider screens, put toolbar in a row */
+@media (min-width: 720px) {
+  .toolbar {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .clear-btn {
+    margin-top: 1.15rem;
+  }
+}
+
+/* ---- Profiles ------------------------------------------------------------ */
+
+.profiles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+/* Whole card is clickable (except email button) */
+.profile-card {
+  background: var(--bg-alt);
+  color: var(--text-main);
+  border-radius: var(--radius-card);
+  padding: 0.6rem 0.75rem;
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  transition: transform 0.08s ease-out, box-shadow 0.08s ease-out;
+}
+
+.profile-card:focus-within,
+.profile-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.16);
+}
+
+.profile-header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Avatar circle */
+.profile-avatar {
+  width: calc(44px * 2);
+  height: calc(44px * 2);
+  border-radius: 50%;
+  border: 2px solid var(--accent-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7rem;
+  background: #ffffff;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Name + keywords */
+.profile-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.profile-name {
+  font-weight: 600;
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Keyword chips */
+.keyword-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.keyword-chip {
+  border-radius: 999px;
+  border: 1px solid var(--chip-border);
+  padding: 0.15rem 0.5rem;
+  font-size: 0.7rem;
+  background: var(--chip-bg);
+  color: var(--chip-text);
+}
+
+/* Email button */
+.profile-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  flex-shrink: 0;
+}
+
+.profile-details {
+  /* visual styling (base) */
+  border-radius: 10px;
+  background: #ffffff;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  border: 1px solid var(--card-border);
+
+  /* animation + collapsed defaults */
+  margin-top: 0;                 /* no extra space when closed */
+  padding: 0 0.85rem;            /* no vertical padding when closed */
+  border-width: 0;               /* hide border when closed */
+
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(-4px);
+  transition:
+    max-height 0.25s ease,
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    padding-top 0.2s ease,
+    padding-bottom 0.2s ease,
+    margin-top 0.2s ease,
+    border-width 0.2s ease;
+}
+
+.profile-card.open .profile-details {
+  margin-top: 0.6rem;
+  padding: 0.75rem 0.85rem;      /* full padding only when open */
+  border-width: 1px;
+
+  max-height: 1000px;            /* big enough for typical content */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+
+.profile-details h3 {
+  margin-top: 0;
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+}
+
+.profile-details p {
+  margin-top: 0;
+  margin-bottom: 0.6rem;
+  color: var(--text-soft);
+}
+
+.profile-details ul {
+  margin: 0 0 0.6rem 1.1rem;
+  padding: 0;
+}
+
+.profile-details li {
+  margin-bottom: 0.35rem;
+}
+
+/* Detail footer buttons (e.g., “Email me”, “Sign up”) */
+.profile-detail-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.detail-btn {
+  border-radius: 999px;
+  border: 1px solid var(--bg-alt-light);
+  padding: 0.35rem 0.7rem;
+  font-size: 0.75rem;
+  background: var(--accent-soft);
+  color: var(--text-main);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.detail-btn-icon {
+  font-size: 1.1rem;
+}
+.detail-btn:hover,
+.detail-btn:focus-visible {
+  background: var(--accent-main);
+  color: #ffffff;
+  border-color: var(--accent-main);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* ---- Helper states ------------------------------------------------------- */
+
+.error-message {
+  padding: 1rem;
+  border-radius: 8px;
+  background: #ffe3e3;
+  color: #7f1515;
+}
+
+.empty-message {
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--text-main);
+}
+
+/* ===== Mobile fine-tuning ===== */
+@media (max-width: 480px) {
+  /* Slightly smaller base font on narrow screens */
+  html {
+    font-size: 15px;
+  }
+
+  .site-header {
+    padding: 1.25rem 1rem 0.5rem;
+  }
+
+  .site-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .site-main {
+    padding: 0.75rem 0.75rem 1.5rem;
+  }
+
+  .toolbar {
+    border-radius: 24px;
+    padding: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .toolbar input[type="search"] {
+    padding: 0.45rem 0.7rem;
+    font-size: 0.85rem;
+  }
+
+  .clear-btn {
+    margin-top: 0.4rem;
+    padding: 0.35rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .profile-card {
+    padding: 0.55rem 0.65rem;
+    border-radius: 16px;
+  }
+
+.profile-avatar > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover !important;
+  object-position: 50% 15% !important; 
+}
+
+
+
+  .profile-name {
+    font-size: 0.95rem;
+  }
+
+  .keyword-chip {
+    font-size: 0.65rem;
+    padding: 0.12rem 0.45rem;
+  }
+
+  .email-btn {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.55rem;
+  }
+
+  .profile-details {
+    font-size: 0.85rem;
+    padding: 0.7rem 0.75rem;
+  }
+
+  .site-footer {
+    padding: 0.75rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .profile-details {
+    transition: none;
+  }
+}
+
+/* ---- Keyword dropdown clear "x" ------------------------------------------ */
+
+/* ---- Field clear "x" for search + keyword -------------------------------- */
+
+.search-wrapper,
+.keyword-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Add space for the x buttons inside the controls */
+.search-wrapper input[type="search"],
+.keyword-wrapper select {
+  padding-right: 1.8rem;
+  width: 100%;
+}
+
+/* Generic clear button style */
+.field-clear-btn {
+  position: absolute;
+  right: 0.55rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--text-soft);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Show the x when that field has a value */
+.search-wrapper.has-value .field-clear-btn,
+.keyword-wrapper.has-value .field-clear-btn {
+  opacity: 0.85;
+  pointer-events: auto;
+}
+
+.field-clear-btn:hover,
+.field-clear-btn:focus-visible {
+  opacity: 1;
+}
+
+/* Optional: hide the browser's built-in search X so you only see yours */
+.toolbar input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}

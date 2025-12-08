@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flanker Task</title>
+    <link rel="stylesheet" href="../css/flanker_task.css"> <!-- Ensure this path is correct -->
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>Flanker Task</h1>
+    </header>
+
+    <!-- Task Description Section -->
+    <section class="task-description">
+        <h2>Task Description</h2>
+        <p><strong>Definition:</strong> The Flanker Task is a psychological test used to assess attention and cognitive control. It measures how well a person can respond to a target stimulus while ignoring surrounding distractors.</p>
+        <p><strong>Instructions:</strong> When you are ready press the start button below. You will see 5 arrows in a row. Press the arrow key (on the keyboard) that matches the direction of the <em>central</em> arrow as quickly and accurately as possible. Sometimes the other arrows will point in the same (congruent) or opposite direction (incongruent).</p> 
+        <p>The task consists of 20 trials.</p>
+        <p>After completing all trials, your results will be displayed.</p>
+    </section>
+
+    <!-- Task Container -->
+    <div id="task-container">
+        <!-- Start Button -->
+        <div id="start-button-container">
+            <button id="start-btn">Start Task</button>
+        </div>
+
+        <div id="flanker-display" class="hidden">
+            <!-- This will hold the arrows or fixation cross -->
+        </div>
+        <div id="results" class="hidden">
+            <!-- Results will be displayed here after 20 trials -->
+            <h2>Results</h2>
+            <p id="score"></p>
+            <p id="congruent-rt"></p>
+            <p id="incongruent-rt"></p>
+            <p id="feedback"></p> <!-- Dynamic feedback message -->
+            <button id="reset-btn">Reset</button>
+        </div>
+        <div id="keys" class="hidden">
+            <p>Press <kbd>←</kbd> or <kbd>→</kbd></p>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>Created by Caspar Wynne</p>
+    </footer>
+
+    <!-- JavaScript File -->
+    <script src="../js/tasks/flanker_task.js"></script> <!-- Ensure this path is correct -->
+</body>
+
+</html>

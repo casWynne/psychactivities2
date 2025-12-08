@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wisconsin Card Sorting Task</title>
+    <link rel="stylesheet" href="../css/wsct_task.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Wisconsin Card Sorting</h1>
+    </header>
+
+    <section class="task-description">
+        <h2>Task Description</h2>
+        <p><strong>Definition:</strong>The Wisconsin Card Sorting Task is a cognitive test used to assess a person's ability to shift thinking strategies, involving sorting cards according to changing rules of color, shape, or number. It measures executive functions like cognitive flexibility, problem-solving, and the ability to adapt to new situations.</p>
+        <p><strong>Instructions:</strong>Try to match a choice card to the target card. You will not know the matching rule. Try to match as many cards as possible. Rules may change. You have 20 chances.</p>
+        <p> </p>
+    </section>
+    <div id="task-container">
+        <button id="start-button" onclick="startTask()">Start Task</button>
+        <div id="target-card">
+        </div> <!-- Target Card Container -->
+        <div id="feedback"></div> <!-- Feedback Display -->
+        <div id="choice-cards"></div> <!-- Choice Cards Container -->
+        <button id="reset-button" onclick="resetTask()">Reset Task</button> <!-- Reset Button -->
+    </div>
+
+    <section class="task-description">
+        <p><strong>What does this tell us?</strong>The Wisconsin Card Sorting Task assesses cognitive flexibility, executive function, and problem-solving abilities. It evaluates how well individuals can shift their thinking in response to changing rules and adapt to new situations, which is particularly useful for identifying issues in cognitive processes like flexibility and inhibition.</p>
+    </section>
+    <footer>
+        <p>Created by Caspar Wynne</p>
+        <div id="play-counter">Plays: <span id="play-count">0</span></div>
+    </footer>
+
+    <script src="../js/tasks/wsct_task.js"></script>
+</body>
+
+</html>

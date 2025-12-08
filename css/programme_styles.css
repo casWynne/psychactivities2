@@ -1,0 +1,207 @@
+/* Root colors from your existing palette */
+:root {
+    --primary: #4A0021;
+    --secondary: #FFC1D9;
+    --hover: #ffe6ef;
+    --grey: #B5EAEA;
+    --background: #fafafa;
+    --charcoal: #232323;
+}
+
+/* General body and layout styles */
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--background);
+    margin: 0;
+    padding: 0;
+}
+
+/* Header styles */
+header {
+    text-align: center;
+    padding: 20px;
+    background-color: var(--primary);
+}
+
+.header-image {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Nav bar styles */
+nav {
+    display: flex;
+    justify-content: center;
+    background-color: var(--grey);
+    padding: 10px 0;
+}
+
+/* Button styles for the nav */
+.programme-option {
+    background-color: var(--secondary);
+    color: var(--charcoal);
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    border-radius: 5px;
+}
+
+/* Button hover and focus effects */
+.programme-option:hover,
+.programme-option:focus {
+    background-color: var(--hover);
+    transform: scale(1.05);
+}
+
+/* Ensuring button text is accessible */
+.programme-option:active {
+    background-color: var(--charcoal);
+    color: var(--hover);
+}
+
+/* Main section styling */
+main {
+    background-color: var(--background);
+    border: 1px solid var(--grey);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 50px auto;
+    max-width: 800px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Heading styles within the main section */
+main h2 {
+    font-family: 'Merriweather', serif;
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+
+/* Paragraph styles within the main section */
+main p {
+    font-family: 'Open Sans', sans-serif;
+    color: var(--charcoal);
+    line-height: 1.6;
+}
+
+/* Add a subtle hover effect for the main section */
+
+/* Footer styles */
+footer {
+    text-align: center;
+    background-color: var(--primary);
+    color: var(--secondary);
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Responsive adjustments for mobile screens */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+    }
+
+    .programme-option {
+        margin: 5px 0;
+        width: 100%;
+    }
+}
+
+/* Collapsible button styles */
+.collapsible {
+    background-color: var(--primary);
+    color: var(--secondary);
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.collapsible.active {
+    background-color: var(--hover);
+    color:var(--charcoal);
+}
+
+/* Module content */
+.module-content {
+    padding: 10px;
+    display: none;
+    background-color: var(--background);
+    border-left: 2px solid var(--secondary);
+    border-right: 2px solid var(--secondary);
+    border-bottom: 2px solid var(--secondary);
+}
+
+.gap{
+    margin-bottom: 10px;
+}
+
+/* Style for the BPS logo */
+.bps-logo {
+    display: block; /* Centers the image horizontally */
+    margin: 5px auto; /* Adds space around the image and centers it */
+    max-width: 40%; /* Limits the width to keep it proportional */
+    height: auto; /* Maintains aspect ratio */
+    border-radius: 8px; /* Rounds the corners slightly */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
+    transition: transform 0.3s, box-shadow 0.3s; /* Adds smooth transitions */
+}
+
+/* Hover effect for the logo */
+.bps-logo:hover {
+    transform: scale(1.05); /* Slightly scales up the image */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Intensifies the shadow on hover */
+}
+
+.programme-buttons{
+    display: flex ;
+}
+
+/* Style for the back button */
+.back-button {
+    display: block; /* Makes it a block-level element to center it */
+    margin: 20px auto; /* Centers the button horizontally and adds vertical space */
+    padding: 10px 20px; /* Adds padding for a comfortable button size */
+    background-color: var(--primary); /* Matches the primary color used in other buttons */
+    color: var(--secondary); /* Text color to match other buttons */
+    border: none; /* Removes default border */
+    border-radius: 5px; /* Adds rounded corners */
+    font-size: 16px; /* Ensures text size matches other buttons */
+    cursor: pointer; /* Adds pointer cursor for better UX */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transition effects */
+    text-align: center; /* Centers the text within the button */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Hover effect for the back button */
+.back-button:hover {
+    background-color: var(--hover); /* Change to the hover color */
+    transform: scale(1.05); /* Slightly enlarges the button on hover */
+}
+
+/* Active effect for the back button */
+.back-button:active {
+    background-color: var(--charcoal); /* Darker color when the button is active */
+    transform: scale(0.98); /* Slightly shrinks the button on click */
+}
+.shared-module {
+    color: #2D9CDB; /* Blue color for shared modules */
+    font-size: 0.9em;
+    margin-left: 10px;
+}
+
+.unique-module {
+    color: #27AE60; /* Green color for unique modules */
+    font-size: 0.9em;
+    margin-left: 10px;
+}

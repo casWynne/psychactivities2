@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Options Planner 2627</title>
+    <link rel="stylesheet" href="app-style.css">
+</head>
+
+<body>
+    <main>
+        <div class="app-header">
+            <div class="app-header-top">
+                <h1 class="app-title">Psychology Module Planner</h1>
+                <div class="current-pathway" id="currentPathway">
+                    Psychology
+                </div>
+                <div class="selection-status" id="selectionStatus">
+                    L4: 0/1 | L5: 0/2 | L6: 0/3
+                </div>
+                <button id="clearSelectionsBtn" class="clear-selections-button">Clear Selections</button>
+            </div>
+            <div class="app-filters">
+                <select id="levelFilter">
+                    <option value="">All Levels</option>
+                    <option value="4">Level 4</option>
+                    <option value="5">Level 5</option>
+                    <option value="6">Level 6</option>
+                </select>
+                <select id="pathwayFilter">
+                    <option value="">All Pathways</option>
+                    <option>Education</option>
+                    <option>Sports</option>
+                    <option>Health</option>
+                    <option>Forensic</option>
+                    <option>Counselling</option>
+                    <option>Marketing</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="Search modules..." />
+                <button id="clearFiltersBtn" class="clear-filters-button">Clear Filters</button>
+            </div>
+        </div>
+        <div id="modulesContainer"></div>
+        <div class="button-row">
+            <button id="exportPdfBtn" class="export-pdf-button" aria-label="Export selected modules as PDF"><span
+                    aria-hidden="true">🖨️ </span>Export</button>
+            <button id="clearLocalBtn" class="clear-local-button"
+                aria-label="Clear saved selections from local storage">
+                Clear Saved Selections
+            </button>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>

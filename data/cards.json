@@ -1,0 +1,322 @@
+[
+    {
+        "number": 1,
+        "shape": "square",
+        "color": "red"
+    },
+    {
+        "number": 1,
+        "shape": "square",
+        "color": "yellow"
+    },
+    {
+        "number": 1,
+        "shape": "square",
+        "color": "green"
+    },
+    {
+        "number": 1,
+        "shape": "square",
+        "color": "blue"
+    },
+    {
+        "number": 1,
+        "shape": "circle",
+        "color": "red"
+    },
+    {
+        "number": 1,
+        "shape": "circle",
+        "color": "yellow"
+    },
+    {
+        "number": 1,
+        "shape": "circle",
+        "color": "green"
+    },
+    {
+        "number": 1,
+        "shape": "circle",
+        "color": "blue"
+    },
+    {
+        "number": 1,
+        "shape": "triangle",
+        "color": "red"
+    },
+    {
+        "number": 1,
+        "shape": "triangle",
+        "color": "yellow"
+    },
+    {
+        "number": 1,
+        "shape": "triangle",
+        "color": "green"
+    },
+    {
+        "number": 1,
+        "shape": "triangle",
+        "color": "blue"
+    },
+    {
+        "number": 1,
+        "shape": "cross",
+        "color": "red"
+    },
+    {
+        "number": 1,
+        "shape": "cross",
+        "color": "yellow"
+    },
+    {
+        "number": 1,
+        "shape": "cross",
+        "color": "green"
+    },
+    {
+        "number": 1,
+        "shape": "cross",
+        "color": "blue"
+    },
+    {
+        "number": 2,
+        "shape": "square",
+        "color": "red"
+    },
+    {
+        "number": 2,
+        "shape": "square",
+        "color": "yellow"
+    },
+    {
+        "number": 2,
+        "shape": "square",
+        "color": "green"
+    },
+    {
+        "number": 2,
+        "shape": "square",
+        "color": "blue"
+    },
+    {
+        "number": 2,
+        "shape": "circle",
+        "color": "red"
+    },
+    {
+        "number": 2,
+        "shape": "circle",
+        "color": "yellow"
+    },
+    {
+        "number": 2,
+        "shape": "circle",
+        "color": "green"
+    },
+    {
+        "number": 2,
+        "shape": "circle",
+        "color": "blue"
+    },
+    {
+        "number": 2,
+        "shape": "triangle",
+        "color": "red"
+    },
+    {
+        "number": 2,
+        "shape": "triangle",
+        "color": "yellow"
+    },
+    {
+        "number": 2,
+        "shape": "triangle",
+        "color": "green"
+    },
+    {
+        "number": 2,
+        "shape": "triangle",
+        "color": "blue"
+    },
+    {
+        "number": 2,
+        "shape": "cross",
+        "color": "red"
+    },
+    {
+        "number": 2,
+        "shape": "cross",
+        "color": "yellow"
+    },
+    {
+        "number": 2,
+        "shape": "cross",
+        "color": "green"
+    },
+    {
+        "number": 2,
+        "shape": "cross",
+        "color": "blue"
+    },
+    {
+        "number": 3,
+        "shape": "square",
+        "color": "red"
+    },
+    {
+        "number": 3,
+        "shape": "square",
+        "color": "yellow"
+    },
+    {
+        "number": 3,
+        "shape": "square",
+        "color": "green"
+    },
+    {
+        "number": 3,
+        "shape": "square",
+        "color": "blue"
+    },
+    {
+        "number": 3,
+        "shape": "circle",
+        "color": "red"
+    },
+    {
+        "number": 3,
+        "shape": "circle",
+        "color": "yellow"
+    },
+    {
+        "number": 3,
+        "shape": "circle",
+        "color": "green"
+    },
+    {
+        "number": 3,
+        "shape": "circle",
+        "color": "blue"
+    },
+    {
+        "number": 3,
+        "shape": "triangle",
+        "color": "red"
+    },
+    {
+        "number": 3,
+        "shape": "triangle",
+        "color": "yellow"
+    },
+    {
+        "number": 3,
+        "shape": "triangle",
+        "color": "green"
+    },
+    {
+        "number": 3,
+        "shape": "triangle",
+        "color": "blue"
+    },
+    {
+        "number": 3,
+        "shape": "cross",
+        "color": "red"
+    },
+    {
+        "number": 3,
+        "shape": "cross",
+        "color": "yellow"
+    },
+    {
+        "number": 3,
+        "shape": "cross",
+        "color": "green"
+    },
+    {
+        "number": 3,
+        "shape": "cross",
+        "color": "blue"
+    },
+    {
+        "number": 4,
+        "shape": "square",
+        "color": "red"
+    },
+    {
+        "number": 4,
+        "shape": "square",
+        "color": "yellow"
+    },
+    {
+        "number": 4,
+        "shape": "square",
+        "color": "green"
+    },
+    {
+        "number": 4,
+        "shape": "square",
+        "color": "blue"
+    },
+    {
+        "number": 4,
+        "shape": "circle",
+        "color": "red"
+    },
+    {
+        "number": 4,
+        "shape": "circle",
+        "color": "yellow"
+    },
+    {
+        "number": 4,
+        "shape": "circle",
+        "color": "green"
+    },
+    {
+        "number": 4,
+        "shape": "circle",
+        "color": "blue"
+    },
+    {
+        "number": 4,
+        "shape": "triangle",
+        "color": "red"
+    },
+    {
+        "number": 4,
+        "shape": "triangle",
+        "color": "yellow"
+    },
+    {
+        "number": 4,
+        "shape": "triangle",
+        "color": "green"
+    },
+    {
+        "number": 4,
+        "shape": "triangle",
+        "color": "blue"
+    },
+    {
+        "number": 4,
+        "shape": "cross",
+        "color": "red"
+    },
+    {
+        "number": 4,
+        "shape": "cross",
+        "color": "yellow"
+    },
+    {
+        "number": 4,
+        "shape": "cross",
+        "color": "green"
+    },
+    {
+        "number": 4,
+        "shape": "cross",
+        "color": "blue"
+    }
+]

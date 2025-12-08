@@ -1,0 +1,244 @@
+:root {
+  --red: #e53935;
+  --orange: #fb8c00;
+  --yellow: #fdd835;
+  --green: #43a047;
+  --blue: #1e88e5;
+  --indigo: #5e35b1;
+  --violet: #8e24aa;
+  --grey: #9e9e9e;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #fafafa;
+  color: #333;
+}
+
+/* ========== Header ========== */
+
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--blue);
+  color: #fff;
+  padding: 1rem;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-header-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  text-align: center;
+}
+
+
+.app-title {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.current-pathway,
+.selection-status {
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.app-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.app-filters select,
+.app-filters input {
+  padding: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  min-width: 120px;
+}
+
+/* ========== Module Container ========== */
+
+#modulesContainer {
+  padding-top: 17rem;
+  max-width: 900px;
+  margin: 0 auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* ========== Modules ========== */
+
+.module-collapsible {
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1.2rem;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: border-color 0.2s;
+}
+
+.module-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.module-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.module-level {
+  font-size: 0.95rem;
+  font-weight: bold;
+}
+
+.module-header.red { background-color: var(--red); color: #fff; }
+.module-header.orange { background-color: var(--orange); color: #fff; }
+.module-header.yellow { background-color: var(--yellow); color: #333; }
+.module-header.green { background-color: var(--green); color: #fff; }
+.module-header.blue { background-color: var(--blue); color: #fff; }
+.module-header.indigo { background-color: var(--indigo); color: #fff; }
+.module-header.violet { background-color: var(--violet); color: #fff; }
+
+.module-body {
+  background-color: #fff;
+  padding: 1rem;
+  display: none;
+  line-height: 1.5;
+  font-size: 0.95rem;
+  border-top: 1px solid #eee;
+}
+
+.module-body.show {
+  display: block;
+}
+
+.module-body p {
+  margin: 0.5rem 0;
+}
+
+.module-collapsible.selected {
+  border-color: #1e88e5;
+  box-shadow: 0 0 5px rgba(30, 136, 229, 0.4);
+}
+
+/* ========== Buttons ========== */
+
+.select-button,
+.clear-filters-button,
+.clear-selections-button,
+.export-pdf-button,
+.clear-local-button {
+  font-size: 0.95rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+/* Individual Button Styles */
+.select-button {
+  background-color: #1e88e5;
+  color: #fff;
+}
+
+.select-button:hover {
+  background-color: #1565c0;
+}
+
+.clear-filters-button,
+.clear-selections-button {
+  background-color: #eee;
+  border: 1px solid #ccc;
+}
+
+.clear-filters-button:hover,
+.clear-selections-button:hover {
+  background-color: #ddd;
+}
+
+.export-pdf-button {
+  background-color: #e0f7fa;
+  border: 1px solid #00838f;
+  color: #006064;
+}
+
+.export-pdf-button:hover {
+  background-color: #b2ebf2;
+}
+
+.clear-local-button {
+  background-color: #fbe9e7;
+  border: 1px solid #d84315;
+  color: #bf360c;
+}
+
+.clear-local-button:hover {
+  background-color: #ffccbc;
+}
+
+/* Focus Styles for All Buttons */
+button:focus {
+  outline: 3px solid #90caf9;
+  outline-offset: 2px;
+}
+
+/* ========== Messages ========== */
+
+.module-reason {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #d32f2f;
+  font-style: italic;
+}
+
+/* ========== Responsive Layout ========== */
+
+@media (min-width: 700px) {
+  .app-header-top {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.25rem;
+  }
+
+  .current-pathway,
+  .selection-status {
+    margin-top: 0;
+  }
+
+  .app-filters {
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  #modulesContainer {
+    padding-top: 13rem;
+  }
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin: 2rem auto;
+}

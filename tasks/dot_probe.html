@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dot Probe Task - Animals vs. Objects</title>
+    <link rel="stylesheet" href="../css/dot_probe_task.css"> <!-- Ensure correct path to your CSS -->
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>Dot Probe Task: Animals vs. Objects</h1>
+    </header>
+
+    <!-- Task Description Section -->
+    <section class="task-description">
+        <h2>Task Description</h2>
+        <p><strong>Definition:</strong> The Dot Probe Task measures attentional biases by presenting two stimuli and requiring a quick response to a dot appearing in the location of one of the stimuli.</p>
+        <p><strong>Instructions:</strong> Focus on the center of the screen. Two images will appear, one of a cake and one of a snake. When the dot appears, press the left or right arrow key corresponding to the location of the dot as quickly and accurately as possible.</p>
+        <p>Press the 'Start Task' button below to begin. After completing all trials, your results will be displayed.</p>
+    </section>
+
+    <!-- Task Container -->
+    <div id="task-container">
+        <!-- Start Button -->
+        <div id="start-button-container">
+            <button id="start-btn">Start Task</button>
+        </div>
+
+        <!-- Dot Display -->
+        <div id="dot-display" class="hidden">
+            <div class="dot-section left"></div>
+            <div class="dot-section middle"></div>
+            <div class="dot-section right"></div>
+        </div>
+
+        <!-- Results Display -->
+        <div id="results" class="hidden">
+            <h2>Results</h2>
+            <p id="score"></p>
+            <p id="average-rt"></p>
+            <p id="feedback"></p>
+            <button id="reset-btn">Reset Task</button>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>Created by Caspar Wynne</p>
+        <button id="back-button" class="hidden" onclick="window.location.href='../index.html'">Back to Admin</button>
+        <div id="play-counter">Plays: <span id="play-count">0</span></div>
+    </footer>
+
+    <!-- JavaScript File -->
+    <script src="../js/tasks/dot_probe_task.js"></script> <!-- Ensure correct path to your JS -->
+</body>
+</html>

@@ -1,0 +1,220 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5; /* Soft off-white background for a clean look */
+    color: #333; /* Dark grey text color for good contrast */
+    text-align: center;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #3b7ea1; /* Muted blue for header */
+    color: #ffffff;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+/* Task Container Styling */
+#task-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px; /* Increased width for better layout */
+    min-height: 200px; /* Increased height to better fit the task area */
+    margin: 50px auto;
+    background-color: #ffffff; /* White background for contrast */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Hide overflow to keep content within the box */
+    position: relative; /* Relative positioning for better control */
+    justify-content: center;
+
+}
+
+/* Center the button container */
+
+
+.task-description {
+    max-width: 800px; /* Limit the width for better readability */
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #ffffff; /* White background for contrast */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center align the text */
+    line-height: 1.8; /* Increase line height for better readability */
+}
+
+.task-description h2 {
+    color: #3b7ea1;
+    font-size: 1.8rem; /* Slightly larger font size */
+    margin-bottom: 15px; /* Space below the heading */
+}
+
+.task-description p {
+    font-size: 1.1rem; /* Slightly larger font size for paragraphs */
+    margin-bottom: 15px; /* Space between paragraphs */
+}
+
+.task-description strong {
+    color: #00796b; /* Highlighted color for strong elements */
+}
+/* Score display styling */
+#score {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Feedback section */
+#feedback {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    visibility: hidden; /* Hidden by default */
+    margin: 20px 0;
+}
+
+/* Target card styling */
+#target-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    height: 150px; /* Fixed height for alignment */
+}
+
+/* Choice cards container styling */
+#choice-cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between choice cards */
+    width: 100%;
+}
+
+/* Reset button styling */
+#reset-button {
+    display: none; /* Hidden by default */
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#reset-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Individual card styling */
+.card {
+    width: 100px;
+    height: 140px;
+    background-color: white;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.shape {
+    width: 25px;
+    height: 25px;
+    margin: 5px;
+}
+
+.square {
+    background-color: currentColor;
+}
+
+.circle {
+    border-radius: 50%;
+    background-color: currentColor;
+}
+
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: 12.5px solid transparent;
+    border-right: 12.5px solid transparent;
+    border-bottom: 25px solid currentColor;
+}
+
+.cross {
+    position: relative;
+    width: 10px;
+    height: 30px;
+    background-color: currentColor;
+}
+
+.cross::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: -10px;
+    width: 30px;
+    height: 10px;
+    background-color: currentColor;
+}
+
+/* Colors for the shapes */
+.red { color: red; }
+.yellow { color: yellow; }
+.green { color: green; }
+.blue { color: blue; }
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #3b7ea1; /* Match header color */
+    color: #ffffff;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Center the button inside the container */
+#start-button {
+    padding: 15px 30px;
+    font-size: 18px;
+    background-color: #28a745; /* Green background */
+    color: white; /* White text */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 30px; /* Space above the button */
+    display: inline-block; /* Ensure the button is treated like an inline element */
+}
+
+#start-button:hover {
+    background-color: #218838; /* Darker green on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+#start-button:active {
+    background-color: #1e7e34; /* Even darker green when pressed */
+    transform: scale(0.95); /* Slight shrink when clicked */
+}

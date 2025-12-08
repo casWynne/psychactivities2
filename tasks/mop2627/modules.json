@@ -1,0 +1,181 @@
+[
+  {
+    "id": "PSY401",
+    "title": "Intro to Child Psychology",
+    "level": 4,
+    "credits": 20,
+    "pathway": "Education and Child Development",
+    "pathwayColour": "red",
+    "description": "Explore developmental theory and learning processes. Ideal for careers in teaching and child support.",
+    "staff": "Dr. A Smith",
+    "timetable": "Sem 1: Mon 9–11",
+    "assessment": "Essay",
+    "conflicts": [
+      "PSY402"
+    ]
+  },
+  {
+    "id": "PSY402",
+    "title": "Foundations of Health Psychology",
+    "level": 4,
+    "credits": 20,
+    "pathway": "Health Psychology",
+    "pathwayColour": "yellow",
+    "description": "Introduces students to core health psychology concepts including behaviour change, stress, and the biopsychosocial model.",
+    "staff": "Dr. L Patel",
+    "timetable": "Sem 1: Mon 9–11",
+    "assessment": "MCQ and Short Answer Exam",
+    "conflicts": [
+      "PSY401"
+    ]
+  },
+  {
+    "id": "PSY403",
+    "title": "Introduction to Forensic Psychology",
+    "level": 4,
+    "credits": 20,
+    "pathway": "Forensic Psychology",
+    "pathwayColour": "green",
+    "description": "Covers basic concepts such as eyewitness memory, offender profiling, and the psychology of criminal behaviour.",
+    "staff": "Dr. H Nguyen",
+    "timetable": "Sem 1: Wed 13–15",
+    "assessment": "Poster + Reflection",
+    "conflicts": []
+  },
+  {
+    "id": "PSY501",
+    "title": "Health Psychology in Practice",
+    "level": 5,
+    "credits": 20,
+    "pathway": "Health Psychology",
+    "pathwayColour": "yellow",
+    "description": "This module explores applied approaches in health psychology, including behaviour change techniques and patient adherence.",
+    "staff": "Dr. Jane Green",
+    "timetable": "Sem 1: Tue 14–16",
+    "assessment": "Case Study + Presentation",
+    "conflicts": [
+      "PSY502"
+    ]
+  },
+  {
+    "id": "PSY502",
+    "title": "Child Development and Learning",
+    "level": 5,
+    "credits": 20,
+    "pathway": "Education and Child Development",
+    "pathwayColour": "red",
+    "description": "Focuses on key developmental milestones and the role of environment and pedagogy in learning outcomes.",
+    "staff": "Dr. A Smith",
+    "timetable": "Sem 1: Tue 14–16",
+    "assessment": "Essay and Classroom Observation Report",
+    "conflicts": [
+      "PSY501"
+    ]
+  },
+  {
+    "id": "PSY503",
+    "title": "Forensic Interviewing Techniques",
+    "level": 5,
+    "credits": 20,
+    "pathway": "Forensic Psychology",
+    "pathwayColour": "green",
+    "description": "Teaches best practices in interviewing witnesses and suspects using evidence-based techniques.",
+    "staff": "Dr. R Collins",
+    "timetable": "Sem 1: Thu 10–12",
+    "assessment": "Practical Assessment + Report",
+    "conflicts": []
+  },
+  {
+    "id": "PSY504",
+    "title": "Sport & Exercise Motivation",
+    "level": 5,
+    "credits": 20,
+    "pathway": "Sports and Exercise Psychology",
+    "pathwayColour": "blue",
+    "description": "Examine the psychological factors that enhance motivation and performance in sport and physical activity.",
+    "staff": "Dr. Alan Birch",
+    "timetable": "Sem 2: Wed 10–12",
+    "assessment": "Case Study",
+    "conflicts": []
+  },
+  {
+    "id": "PSY505",
+    "title": "Cognitive Development in Education",
+    "level": 5,
+    "credits": 20,
+    "pathway": "Education and Child Development",
+    "pathwayColour": "red",
+    "description": "Understand how children learn, remember, and solve problems across developmental stages.",
+    "staff": "Dr. Emma Patel",
+    "timetable": "Sem 2: Tue 14–16",
+    "assessment": "Essay + Seminar Participation",
+    "conflicts": [
+      "PSY501"
+    ]
+  },
+  {
+    "id": "PSY601",
+    "title": "Health Promotion and Behaviour Change",
+    "level": 6,
+    "credits": 20,
+    "pathway": "Health Psychology",
+    "pathwayColour": "yellow",
+    "description": "Examines strategies for promoting health at the population level, including campaigns and policy interventions.",
+    "staff": "Dr. Jane Green",
+    "timetable": "Sem 1: Mon 14–16",
+    "assessment": "Group Campaign Design + Evaluation",
+    "conflicts": []
+  },
+  {
+    "id": "PSY602",
+    "title": "Advanced Child and Educational Psychology",
+    "level": 6,
+    "credits": 20,
+    "pathway": "Education and Child Development",
+    "pathwayColour": "red",
+    "description": "Explores advanced theory and application in developmental assessment, SEN support, and classroom psychology.",
+    "staff": "Dr. L Patel",
+    "timetable": "Sem 1: Wed 9–11",
+    "assessment": "Case Study + Exam",
+    "conflicts": []
+  },
+  {
+    "id": "PSY603",
+    "title": "Psychology of Offending and Rehabilitation",
+    "level": 6,
+    "credits": 20,
+    "pathway": "Forensic Psychology",
+    "pathwayColour": "green",
+    "description": "Critically evaluates theories of criminal behaviour, rehabilitation approaches, and psychological assessment in forensic settings.",
+    "staff": "Dr. H Nguyen",
+    "timetable": "Sem 1: Thu 14–16",
+    "assessment": "Literature Review + Essay",
+    "conflicts": []
+  },
+  {
+    "id": "PSY604",
+    "title": "Advanced Forensic Case Analysis",
+    "level": 6,
+    "credits": 20,
+    "pathway": "Forensic Psychology",
+    "pathwayColour": "indigo",
+    "description": "Critically evaluate real-world case studies in forensic psychology, with emphasis on assessment and ethical decision-making.",
+    "staff": "Dr. Tom Rayner",
+    "timetable": "Sem 2: Mon 11–13",
+    "assessment": "Case Report + Vignette Task",
+    "conflicts": []
+  },
+  {
+    "id": "PSY605",
+    "title": "Organisational Psychology in Practice",
+    "level": 6,
+    "credits": 20,
+    "pathway": "Marketing, Business and Organisational Psychology",
+    "pathwayColour": "green",
+    "description": "Apply psychological theory to workplace wellbeing, productivity, and team dynamics.",
+    "staff": "Dr. Hannah Greene",
+    "timetable": "Sem 1: Wed 14–16",
+    "assessment": "Field Report",
+    "conflicts": []
+  }
+]

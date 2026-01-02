@@ -606,7 +606,6 @@ body {
 
 /* Optional: slightly tweak global chips if you want them smaller/different */
 .keyword-chip--global {
-  cursor: pointer;
   transition: transform 0.08s ease-out, box-shadow 0.08s ease-out;
   margin: 3px;
 }
@@ -665,6 +664,11 @@ body {
 body.view-projects .profile-avatar {
   display: none;
 }
+
+.profile-name {
+  text-align: left;
+}
+
 
 /* ---- How to use (collapsible) ------------------------------------------- */
 

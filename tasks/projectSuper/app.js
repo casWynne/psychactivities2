@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const keywordList = document.getElementById("keywordList");   // <-- add this
     const viewStaffBtn = document.getElementById("viewStaffBtn");
     const viewProjectsBtn = document.getElementById("viewProjectsBtn");
+    const printBtn = document.getElementById("printBtn");
 
     const interestFormUrl = "https://forms.office.com/e/UT6nby4S1n";
     const toolbar = document.querySelector(".toolbar");
@@ -39,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentView = "staff"; // "staff" | "projects"
     let allStaff = [];
     let allProjects = [];
+    let currentDisplayed = [];
 
     // ---- Fetch JSON data ----------------------------------------------------
     fetch("data/staff-projects.json")
@@ -136,6 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ---- Rendering ----------------------------------------------------------
 
     function renderProfiles(items) {
+        currentDisplayed = items;
         profilesList.innerHTML = "";
 
         if (!items.length) {
@@ -519,5 +522,181 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
     setActiveToggle()
+
+    // ---- Print / Save as PDF --------------------------------------------------
+
+if (printBtn) {
+  printBtn.addEventListener("click", () => {
+const html = buildPrintableHtml(getActiveList());
+    openPrintWindow(html);
+  });
+}
+
+function openPrintWindow(html) {
+  const w = window.open("", "_blank", "noopener,noreferrer");
+  if (!w) {
+    alert("Pop-up blocked. Please allow pop-ups for this site to print/save.");
+    return;
+  }
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+
+  // Give the new document a moment to paint before printing
+  w.onload = () => {
+    w.focus();
+    w.print();
+  };
+}
+
+function buildPrintableHtml(items) {
+  const dateStr = new Date().toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+
+  const title =
+    currentView === "staff"
+      ? "Research Projects Directory — Staff"
+      : "Research Projects Directory — Topics";
+
+  const subtitle =
+    currentView === "staff"
+      ? "Staff profiles and their available dissertation topics"
+      : "Dissertation topics (with supervising staff shown)";
+
+  const cards =
+    currentView === "staff"
+      ? buildStaffPrintCards(items)
+      : buildTopicPrintCards(items);
+
+  // Inline CSS so the print page is self-contained
+  return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>${escapeHtml(title)}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root { --text:#1a1a1a; --muted:#555; --border:#e6c9bd; --card:#ffffff; --bg:#fcfaf8; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 28px; font-family: system-ui, -apple-system, Segoe UI, sans-serif; background: var(--bg); color: var(--text); }
+    header { margin-bottom: 18px; }
+    h1 { margin: 0; font-size: 20px; }
+    .meta { margin-top: 6px; color: var(--muted); font-size: 12px; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+    .card h2 { margin: 0 0 6px 0; font-size: 16px; }
+    .line { margin: 0 0 6px 0; color: var(--muted); font-size: 13px; }
+    ul { margin: 6px 0 0 18px; padding: 0; }
+    li { margin: 0 0 4px 0; }
+    .keywords { margin-top: 8px; font-size: 12px; color: var(--muted); }
+    .pill { display: inline-block; border: 1px solid var(--border); border-radius: 999px; padding: 2px 8px; margin: 2px 4px 0 0; }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .card { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>${escapeHtml(title)}</h1>
+    <div class="meta">${escapeHtml(subtitle)} • Generated ${escapeHtml(dateStr)} • Showing ${items.length} result(s)</div>
+  </header>
+
+  <main class="grid">
+    ${cards || `<div class="card"><p class="line">No results to export (try clearing filters).</p></div>`}
+  </main>
+</body>
+</html>`;
+}
+
+function buildStaffPrintCards(items) {
+  return items
+    .map((s) => {
+      const keywords = (s.keywords || []).map((kw) => `<span class="pill">${escapeHtml(kw)}</span>`).join("");
+      const topics = (s.topics || [])
+        .map((t, idx) => {
+          const ideas = (t.ideas || []).map((i) => `<li>${sanitizeIdeaHtml(i)}</li>`).join("");
+          return `
+            <div class="line"><strong>${idx + 1}. ${escapeHtml(t.title || "")}</strong></div>
+            ${t.description ? `<div class="line">${escapeHtml(t.description)}</div>` : ""}
+            ${ideas ? `<ul>${ideas}</ul>` : ""}
+          `;
+        })
+        .join("<hr style='border:none;border-top:1px solid rgba(0,0,0,0.06); margin:10px 0;' />");
+
+      return `
+        <section class="card">
+          <h2>${escapeHtml(s.name || "Unknown staff")}</h2>
+          ${s.email ? `<div class="line">${escapeHtml(s.email)}</div>` : ""}
+          ${topics || `<div class="line">No topic details provided.</div>`}
+          ${keywords ? `<div class="keywords"><strong>Keywords:</strong> ${keywords}</div>` : ""}
+        </section>
+      `;
+    })
+    .join("");
+}
+
+function buildTopicPrintCards(items) {
+  return items
+    .map((p) => {
+      const keywords = (p.keywords || []).map((kw) => `<span class="pill">${escapeHtml(kw)}</span>`).join("");
+      const ideas = (p.ideas || []).map((i) => `<li>${sanitizeIdeaHtml(i)}</li>`).join("");
+
+      return `
+        <section class="card">
+          <h2>${escapeHtml(p.projectTitle || "Untitled topic")}</h2>
+          <div class="line"><strong>Supervisor:</strong> ${escapeHtml(p.supervisorName || "Unknown")}${p.email ? ` • ${escapeHtml(p.email)}` : ""}</div>
+          ${p.projectDescription ? `<div class="line">${escapeHtml(p.projectDescription)}</div>` : ""}
+          ${ideas ? `<ul>${ideas}</ul>` : ""}
+          ${keywords ? `<div class="keywords"><strong>Keywords:</strong> ${keywords}</div>` : ""}
+        </section>
+      `;
+    })
+    .join("");
+}
+
+// Escapes plain text for HTML
+function escapeHtml(str) {
+  return String(str ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+/**
+ * Your ideas sometimes include actual <a href="..."> links (e.g., SISL link),
+ * so for print we allow ONLY safe-ish anchors and strip everything else.
+ * If you want *zero* HTML allowed, just return escapeHtml(idea).
+ */
+function sanitizeIdeaHtml(idea) {
+  const raw = String(idea ?? "");
+
+  // If no tags, just escape
+  if (!raw.includes("<")) return escapeHtml(raw);
+
+  // Allow <a href="...">text</a> only; strip other tags
+  // This is a simple “good enough” sanitizer for your controlled JSON content.
+  const escaped = raw
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+
+  // Re-enable anchors that were originally anchors:
+  // Convert &lt;a href='URL' ...&gt;TEXT&lt;/a&gt; back to <a ...>TEXT</a>
+  // (handles single/double quotes)
+  return escaped.replace(
+    /&lt;a\s+href=(&quot;|&#039;)(.*?)\1\s*(target=(&quot;|&#039;).*?\4)?\s*&gt;(.*?)&lt;\/a&gt;/gi,
+    (_m, _q, href, _t, _tq, text) => {
+      const safeHref = href.startsWith("http") ? href : "#";
+      return `<a href="${safeHref}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+    }
+  );
+}
+
 });
 

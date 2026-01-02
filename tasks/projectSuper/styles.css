@@ -725,3 +725,31 @@ body.view-projects .profile-avatar {
   border-top: 1px solid rgba(0, 0, 0, 0.08);
   opacity: 0.95;
 }
+
+
+/* ---- Export -------------------------------------------------------------- */
+
+.export-bar {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 1rem auto;
+}
+
+.export-btn {
+  border-radius: 999px;
+  border: 1px solid var(--card-border);
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--text-main);
+  padding: 0.55rem 1.05rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-subtle);
+  transition: transform 0.08s ease-out, box-shadow 0.08s ease-out, background 0.15s ease;
+}
+
+.export-btn:hover,
+.export-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: var(--shadow-soft);
+  transform: translateY(-1px);
+}

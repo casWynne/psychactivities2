@@ -58,6 +58,46 @@
           ]
         }
       ]
-    }
+    },
+    {
+      "id": "staff-4",
+      "name": "Dr Richard A.C. Simpson",
+      "email": "R.Simpson@leedstrinity.ac.uk",
+      "avatar": "",
+      "avatarPosition": "50%",
+      "keywords": ["Human Flourishing", "Well-being", "Well-being Literacy", "Balance and Harmony", "Forgiveness"],
+      "topics": [
+        {
+          "title": "The experience, attainment, and promotion of human flourishing.",
+          "description": "Over the past years there has been an increasing interest in the topic of human flourishing, including how we experience it, how we can attain it, and how we can promote it among individuals and broader society. Flourishing can be defined as “a state of personal and systemic quality in relation to all dimensions of existence, in a way that is relatively enduring and well-supported by the various conditions of life.” (Lomas & Vanderweele, 2022, p. 10). Flourishing can encompass how we are faring personally and collectively (e.g., well-being) and this can comprise of mental (e.g., happiness), physical (e.g., sleep quality), social (e.g., high-quality relationships), and spiritual (e.g., meaning and purpose) domains. Flourishing can also be moulded by the quality of the environment (e.g., through our communities, cross-cultural understanding, and how we communicate about and for flourishing through well-being literacy) and can be intentionally promoted and sustained through a range of activities (e.g., compassion, forgiveness, harmony). Given the concerns cited by the Global Flourishing Study and World Health Organization around declines in health and well-being across societies, there is a pressing need to advance understanding (e.g., how people conceptualize happiness), comprehension (e.g., how do we educate others on well-being), and capabilities (e.g., what activities and interventions can be used) to promote flourishing across diverse contexts (e.g., public health, sport, counselling, education, business, family). This necessitates the support from a variety of quantitative and or qualitative research methodologies to assess the experiences, changes, and resources that are required across these settings.",
+          "ideas": [
+            "How people within different settings (e.g., education, applied practice, business, sport and performance) conceptualize and make sense of terms like flourishing, well-being, or happiness.",
+            "How do educators (e.g., teachers, coaches), practitioners (e.g., psychologists), and public informants (e.g., media journalists, influencers) communicate about and for well-being. What informs their comprehension of well-being and how does this influence those they communicate with?",
+            "The different words and expressions (e.g., lexicon) that has been used across cultures and settings to communicate personal and societal happiness. How can knowledge on happiness from one language (e.g., the german word 'sehnsucht' or greek word 'aporia') enrich the emotional landscape of applied practitioners or people across society?",
+            "How the use of activities and interventions, like forgiveness and compassion (to self or others), can ameliorate suffering and promote flourishing across various settings."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-5",
+      "name": "Dr Shames Maskeen",
+      "email": "s.maskeen@leedstrinity.ac.uk",
+      "avatar": "",
+      "avatarPosition": "50%",
+      "keywords": ["Widening Participation", "Race/Ethnicity", "Racism", "Intersectionality", "Microaggressions", "Student Experience"],
+      "topics": [
+        {
+          "title": "Exploring the impact of microaggressions on students experiences in Higher Education",
+          "description": "Widening participation initiatives have helped to increase students from historically marginalised students access higher education. However, research shows that despite decades of equality legislation and policies, marginalised students in particular students of colour do not have an equitable experience in comparison to their White counterparts. Universities are responsible for creating learning environments in which all students can feel a sense of belonging and achieve their academic and professional potential. Microaggressions or everyday racism are common experiences reported by marginalised students in higher education. These experiences can manifest within teaching and learning environments, peer interactions, assessment practices and institutional cultures. While frequently normalised or minimised, microaggressions can have cumulative and harmful effects on students’ mental health, academic engagement, sense of belonging and long-term outcomes. This project area invites students to explore how microaggressions or everyday racism operates within higher education and how it shapes experiences and outcomes across the student lifecycle. Students will have the option to focus on a particular characteristic or identity (for example, race, ethnicity, religion, gender, disability or intersecting identities) as well as outcomes such as but not limited to mental health, academic engagement, retention, degree awarding outcomes and graduate employability.",
+          "ideas": [
+            "How students experience microaggressions or everyday racism within learning, teaching, and assessment contexts, and how these experiences shape engagement, confidence, and participation in academic life",
+            "How experiences of microaggressions or everyday racism influence students sense of belonging, wellbeing and decisions to persist, disengage or withdraw from higher education",
+            "How microaggressions or everyday racism shape students expectations of academic success, perceptions of fairness and confidence in achieving good degree outcomes including experiences related to the degree awarding gap",
+            "How experiences of microaggressions or everyday racism during higher education influence students perceptions of graduate employability, career aspirations and preparedness for the labour market"
+          ]
+        }
+      ]
+    },
   ]
 }

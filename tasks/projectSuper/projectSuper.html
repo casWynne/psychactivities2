@@ -18,11 +18,39 @@
 
     <main class="site-main">
         <section class="intro-card">
-            <h2>How to use this page</h2>
-            <p>
-                Use the search box and keyword filter below to explore different staff projects.
-                Click on a card to see example project ideas and more details.
-            </p>
+            <details class="howto">
+                <summary class="howto__summary">How to use this page</summary>
+
+                <div class="howto__content">
+                    <p>
+                        This page helps you explore dissertation <strong>topics</strong> and find a supervisor whose
+                        research fits what you’re curious about.
+                        You can browse in two ways:
+                    </p>
+
+                    <ul>
+                        <li><strong>Staff</strong> — explore each academic’s areas of supervision and the topics they’re
+                            offering.</li>
+                        <li><strong>Topics</strong> — browse individual dissertation topics one-by-one, with the
+                            supervisor shown on each.</li>
+                    </ul>
+
+                    <p>
+                        Open any card to read the details and see example directions you could take.
+                    </p>
+
+                    <p>
+                        When something clicks, use <strong>Questions? Email me</strong> to contact the supervisor, or
+                        hit <strong>Interested in this topic</strong>
+                        to register your interest (need more information to make this more detailed and clear).
+                    </p>
+
+                    <p class="howto__note">
+                        we can add tips here using the howto_note class I created in case we want to...
+                    </p>
+                </div>
+            </details>
+
             <section class="keywords">
                 <div class="field">
                     <span class="field-label">Keywords</span>
@@ -57,8 +85,14 @@
                     </div>
                 </label>
             </section>
-
-
+            <section class="view-toggle" aria-label="Choose view">
+                <button id="viewStaffBtn" class="toggle-btn is-active" type="button" aria-pressed="true">
+                    Staff
+                </button>
+                <button id="viewProjectsBtn" class="toggle-btn" type="button" aria-pressed="false">
+                    Topics
+                </button>
+            </section>
             <!-- Profiles injected by JS -->
             <section id="profilesList" class="profiles-list" aria-live="polite">
                 <!-- Cards go here -->

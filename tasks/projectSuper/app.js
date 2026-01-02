@@ -1,6 +1,4 @@
 // app.js
-
-
 document.addEventListener("DOMContentLoaded", () => {
 
     // === CONFIG ====================================================
@@ -17,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const clearSearchBtn = document.getElementById("clearSearchBtn");
     const clearKeywordBtn = document.getElementById("clearKeywordBtn");
     const keywordList = document.getElementById("keywordList");   // <-- add this
+    const viewStaffBtn = document.getElementById("viewStaffBtn");
+    const viewProjectsBtn = document.getElementById("viewProjectsBtn");
 
     const interestFormUrl = "https://forms.office.com/e/UT6nby4S1n";
     const toolbar = document.querySelector(".toolbar");
@@ -36,6 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     let allProfiles = [];
+    let currentView = "staff"; // "staff" | "projects"
+    let allStaff = [];
+    let allProjects = [];
 
     // ---- Fetch JSON data ----------------------------------------------------
     fetch("data/staff-projects.json")
@@ -46,16 +49,24 @@ document.addEventListener("DOMContentLoaded", () => {
             return res.json();
         })
         .then((data) => {
-            allProfiles = data.staff || [];
+            allStaff = (data.staff || []).sort((a, b) =>
+                a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
+            ); allProjects = buildProjectProfilesFromStaff(allStaff);
 
-            const allKeywords = getAllUniqueKeywords(allProfiles);
+            // Build keywords based on whichever view is active initially
+            const active = getActiveList();
+            const allKeywords = getAllUniqueKeywords(active);
+
             buildKeywordDropdown(allKeywords);
             renderKeywordList(allKeywords);
 
             updateSearchClearVisibility();
             updateKeywordClearVisibility();
-            renderProfiles(allProfiles);
+
+            setActiveToggle();
+            renderProfiles(active);
         })
+
 
 
         .catch((err) => {
@@ -64,111 +75,194 @@ document.addEventListener("DOMContentLoaded", () => {
                 '<div class="error-message">Sorry, the project list could not be loaded.</div>';
         });
 
+
+    function getActiveList() {
+        return currentView === "staff" ? allStaff : allProjects;
+    }
+
+    function refreshView() {
+        // clear filters whenever you switch view (avoids “why is nothing showing?” moments)
+        if (searchInput) searchInput.value = "";
+        if (keywordSelect) keywordSelect.value = "";
+
+        updateSearchClearVisibility();
+        updateKeywordClearVisibility();
+
+        const active = getActiveList();
+        const allKeywords = getAllUniqueKeywords(active);
+
+        buildKeywordDropdown(allKeywords);
+        renderKeywordList(allKeywords);
+
+        renderProfiles(active);
+    }
+
+
+    function buildProjectProfilesFromStaff(staffList) {
+        const projects = [];
+
+        staffList.forEach((staff) => {
+            const staffKeywords = staff.keywords || [];
+            const staffAvatar = staff.avatar || "";
+            const staffAvatarPosition = staff.avatarPosition || "50% 50%";
+
+            (staff.topics || []).forEach((topic, idx) => {
+                projects.push({
+                    id: `${staff.id || staff.name}-topic-${idx + 1}`,
+                    // project-facing fields
+                    projectTitle: topic.title || "Untitled project",
+                    projectDescription: topic.description || "",
+                    ideas: topic.ideas || [],
+
+                    // supervisor fields (still used for avatar + email)
+                    supervisorName: staff.name || "Unknown supervisor",
+                    email: staff.email || "",
+                    avatar: staffAvatar,
+                    avatarPosition: staffAvatarPosition,
+
+                    // keywords used for filtering + chips
+                    keywords: staffKeywords,
+
+                    // optional: keep for search indexing
+                    _rawStaffName: staff.name || "",
+                });
+            });
+        });
+
+        return projects;
+    }
+
+
     // ---- Rendering ----------------------------------------------------------
 
-    function renderProfiles(profiles) {
+    function renderProfiles(items) {
         profilesList.innerHTML = "";
 
-        if (!profiles.length) {
+        if (!items.length) {
             profilesList.innerHTML =
                 '<div class="empty-message">No profiles match your search or filters.</div>';
             return;
         }
 
-        profiles.forEach((profile, index) => {
+        items.forEach((item, index) => {
             const card = document.createElement("article");
             card.className = "profile-card";
             card.setAttribute("tabindex", "0");
             card.setAttribute("data-index", index);
             card.setAttribute("aria-expanded", "false");
 
-            // avatar content: prefer image -> emoji -> initials
-            // Avatar: use profile.avatar or fall back to default image
-            const avatarSrc = profile.avatar && profile.avatar.trim() !== ""
-                ? profile.avatar
+            // Avatar (both views)
+            const avatarSrc = item.avatar && item.avatar.trim() !== ""
+                ? item.avatar
                 : "images/default-avatar.jpg";
 
-            const avatarPosition = profile.avatarPosition || "50% 50%";
+            const avatarPosition = item.avatarPosition || "50% 50%";
 
             const avatarInner = `
-                <img
-                    src="${avatarSrc}"
-                    alt="Profile picture of ${profile.name}"
-                    style="
-                    width:100%;
-                    height:100%;
-                    object-fit:cover;
-                    object-position:${avatarPosition};
-                    "
-                    onerror="this.onerror=null; this.src='images/default-avatar.jpg';"
-                />
-                `;
+      <img
+        src="${avatarSrc}"
+        alt="Profile picture"
+        style="
+          width:100%;
+          height:100%;
+          object-fit:cover;
+          object-position:${avatarPosition};
+        "
+        onerror="this.onerror=null; this.src='images/default-avatar.jpg';"
+      />
+    `;
 
-            const keywordsHtml = (profile.keywords || [])
-                .map(
-                    (kw) =>
-                        `<span class="keyword-chip" aria-label="Keyword: ${kw}">${kw}</span>`
-                )
+            const keywordsHtml = (item.keywords || [])
+                .map((kw) => `<span class="keyword-chip" aria-label="Keyword: ${kw}">${kw}</span>`)
                 .join("");
 
-            const topicsHtml = (profile.topics || [])
-                .map((topic, i, arr) => {
-                    const ideas = (topic.ideas || [])
-                        .map((idea) => `<li>${idea}</li>`)
-                        .join("");
+            // Header name differs by view
+            const headerName =
+                currentView === "staff"
+                    ? (item.name || "Unknown staff")
+                    : (item.projectTitle || "Untitled project");
 
-                    return `
-                <section class="profile-topic">
-                  <h3>${i + 1}. ${topic.title}</h3>
-                  <p>${topic.description}</p>
-                  ${ideas
-                            ? `<p><strong>Within this topic, you could investigate:</strong></p>
-                       <ul>${ideas}</ul>`
-                            : ""
-                        }
-                </section>
-                    ${i < arr.length - 1 ? "<hr class='topic-divider'>" : ""}
-                `;
-                })
-                .join("");
+            // Details differs by view
+            let detailsHtml = "";
+            let emailForButton = "";
+
+            if (currentView === "staff") {
+                emailForButton = item.email || "";
+
+                const topicsHtml = (item.topics || [])
+                    .map((topic, i, arr) => {
+                        const ideas = (topic.ideas || [])
+                            .map((idea) => `<li>${idea}</li>`)
+                            .join("");
+
+                        return `
+            <section class="profile-topic">
+              <h3>${i + 1}. ${topic.title}</h3>
+              <p>${topic.description}</p>
+              ${ideas
+                                ? `<p><strong>Within this topic, you could investigate:</strong></p>
+                     <ul>${ideas}</ul>`
+                                : ""
+                            }
+            </section>
+            ${i < arr.length - 1 ? "<hr class='topic-divider'>" : ""}
+          `;
+                    })
+                    .join("");
+
+                detailsHtml = topicsHtml || "<p>No project details have been added yet.</p>";
+            } else {
+                // projects view
+                emailForButton = item.email || "";
+
+                const ideasList = (item.ideas || []).map((idea) => `<li>${idea}</li>`).join("");
+
+                detailsHtml = `
+        <p><strong>Supervisor:</strong> ${item.supervisorName || "Unknown"}</p>
+        ${item.projectDescription ? `<p>${item.projectDescription}</p>` : ""}
+        ${ideasList
+                        ? `<p><strong>Within this project, you could investigate:</strong></p>
+               <ul>${ideasList}</ul>`
+                        : ""
+                    }
+      `;
+            }
 
             card.innerHTML = `
-        <div class="profile-header">
-          <div class="profile-avatar">
-            ${avatarInner}
-          </div>
+      <div class="profile-header">
+        <div class="profile-avatar">${avatarInner}</div>
 
-          <div class="profile-main">
-            <div class="profile-name">${profile.name}</div>
-            <div class="keyword-row">
-              ${keywordsHtml}
-            </div>
-          </div>
+        <div class="profile-main">
+          <div class="profile-name">${headerName}</div>
+          <div class="keyword-row">${keywordsHtml}</div>
         </div>
+      </div>
 
-        <div class="profile-details">
-          ${topicsHtml || "<p>No project details have been added yet.</p>"}
+      <div class="profile-details">
+        ${detailsHtml}
 
         <div class="profile-detail-footer">
-        <button
+          <button
             class="detail-btn detail-btn-email"
             type="button"
-            data-email="${profile.email || ""}"
-        >
+            data-email="${emailForButton}"
+          >
             <span class="detail-btn-icon">❓</span>
             Questions? Email me
-        </button>
-        <button class="detail-btn detail-btn-interest" type="button">
+          </button>
+
+          <button class="detail-btn detail-btn-interest" type="button">
             <span class="detail-btn-icon">👍</span>
             Interested in this topic
-        </button>
+          </button>
         </div>
-
-      `;
+      </div>
+    `;
 
             profilesList.appendChild(card);
         });
     }
+
 
 
 
@@ -206,33 +300,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Build the keyword chip list at the top
     // Build the keyword chip list at the top
-function renderKeywordList(keywords) {
-    // If the section is hidden in config, don't bother rendering
-    if (!keywordList || !showKeywordLegend) return;
+    function renderKeywordList(keywords) {
+        // If the section is hidden in config, don't bother rendering
+        if (!keywordList || !showKeywordLegend) return;
 
-    keywordList.innerHTML = "";
+        keywordList.innerHTML = "";
 
-    keywords.forEach((kw) => {
-        // Always use the same element + classes for consistent styling
-        const chip = document.createElement("button");
-        chip.type = "button";
-        chip.className = "keyword-chip keyword-chip--global";
-        chip.textContent = kw;
+        keywords.forEach((kw) => {
+            // Always use the same element + classes for consistent styling
+            const chip = document.createElement("button");
+            chip.type = "button";
+            chip.className = "keyword-chip keyword-chip--global";
+            chip.textContent = kw;
 
-        // Only add click behaviour if filtering is enabled
-        if (enableKeywordChipFilter) {
-            chip.addEventListener("click", () => {
-                if (!keywordSelect) return;
+            // Only add click behaviour if filtering is enabled
+            if (enableKeywordChipFilter) {
+                chip.addEventListener("click", () => {
+                    if (!keywordSelect) return;
 
-                keywordSelect.value = kw;
-                updateKeywordClearVisibility();
-                applyFilters();
-            });
-        }
+                    keywordSelect.value = kw;
+                    updateKeywordClearVisibility();
+                    applyFilters();
+                });
+            }
 
-        keywordList.appendChild(chip);
-    });
-}
+            keywordList.appendChild(chip);
+        });
+    }
 
 
 
@@ -267,34 +361,43 @@ function renderKeywordList(keywords) {
         const term = searchInput.value.trim().toLowerCase();
         const selectedKeyword = keywordSelect.value.trim().toLowerCase();
 
-        const filtered = allProfiles.filter((profile) => {
-            const topicsText = (profile.topics || [])
-                .map((t) => {
-                    const ideasText = (t.ideas || []).join(" ");
-                    return `${t.title} ${t.description} ${ideasText}`;
-                })
-                .join(" ");
+        const active = getActiveList();
 
-            const allText =
-                [
-                    profile.name,
-                    (profile.keywords || []).join(" "),
-                    topicsText
+        const filtered = active.filter((item) => {
+            const keywordText = (item.keywords || []).join(" ").toLowerCase();
+
+            let allText = "";
+            if (currentView === "staff") {
+                const topicsText = (item.topics || [])
+                    .map((t) => {
+                        const ideasText = (t.ideas || []).join(" ");
+                        return `${t.title} ${t.description} ${ideasText}`;
+                    })
+                    .join(" ");
+
+                allText = [item.name, keywordText, topicsText].join(" ").toLowerCase();
+            } else {
+                // projects view
+                allText = [
+                    item.projectTitle,
+                    item.projectDescription,
+                    (item.ideas || []).join(" "),
+                    item.supervisorName,
+                    keywordText
                 ]
                     .join(" ")
-                    .toLowerCase() || "";
-
-            const keywordText = (profile.keywords || []).join(" ").toLowerCase();
+                    .toLowerCase();
+            }
 
             const matchesSearch = !term || allText.includes(term);
-            const matchesKeyword =
-                !selectedKeyword || keywordText.includes(selectedKeyword);
+            const matchesKeyword = !selectedKeyword || keywordText.includes(selectedKeyword);
 
             return matchesSearch && matchesKeyword;
         });
 
         renderProfiles(filtered);
     }
+
 
     searchInput.addEventListener("input", () => {
         updateSearchClearVisibility();
@@ -384,4 +487,37 @@ function renderKeywordList(keywords) {
             card.setAttribute("aria-expanded", "true");
         }
     }
+
+    function setActiveToggle() {
+        if (!viewStaffBtn || !viewProjectsBtn) return;
+
+        const staffActive = currentView === "staff";
+
+        viewStaffBtn.classList.toggle("is-active", staffActive);
+        viewProjectsBtn.classList.toggle("is-active", !staffActive);
+
+        viewStaffBtn.setAttribute("aria-pressed", staffActive ? "true" : "false");
+        viewProjectsBtn.setAttribute("aria-pressed", staffActive ? "false" : "true");
+
+        document.body.classList.toggle("view-projects", !staffActive);
+        document.body.classList.toggle("view-staff", staffActive);
+    }
+
+    if (viewStaffBtn) {
+        viewStaffBtn.addEventListener("click", () => {
+            currentView = "staff";
+            setActiveToggle();
+            refreshView();
+        });
+    }
+
+    if (viewProjectsBtn) {
+        viewProjectsBtn.addEventListener("click", () => {
+            currentView = "projects";
+            setActiveToggle();
+            refreshView();
+        });
+    }
+    setActiveToggle()
 });
+

@@ -18,6 +18,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const viewStaffBtn = document.getElementById("viewStaffBtn");
     const viewProjectsBtn = document.getElementById("viewProjectsBtn");
     const printBtn = document.getElementById("printBtn");
+    const savedToggleBtn = document.getElementById("savedToggleBtn");
+    const savedCountEl = document.getElementById("savedCount");
+    const savedWrapper = document.getElementById("savedWrapper");
+    const clearSavedBtn = document.getElementById("clearSavedBtn");
 
     const interestFormUrl = "https://forms.office.com/e/UT6nby4S1n";
     const toolbar = document.querySelector(".toolbar");
@@ -41,6 +45,22 @@ document.addEventListener("DOMContentLoaded", () => {
     let allStaff = [];
     let allProjects = [];
     let currentDisplayed = [];
+    let showSavedOnly = false;
+
+    const SAVED_KEY = "projectSuperSavedTopics";
+    let manualTopicIds = new Set(loadSavedTopicIds());
+
+    const SAVED_STAFF_KEY = "projectSuperSavedStaff";
+    let manualStaffIds = new Set(loadSavedStaffIds());
+
+    const EXCLUDED_TOPIC_KEY = "projectSuperExcludedTopics";
+    let excludedTopicIds = new Set(loadExcludedTopicIds());
+
+
+    // computed each time we need them
+    let effectiveTopicIds = new Set();
+    let effectiveStaffIds = new Set();
+
 
     // ---- Fetch JSON data ----------------------------------------------------
     fetch("data/staff-projects.json")
@@ -53,7 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((data) => {
             allStaff = (data.staff || []).sort((a, b) =>
                 a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
-            ); allProjects = buildProjectProfilesFromStaff(allStaff);
+            );
+            allProjects = buildProjectProfilesFromStaff(allStaff);
+            recomputeEffectiveSaves();
 
             // Build keywords based on whichever view is active initially
             const active = getActiveList();
@@ -67,15 +89,126 @@ document.addEventListener("DOMContentLoaded", () => {
 
             setActiveToggle();
             renderProfiles(active);
+
+            updateSavedCount();
+            updateSavedToggleVisibility();
         })
-
-
-
         .catch((err) => {
             console.error(err);
             profilesList.innerHTML =
                 '<div class="error-message">Sorry, the project list could not be loaded.</div>';
         });
+
+    function loadExcludedTopicIds() {
+        try {
+            const raw = localStorage.getItem(EXCLUDED_TOPIC_KEY);
+            const arr = raw ? JSON.parse(raw) : [];
+            return Array.isArray(arr) ? arr : [];
+        } catch {
+            return [];
+        }
+    }
+
+    function persistExcludedTopicIds() {
+        localStorage.setItem(EXCLUDED_TOPIC_KEY, JSON.stringify(Array.from(excludedTopicIds)));
+    }
+
+    function loadSavedTopicIds() {
+        try {
+            const raw = localStorage.getItem(SAVED_KEY);
+            const arr = raw ? JSON.parse(raw) : [];
+            return Array.isArray(arr) ? arr : [];
+        } catch {
+            return [];
+        }
+    }
+
+    function persistSavedTopicIds() {
+        localStorage.setItem(SAVED_KEY, JSON.stringify(Array.from(manualTopicIds)));
+    }
+
+    function loadSavedStaffIds() {
+        try {
+            const raw = localStorage.getItem(SAVED_STAFF_KEY);
+            const arr = raw ? JSON.parse(raw) : [];
+            return Array.isArray(arr) ? arr : [];
+        } catch {
+            return [];
+        }
+    }
+
+    function persistSavedStaffIds() {
+        localStorage.setItem(SAVED_STAFF_KEY, JSON.stringify(Array.from(manualStaffIds)));
+    }
+
+    function persistSavedIds() {
+        persistSavedTopicIds();
+        persistSavedStaffIds();
+        persistExcludedTopicIds();
+    }
+
+
+    function isTopicSaved(topicId) {
+        return effectiveTopicIds.has(topicId);
+    }
+
+    function isStaffSaved(staffId) {
+        return effectiveStaffIds.has(staffId);
+    }
+
+    function updateSavedCount() {
+        if (!savedCountEl) return;
+        recomputeEffectiveSaves();
+        savedCountEl.textContent = String(
+            currentView === "projects" ? effectiveTopicIds.size : effectiveStaffIds.size
+        );
+        updateSavedClearVisibility();
+    }
+
+
+    function updateSavedToggleVisibility() {
+        // Saved only makes sense in Topics view. Hide it in Staff view.
+        if (!savedToggleBtn) return;
+        savedToggleBtn.style.display = "inline-flex";
+    }
+
+    function recomputeEffectiveSaves() {
+        // 1) Topics from staff saves (minus exclusions)
+        const topicsFromStaff = new Set();
+        for (const staffId of manualStaffIds) {
+            for (const p of allProjects) {
+                if (p.supervisorId === staffId && !excludedTopicIds.has(p.id)) {
+                    topicsFromStaff.add(p.id);
+                }
+            }
+        }
+
+        // 2) Effective topics = manual topics + staff-derived topics
+        effectiveTopicIds = new Set([...manualTopicIds, ...topicsFromStaff]);
+
+        // 3) Effective staff = manual staff + anyone who has at least one effective topic
+        effectiveStaffIds = new Set(manualStaffIds);
+        for (const p of allProjects) {
+            if (effectiveTopicIds.has(p.id)) {
+                effectiveStaffIds.add(p.supervisorId);
+            }
+        }
+
+        // 4) Auto-clean: if a manual staff has *zero* effective topics left, unsave that staff
+        // (this makes “unsave last topic => staff unhighlights” work)
+        for (const staffId of Array.from(manualStaffIds)) {
+            const hasAny = allProjects.some(
+                (p) => p.supervisorId === staffId && effectiveTopicIds.has(p.id)
+            );
+            if (!hasAny) {
+                manualStaffIds.delete(staffId);
+                // remove now-useless exclusions for that staff
+                allProjects.forEach((p) => {
+                    if (p.supervisorId === staffId) excludedTopicIds.delete(p.id);
+                });
+            }
+        }
+    }
 
 
     function getActiveList() {
@@ -96,8 +229,24 @@ document.addEventListener("DOMContentLoaded", () => {
         buildKeywordDropdown(allKeywords);
         renderKeywordList(allKeywords);
 
-        renderProfiles(active);
+        applyFilters();
     }
+
+    if (savedToggleBtn) {
+        savedToggleBtn.addEventListener("click", () => {
+            showSavedOnly = !showSavedOnly;
+
+            savedToggleBtn.classList.toggle("is-active", showSavedOnly);
+            savedToggleBtn.setAttribute("aria-pressed", showSavedOnly ? "true" : "false");
+
+            applyFilters(); // re-run with saved-only applied
+        });
+    }
+
+    // function ensureStaffFavouriteFromTopic(topicItem) {
+    //     if (!topicItem || !topicItem.supervisorId) return;
+    //     savedStaffIds.add(topicItem.supervisorId);
+    // }
 
 
     function buildProjectProfilesFromStaff(staffList) {
@@ -111,12 +260,14 @@ document.addEventListener("DOMContentLoaded", () => {
             (staff.topics || []).forEach((topic, idx) => {
                 projects.push({
                     id: `${staff.id || staff.name}-topic-${idx + 1}`,
+
                     // project-facing fields
                     projectTitle: topic.title || "Untitled project",
                     projectDescription: topic.description || "",
                     ideas: topic.ideas || [],
 
-                    // supervisor fields (still used for avatar + email)
+                    // supervisor fields
+                    supervisorId: staff.id || staff.name,   // ✅ ADD THIS
                     supervisorName: staff.name || "Unknown supervisor",
                     email: staff.email || "",
                     avatar: staffAvatar,
@@ -125,9 +276,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     // keywords used for filtering + chips
                     keywords: staffKeywords,
 
-                    // optional: keep for search indexing
                     _rawStaffName: staff.name || "",
                 });
+
             });
         });
 
@@ -138,6 +289,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // ---- Rendering ----------------------------------------------------------
 
     function renderProfiles(items) {
+
+        recomputeEffectiveSaves();
+
         currentDisplayed = items;
         profilesList.innerHTML = "";
 
@@ -185,6 +339,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     ? (item.name || "Unknown staff")
                     : (item.projectTitle || "Untitled project");
 
+            const isSaved =
+                currentView === "projects"
+                    ? isTopicSaved(item.id)
+                    : isStaffSaved(item.id);
+
+            if (isSaved) card.classList.add("is-saved");
             // Details differs by view
             let detailsHtml = "";
             let emailForButton = "";
@@ -218,18 +378,33 @@ document.addEventListener("DOMContentLoaded", () => {
                 // projects view
                 emailForButton = item.email || "";
 
-                const ideasList = (item.ideas || []).map((idea) => `<li>${idea}</li>`).join("");
+                const ideasList = (item.ideas || []).map((idea) => `<li class="idea-item">${idea}</li>`).join("");
 
                 detailsHtml = `
-        <p><strong>Supervisor:</strong> ${item.supervisorName || "Unknown"}</p>
-        ${item.projectDescription ? `<p>${item.projectDescription}</p>` : ""}
-        ${ideasList
+  <div class="project-details">
+    <p><strong>Supervisor:</strong> ${item.supervisorName || "Unknown"}</p>
+    ${item.projectDescription ? `<p class="project-description">${item.projectDescription}</p>` : ""}
+    ${ideasList
                         ? `<p><strong>Within this project, you could investigate:</strong></p>
-               <ul>${ideasList}</ul>`
+         <ul class="idea-list">${ideasList}</ul>`
                         : ""
                     }
-      `;
+  </div>
+`;
+
             }
+            const saveBtnHtml = `
+                <button
+                    class="detail-btn detail-btn-save"
+                    type="button"
+                    data-save-id="${item.id}"
+                    data-save-type="${currentView === "projects" ? "topic" : "staff"}"
+                    aria-pressed="${isSaved ? "true" : "false"}"
+                >
+                    <span class="detail-btn-icon">${isSaved ? "⭐" : "☆"}</span>
+                    ${isSaved ? "Saved" : "Save"}
+                </button>
+                `;
 
             card.innerHTML = `
       <div class="profile-header">
@@ -258,6 +433,9 @@ document.addEventListener("DOMContentLoaded", () => {
             <span class="detail-btn-icon">👍</span>
             Interested in this topic
           </button>
+
+          ${saveBtnHtml}
+
         </div>
       </div>
     `;
@@ -331,6 +509,18 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    function updateSavedClearVisibility() {
+        if (!savedWrapper) return;
+
+        recomputeEffectiveSaves();
+
+        const count = currentView === "projects"
+            ? effectiveTopicIds.size
+            : effectiveStaffIds.size;
+
+        if (count > 0) savedWrapper.classList.add("has-value");
+        else savedWrapper.classList.remove("has-value");
+    }
 
 
     function updateSearchClearVisibility() {
@@ -351,16 +541,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function updateKeywordClearVisibility() {
-        if (!keywordWrapper) return;
-        if (!keywordSelect.value.trim()) {
-            keywordWrapper.classList.remove("has-value");
-        } else {
-            keywordWrapper.classList.add("has-value");
-        }
-    }
-
     function applyFilters() {
+
+        recomputeEffectiveSaves();
+
         const term = searchInput.value.trim().toLowerCase();
         const selectedKeyword = keywordSelect.value.trim().toLowerCase();
 
@@ -397,8 +581,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
             return matchesSearch && matchesKeyword;
         });
+        let finalList = filtered;
 
-        renderProfiles(filtered);
+        if (showSavedOnly) {
+            finalList =
+                currentView === "projects"
+                    ? filtered.filter((item) => effectiveTopicIds.has(item.id))
+                    : filtered.filter((item) => effectiveStaffIds.has(item.id));
+        }
+
+
+
+        renderProfiles(finalList);
     }
 
 
@@ -432,11 +626,105 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    if (clearSavedBtn) {
+        clearSavedBtn.addEventListener("click", () => {
+            // Turn off "saved only" mode
+            showSavedOnly = false;
+            if (savedToggleBtn) {
+                savedToggleBtn.classList.remove("is-active");
+                savedToggleBtn.setAttribute("aria-pressed", "false");
+            }
+
+            // Clear saved state:
+            // Option 1 (recommended): clear EVERYTHING (staff saves, topic saves, exclusions)
+            manualStaffIds.clear();
+            manualTopicIds.clear();
+            excludedTopicIds?.clear?.(); // safe if you haven't added exclusions yet
+
+            persistSavedIds();
+            applyFilters();
+            updateSavedCount(); // also updates clear visibility
+        });
+    }
+
 
     // ---- Expand / collapse handling ----------------------------------------
 
     // Use event delegation so re-rendering is safe
     profilesList.addEventListener("click", (event) => {
+        const saveBtn = event.target.closest(".detail-btn-save");
+        if (saveBtn) {
+            event.stopPropagation();
+
+            const id = saveBtn.dataset.saveId;
+            const type = saveBtn.dataset.saveType; // "topic" | "staff"
+            if (!id || !type) return;
+
+            recomputeEffectiveSaves();
+
+            // ---------- STAFF SAVE ----------
+            if (type === "staff") {
+                const staffId = id;
+
+                if (manualStaffIds.has(staffId)) {
+                    // Turning OFF staff: remove staff + remove all manual topic saves for them + clear exclusions
+                    manualStaffIds.delete(staffId);
+
+                    allProjects.forEach((p) => {
+                        if (p.supervisorId === staffId) {
+                            manualTopicIds.delete(p.id);
+                            excludedTopicIds.delete(p.id);
+                        }
+                    });
+                } else {
+                    // Turning ON staff: save staff + clear exclusions so all topics show
+                    manualStaffIds.add(staffId);
+
+                    allProjects.forEach((p) => {
+                        if (p.supervisorId === staffId) {
+                            excludedTopicIds.delete(p.id);
+                        }
+                    });
+                }
+
+                persistSavedIds();
+                applyFilters();
+                updateSavedCount();
+                return;
+            }
+
+            // ---------- TOPIC SAVE ----------
+            const topicId = id;
+            const topic = allProjects.find((p) => p.id === topicId);
+            const staffId = topic?.supervisorId;
+
+            // If this topic is currently highlighted (effective), clicking means "turn it off"
+            const isEffective = effectiveTopicIds.has(topicId);
+
+            if (isEffective) {
+                // Turn OFF:
+                // - remove manual save if it exists
+                manualTopicIds.delete(topicId);
+
+                // - if topic is highlighted due to staff save, exclude it
+                if (staffId && manualStaffIds.has(staffId)) {
+                    excludedTopicIds.add(topicId);
+                }
+            } else {
+                // Turn ON:
+                // - remove exclusion
+                excludedTopicIds.delete(topicId);
+
+                // - add manual save
+                manualTopicIds.add(topicId);
+            }
+
+            persistSavedIds();
+            applyFilters();
+            updateSavedCount();
+            return;
+        }
+
 
         // Footer "Interested in this topic" button → redirect to form
         const interestBtn = event.target.closest(".detail-btn-interest");
@@ -504,6 +792,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         document.body.classList.toggle("view-projects", !staffActive);
         document.body.classList.toggle("view-staff", staffActive);
+
+        updateSavedToggleVisibility();
+        updateSavedCount();
     }
 
     if (viewStaffBtn) {
@@ -525,54 +816,148 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ---- Print / Save as PDF --------------------------------------------------
 
-if (printBtn) {
-  printBtn.addEventListener("click", () => {
-const html = buildPrintableHtml(getActiveList());
-    openPrintWindow(html);
-  });
-}
+    // ---- Print / Save as PDF (NO POPUPS) --------------------------------------
 
-function openPrintWindow(html) {
-  const w = window.open("", "_blank", "noopener,noreferrer");
-  if (!w) {
-    alert("Pop-up blocked. Please allow pop-ups for this site to print/save.");
-    return;
-  }
-  w.document.open();
-  w.document.write(html);
-  w.document.close();
+    let __prePrintState = null;
 
-  // Give the new document a moment to paint before printing
-  w.onload = () => {
-    w.focus();
-    w.print();
-  };
-}
+    if (printBtn) {
+        printBtn.addEventListener("click", () => {
+            printInPlace(currentDisplayed);
+        });
+    }
 
-function buildPrintableHtml(items) {
-  const dateStr = new Date().toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+    function printInPlace(items) {
+        // Save current page state so we can restore after printing
+        __prePrintState = {
+            title: document.title,
+            scrollY: window.scrollY,
+            bodyClass: document.body.className,
+            bodyHtml: document.body.innerHTML,
+        };
 
-  const title =
-    currentView === "staff"
-      ? "Research Projects Directory — Staff"
-      : "Research Projects Directory — Topics";
+        const dateStr = new Date().toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+        });
 
-  const subtitle =
-    currentView === "staff"
-      ? "Staff profiles and their available dissertation topics"
-      : "Dissertation topics (with supervising staff shown)";
+        const title =
+            currentView === "staff"
+                ? "Research Projects Directory — Staff"
+                : "Research Projects Directory — Topics";
 
-  const cards =
-    currentView === "staff"
-      ? buildStaffPrintCards(items)
-      : buildTopicPrintCards(items);
+        const subtitle =
+            currentView === "staff"
+                ? "Staff profiles and their available dissertation topics"
+                : "Dissertation topics (with supervising staff shown)";
 
-  // Inline CSS so the print page is self-contained
-  return `<!doctype html>
+        // Cards HTML
+        const cards =
+            currentView === "staff"
+                ? buildStaffPrintCards(items)
+                : buildTopicPrintCards(items);
+
+        // Swap the entire body for a print-only layout
+        document.title = title;
+        document.body.className = "print-mode";
+        document.body.innerHTML = `
+    <main class="print-wrap">
+      <header class="print-header">
+        <h1>${escapeHtml(title)}</h1>
+        <p class="print-meta">${escapeHtml(subtitle)} • Generated ${escapeHtml(
+            dateStr
+        )} • Showing ${items.length} result(s)</p>
+      </header>
+
+      <section class="print-grid">
+        ${cards || `<div class="print-card"><p>No results to export (try clearing filters).</p></div>`}
+      </section>
+    </main>
+  `;
+
+        // Trigger print
+        window.print();
+
+        // Restore after print (best effort across browsers)
+        // Some browsers fire afterprint reliably, some don't.
+        // We'll do both: event + fallback timeout.
+        restoreAfterPrint();
+    }
+
+    function restoreAfterPrint() {
+        const restore = () => {
+            if (!__prePrintState) return;
+
+            document.body.innerHTML = __prePrintState.bodyHtml;
+            document.body.className = __prePrintState.bodyClass;
+            document.title = __prePrintState.title;
+
+            // Re-run your app setup by forcing a reload (cleanest)
+            // Because replacing bodyHTML removes all event listeners.
+            // If you'd rather not reload, we can refactor to avoid replacing the whole body.
+            window.scrollTo(0, __prePrintState.scrollY);
+
+            __prePrintState = null;
+            location.reload();
+        };
+
+        // Try afterprint first
+        window.addEventListener(
+            "afterprint",
+            () => {
+                restore();
+            },
+            { once: true }
+        );
+
+        // Fallback: restore after a short delay in case afterprint doesn't fire
+        setTimeout(() => {
+            restore();
+        }, 800);
+    }
+
+
+    function openPrintWindow(html) {
+        const w = window.open("", "_blank", "noopener,noreferrer");
+        if (!w) {
+            alert("Pop-up blocked. Please allow pop-ups for this site to print/save.");
+            return;
+        }
+        w.document.open();
+        w.document.write(html);
+        w.document.close();
+
+        // Give the new document a moment to paint before printing
+        w.onload = () => {
+            w.focus();
+            w.print();
+        };
+    }
+
+    function buildPrintableHtml(items) {
+        const dateStr = new Date().toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+        });
+
+        const title =
+            currentView === "staff"
+                ? "Research Projects Directory — Staff"
+                : "Research Projects Directory — Topics";
+
+        const subtitle =
+            currentView === "staff"
+                ? "Staff profiles and their available dissertation topics"
+                : "Dissertation topics (with supervising staff shown)";
+
+        const cards =
+            currentView === "staff"
+                ? buildStaffPrintCards(items)
+                : buildTopicPrintCards(items);
+
+        // Inline CSS so the print page is self-contained
+        return `<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -610,93 +995,105 @@ function buildPrintableHtml(items) {
   </main>
 </body>
 </html>`;
-}
+    }
 
-function buildStaffPrintCards(items) {
-  return items
-    .map((s) => {
-      const keywords = (s.keywords || []).map((kw) => `<span class="pill">${escapeHtml(kw)}</span>`).join("");
-      const topics = (s.topics || [])
-        .map((t, idx) => {
-          const ideas = (t.ideas || []).map((i) => `<li>${sanitizeIdeaHtml(i)}</li>`).join("");
-          return `
-            <div class="line"><strong>${idx + 1}. ${escapeHtml(t.title || "")}</strong></div>
-            ${t.description ? `<div class="line">${escapeHtml(t.description)}</div>` : ""}
+    function buildStaffPrintCards(items) {
+        return items
+            .map((s) => {
+                const keywords = (s.keywords || [])
+                    .map((kw) => `<span class="print-pill">${escapeHtml(kw)}</span>`)
+                    .join("");
+
+                const topics = (s.topics || [])
+                    .map((t, idx) => {
+                        const ideas = (t.ideas || [])
+                            .map((i) => `<li>${sanitizeIdeaHtml(i)}</li>`)
+                            .join("");
+
+                        return `
+            <div class="print-line"><strong>${idx + 1}. ${escapeHtml(t.title || "")}</strong></div>
+            ${t.description ? `<div class="print-line">${escapeHtml(t.description)}</div>` : ""}
             ${ideas ? `<ul>${ideas}</ul>` : ""}
           `;
-        })
-        .join("<hr style='border:none;border-top:1px solid rgba(0,0,0,0.06); margin:10px 0;' />");
+                    })
+                    .join("<hr style='border:none;border-top:1px solid rgba(0,0,0,0.06); margin:10px 0;' />");
 
-      return `
-        <section class="card">
+                return `
+        <section class="print-card">
           <h2>${escapeHtml(s.name || "Unknown staff")}</h2>
-          ${s.email ? `<div class="line">${escapeHtml(s.email)}</div>` : ""}
-          ${topics || `<div class="line">No topic details provided.</div>`}
-          ${keywords ? `<div class="keywords"><strong>Keywords:</strong> ${keywords}</div>` : ""}
+          ${s.email ? `<div class="print-line">${escapeHtml(s.email)}</div>` : ""}
+          ${topics || `<div class="print-line">No topic details provided.</div>`}
+          ${keywords ? `<div class="print-keywords"><strong>Keywords:</strong> ${keywords}</div>` : ""}
         </section>
       `;
-    })
-    .join("");
-}
-
-function buildTopicPrintCards(items) {
-  return items
-    .map((p) => {
-      const keywords = (p.keywords || []).map((kw) => `<span class="pill">${escapeHtml(kw)}</span>`).join("");
-      const ideas = (p.ideas || []).map((i) => `<li>${sanitizeIdeaHtml(i)}</li>`).join("");
-
-      return `
-        <section class="card">
-          <h2>${escapeHtml(p.projectTitle || "Untitled topic")}</h2>
-          <div class="line"><strong>Supervisor:</strong> ${escapeHtml(p.supervisorName || "Unknown")}${p.email ? ` • ${escapeHtml(p.email)}` : ""}</div>
-          ${p.projectDescription ? `<div class="line">${escapeHtml(p.projectDescription)}</div>` : ""}
-          ${ideas ? `<ul>${ideas}</ul>` : ""}
-          ${keywords ? `<div class="keywords"><strong>Keywords:</strong> ${keywords}</div>` : ""}
-        </section>
-      `;
-    })
-    .join("");
-}
-
-// Escapes plain text for HTML
-function escapeHtml(str) {
-  return String(str ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-/**
- * Your ideas sometimes include actual <a href="..."> links (e.g., SISL link),
- * so for print we allow ONLY safe-ish anchors and strip everything else.
- * If you want *zero* HTML allowed, just return escapeHtml(idea).
- */
-function sanitizeIdeaHtml(idea) {
-  const raw = String(idea ?? "");
-
-  // If no tags, just escape
-  if (!raw.includes("<")) return escapeHtml(raw);
-
-  // Allow <a href="...">text</a> only; strip other tags
-  // This is a simple “good enough” sanitizer for your controlled JSON content.
-  const escaped = raw
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
-
-  // Re-enable anchors that were originally anchors:
-  // Convert &lt;a href='URL' ...&gt;TEXT&lt;/a&gt; back to <a ...>TEXT</a>
-  // (handles single/double quotes)
-  return escaped.replace(
-    /&lt;a\s+href=(&quot;|&#039;)(.*?)\1\s*(target=(&quot;|&#039;).*?\4)?\s*&gt;(.*?)&lt;\/a&gt;/gi,
-    (_m, _q, href, _t, _tq, text) => {
-      const safeHref = href.startsWith("http") ? href : "#";
-      return `<a href="${safeHref}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+            })
+            .join("");
     }
-  );
-}
+
+    function buildTopicPrintCards(items) {
+        return items
+            .map((p) => {
+                const keywords = (p.keywords || [])
+                    .map((kw) => `<span class="print-pill">${escapeHtml(kw)}</span>`)
+                    .join("");
+
+                const ideas = (p.ideas || [])
+                    .map((i) => `<li>${sanitizeIdeaHtml(i)}</li>`)
+                    .join("");
+
+                return `
+        <section class="print-card">
+          <h2>${escapeHtml(p.projectTitle || "Untitled topic")}</h2>
+          <div class="print-line"><strong>Supervisor:</strong> ${escapeHtml(p.supervisorName || "Unknown")}${p.email ? ` • ${escapeHtml(p.email)}` : ""}</div>
+          ${p.projectDescription ? `<div class="print-line">${escapeHtml(p.projectDescription)}</div>` : ""}
+          ${ideas ? `<ul>${ideas}</ul>` : ""}
+          ${keywords ? `<div class="print-keywords"><strong>Keywords:</strong> ${keywords}</div>` : ""}
+        </section>
+      `;
+            })
+            .join("");
+    }
+
+
+    // Escapes plain text for HTML
+    function escapeHtml(str) {
+        return String(str ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+    /**
+     * Your ideas sometimes include actual <a href="..."> links (e.g., SISL link),
+     * so for print we allow ONLY safe-ish anchors and strip everything else.
+     * If you want *zero* HTML allowed, just return escapeHtml(idea).
+     */
+    function sanitizeIdeaHtml(idea) {
+        const raw = String(idea ?? "");
+
+        // If no tags, just escape
+        if (!raw.includes("<")) return escapeHtml(raw);
+
+        // Allow <a href="...">text</a> only; strip other tags
+        // This is a simple “good enough” sanitizer for your controlled JSON content.
+        const escaped = raw
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;");
+
+        // Re-enable anchors that were originally anchors:
+        // Convert &lt;a href='URL' ...&gt;TEXT&lt;/a&gt; back to <a ...>TEXT</a>
+        // (handles single/double quotes)
+        return escaped.replace(
+            /&lt;a\s+href=(&quot;|&#039;)(.*?)\1\s*(target=(&quot;|&#039;).*?\4)?\s*&gt;(.*?)&lt;\/a&gt;/gi,
+            (_m, _q, href, _t, _tq, text) => {
+                const safeHref = href.startsWith("http") ? href : "#";
+                return `<a href="${safeHref}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+            }
+        );
+    }
 
 });
 

@@ -84,6 +84,20 @@
                         </button>
                     </div>
                 </label>
+
+                <label class="field">
+                    <span class="field-label">Favourites</span>
+                    <div class="saved-wrapper" id="savedWrapper">
+                        <button id="savedToggleBtn" class="export-btn export-btn--saved" type="button"
+                            aria-pressed="false">
+                            Saved only <span id="savedCount" class="saved-count">0</span>
+                        </button>
+
+                        <button id="clearSavedBtn" class="field-clear-btn" type="button" aria-label="Clear saved">
+                            ✕
+                        </button>
+                </label>
+
             </section>
             <section class="view-toggle" aria-label="Choose view">
                 <button id="viewStaffBtn" class="toggle-btn is-active" type="button" aria-pressed="true">
@@ -103,11 +117,12 @@
     </main>
 
     <footer class="site-footer">
-            <section class="export-bar" aria-label="Export results">
-                <button id="printBtn" class="export-btn" type="button">
-                    Print / Save as PDF
-                </button>
-            </section>
+        <section class="export-bar" aria-label="Export and saved options">
+            <button id="printBtn" class="export-btn" type="button">
+                Print / Save as PDF
+            </button>
+        </section>
+
     </footer>
 
     <script src="app.js"></script>

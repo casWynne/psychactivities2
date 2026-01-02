@@ -48,6 +48,11 @@ html {
   --radius-card: 14px;
   --shadow-soft: 0 4px 10px rgba(0, 0, 0, 0.10);
   --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.10);
+
+
+  --gold: #D4AF37;
+  --gold-soft: rgba(212, 175, 55, 0.35);
+  --saved-bg: #FFF6D6;
 }
 
 
@@ -585,6 +590,30 @@ body {
   appearance: none;
 }
 
+.saved-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Give space for the X */
+.saved-wrapper .export-btn {
+  padding-right: 1.8rem;
+  width: 100%;
+}
+
+/* Reuse the same clear button styling you already have */
+.saved-wrapper .field-clear-btn {
+  right: 0.55rem;
+}
+
+/* Show only when wrapper has-value */
+.saved-wrapper.has-value .field-clear-btn {
+  opacity: 0.85;
+  pointer-events: auto;
+}
+
+
 /* ===== Global keyword list at top ===== */
 
 .keywords {
@@ -683,7 +712,8 @@ body.view-projects .profile-avatar {
 }
 
 .howto__summary {
-  list-style: none;              /* removes default marker in some browsers */
+  list-style: none;
+  /* removes default marker in some browsers */
   cursor: pointer;
   padding: 0.9rem 1rem;
   font-weight: 700;
@@ -691,7 +721,8 @@ body.view-projects .profile-avatar {
 }
 
 .howto__summary::-webkit-details-marker {
-  display: none;                 /* removes default triangle in Chrome/Safari */
+  display: none;
+  /* removes default triangle in Chrome/Safari */
 }
 
 /* Add our own chevron */
@@ -733,6 +764,7 @@ body.view-projects .profile-avatar {
   display: flex;
   justify-content: center;
   margin: 0 auto 1rem auto;
+  gap: 1rem;
 }
 
 .export-btn {
@@ -752,4 +784,121 @@ body.view-projects .profile-avatar {
   background: rgba(255, 255, 255, 0.75);
   box-shadow: var(--shadow-soft);
   transform: translateY(-1px);
+}
+
+.saved-count {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid var(--card-border);
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 0.8em;
+}
+
+/* Active state for Saved-only toggle */
+.export-btn--saved.is-active {
+  background: var(--accent-main);
+  color: #fff;
+  border-color: var(--accent-main);
+}
+
+/* ---- Saved (favourited) cards ------------------------------------------- */
+
+.profile-card.is-saved {
+  background: var(--saved-bg);
+  border: 1px solid var(--gold);
+  box-shadow:
+    0 0 0 4px var(--gold-soft),
+    0 10px 18px rgba(0, 0, 0, 0.14);
+}
+
+.profile-card.is-saved .profile-name {
+  font-weight: 750;
+}
+
+.detail-btn-save[aria-pressed="true"] {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #fff;
+}
+
+/* Force details content left-aligned */
+.profile-card .profile-details {
+  text-align: left;
+}
+
+.profile-card .profile-details p,
+.profile-card .profile-details li,
+.profile-card .profile-details ul {
+  text-align: left;
+}
+
+/* ---- Print mode (no popups) -------------------------------------------- */
+
+.print-wrap {
+  padding: 28px;
+  font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+  color: #1a1a1a;
+  background: #ffffff;
+}
+
+.print-header h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.print-meta {
+  margin: 6px 0 18px 0;
+  color: #555;
+  font-size: 12px;
+}
+
+.print-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.print-card {
+  background: #ffffff;
+  border: 1px solid #e6c9bd;
+  border-radius: 12px;
+  padding: 14px 16px;
+  break-inside: avoid;
+}
+
+.print-card h2 {
+  margin: 0 0 6px 0;
+  font-size: 16px;
+}
+
+.print-line {
+  margin: 0 0 6px 0;
+  color: #555;
+  font-size: 13px;
+}
+
+.print-card ul {
+  margin: 6px 0 0 18px;
+  padding: 0;
+}
+
+.print-card li {
+  font-size: 13px;
+  margin: 0 0 4px 0;
+}
+
+.print-keywords {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #555;
+}
+
+.print-pill {
+  display: inline-block;
+  border: 1px solid #e6c9bd;
+  border-radius: 999px;
+  padding: 2px 8px;
+  margin: 2px 4px 0 0;
 }

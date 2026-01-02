@@ -63,7 +63,7 @@
       "id": "staff-4",
       "name": "Dr Richard A.C. Simpson",
       "email": "R.Simpson@leedstrinity.ac.uk",
-      "avatar": "",
+      "avatar": "images/richardsimpson.jpg",
       "avatarPosition": "50%",
       "keywords": ["Human Flourishing", "Well-being", "Well-being Literacy", "Balance and Harmony", "Forgiveness"],
       "topics": [
@@ -83,7 +83,7 @@
       "id": "staff-5",
       "name": "Dr Shames Maskeen",
       "email": "s.maskeen@leedstrinity.ac.uk",
-      "avatar": "",
+      "avatar": "images/shamesmaskeen.jpg",
       "avatarPosition": "50%",
       "keywords": ["Widening Participation", "Race/Ethnicity", "Racism", "Intersectionality", "Microaggressions", "Student Experience"],
       "topics": [
@@ -98,6 +98,6 @@
           ]
         }
       ]
-    },
+    }
   ]
 }

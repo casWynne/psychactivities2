@@ -599,8 +599,8 @@ body {
   margin: 3px;
 }
 
-.keyword-chip--global:hover,
+/* .keyword-chip--global:hover,
 .keyword-chip--global:focus-visible {
   transform: translateY(-1px);
   box-shadow: var(--shadow-subtle);
-}
+} */

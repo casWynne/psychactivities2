@@ -98,6 +98,38 @@
           ]
         }
       ]
+    },
+    {
+      "id": "staff-6",
+      "name": "Dr Laura De Pretto",
+      "email": "L.dePretto@leedstrinity.ac.uk",
+      "avatar": "",
+      "avatarPosition": "50%",
+      "keywords": ["Culture", "Migration & Identity", "Cultural intelligence", "Agriculturation & Adjustment", "Human Environment Relationships", "Enivronmental Behaviour", "Hope & Wellbeing", "Cross-cultural and international psychology"],
+      "topics": [
+        {
+          "title": "Culture, Identity, and Intercultural Exerpience",
+          "description": "Cultural diversity shapes how people understand themselves, relate to others, and navigate social and institutional environments. This research topic explores psychological processes related to culture, migration, identity, and intercultural interaction, with a particular focus on belonging , discrimination, cultural intelligence, and adjustment in diverse contexts susch as education, work, and everyday social life. Projects may examine how individuals experience and negotiate cultural differences, how indentities are constructed and challenged, and how intercultural skills and attitudes relate to wellbeing, learning, and social inclusion.",
+          "ideas": [
+            "Identity, belonging, and acculturation among migrant or minority groups",
+            "Perceived discrimination and its psychological consequences",
+            "Cultural intelligence and intercultural competence among students or staff",
+            "The role of language, accent, or ethnicity in social inclusion",
+            "Intercultural experiences in higher education (e.g., international study, virtual exchange, collaborative learning) "
+          ]
+        },
+        {
+          "title": "Human–Environment Relationships, Values, and Wellbeing",
+          "description": "This research topic examines how people relate to their natural and social environments, and how these relationships influence wellbeing, behaviour, and meaning in life. Drawing on social, cultural, and environmental psychology, projects explore how values, beliefs, and cultural contexts shape environmental attitudes, engagement with nature, and responses to environmental challenges. Projects may focus on wellbeing, hope, environmental behaviour, or nature connectedness, with attention to cultural and social differences.",
+          "ideas": [
+            "Relationships between access to green spaces and psychological wellbeing",
+            "Cultural or religious values and environmental concern",
+            "Pro-environmental behaviour and sustainability attitudes",
+            "Hope, meaning, and wellbeing in relation to social or environmental issues",
+            "Cross-cultural differences in environmental perceptions and behaviours"
+          ]
+        }
+      ]
     }
   ]
 }

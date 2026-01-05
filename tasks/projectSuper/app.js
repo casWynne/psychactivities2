@@ -1,12 +1,14 @@
 // app.js
 document.addEventListener("DOMContentLoaded", () => {
-  // === CONFIG ====================================================
   const CONFIG = {
-    showFilters: true,               // show/hide the filter bar
-    showKeywordLegend: true,         // show/hide the big keyword section
-    enableKeywordChipFilter: false,  // allow clicking chips to filter
+    // Toolbar always visible now (because it always has Saved)
+    showSearch: true,              // show/hide the search input (toolbar)
+    showKeywordFilter: true,       // show/hide keyword dropdown (toolbar)
+    showKeywordLegend: true,       // show/hide keyword legend box (above toolbar)
+    enableKeywordChipFilter: true, // clicking legend chips filters dropdown
     interestFormUrl: "https://forms.office.com/e/UT6nby4S1n",
   };
+
   // ===============================================================
 
   // ---- Storage keys ---------------------------------------------
@@ -94,7 +96,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       viewStaffBtn: document.getElementById("viewStaffBtn"),
       viewProjectsBtn: document.getElementById("viewProjectsBtn"),
-
+      search: document.getElementById("search"),
+      keyword: document.getElementById("keyword"),
       printBtn: document.getElementById("printBtn"),
 
       savedToggleBtn: document.getElementById("savedToggleBtn"),
@@ -108,19 +111,38 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function applyConfigVisibility() {
-    // Toolbar visibility
-    if (!CONFIG.showFilters && dom.toolbar) {
-      dom.toolbar.style.display = "none";
-      if (dom.searchInput) dom.searchInput.disabled = true;
-      if (dom.keywordSelect) dom.keywordSelect.disabled = true;
-      if (dom.savedToggleBtn) dom.savedToggleBtn.disabled = true;
+    // Toolbar stays visible — we only hide individual controls
+
+    // --- Search control (toolbar) ---
+    if (dom.search) {
+      dom.search.style.display = CONFIG.showSearch ? "" : "none";
+    }
+    if (dom.searchInput) {
+      dom.searchInput.disabled = !CONFIG.showSearch;
+      if (!CONFIG.showSearch) {
+        dom.searchInput.value = "";
+        state.search = "";
+      }
     }
 
-    // Keyword legend visibility
-    if (!CONFIG.showKeywordLegend && dom.keywordLegendSection) {
-      dom.keywordLegendSection.style.display = "none";
+    // --- Keyword filter dropdown (toolbar) ---
+    if (dom.keyword) {
+      dom.keyword.style.display = CONFIG.showKeywordFilter ? "" : "none";
+    }
+    if (dom.keywordSelect) {
+      dom.keywordSelect.disabled = !CONFIG.showKeywordFilter;
+      if (!CONFIG.showKeywordFilter) {
+        dom.keywordSelect.value = "";
+        state.keyword = "";
+      }
+    }
+
+    // --- Keyword legend box (above toolbar) ---
+    if (dom.keywordLegendSection) {
+      dom.keywordLegendSection.style.display = CONFIG.showKeywordLegend ? "" : "none";
     }
   }
+
 
   // ===============================================================
   // STORAGE
@@ -269,6 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderKeywordList(keywords) {
     if (!dom.keywordList || !CONFIG.showKeywordLegend) return;
+
     dom.keywordList.innerHTML = "";
 
     keywords.forEach((kw) => {
@@ -277,9 +300,11 @@ document.addEventListener("DOMContentLoaded", () => {
       chip.className = "keyword-chip keyword-chip--global";
       chip.textContent = kw;
 
-      if (CONFIG.enableKeywordChipFilter) {
+      // Only meaningful if both legend + keyword dropdown exist
+      if (CONFIG.enableKeywordChipFilter && CONFIG.showKeywordFilter) {
         chip.addEventListener("click", () => {
           if (!dom.keywordSelect) return;
+
           dom.keywordSelect.value = kw;
           state.keyword = kw;
           updateKeywordClearVisibility();
@@ -290,6 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
       dom.keywordList.appendChild(chip);
     });
   }
+
 
   function refreshKeywordsForCurrentView() {
     const active = getActiveList();
@@ -404,11 +430,10 @@ document.addEventListener("DOMContentLoaded", () => {
               <section class="profile-topic">
                 <h3>${i + 1}. ${escapeHtml(topic.title || "")}</h3>
                 <p>${escapeHtml(topic.description || "")}</p>
-                ${
-                  ideas
-                    ? `<p><strong>Within this topic, you could investigate:</strong></p><ul>${ideas}</ul>`
-                    : ""
-                }
+                ${ideas
+                ? `<p><strong>Within this topic, you could investigate:</strong></p><ul>${ideas}</ul>`
+                : ""
+              }
               </section>
               ${i < arr.length - 1 ? "<hr class='topic-divider'>" : ""}
             `;
@@ -424,11 +449,10 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="project-details">
             <p><strong>Supervisor:</strong> ${escapeHtml(item.supervisorName || "Unknown")}</p>
             ${item.projectDescription ? `<p class="project-description">${escapeHtml(item.projectDescription)}</p>` : ""}
-            ${
-              ideasList
-                ? `<p><strong>Within this project, you could investigate:</strong></p><ul class="idea-list">${ideasList}</ul>`
-                : ""
-            }
+            ${ideasList
+            ? `<p><strong>Within this project, you could investigate:</strong></p><ul class="idea-list">${ideasList}</ul>`
+            : ""
+          }
           </div>
         `;
       }
@@ -823,6 +847,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // Restore input values
     if (dom.searchInput) dom.searchInput.value = state.search;
     if (dom.keywordSelect) dom.keywordSelect.value = state.keyword;
+
+    // Enforce config so we don't restore "invisible" filters
+    if (!CONFIG.showFilters) {
+      state.search = "";
+      if (dom.searchInput) dom.searchInput.value = "";
+    }
+
+    if (!CONFIG.showKeywordFilter) {        // (you'll add this toggle)
+      state.keyword = "";
+      if (dom.keywordSelect) dom.keywordSelect.value = "";
+    }
+
 
     // Keywords + render
     refreshKeywordsForCurrentView();

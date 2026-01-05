@@ -1,4 +1,6 @@
-/* ---- Base ---------------------------------------------------------------- */
+/* ========================================================================== */
+/*  Base / Reset                                                              */
+/* ========================================================================== */
 
 *,
 *::before,
@@ -7,26 +9,32 @@
 }
 
 html {
-  font-size: 20px;
-  /* default is ~16px → ~6–10% increase */
+  font-size: 20px; /* default is ~16px → ~6–10% increase */
 }
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text-main);
+}
+
+/* ========================================================================== */
+/*  Design Tokens (CSS Variables)                                             */
+/* ========================================================================== */
+
 :root {
-  --bg: #FCFAF8;
-  /* soft warm neutral */
+  --bg: #FCFAF8; /* soft warm neutral */
 
   /* Mid-saturation accents */
-  --accent-main: #E98A8A;
-  /* warm rose (chips/buttons) */
-  --accent-soft: #C9A7F5;
-  /* gentle lavender (header accents) */
-  --accent-mint: #8FD8C8;
-  /* soft mint/teal (toolbar) */
-  --accent-blue: #AFC4FF;
-  /* dusty periwinkle (keyword box) */
+  --accent-main: #E98A8A; /* warm rose (chips/buttons) */
+  --accent-soft: #C9A7F5; /* gentle lavender (header accents) */
+  --accent-mint: #8FD8C8; /* soft mint/teal (toolbar) */
+  --accent-blue: #AFC4FF; /* dusty periwinkle (keyword box) */
 
-  --card-bg: #F7E7DE;
-  /* warm light neutral */
+  --card-bg: #F7E7DE; /* warm light neutral */
   --card-border: #E6C9BD;
 
   --text-main: #1A1A1A;
@@ -44,54 +52,42 @@ html {
   --chip-border: var(--accent-main);
   --chip-text: #ffffff;
 
+  /* Geometry / shadows */
   --radius-lg: 9999px;
   --radius-card: 14px;
   --shadow-soft: 0 4px 10px rgba(0, 0, 0, 0.10);
   --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.10);
 
-
+  /* Saved/favourites */
   --gold: #D4AF37;
   --gold-soft: rgba(212, 175, 55, 0.35);
   --saved-bg: #FFF6D6;
 
-  --super-bg: #ffb703;
-  /* warm amber */
-  --super-bg-hover: #ff9f1c;
-  /* deeper hover */
+  /* Super keywords */
+  --super-bg: #ffb703;        /* warm amber */
+  --super-bg-hover: #ff9f1c;  /* deeper hover */
   --super-text: #2b2b2b;
   --super-border: #e38d00;
 
+  /* Orphan/keyword variants */
   --orphan-bg: #f1f1f1;
   --orphan-border: #cfcfcf;
 }
 
-
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
-  background: var(--bg);
-  color: var(--text-main);
-}
-
-/* ---- Layout -------------------------------------------------------------- */
+/* ========================================================================== */
+/*  Page Layout                                                               */
+/* ========================================================================== */
 
 .site-header {
   text-align: center;
-  /* <-- centre everything */
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* centre any children horizontally */
   justify-content: center;
   background-color: var(--brand-dark);
   color: var(--text-main);
   padding: 20px;
 }
-
 
 .site-header h1 {
   margin: 0 0 0.25rem;
@@ -118,18 +114,9 @@ body {
   margin: 0 auto;
 }
 
-/* ---- Toolbar ------------------------------------------------------------- */
-
-.toolbar {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  background: var(--accent-mint);
-  padding: 0.75rem;
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-soft);
-  margin-bottom: 1.5rem;
-}
+/* ========================================================================== */
+/*  Shared Form / Field Patterns                                              */
+/* ========================================================================== */
 
 .field {
   display: flex;
@@ -146,6 +133,97 @@ body {
   margin-bottom: 0.15rem;
 }
 
+/* ---- Field clear "x" wrappers -------------------------------------------- */
+
+.search-wrapper,
+.keyword-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Add space for the x buttons inside the controls */
+.search-wrapper input[type="search"],
+.keyword-wrapper select {
+  padding-right: 1.8rem;
+  width: 100%;
+}
+
+/* Generic clear button style */
+.field-clear-btn {
+  position: absolute;
+  right: 0.55rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--text-soft);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Show the x when that field has a value */
+.search-wrapper.has-value .field-clear-btn,
+.keyword-wrapper.has-value .field-clear-btn {
+  opacity: 0.85;
+  pointer-events: auto;
+}
+
+.field-clear-btn:hover,
+.field-clear-btn:focus-visible {
+  opacity: 1;
+}
+
+/* Optional: hide the browser's built-in search X so you only see yours */
+.toolbar input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* ========================================================================== */
+/*  Keywords Panel (Global Keyword List)                                      */
+/* ========================================================================== */
+
+.keywords {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--accent-blue);
+  padding: 0.75rem;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 1.5rem;
+}
+
+.keyword-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+/* Optional: slightly tweak global chips if you want them smaller/different */
+.keyword-chip--global {
+  transition: transform 0.08s ease-out, box-shadow 0.08s ease-out;
+  margin: 3px;
+}
+
+/* ========================================================================== */
+/*  Toolbar (Search + Filter)                                                 */
+/* ========================================================================== */
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--accent-mint);
+  padding: 0.75rem;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 1.5rem;
+}
+
 .toolbar input[type="search"],
 .toolbar select {
   border-radius: 999px;
@@ -159,21 +237,11 @@ body {
 .toolbar input[type="search"]:focus,
 .toolbar select:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(242, 187, 187, 0.6);
-  /* soft accent-main ring */
+  box-shadow: 0 0 0 2px rgba(242, 187, 187, 0.6); /* soft accent-main ring */
 }
 
 .toolbar select {
-  appearance: none;
-  /* smoother look on mobile */
-}
-
-/* optional: small tweak for very small screens */
-@media (max-width: 480px) {
-  .toolbar select {
-    padding: 0.45rem 0.7rem;
-    font-size: 0.85rem;
-  }
+  appearance: none; /* smoother look on mobile */
 }
 
 .clear-btn {
@@ -194,20 +262,188 @@ body {
   filter: brightness(1.1);
 }
 
-/* On wider screens, put toolbar in a row */
-@media (min-width: 720px) {
-  .toolbar {
-    flex-direction: row;
-    align-items: center;
-    gap: 0.75rem;
-  }
+/* ========================================================================== */
+/*  View Toggle (Staff / Projects)                                            */
+/* ========================================================================== */
 
-  .clear-btn {
-    margin-top: 1.15rem;
-  }
+.view-toggle {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-subtle);
+  margin: 0 auto 1.5rem auto;
 }
 
-/* ---- Profiles ------------------------------------------------------------ */
+.intro-card {
+  text-align: center;
+}
+
+.toggle-btn {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-main);
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.08s ease-out, box-shadow 0.08s ease-out, background 0.15s ease;
+}
+
+.toggle-btn:hover,
+.toggle-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: var(--shadow-subtle);
+  transform: translateY(-1px);
+}
+
+.toggle-btn.is-active {
+  background: var(--accent-main);
+  color: #fff;
+  border-color: var(--accent-main);
+}
+
+/* Hide avatars in Projects view */
+body.view-projects .profile-avatar {
+  display: none;
+}
+
+/* ========================================================================== */
+/*  How To (Collapsible)                                                      */
+/* ========================================================================== */
+
+.howto {
+  margin: 0 auto 1rem auto;
+  max-width: 100%;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  box-shadow: var(--shadow-subtle);
+  overflow: hidden;
+}
+
+.howto__summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.9rem 1rem;
+  font-weight: 700;
+  user-select: none;
+}
+
+.howto__summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Add our own chevron */
+.howto__summary::after {
+  content: "▾";
+  float: right;
+  transition: transform 0.15s ease;
+  opacity: 0.8;
+}
+
+.howto[open] .howto__summary::after {
+  transform: rotate(180deg);
+}
+
+.howto__content {
+  padding: 0.1rem 1rem 1rem 1rem;
+}
+
+.howto__content p,
+.howto__content li {
+  line-height: 1.45;
+}
+
+.howto__content ul {
+  margin: 0.6rem 0 0.9rem 1.2rem;
+}
+
+.howto__note {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  opacity: 0.95;
+}
+
+/* ========================================================================== */
+/*  Export                                                                     */
+/* ========================================================================== */
+
+.export-bar {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 1rem auto;
+  gap: 1rem;
+}
+
+.export-btn {
+  border-radius: 999px;
+  border: 1px solid var(--card-border);
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--text-main);
+  padding: 0.55rem 1.05rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-subtle);
+  transition: transform 0.08s ease-out, box-shadow 0.08s ease-out, background 0.15s ease;
+}
+
+.export-btn:hover,
+.export-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: var(--shadow-soft);
+  transform: translateY(-1px);
+}
+
+.saved-count {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid var(--card-border);
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 0.8em;
+}
+
+/* Active state for Saved-only toggle */
+.export-btn--saved.is-active {
+  background: var(--accent-main);
+  color: #fff;
+  border-color: var(--accent-main);
+}
+
+/* Saved wrapper + clear X */
+.saved-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Give space for the X */
+.saved-wrapper .export-btn {
+  padding-right: 1.8rem;
+  width: 100%;
+}
+
+/* Reuse the same clear button styling you already have */
+.saved-wrapper .field-clear-btn {
+  right: 0.55rem;
+}
+
+/* Show only when wrapper has-value */
+.saved-wrapper.has-value .field-clear-btn {
+  opacity: 0.85;
+  pointer-events: auto;
+}
+
+/* ========================================================================== */
+/*  Profile List + Cards                                                      */
+/* ========================================================================== */
 
 .profiles-list {
   display: flex;
@@ -271,23 +507,19 @@ body {
 .profile-name {
   font-weight: 600;
   font-size: 1rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  text-align: left;
+
+  /* wrapping title (your intended final behaviour) */
   white-space: normal;
-  /* allow wrapping */
-  overflow: visible;
-  /* don’t clip text */
-  text-overflow: unset;
-  /* disable ellipsis */
   word-break: break-word;
-  /* break very long words */
   overflow-wrap: anywhere;
-  /* extra safety for long titles */
   line-height: 1.25;
 }
 
-/* Keyword chips */
+/* ========================================================================== */
+/*  Keyword Chips (In-card + Legend)                                          */
+/* ========================================================================== */
+
 .keyword-row {
   display: flex;
   flex-wrap: wrap;
@@ -303,13 +535,40 @@ body {
   color: var(--chip-text);
 }
 
+.keyword-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.5rem;
+}
+
+.keyword-chip.is-disabled {
+  cursor: default;
+  opacity: 0.7;
+  transform: none !important;
+  box-shadow: none !important;
+  pointer-events: none;
+}
+
+/* Kill hover styles for disabled chips */
+.keyword-chip.is-disabled:hover,
+.keyword-chip.is-disabled:focus-visible,
+.keyword-chip.is-disabled:active {
+  background-color: inherit;
+  border-color: inherit;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* ---- Super chips ---------------------------------------------------------- */
+
 .keyword-chip--super {
   background-color: var(--super-bg);
   color: var(--super-text);
-  /* border: 2px solid var(--super-border); */
   font-weight: 700;
   letter-spacing: 0.2px;
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.08);
+  margin-right: 0.6rem;
+  /* border: 2px solid var(--super-border); */
 }
 
 .keyword-chip--super:hover,
@@ -325,6 +584,8 @@ body {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
 }
 
+/* ---- Orphan/keyword chips ------------------------------------------------- */
+
 .keyword-chip--orphan,
 .keyword-chip--keyword {
   background-color: var(--orphan-bg);
@@ -339,34 +600,15 @@ body {
   border-color: #aaa;
 }
 
-.keyword-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem 0.5rem;
-}
-
-.keyword-chip--super {
-  margin-right: 0.6rem;
-}
-
-.keyword-chip.is-disabled {
-  cursor: default;
-  opacity: 0.7;
-  transform: none !important;
-  box-shadow: none !important;
-  pointer-events: none;
-
-}
+/* ---- Legend clear chip ---------------------------------------------------- */
 
 .legend-clear-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  width: auto;
-  /* shrink to content */
-  margin: 0.6rem auto 0;
-  /* centre horizontally, add spacing above */
+  width: auto;           /* shrink to content */
+  margin: 0.6rem auto 0; /* centre horizontally, add spacing above */
   padding: 0.25rem 0.6rem;
 
   border-radius: 999px;
@@ -383,7 +625,6 @@ body {
     background-color 0.12s ease;
 }
 
-
 .legend-clear-btn:hover,
 .legend-clear-btn:focus-visible {
   background: rgba(255, 255, 255, 0.95);
@@ -396,19 +637,11 @@ body {
   box-shadow: none;
 }
 
+/* ========================================================================== */
+/*  Profile Actions + Details (Expandable content)                            */
+/* ========================================================================== */
 
-/* Kill hover styles for disabled chips */
-.keyword-chip.is-disabled:hover,
-.keyword-chip.is-disabled:focus-visible,
-.keyword-chip.is-disabled:active {
-  background-color: inherit;
-  border-color: inherit;
-  transform: none !important;
-  box-shadow: none !important;
-}
-
-
-/* Email button */
+/* Email button container (legacy name, still used in markup structure) */
 .profile-actions {
   display: flex;
   flex-direction: column;
@@ -426,12 +659,9 @@ body {
   border: 1px solid var(--card-border);
 
   /* animation + collapsed defaults */
-  margin-top: 0;
-  /* no extra space when closed */
-  padding: 0 0.85rem;
-  /* no vertical padding when closed */
-  border-width: 0;
-  /* hide border when closed */
+  margin-top: 0;          /* no extra space when closed */
+  padding: 0 0.85rem;     /* no vertical padding when closed */
+  border-width: 0;        /* hide border when closed */
 
   max-height: 0;
   opacity: 0;
@@ -447,19 +677,23 @@ body {
     border-width 0.2s ease;
 }
 
+/* Force details content left-aligned */
+.profile-card .profile-details,
+.profile-card .profile-details p,
+.profile-card .profile-details li,
+.profile-card .profile-details ul {
+  text-align: left;
+}
+
 .profile-card.open .profile-details {
   margin-top: 0.6rem;
-  padding: 0.75rem 0.85rem;
-  /* full padding only when open */
+  padding: 0.75rem 0.85rem; /* full padding only when open */
   border-width: 1px;
 
-  max-height: none;
-  /* big enough for typical content */
+  max-height: none; /* big enough for typical content */
   opacity: 1;
   transform: translateY(0);
 }
-
-
 
 .profile-details h3 {
   margin-top: 0;
@@ -515,410 +749,9 @@ body {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-/* ---- Helper states ------------------------------------------------------- */
-
-.error-message {
-  padding: 1rem;
-  border-radius: 8px;
-  background: #ffe3e3;
-  color: #7f1515;
-}
-
-.empty-message {
-  padding: 1rem;
-  border-radius: 8px;
-  background: var(--accent-soft);
-  color: var(--text-main);
-}
-
-/* ===== Mobile fine-tuning ===== */
-@media (max-width: 480px) {
-
-  /* Slightly smaller base font on narrow screens */
-  html {
-    font-size: 15px;
-  }
-
-  .site-header {
-    padding: 1.25rem 1rem 0.5rem;
-  }
-
-  .site-header h1 {
-    font-size: 1.25rem;
-  }
-
-  .site-main {
-    padding: 0.75rem 0.75rem 1.5rem;
-  }
-
-  .toolbar {
-    border-radius: 24px;
-    padding: 0.75rem;
-    gap: 0.5rem;
-  }
-
-  .toolbar input[type="search"] {
-    padding: 0.45rem 0.7rem;
-    font-size: 0.85rem;
-  }
-
-  .clear-btn {
-    margin-top: 0.4rem;
-    padding: 0.35rem 0.8rem;
-    font-size: 0.85rem;
-  }
-
-  .profile-card {
-    padding: 0.55rem 0.65rem;
-    border-radius: 16px;
-  }
-
-  .profile-avatar>img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover !important;
-    object-position: 50% 15% !important;
-  }
-
-  .profile-name {
-    font-size: 0.95rem;
-  }
-
-  .keyword-chip {
-    font-size: 0.65rem;
-    padding: 0.12rem 0.45rem;
-  }
-
-  .email-btn {
-    font-size: 0.7rem;
-    padding: 0.2rem 0.55rem;
-  }
-
-  .profile-details {
-    font-size: 0.85rem;
-    padding: 0.7rem 0.75rem;
-  }
-
-  .site-footer {
-    padding: 0.75rem;
-  }
-
-  .profile-header {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    grid-template-rows: auto auto;
-    align-items: flex-start;
-    column-gap: 0.6rem;
-    row-gap: 0.25rem;
-  }
-
-  /* Avatar can stay, or shrink a touch if you want */
-  .profile-avatar {
-    width: 60px;
-    height: 60px;
-  }
-
-  /* Put email/interest/details under the name+chips, full width */
-  .profile-actions {
-    grid-column: 1 / -1;
-    /* span both columns */
-    flex-direction: row;
-    /* buttons side-by-side */
-    justify-content: flex-start;
-    align-items: center;
-    gap: 0.35rem;
-    margin-top: 0.15rem;
-  }
-
-  .profile-actions button {
-    font-size: 0.8rem;
-    padding: 0.25rem 0.6rem;
-    white-space: nowrap;
-    /* stops them breaking mid-label */
-  }
-
-  /* A little extra breathing room so nothing feels chopped */
-  .profile-card {
-    padding-bottom: 0.9rem;
-  }
-
-  .profile-card.open .profile-details {
-    max-height: none;
-  }
-
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .profile-details {
-    transition: none;
-  }
-}
-
-/* ---- Keyword dropdown clear "x" ------------------------------------------ */
-
-/* ---- Field clear "x" for search + keyword -------------------------------- */
-
-.search-wrapper,
-.keyword-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-/* Add space for the x buttons inside the controls */
-.search-wrapper input[type="search"],
-.keyword-wrapper select {
-  padding-right: 1.8rem;
-  width: 100%;
-}
-
-/* Generic clear button style */
-.field-clear-btn {
-  position: absolute;
-  right: 0.55rem;
-  top: 50%;
-  transform: translateY(-50%);
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 1rem;
-  line-height: 1;
-  color: var(--text-soft);
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Show the x when that field has a value */
-.search-wrapper.has-value .field-clear-btn,
-.keyword-wrapper.has-value .field-clear-btn {
-  opacity: 0.85;
-  pointer-events: auto;
-}
-
-.field-clear-btn:hover,
-.field-clear-btn:focus-visible {
-  opacity: 1;
-}
-
-/* Optional: hide the browser's built-in search X so you only see yours */
-.toolbar input[type="search"]::-webkit-search-cancel-button {
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.saved-wrapper {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-}
-
-/* Give space for the X */
-.saved-wrapper .export-btn {
-  padding-right: 1.8rem;
-  width: 100%;
-}
-
-/* Reuse the same clear button styling you already have */
-.saved-wrapper .field-clear-btn {
-  right: 0.55rem;
-}
-
-/* Show only when wrapper has-value */
-.saved-wrapper.has-value .field-clear-btn {
-  opacity: 0.85;
-  pointer-events: auto;
-}
-
-
-/* ===== Global keyword list at top ===== */
-
-.keywords {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  background: var(--accent-blue);
-  padding: 0.75rem;
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-soft);
-  margin-bottom: 1.5rem;
-}
-
-.keyword-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-}
-
-/* Optional: slightly tweak global chips if you want them smaller/different */
-.keyword-chip--global {
-  transition: transform 0.08s ease-out, box-shadow 0.08s ease-out;
-  margin: 3px;
-}
-
-/* .keyword-chip--global:hover,
-.keyword-chip--global:focus-visible {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-subtle);
-} */
-
-/* ---- View toggle (Staff / Projects) -------------------------------------- */
-
-.view-toggle {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.35rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid var(--card-border);
-  box-shadow: var(--shadow-subtle);
-  margin-bottom: 1rem;
-  margin: 0 auto 1.5rem auto;
-}
-
-.intro-card {
-  text-align: center;
-}
-
-.toggle-btn {
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--text-main);
-  padding: 0.45rem 0.85rem;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: transform 0.08s ease-out, box-shadow 0.08s ease-out, background 0.15s ease;
-}
-
-.toggle-btn:hover,
-.toggle-btn:focus-visible {
-  background: rgba(255, 255, 255, 0.75);
-  box-shadow: var(--shadow-subtle);
-  transform: translateY(-1px);
-}
-
-.toggle-btn.is-active {
-  background: var(--accent-main);
-  color: #fff;
-  border-color: var(--accent-main);
-}
-
-/* Hide avatars in Projects view */
-body.view-projects .profile-avatar {
-  display: none;
-}
-
-.profile-name {
-  text-align: left;
-}
-
-
-/* ---- How to use (collapsible) ------------------------------------------- */
-
-.howto {
-  margin: 0 auto 1rem auto;
-  max-width: 100%;
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid var(--card-border);
-  border-radius: 18px;
-  box-shadow: var(--shadow-subtle);
-  overflow: hidden;
-}
-
-.howto__summary {
-  list-style: none;
-  /* removes default marker in some browsers */
-  cursor: pointer;
-  padding: 0.9rem 1rem;
-  font-weight: 700;
-  user-select: none;
-}
-
-.howto__summary::-webkit-details-marker {
-  display: none;
-  /* removes default triangle in Chrome/Safari */
-}
-
-/* Add our own chevron */
-.howto__summary::after {
-  content: "▾";
-  float: right;
-  transition: transform 0.15s ease;
-  opacity: 0.8;
-}
-
-.howto[open] .howto__summary::after {
-  transform: rotate(180deg);
-}
-
-.howto__content {
-  padding: 0.1rem 1rem 1rem 1rem;
-}
-
-.howto__content p,
-.howto__content li {
-  line-height: 1.45;
-}
-
-.howto__content ul {
-  margin: 0.6rem 0 0.9rem 1.2rem;
-}
-
-.howto__note {
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-  opacity: 0.95;
-}
-
-
-/* ---- Export -------------------------------------------------------------- */
-
-.export-bar {
-  display: flex;
-  justify-content: center;
-  margin: 0 auto 1rem auto;
-  gap: 1rem;
-}
-
-.export-btn {
-  border-radius: 999px;
-  border: 1px solid var(--card-border);
-  background: rgba(255, 255, 255, 0.55);
-  color: var(--text-main);
-  padding: 0.55rem 1.05rem;
-  font-size: 0.85rem;
-  cursor: pointer;
-  box-shadow: var(--shadow-subtle);
-  transition: transform 0.08s ease-out, box-shadow 0.08s ease-out, background 0.15s ease;
-}
-
-.export-btn:hover,
-.export-btn:focus-visible {
-  background: rgba(255, 255, 255, 0.75);
-  box-shadow: var(--shadow-soft);
-  transform: translateY(-1px);
-}
-
-.saved-count {
-  display: inline-block;
-  margin-left: 0.4rem;
-  padding: 0.05rem 0.45rem;
-  border-radius: 999px;
-  border: 1px solid var(--card-border);
-  background: rgba(255, 255, 255, 0.7);
-  font-size: 0.8em;
-}
-
-/* Active state for Saved-only toggle */
-.export-btn--saved.is-active {
-  background: var(--accent-main);
-  color: #fff;
-  border-color: var(--accent-main);
-}
-
-/* ---- Saved (favourited) cards ------------------------------------------- */
+/* ========================================================================== */
+/*  Saved (Favourited) Cards                                                  */
+/* ========================================================================== */
 
 .profile-card.is-saved {
   background: var(--saved-bg);
@@ -938,18 +771,27 @@ body.view-projects .profile-avatar {
   color: #fff;
 }
 
-/* Force details content left-aligned */
-.profile-card .profile-details {
-  text-align: left;
+/* ========================================================================== */
+/*  Helper States                                                             */
+/* ========================================================================== */
+
+.error-message {
+  padding: 1rem;
+  border-radius: 8px;
+  background: #ffe3e3;
+  color: #7f1515;
 }
 
-.profile-card .profile-details p,
-.profile-card .profile-details li,
-.profile-card .profile-details ul {
-  text-align: left;
+.empty-message {
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--text-main);
 }
 
-/* ---- Print mode (no popups) -------------------------------------------- */
+/* ========================================================================== */
+/*  Print Mode (No popups)                                                    */
+/* ========================================================================== */
 
 .print-wrap {
   padding: 28px;
@@ -1016,4 +858,134 @@ body.view-projects .profile-avatar {
   border-radius: 999px;
   padding: 2px 8px;
   margin: 2px 4px 0 0;
+}
+
+/* ========================================================================== */
+/*  Responsive / Media Queries                                                */
+/* ========================================================================== */
+
+/* On wider screens, put toolbar in a row */
+@media (min-width: 720px) {
+  .toolbar {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .clear-btn {
+    margin-top: 1.15rem;
+  }
+}
+
+/* ===== Mobile fine-tuning ===== */
+@media (max-width: 480px) {
+  /* Slightly smaller base font on narrow screens */
+  html {
+    font-size: 15px;
+  }
+
+  .site-header {
+    padding: 1.25rem 1rem 0.5rem;
+  }
+
+  .site-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .site-main {
+    padding: 0.75rem 0.75rem 1.5rem;
+  }
+
+  .toolbar {
+    border-radius: 24px;
+    padding: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .toolbar input[type="search"],
+  .toolbar select {
+    padding: 0.45rem 0.7rem;
+    font-size: 0.85rem;
+  }
+
+  .clear-btn {
+    margin-top: 0.4rem;
+    padding: 0.35rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .profile-card {
+    padding: 0.55rem 0.65rem;
+    padding-bottom: 0.9rem; /* extra breathing room */
+    border-radius: 16px;
+  }
+
+  .profile-header {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-items: flex-start;
+    column-gap: 0.6rem;
+    row-gap: 0.25rem;
+  }
+
+  .profile-avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  .profile-avatar > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover !important;
+    object-position: 50% 15% !important;
+  }
+
+  .profile-name {
+    font-size: 0.95rem;
+  }
+
+  .keyword-chip {
+    font-size: 0.65rem;
+    padding: 0.12rem 0.45rem;
+  }
+
+  .email-btn {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.55rem;
+  }
+
+  .profile-details {
+    font-size: 0.85rem;
+    padding: 0.7rem 0.75rem;
+  }
+
+  .site-footer {
+    padding: 0.75rem;
+  }
+
+  /* Put email/interest/details under the name+chips, full width */
+  .profile-actions {
+    grid-column: 1 / -1; /* span both columns */
+    flex-direction: row; /* buttons side-by-side */
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.15rem;
+  }
+
+  .profile-actions button {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.6rem;
+    white-space: nowrap; /* stops them breaking mid-label */
+  }
+
+  .profile-card.open .profile-details {
+    max-height: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile-details {
+    transition: none;
+  }
 }

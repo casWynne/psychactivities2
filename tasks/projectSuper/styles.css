@@ -53,6 +53,16 @@ html {
   --gold: #D4AF37;
   --gold-soft: rgba(212, 175, 55, 0.35);
   --saved-bg: #FFF6D6;
+
+  --super-bg: #ffb703;
+  /* warm amber */
+  --super-bg-hover: #ff9f1c;
+  /* deeper hover */
+  --super-text: #2b2b2b;
+  --super-border: #e38d00;
+
+  --orphan-bg: #f1f1f1;
+  --orphan-border: #cfcfcf;
 }
 
 
@@ -292,6 +302,111 @@ body {
   background: var(--chip-bg);
   color: var(--chip-text);
 }
+
+.keyword-chip--super {
+  background-color: var(--super-bg);
+  color: var(--super-text);
+  /* border: 2px solid var(--super-border); */
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.08);
+}
+
+.keyword-chip--super:hover,
+.keyword-chip--super:focus-visible {
+  background-color: var(--super-bg-hover);
+  border-color: #cc7a00;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+
+.keyword-chip--super:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.keyword-chip--orphan,
+.keyword-chip--keyword {
+  background-color: var(--orphan-bg);
+  color: #444;
+  border: 1px dashed var(--orphan-border);
+  font-weight: 500;
+}
+
+.keyword-chip--orphan:hover,
+.keyword-chip--keyword:hover {
+  background-color: #e8e8e8;
+  border-color: #aaa;
+}
+
+.keyword-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.5rem;
+}
+
+.keyword-chip--super {
+  margin-right: 0.6rem;
+}
+
+.keyword-chip.is-disabled {
+  cursor: default;
+  opacity: 0.7;
+  transform: none !important;
+  box-shadow: none !important;
+  pointer-events: none;
+
+}
+
+.legend-clear-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: auto;
+  /* shrink to content */
+  margin: 0.6rem auto 0;
+  /* centre horizontally, add spacing above */
+  padding: 0.25rem 0.6rem;
+
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  background: rgba(255, 255, 255, 0.7);
+
+  font-size: 0.8rem;
+  line-height: 1;
+  cursor: pointer;
+
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.12s ease;
+}
+
+
+.legend-clear-btn:hover,
+.legend-clear-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.legend-clear-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+
+/* Kill hover styles for disabled chips */
+.keyword-chip.is-disabled:hover,
+.keyword-chip.is-disabled:focus-visible,
+.keyword-chip.is-disabled:active {
+  background-color: inherit;
+  border-color: inherit;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
 
 /* Email button */
 .profile-actions {

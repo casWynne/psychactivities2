@@ -5,18 +5,79 @@ document.addEventListener("DOMContentLoaded", () => {
     showSearch: true,              // show/hide the search input (toolbar)
     showKeywordFilter: true,       // show/hide keyword dropdown (toolbar)
     showKeywordLegend: true,       // show/hide keyword legend box (above toolbar)
-    enableKeywordChipFilter: true, // clicking legend chips filters dropdown
+    enableLegendChipFilter: true, // clicking legend chips filters dropdown
     interestFormUrl: "https://forms.office.com/e/UT6nby4S1n",
-  };
+    useSuperKeywords: true,
 
-  // ===============================================================
+    superKeywords: {
+      "Learning, Cognition & Memory": [
+        "Sequences",
+        "Serial Dependence",
+        "Statistical Learning",
+        "Implicit Learning",
+        "Learning",
+        "Memory",
+        "Social Cognition",
+        "Visual Disorders"
+      ],
 
+      "Language, Communication & Neurodiversity": [
+        "Stuttering",
+        "Language Disorders",
+        "Autism",
+        "Social Cognition",
+        "Anxiety"
+      ],
+
+      "Wellbeing, Mental Health & Flourishing": [
+        "Human Flourishing",
+        "Well-being",
+        "Well-being Literacy",
+        "Balance and Harmony",
+        "Forgiveness",
+        "Anxiety",
+        "Hope & Wellbeing"
+      ],
+
+      "Culture, Identity & Social Justice": [
+        "Culture",
+        "Migration & Identity",
+        "Race/Ethnicity",
+        "Racism",
+        "Intersectionality",
+        "Microaggressions",
+        "Widening Participation",
+        "Student Experience",
+        "Cultural intelligence",
+        "Agriculturation & Adjustment",
+        "Cross-cultural and international psychology"
+      ],
+
+      "Behaviour, Decision-Making & Influence": [
+        "Gambling",
+        "Responsible Gambling",
+        "Advertising",
+        "Branding",
+        "Enivronmental Behaviour"
+      ],
+
+      "Environment, Values & Society": [
+        "Human Environment Relationships",
+        "Enivronmental Behaviour",
+        "Hope & Wellbeing",
+        "Balance and Harmony"
+      ]
+    }
+
+
+  }
   // ---- Storage keys ---------------------------------------------
   const STORAGE = {
     topics: "projectSuperSavedTopics",
     staff: "projectSuperSavedStaff",
     excluded: "projectSuperExcludedTopics",
-  };
+  }
+
 
   // ---- App state (single source of truth) ------------------------
   const state = {
@@ -24,6 +85,8 @@ document.addEventListener("DOMContentLoaded", () => {
     showSavedOnly: false,
     search: "",
     keyword: "",
+    superKeyword: "",
+
 
     allStaff: [],
     allProjects: [],
@@ -51,6 +114,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   bindDom();
   applyConfigVisibility();
+  ensureLegendClearButton();
+  updateLegendClearButtonVisibility();
   hydrateFromStorage();
 
   fetch("data/staff-projects.json")
@@ -107,8 +172,81 @@ document.addEventListener("DOMContentLoaded", () => {
 
       toolbar: document.querySelector(".toolbar"),
       keywordLegendSection: document.querySelector(".keywords"),
+
+      keywordLegendLabel: document.getElementById("keywordLegendLabel"),
+      keywordFilterLabel: document.getElementById("keywordFilterLabel"),
+
+      keywordLegendLabel: document.getElementById("keywordLegendLabel"),
+      keywordFilterLabel: document.getElementById("keywordFilterLabel"),
     };
   }
+
+  function hasActiveKeywordFilter() {
+    return !!(String(state.superKeyword || "").trim() || String(state.keyword || "").trim());
+  }
+
+  function ensureLegendClearButton() {
+    if (!dom.keywordLegendSection) return;
+
+    // If already added, don't add again
+    if (dom.keywordLegendSection.querySelector(".legend-clear-btn")) return;
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "legend-clear-btn";
+    btn.textContent = "Clear ✕";
+    btn.setAttribute("aria-label", "Clear keyword/theme filter");
+
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Clear both, whichever is in use
+      state.keyword = "";
+      state.superKeyword = "";
+
+      // If dropdown exists, reset it too
+      if (dom.keywordSelect) dom.keywordSelect.value = "";
+
+      renderAndUpdate();
+    });
+
+    // Stick it at the end of the legend section (you can move it later)
+    dom.keywordLegendSection.appendChild(btn);
+  }
+
+  function updateLegendClearButtonVisibility() {
+    const btn = dom.keywordLegendSection?.querySelector(".legend-clear-btn");
+    if (!btn) return;
+
+    // Only show if:
+    // - legend is visible
+    // - chip filtering is enabled (otherwise it’s weird)
+    // - there’s something to clear
+    const shouldShow =
+      CONFIG.showKeywordLegend &&
+      CONFIG.enableLegendChipFilter &&
+      hasActiveKeywordFilter();
+
+    btn.style.display = shouldShow ? "inline-flex" : "none";
+  }
+
+
+  function getAllSuperKeywordMembersSet() {
+    const set = new Set();
+    const map = CONFIG.superKeywords || {};
+    Object.values(map).forEach((arr) => {
+      (arr || []).forEach((k) => set.add(normaliseKw(k)));
+    });
+    return set;
+  }
+
+  function getOrphanKeywords(activeList) {
+    const all = getAllUniqueKeywords(activeList); // returns original-cased keywords
+    const themed = getAllSuperKeywordMembersSet();
+    return all.filter((k) => !themed.has(normaliseKw(k)));
+  }
+
 
   function applyConfigVisibility() {
     // Toolbar stays visible — we only hide individual controls
@@ -131,9 +269,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (dom.keywordSelect) {
       dom.keywordSelect.disabled = !CONFIG.showKeywordFilter;
+
       if (!CONFIG.showKeywordFilter) {
-        dom.keywordSelect.value = "";
-        state.keyword = "";
+        // Dropdown hidden: only clear filter state if user has *no other* way to control it
+        const chipsCanFilter =
+          CONFIG.showKeywordLegend && CONFIG.enableLegendChipFilter;
+
+        dom.keywordSelect.value = ""; // keep dropdown visually reset
+
+        if (!chipsCanFilter) {
+          // No dropdown + no chip filtering => clear to avoid “invisible filtering”
+          state.keyword = "";
+          state.superKeyword = "";
+        }
+        // else: chips are the control now, so keep state.keyword/state.superKeyword as-is
       }
     }
 
@@ -141,8 +290,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (dom.keywordLegendSection) {
       dom.keywordLegendSection.style.display = CONFIG.showKeywordLegend ? "" : "none";
     }
-  }
 
+    // If legend is hidden and dropdown is hidden, user can't control keyword filters:
+    if (!CONFIG.showKeywordLegend && !CONFIG.showKeywordFilter) {
+      state.keyword = "";
+      state.superKeyword = "";
+      if (dom.keywordSelect) dom.keywordSelect.value = "";
+    }
+  }
 
   // ===============================================================
   // STORAGE
@@ -265,6 +420,40 @@ document.addEventListener("DOMContentLoaded", () => {
   // FILTERS + KEYWORDS
   // ===============================================================
 
+  function normaliseKw(s) {
+    return String(s || "").trim().toLowerCase();
+  }
+
+  function getSuperKeywordNames() {
+    return Object.keys(CONFIG.superKeywords || {}).sort((a, b) =>
+      a.localeCompare(b, undefined, { sensitivity: "base" })
+    );
+  }
+
+  function getSuperKeywordMembers(superName) {
+    const map = CONFIG.superKeywords || {};
+    const members = map[superName] || [];
+    return members.map(normaliseKw).filter(Boolean);
+  }
+
+  function setKeywordUiLabels() {
+    const usingSuper = !!CONFIG.useSuperKeywords;
+
+    if (dom.keywordLegendLabel) {
+      dom.keywordLegendLabel.textContent = usingSuper ? "Themes" : "Keywords";
+    }
+    if (dom.keywordFilterLabel) {
+      dom.keywordFilterLabel.textContent = usingSuper ? "Filter by theme" : "Filter by keyword";
+    }
+
+    // Update the default dropdown option text
+    if (dom.keywordSelect) {
+      const first = dom.keywordSelect.querySelector("option[value='']");
+      if (first) first.textContent = usingSuper ? "All themes" : "All keywords";
+    }
+  }
+
+
   function getAllUniqueKeywords(profiles) {
     const all = new Set();
     profiles.forEach((p) => {
@@ -289,25 +478,56 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function renderKeywordList(keywords) {
-    if (!dom.keywordList || !CONFIG.showKeywordLegend) return;
+  function renderKeywordLegend(items) {
+    if (!dom.keywordList) return;
 
     dom.keywordList.innerHTML = "";
 
-    keywords.forEach((kw) => {
+    items.forEach(({ label, type }) => {
       const chip = document.createElement("button");
+      chip.className = "keyword-chip";
       chip.type = "button";
-      chip.className = "keyword-chip keyword-chip--global";
-      chip.textContent = kw;
+      chip.textContent = label;
 
-      // Only meaningful if both legend + keyword dropdown exist
-      if (CONFIG.enableKeywordChipFilter && CONFIG.showKeywordFilter) {
+      if (type === "super") chip.classList.add("keyword-chip--super");
+      if (type === "orphan") chip.classList.add("keyword-chip--orphan");
+      if (type === "keyword") chip.classList.add("keyword-chip--keyword");
+
+      // ✅ Apply disabled style immediately if chip filtering is off
+      if (!CONFIG.enableLegendChipFilter) {
+        chip.classList.add("is-disabled");
+        chip.setAttribute("aria-disabled", "true");
+      }
+
+      // Click-to-filter behaviour (only when enabled)
+      if (CONFIG.enableLegendChipFilter) {
         chip.addEventListener("click", () => {
-          if (!dom.keywordSelect) return;
+          // If dropdown exists & visible, sync it; otherwise chips still control the filter state
+          if (dom.keywordSelect && CONFIG.showKeywordFilter) {
+            dom.keywordSelect.value = label;
+          }
 
-          dom.keywordSelect.value = kw;
-          state.keyword = kw;
-          updateKeywordClearVisibility();
+          if (CONFIG.useSuperKeywords) {
+            if (type === "super") {
+              state.superKeyword = label;
+              state.keyword = "";
+              if (dom.keywordSelect && CONFIG.showKeywordFilter) dom.keywordSelect.value = label;
+            } else {
+              // orphan keyword chip
+              state.keyword = label;
+              state.superKeyword = "";
+              if (dom.keywordSelect && CONFIG.showKeywordFilter) dom.keywordSelect.value = "";
+            }
+          } else {
+            state.keyword = label;
+            state.superKeyword = "";
+            if (dom.keywordSelect && CONFIG.showKeywordFilter) dom.keywordSelect.value = label;
+          }
+
+          if (typeof updateKeywordClearVisibility === "function") {
+            updateKeywordClearVisibility();
+          }
+
           renderAndUpdate();
         });
       }
@@ -316,57 +536,106 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-
   function refreshKeywordsForCurrentView() {
     const active = getActiveList();
-    const keywords = getAllUniqueKeywords(active);
-    buildKeywordDropdown(keywords);
-    renderKeywordList(keywords);
+
+    let dropdownLabels = [];
+    let legendItems = [];
+
+    if (CONFIG.useSuperKeywords) {
+      const themes = getSuperKeywordNames();       // ["Learning & Memory", "Wellbeing", ...]
+      const orphans = getOrphanKeywords(active);   // ["Eye tracking", "EEG", ...]
+
+      dropdownLabels = themes;
+
+      legendItems = themes
+        .map((label) => ({ label, type: "super" }))
+        .concat(orphans.map((label) => ({ label, type: "orphan" })));
+    } else {
+      const keywords = getAllUniqueKeywords(active);
+
+      dropdownLabels = keywords;
+      legendItems = keywords.map((label) => ({ label, type: "keyword" }));
+    }
+
+    buildKeywordDropdown(dropdownLabels);
+    renderKeywordLegend(legendItems);
+    setKeywordUiLabels();
+    ensureLegendClearButton();
+    updateLegendClearButtonVisibility();
   }
+
 
   function applyFilters() {
     recomputeEffectiveSaves();
 
     const term = (state.search || "").trim().toLowerCase();
-    const selectedKeyword = (state.keyword || "").trim().toLowerCase();
     const active = getActiveList();
 
-    const filtered = active.filter((item) => {
-      const keywordText = (item.keywords || []).join(" ").toLowerCase();
+    // Normalise the chosen filter values
+    const chosenKeyword = normaliseKw(state.keyword);
+    const chosenSuperLabel = (state.superKeyword || "").trim(); // keep original label for lookup
+    const chosenSuperNorm = normaliseKw(state.superKeyword);
 
+    // Precompute members for selected superKeyword (if any)
+    const superMembers = CONFIG.useSuperKeywords && chosenSuperLabel
+      ? getSuperKeywordMembers(chosenSuperLabel) // expected to return normalised strings
+      : [];
+
+    const filtered = active.filter((item) => {
+      // --- Keywords (normalised) ------------------------------------
+      const itemKeywords = (item.keywords || []).map(normaliseKw).filter(Boolean);
+      const keywordText = itemKeywords.join(" "); // already lower-ish via normaliseKw
+
+      // --- Search text (depends on view) ----------------------------
       let allText = "";
       if (state.currentView === "staff") {
         const topicsText = (item.topics || [])
-          .map((t) => `${t.title || ""} ${t.description || ""} ${(t.ideas || []).join(" ")}`)
+          .map((t) => {
+            const ideas = (t.ideas || []).join(" ");
+            return `${t.title || ""} ${t.description || ""} ${ideas}`;
+          })
           .join(" ");
 
-        allText = [item.name || "", keywordText, topicsText].join(" ").toLowerCase();
+        allText = `${item.name || ""} ${keywordText} ${topicsText}`.toLowerCase();
       } else {
-        allText = [
-          item.projectTitle || "",
-          item.projectDescription || "",
-          (item.ideas || []).join(" "),
-          item.supervisorName || "",
-          keywordText,
-        ]
-          .join(" ")
-          .toLowerCase();
+        const ideasText = (item.ideas || []).join(" ");
+        allText = `${item.projectTitle || ""} ${item.projectDescription || ""} ${ideasText} ${item.supervisorName || ""} ${keywordText}`.toLowerCase();
       }
 
       const matchesSearch = !term || allText.includes(term);
-      const matchesKeyword = !selectedKeyword || keywordText.includes(selectedKeyword);
+
+      // --- Keyword / SuperKeyword matching --------------------------
+      let matchesKeyword = true;
+
+      if (CONFIG.useSuperKeywords) {
+        // If no theme selected, don't filter by theme
+        if (chosenSuperNorm) {
+          // If theme exists but has no members yet, don't hide everything
+          if (superMembers.length === 0) {
+            matchesKeyword = true;
+          } else {
+            // Theme matches if any member keyword is present on the item
+            matchesKeyword = superMembers.some((m) => itemKeywords.includes(m));
+          }
+        }
+      } else {
+        // Plain keyword mode (substring behaviour like before)
+        matchesKeyword = !chosenKeyword || keywordText.includes(chosenKeyword);
+      }
 
       return matchesSearch && matchesKeyword;
     });
 
+    // --- Saved-only filter ------------------------------------------
     if (!state.showSavedOnly) return filtered;
 
-    // saved-only filter
     if (state.currentView === "projects") {
       return filtered.filter((x) => state.effectiveTopicIds.has(x.id));
     }
     return filtered.filter((x) => state.effectiveStaffIds.has(x.id));
   }
+
 
   // ===============================================================
   // RENDER
@@ -380,6 +649,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateSearchClearVisibility();
     updateKeywordClearVisibility();
     setActiveToggleUI();
+    updateLegendClearButtonVisibility();
   }
 
   function renderProfiles(items) {
@@ -589,7 +859,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Keyword select
     if (dom.keywordSelect) {
       dom.keywordSelect.addEventListener("change", () => {
-        state.keyword = dom.keywordSelect.value;
+        if (CONFIG.useSuperKeywords) {
+          state.superKeyword = dom.keywordSelect.value;
+        } else {
+          state.keyword = dom.keywordSelect.value;
+        }
         renderAndUpdate();
       });
     }
@@ -604,15 +878,17 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Clear keyword
+    // Clear keyword/theme
     if (dom.clearKeywordBtn && dom.keywordSelect) {
       dom.clearKeywordBtn.addEventListener("click", () => {
         dom.keywordSelect.value = "";
         state.keyword = "";
+        state.superKeyword = "";
         renderAndUpdate();
         dom.keywordSelect.focus();
       });
     }
+
 
     // Saved-only toggle
     if (dom.savedToggleBtn) {
@@ -771,6 +1047,7 @@ document.addEventListener("DOMContentLoaded", () => {
       scrollY: window.scrollY,
       bodyClass: document.body.className,
       bodyHtml: document.body.innerHTML,
+      superKeyword: state.superKeyword,
 
       stateSnapshot: {
         currentView: state.currentView,
@@ -843,21 +1120,39 @@ document.addEventListener("DOMContentLoaded", () => {
     state.showSavedOnly = snap.showSavedOnly;
     state.search = snap.search;
     state.keyword = snap.keyword;
+    state.superKeyword = snap.superKeyword || "";
 
     // Restore input values
     if (dom.searchInput) dom.searchInput.value = state.search;
     if (dom.keywordSelect) dom.keywordSelect.value = state.keyword;
-
+    if (dom.keywordSelect) {
+      dom.keywordSelect.value = CONFIG.useSuperKeywords ? state.superKeyword : state.keyword;
+    }
     // Enforce config so we don't restore "invisible" filters
-    if (!CONFIG.showFilters) {
+    if (!CONFIG.showSearch) {
       state.search = "";
       if (dom.searchInput) dom.searchInput.value = "";
     }
 
-    if (!CONFIG.showKeywordFilter) {        // (you'll add this toggle)
-      state.keyword = "";
-      if (dom.keywordSelect) dom.keywordSelect.value = "";
+    if (dom.keywordSelect) {
+      dom.keywordSelect.disabled = !CONFIG.showKeywordFilter;
+
+      if (!CONFIG.showKeywordFilter) {
+        // Only clear the filter state if the user has no other way to control it
+        const chipsCanFilter = CONFIG.showKeywordLegend && CONFIG.enableKeywordChipFilter;
+
+        if (!chipsCanFilter) {
+          dom.keywordSelect.value = "";
+          state.keyword = "";
+          state.superKeyword = "";
+        } else {
+          // Dropdown hidden, but chips still usable: keep state as-is
+          dom.keywordSelect.value = "";
+        }
+      }
     }
+
+
 
 
     // Keywords + render

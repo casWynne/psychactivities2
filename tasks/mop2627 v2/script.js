@@ -464,9 +464,10 @@
 
       const toggleId = `toggle-${module.id}`;
       const contentId = `content-${module.id}`;
+      const pathwayKey = module.pathwayKey || "general";
 
       moduleElement.innerHTML = `
-  <div class="module-header ${escapeAttr(module.pathwayColour)}"
+<div class="module-header pathway-${escapeAttr(pathwayKey)}"
        role="button"
        tabindex="0"
        aria-expanded="false"

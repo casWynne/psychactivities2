@@ -1,0 +1,44 @@
+[
+  {
+    "id": "ponzo",
+    "title": "Ponzo Illusion",
+    "thumb": "./assets/thumbs/ponzo.png",
+    "module": "./illusions/ponzo.js",
+    "tags": ["Depth", "Size"]
+  },
+  {
+    "id": "ebbinghaus",
+    "title": "Ebbinghaus Illusion",
+    "thumb": "./assets/thumbs/ebbinghaus.png",
+    "module": "./illusions/ebbinghaus.js",
+    "tags": ["Size", "Context"]
+  },
+  {
+    "id": "cafewall",
+    "title": "Café Wall Illusion",
+    "thumb": "./assets/thumbs/cafewall.png",
+    "module": "./illusions/cafewall.js",
+    "tags": ["Size", "Context"]
+  },
+  {
+    "id": "rotatingSnakes",
+    "title": "Rotating Snakes Illusion",
+    "thumb": "./assets/thumbs/rotatingSnakes.png",
+    "module": "./illusions/rotatingSnakes.js",
+    "tags": ["Motion", "Context"]
+  },
+  {
+    "id": "colourAfterImage",
+    "title": "Colour After Image Illusion",
+    "thumb": "./assets/thumbs/colourAfterImage.png",
+    "module": "./illusions/colourAfterImage.js",
+    "tags": ["Color", "Afterimage"]
+  },
+  {
+    "id": "contrast",
+    "title": "Contrast Effect",
+    "thumb": "./assets/thumbs/contrast.png",
+    "module": "./illusions/contrast.js",
+    "tags": ["Color", "Contrast"]
+  }
+]

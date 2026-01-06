@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Psychology Module Planner</title>
+    <link rel="stylesheet" href="app-style.css" />
+</head>
+
+<body>
+    <main class="app" role="application">
+        <!-- Sticky top header -->
+        <header class="app-header" role="banner">
+            <div class="header-top">
+                <div class="brand">
+                    <h1 class="app-title">Psychology Module Planner</h1>
+                    <p class="app-subtitle" id="stepSubtitle">Year 1 (Level 4)</p>
+                </div>
+
+                <div class="header-actions">
+                    <button id="clearSelectionsBtn" class="btn btn-ghost" type="button">
+                        Clear all
+                    </button>
+                </div>
+            </div>
+
+            <div class="header-status">
+                <div class="status-line">
+                    <div class="step-instruction" id="stepInstruction">
+                        Pick <strong>1</strong> module for Year 1
+                    </div>
+
+                    <div class="selection-status" id="selectionStatus">
+                        L4: 0/1 | L5: 0/2 | L6: 0/3
+                    </div>
+                </div>
+
+                <div class="progress-wrap" aria-label="Progress through years">
+                    <div class="progress-track" aria-hidden="true">
+                        <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-labels" aria-hidden="true">
+                        <span class="progress-label is-active" id="labelY1">Y1</span>
+                        <span class="progress-label" id="labelY2">Y2</span>
+                        <span class="progress-label" id="labelY3">Y3</span>
+                        <span class="progress-label" id="labelSummary">Summary</span>
+                    </div>
+                </div>
+
+                <!-- Optional refine controls -->
+                <details class="refine" id="refinePanel">
+                    <summary class="refine-summary">Refine list</summary>
+                    <div class="refine-body">
+                        <label class="field">
+                            <span class="field-label">Pathway</span>
+                            <select id="pathwayFilter">
+                                <option value="">All pathways</option>
+                                <option>Education</option>
+                                <option>Sports</option>
+                                <option>Health</option>
+                                <option>Forensic</option>
+                                <option>Counselling</option>
+                                <option>Marketing</option>
+                            </select>
+                        </label>
+
+                        <label class="field">
+                            <span class="field-label">Search</span>
+                            <input id="searchInput" type="text" placeholder="Search modules…" />
+                        </label>
+
+                        <div class="refine-actions">
+                            <button id="clearFiltersBtn" class="btn btn-ghost" type="button">
+                                Clear refine filters
+                            </button>
+                        </div>
+                    </div>
+                </details>
+            </div>
+        </header>
+
+        <!-- Main content -->
+        <section class="content" aria-label="Available modules">
+            <div class="hint" id="stepHint">
+                Tap a module to view details, then select it. Your choices are saved on this device.
+            </div>
+
+            <!-- Module list (JS injects cards here) -->
+            <div id="modulesContainer"></div>
+        </section>
+
+        <!-- Sticky bottom nav -->
+        <nav class="bottom-nav" aria-label="Step navigation">
+            <button id="backBtn" class="btn btn-back" type="button">
+                ← Back
+            </button>
+
+
+            <button id="printBtn" class="btn btn-soft" type="button">
+                🖨️ Print
+            </button>
+
+            <button id="nextBtn" class="btn btn-primary" type="button">
+                Next →
+            </button>
+        </nav>
+
+        <!-- Small footer note (optional, keeps disclaimer present on app pages too) -->
+        <footer class="app-footer">
+            <p class="disclaimer">
+                This planner is for guidance only. It does not submit your module choices — please register via the
+                university system.
+            </p>
+
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

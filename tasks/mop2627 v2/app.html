@@ -82,40 +82,79 @@
 
         <!-- Main content -->
         <section class="content" aria-label="Available modules">
+
+            <section class="help-area">
+                <details class="glossary" id="glossary">
+                    <summary>
+                        <span class="glossary-title">Glossary</span>
+                        <span class="glossary-subtitle">Quick definitions for common terms</span>
+                    </summary>
+
+                    <div class="glossary-body">
+                        <dl class="glossary-dl">
+                            <div class="glossary-item">
+                                <dt>Level</dt>
+                                <dd>Your year of study. Level 4 = Year 1, Level 5 = Year 2, Level 6 = Year 3.</dd>
+                            </div>
+
+                            <div class="glossary-item">
+                                <dt>Credits</dt>
+                                <dd>How much a module counts. Most are 20 credits (check your programme rules).</dd>
+                            </div>
+
+                            <div class="glossary-item">
+                                <dt>Semester</dt>
+                                <dd>Teaching period (often Sem 1 and Sem 2).</dd>
+                            </div>
+
+                            <div class="glossary-item">
+                                <dt>Pathway</dt>
+                                <dd>A theme/specialism used to group modules by interest area.</dd>
+                            </div>
+
+                            <div class="glossary-item">
+                                <dt>Assessment</dt>
+                                <dd>How you’re graded (e.g., exam, essay, report, presentation).</dd>
+                            </div>
+
+                            <div class="glossary-item">
+                                <dt>Timetable</dt>
+                                <dd>When a module runs. This planner may hide timetables if data isn’t confirmed.</dd>
+                            </div>
+                        </dl>
+                    </div>
+                </details>
+            </section>
+
             <div class="hint" id="stepHint">
                 Tap a module to view details, then select it. Your choices are saved on this device.
             </div>
 
             <!-- Module list (JS injects cards here) -->
             <div id="modulesContainer"></div>
+            <!-- Small footer note (optional, keeps disclaimer present on app pages too) -->
+            <footer class="app-footer">
+                <p class="disclaimer">
+                    This planner is for guidance only. It does not submit your module choices — please register via the
+                    university system.
+                </p>
+            </footer>
         </section>
-
-        <!-- Sticky bottom nav -->
-        <nav class="bottom-nav" aria-label="Step navigation">
-            <button id="backBtn" class="btn btn-back" type="button">
-                ← Back
-            </button>
-
-
-            <button id="printBtn" class="btn btn-soft" type="button">
-                🖨️ Print
-            </button>
-
-            <button id="nextBtn" class="btn btn-primary" type="button">
-                Next →
-            </button>
-        </nav>
-
-        <!-- Small footer note (optional, keeps disclaimer present on app pages too) -->
-        <footer class="app-footer">
-            <p class="disclaimer">
-                This planner is for guidance only. It does not submit your module choices — please register via the
-                university system.
-            </p>
-
-        </footer>
     </main>
+    <!-- Sticky bottom nav -->
+    <nav class="bottom-nav" aria-label="Step navigation">
+        <button id="backBtn" class="btn btn-back" type="button">
+            ← Back
+        </button>
 
+        <button id="printBtn" class="btn btn-soft" type="button">
+            🖨️
+        </button>
+
+        <button id="nextBtn" class="btn btn-primary" type="button">
+            Next →
+        </button>
+    </nav>
     <script src="script.js"></script>
 </body>
 

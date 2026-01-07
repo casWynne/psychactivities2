@@ -6,6 +6,22 @@
 (() => {
   "use strict";
 
+
+  // -------------------------------
+  // App configuration / feature toggles
+  // -------------------------------
+  const CONFIG = {
+    // Timetable information
+    showTimetable: true,              // show timetable row on module cards + summary
+    enforceTimetableConflicts: true,  // block selections based on timetable clashes
+    showGlossary: true,
+
+    // Safety for incomplete data
+    treatEmptyTimetableAsNoClash: true,
+
+  };
+
+
   // -------------------------------
   // Guard: if this page isn't the app
   // -------------------------------
@@ -43,6 +59,10 @@
     // Clear actions
     clearSelectionsBtn: document.getElementById("clearSelectionsBtn"),
     clearLocalBtn: document.getElementById("clearLocalBtn"),
+
+    // Glossary
+    helpArea: document.getElementById("helpArea"),
+
   };
 
   // -------------------------------
@@ -187,6 +207,9 @@
     if (scrollTop) {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
+
+    if (dom.helpArea) dom.helpArea.style.display = CONFIG.showGlossary ? "" : "none";
+
   }
 
   function updateHeader(step) {
@@ -293,7 +316,7 @@
 
     // Print label
     if (dom.printBtn) {
-      dom.printBtn.textContent = step === "summary" ? "🖨️ Print Summary" : "🖨️ Print This Year";
+      dom.printBtn.textContent = step === "summary" ? "🖨️ Print Summary" : "🖨️";
     }
   }
 
@@ -384,7 +407,11 @@
             <div class="summary-card-top">
               <div>
                 <div class="summary-title">${escapeHtml(m.title)} <span class="summary-code">(${escapeHtml(m.id)})</span></div>
-                <div class="summary-meta">Credits: ${escapeHtml(String(m.credits))} • ${escapeHtml(m.timetable)} • ${escapeHtml(m.pathway)}</div>
+<div class="summary-meta">
+  Credits: ${escapeHtml(String(m.credits))}
+  ${CONFIG.showTimetable && m.timetable ? ` • ${escapeHtml(m.timetable)}` : ""}
+  • ${escapeHtml(m.pathway)}
+</div>
               </div>
               <button class="summary-remove" type="button" data-remove-id="${escapeAttr(m.id)}" aria-label="Remove ${escapeAttr(m.title)}">
                 Remove
@@ -501,8 +528,9 @@
     <p><strong>Pathway:</strong> ${escapeHtml(module.pathway)}</p>
     <p class="description">${escapeHtml(module.description)}</p>
     <p><strong>Staff:</strong> ${escapeHtml(module.staff)}</p>
-    <p><strong>Timetable:</strong> ${escapeHtml(module.timetable)}</p>
-    <p><strong>Assessment:</strong> ${escapeHtml(module.assessment)}</p>
+${CONFIG.showTimetable && module.timetable
+          ? `<p><strong>Timetable:</strong> ${escapeHtml(module.timetable)}</p>`
+          : ""}    <p><strong>Assessment:</strong> ${escapeHtml(module.assessment)}</p>
 
     <button class="select-button" type="button">
       ${isSelected ? "Deselect" : "Select"}
@@ -617,12 +645,17 @@
       }
     }
 
-    if (hasTimetableConflict(level, module.timetable)) {
+    if (
+      CONFIG.enforceTimetableConflicts &&
+      hasTimetableConflict(level, module.timetable)
+    ) {
       const conflict = getConflictingModule(level, module.timetable);
-      alert(conflict ? `That clashes with: ${conflict.title}` : `That module has a timetable clash.`);
+      alert(conflict
+        ? `That clashes with: ${conflict.title}`
+        : `That module has a timetable clash.`
+      );
       return;
     }
-
     selectedModules.push(module);
   }
 
@@ -650,17 +683,36 @@
     ).length;
   }
 
+  function normaliseTimetable(t) {
+    return String(t ?? "").trim();
+  }
+
   function hasTimetableConflict(level, timetable) {
+    if (!CONFIG.enforceTimetableConflicts) return false;
+
+    const t = normaliseTimetable(timetable);
+    if (CONFIG.treatEmptyTimetableAsNoClash && !t) return false;
+
     return selectedModules.some(
-      (m) => m.level === level && m.timetable === timetable
+      (m) =>
+        m.level === level &&
+        normaliseTimetable(m.timetable) === t
     );
   }
 
   function getConflictingModule(level, timetable) {
+    if (!CONFIG.enforceTimetableConflicts) return null;
+
+    const t = normaliseTimetable(timetable);
+    if (CONFIG.treatEmptyTimetableAsNoClash && !t) return null;
+
     return selectedModules.find(
-      (m) => m.level === level && m.timetable === timetable
-    );
+      (m) =>
+        m.level === level &&
+        normaliseTimetable(m.timetable) === t
+    ) || null;
   }
+
 
   // -------------------------------
   // Print (clean HTML)

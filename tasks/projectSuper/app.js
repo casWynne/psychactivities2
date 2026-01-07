@@ -310,6 +310,43 @@ document.addEventListener("DOMContentLoaded", () => {
   // =====================================================================
   // DATA SHAPING
   // =====================================================================
+  function sanitizeLimitedHtml(input = "") {
+    const template = document.createElement("template");
+    template.innerHTML = input;
+
+    const allowed = new Set(["STRONG", "EM", "BR", "P", "UL", "OL", "LI", "A"]);
+
+    // Remove disallowed elements, strip unsafe attributes
+    const walker = document.createTreeWalker(template.content, NodeFilter.SHOW_ELEMENT);
+
+    const toProcess = [];
+    while (walker.nextNode()) toProcess.push(walker.currentNode);
+
+    toProcess.forEach((el) => {
+      if (!allowed.has(el.tagName)) {
+        // Replace element with its text content (keeps readable content)
+        el.replaceWith(document.createTextNode(el.textContent || ""));
+        return;
+      }
+
+      // Strip all attributes except safe href/target/rel on links
+      [...el.attributes].forEach((attr) => el.removeAttribute(attr.name));
+
+      if (el.tagName === "A") {
+        const href = el.getAttribute("href") || "";
+        // Only allow http(s) links
+        if (!/^https?:\/\//i.test(href)) {
+          el.replaceWith(document.createTextNode(el.textContent || ""));
+          return;
+        }
+        el.setAttribute("href", href);
+        el.setAttribute("target", "_blank");
+        el.setAttribute("rel", "noopener noreferrer");
+      }
+    });
+
+    return template.innerHTML;
+  }
 
   function buildProjectProfilesFromStaff(staffList) {
     const projects = [];
@@ -660,7 +697,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return `
               <section class="profile-topic">
                 <h3>${i + 1}. ${escapeHtml(topic.title || "")}</h3>
-                <p>${escapeHtml(topic.description || "")}</p>
+                <p>${sanitizeLimitedHtml(topic.description || "")}</p>
                 ${ideas
                 ? `<p><strong>Within this topic, you could investigate:</strong></p><ul>${ideas}</ul>`
                 : ""

@@ -6,7 +6,14 @@
       "email": "staff1@university.ac.uk",
       "avatar": "images/fayme.png",
       "avatarPosition": "50% 5%",
-      "keywords": ["Sequences", "Serial Dependence", "Statistical Learning", "Implicit Learning", "Learning", "Memory"],
+      "keywords": [
+        "Sequences",
+        "Serial Dependence",
+        "Statistical Learning",
+        "Implicit Learning",
+        "Learning",
+        "Memory"
+      ],
       "topics": [
         {
           "title": "Implicit learning - frequencies, patterns, and sequences",
@@ -25,7 +32,14 @@
       "name": "Dr Tim Vestner",
       "email": "t.vestner@leedstrinity.ac.uk",
       "avatar": "",
-      "keywords": ["Social Cognition", "Anxiety", "Stuttering", "Language Disorders", "Autism", "Visual Disorders"],
+      "keywords": [
+        "Social Cognition",
+        "Anxiety",
+        "Stuttering",
+        "Language Disorders",
+        "Autism",
+        "Visual Disorders"
+      ],
       "topics": [
         {
           "title": "Attitudes towards stuttering and related language and speech disorders.",
@@ -45,7 +59,12 @@
       "email": "p.mcgivern@leedstrinity.ac.uk",
       "avatar": "images/paulmcgivern.jpg",
       "avatarPosition": "50%",
-      "keywords": ["Gambling", "Responsible Gambling", "Advertising", "Branding"],
+      "keywords": [
+        "Gambling",
+        "Responsible Gambling",
+        "Advertising",
+        "Branding"
+      ],
       "topics": [
         {
           "title": "The Role of Branding and Advertising on Gambling Uptake and Responsible Gambling.",
@@ -65,7 +84,13 @@
       "email": "R.Simpson@leedstrinity.ac.uk",
       "avatar": "images/richardsimpson.jpg",
       "avatarPosition": "50%",
-      "keywords": ["Human Flourishing", "Well-being", "Well-being Literacy", "Balance and Harmony", "Forgiveness"],
+      "keywords": [
+        "Human Flourishing",
+        "Well-being",
+        "Well-being Literacy",
+        "Balance and Harmony",
+        "Forgiveness"
+      ],
       "topics": [
         {
           "title": "The experience, attainment, and promotion of human flourishing.",
@@ -85,7 +110,14 @@
       "email": "s.maskeen@leedstrinity.ac.uk",
       "avatar": "images/shamesmaskeen.jpg",
       "avatarPosition": "50%",
-      "keywords": ["Widening Participation", "Race/Ethnicity", "Racism", "Intersectionality", "Microaggressions", "Student Experience"],
+      "keywords": [
+        "Widening Participation",
+        "Race/Ethnicity",
+        "Racism",
+        "Intersectionality",
+        "Microaggressions",
+        "Student Experience"
+      ],
       "topics": [
         {
           "title": "Exploring the impact of microaggressions on students experiences in Higher Education",
@@ -105,7 +137,16 @@
       "email": "L.dePretto@leedstrinity.ac.uk",
       "avatar": "",
       "avatarPosition": "50%",
-      "keywords": ["Culture", "Migration & Identity", "Cultural intelligence", "Agriculturation & Adjustment", "Human Environment Relationships", "Enivronmental Behaviour", "Hope & Wellbeing", "Cross-cultural and international psychology"],
+      "keywords": [
+        "Culture",
+        "Migration & Identity",
+        "Cultural intelligence",
+        "Agriculturation & Adjustment",
+        "Human Environment Relationships",
+        "Enivronmental Behaviour",
+        "Hope & Wellbeing",
+        "Cross-cultural and international psychology"
+      ],
       "topics": [
         {
           "title": "Culture, Identity, and Intercultural Exerpience",
@@ -127,6 +168,112 @@
             "Pro-environmental behaviour and sustainability attitudes",
             "Hope, meaning, and wellbeing in relation to social or environmental issues",
             "Cross-cultural differences in environmental perceptions and behaviours"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-7",
+      "name": "Dr Russel Woodfield",
+      "email": "r.woodfield@leedstrinity.ac.uk",
+      "avatar": "",
+      "avatarPosition": "50%",
+      "keywords": [
+        "Personality Traits",
+        "Antisocial Traits",
+        "Offtending attitudes",
+        "Criminal Attitudes",
+        "Offence Types"
+      ],
+      "topics": [
+        {
+          "title": "Attitudes towards Prisoners / Types of Offenders / Types of Offending / Approaches to Rehabilitation.",
+          "description": "<p>Public or professional attitudes and perceptions towards Prisoners in general or specific types of offenders or types of offending can greatly influence public policies or specific dealings with said individuals in a custodial or community setting. Stigma and misunderstanding can prevent effective implementation of professional practice standards and attempts at rehabilitation which would hope to provide safer communities.</p> <p>Some research in this area uses existing questionnaires but there is also room for qualitative explorations. As such this topic would be ideally suited to a qualitative or quantitative approach both having pros and cons that can feed into future research ideas in these areas.</p> <p>A quantitative approach may involve for example the administering to a sample of participants, established measures on the topics discussed to explore correlates and predictors of variables.</p> <p>A qualitative approach may involve for example in depth interviewing of 4-6 participants or use of a focus group to explore particular themes that are evident surrounding the topic areas.</p>",
+          "ideas": [
+            "Attitudes towards or perceptions of Prisoners and Prisonisation.",
+            "Attitudes towards or perceptions of specific offending populations e.g. offenders with mental illness, people that have offended sexually, drug addiction and offending etc.    ",
+            "Attitudes towards or perceptions of specific types of offending (as above).  ",
+            "Attitudes towards or perceptions of Rehabilitation approaches for people that have offended.  "
+          ]
+        },
+        {
+          "title": "Demographic and Personality variables that may influence problematic attitudes that are correlated with some types of offending behaviour.",
+          "description": "<p>Particular personality traits evident in varying spectrums in individuals have been shown to influence and support problematic attitudes that could support anti-social behaviours. In particular psychopathic or narcissistic traits (not to be confused as the same) have been shown to support problematic attitudes such as higher rape myth acceptances and support of dating violence attitudes to name examples.</p> <p>Similarly general personality variables (namely psychoticism, neuroticism and extraversion) based on Eysenck’s general model of criminality have shown support of problematic attitudes as well.</p> <p>Alongside this some personality variables in individuals may also support things such as coercive controlling behaviours in individuals for example who struggle with relationship and intimacy issues like intense jealousy.</p> <p><strong>Having said that these topic areas are not fixed, and ideas are welcomed for further discussion as there are a whole range of possible variables open to exploration.</strong></p> <p>Research in this area at undergraduate level uses existing questionnaires to facilitate a quantitative approach. <strong>Qualitative approaches for this type of topic are not suitable ethically at undergraduate level</strong> as they involve sensitive topics and do not allow for anonymity between researcher and participant as in the case of quantitative designs.</p> <p>A quantitative approach would typically involve for example the administering to a sample of participants, established measures on the topics discussed to explore correlates and predictors of variables.</p>",
+          "ideas": [
+            "Psychopathic personality traits and attitudes towards modern dating violence / rape myth acceptances.",
+            "Narcissistic personality traits and attitudes towards modern dating violence / rape myth acceptance.",
+            "General personality influencers and attitudes towards modern dating violence / rape myth acceptance."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-8",
+      "name": "Dr Alison Torn",
+      "email": "a.torn@leedstrinity.ac.uk",
+      "avatar": "images/alisontorn.jpg",
+      "avatarPosition": "50% 30%",
+      "keywords": [
+        "Student Engagement",
+        "Student Wellbeing",
+        "Student Success",
+        "Blended Learning",
+        "Articificial Intelligence"
+      ],
+      "topics": [
+        {
+          "title": "Student Engagement in Higher Education: Qualitative Insights into Transitions, Wellbeing, Lifeloads, Belonging, and Academic Demands",
+          "description": "Building on previous research conducted by myself and Candice Whitaker, this project explores how and why students engage with their university studies. This will include issues around engagement and disengagement, exploring the intersection between individual and structural factors including, but not limited to, the learning environment, transitions into university, well-being and ‘lifeloads’ outside of university (e.g. work, caring responsibilities). The project will require a strong understanding of qualitative methods (e.g. thematic analysis, IPA, discourse analysis); experience of conducting interviews would be preferable. Training will be given to conduct focus group interviews. This project would suit students interested in the student journey within a university environment and what facilitates or hinders this journey.",
+          "ideas": [
+            "This project explores how students experience and negotiate engagement with their studies alongside paid work, caring responsibilities, commuting, and other external demands (“lifeload”). The project will recruit from different subject areas across the university, utilising focus group interviews as the method of data collection.",
+            "This project examines how students experience key transitions (e.g. first year, post-pandemic learning, commuting to campus, returning to study) and how these shape engagement, belonging, and motivation. The project will recruit from different subject areas across the university, utilising focus group interviews as the method of data collection.",
+            "This project investigates how students experience the relationship between engagement, well-being, and mental health, including moments when engagement becomes overwhelming or unsustainable. The project will recruit from different subject areas across the university, utilising individual interviews as the method of data collection.",
+            "This project explores how students talk about engagement, success, and effort, and how these narratives reflect broader institutional and cultural expectations. The project will recruit from different subject areas across the university, utilising focus group interviews as the method of data collection."
+          ]
+        },
+        {
+          "title":"Exploring Student Experiences of Generative AI in Higher Education: Ethics, Learning Practices, Support, and Employability ",
+          "description": "With Generative Artificial Intelligence (GenAI) becoming embedded in our daily lives, I have a strong interest in how these tools are being used or avoided by the student population, and how universities can support students more to embrace this technology in order to prepare them for the professional world after university. The project will require a strong understanding of qualitative methods (e.g. thematic analysis, discourse analysis); experience of conducting interviews would be preferable. Training will be given to conduct focus group interviews. This project would suit students interested in the use of digital technologies and GenAI.",
+          "ideas": [
+            "This project explores how students understand, use, limit, or avoid GenAI tools in their university work, including uncertainty around boundaries and legitimacy. The project will recruit from different subject areas across the university, utilising focus group interviews as the method of data collection.",
+            "This project examines how students construct ethical boundaries around GenAI use, including ideas of cheating, originality, fairness, and “doing the work yourself.” The project will recruit from different subject areas across the university, utilising focus group interviews as the method of data collection.",
+            "This project explores how students connect GenAI use to employability, professional readiness, and their future working lives beyond university. The project will recruit from different subject areas across the university, utilising focus group interviews as the method of data collection.",
+            "This project investigates how students experience university-level communication, support, and teaching around GenAI, including perceptions of trust, surveillance, and clarity. The project will recruit from different subject areas across the university, utilising focus group interviews as the method of data collection."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-9",
+      "name": "Dr Candice Whitaker",
+      "email": "c.whitaker@leedstrinity.ac.uk",
+      "avatar": "images/candicewhitaker.jpg",
+      "avatarPosition": "50% 50%",
+      "keywords": [
+        "Masculinities",
+        "Body Image",
+        "Digital Cultures",
+        "Weight Stigma",
+        "Moral Judgement",
+        "Social Identity"
+      ],
+      "topics": [
+        {
+          "title": "Masculinities in the Digital Age: Social Attitudes, Online Role Models, and Wellbeing",
+          "description": "Digital environments play a central role in shaping contemporary understandings of masculinity. Social media, online forums, and influencer cultures expose users to highly visible norms around success, attractiveness, emotional expression, and gender roles. While much public debate focuses on boys and adolescents, these norms also shape the attitudes, identities, and wellbeing of adults, including young men navigating higher education, work, and relationships. Research is still limited on how adult men and mixed-gender adult populations perceive, internalise, or resist online masculinity norms, and how these attitudes relate to anxiety, body image, and social relationships.",
+          "ideas": [
+            "Adult perceptions of online male role models: How do adults evaluate different types of online male figures (e.g. fitness influencers, self-improvement figures, lifestyle coaches)? Are certain role models associated with stronger endorsement of traditional masculine norms, body dissatisfaction, or reduced emotional openness?",
+            "Attitudes towards incel-adjacent beliefs: How do adults perceive and evaluate beliefs commonly associated with incel or grievance-based narratives? What individual differences (e.g. empathy, loneliness, hostility) predict tolerance or rejection of these views?",
+            "Lived experiences of negotiating masculinity in digital spaces: This project would explore how adult men experience, interpret, and navigate masculinity norms in online environments, such as online dating apps or professional networking sites."
+          ]
+        },
+                {
+          "title": "Weight, Stigma, and Social Attitudes in the Context of Weight-Loss Medication",
+          "description": "Higher body weight and obesity are highly stigmatised in many societies, with individuals frequently subject to moral judgement regarding self-control, health, and personal responsibility. The increasing visibility of weight-loss medications has introduced new social narratives around legitimacy, effort, and deservingness in relation to weight loss. While these medications are typically discussed in medical terms, their broader social psychological consequences remain underexplored, particularly in relation to fat shaming, blame, and interpersonal evaluation.",
+          "ideas": [
+            "Social evaluation of weight-loss methods: Do adults judge individuals differently depending on whether weight loss is achieved through medication, diet, exercise, or no intervention? How does this affect perceptions of discipline, moral worth, or attractiveness?",
+            "Beliefs about responsibility and stigma: Are fat-shaming attitudes associated with stronger beliefs in personal responsibility for health outcomes? Do these beliefs vary by age, gender, or political orientation?",
+            "Norm change and public discourse: Does exposure to information framing obesity as multifactorial (e.g. genetic and environmental factors) reduce stigma compared to individual-responsibility framings?"
           ]
         }
       ]

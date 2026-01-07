@@ -1,0 +1,32 @@
+{
+      "id": "staff-x",
+      "name": "",
+      "email": "",
+      "avatar": "",
+      "avatarPosition": "50% 50%",
+      "keywords": [
+        "Keyword One",
+        "Keyword Two",
+        "Keyword Three"
+      ],
+      "topics": [
+        {
+          "title": "",
+          "description": "",
+          "ideas": [
+            "",
+            "",
+            ""
+          ]
+        },
+                {
+          "title": "",
+          "description": "",
+          "ideas": [
+            "",
+            "",
+            ""
+          ]
+        }
+      ]
+    }

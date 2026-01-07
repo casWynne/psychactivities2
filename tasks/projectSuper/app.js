@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const CONFIG = {
     // Toolbar always visible now (because it always has Saved)
     showSearch: true,               // show/hide search input (toolbar)
-    showKeywordFilter: true,        // show/hide dropdown (toolbar)
+    showKeywordFilter: false,        // show/hide dropdown (toolbar)
     showKeywordLegend: true,        // show/hide legend box (above toolbar)
     enableLegendChipFilter: true,   // clicking legend chips applies filters
 

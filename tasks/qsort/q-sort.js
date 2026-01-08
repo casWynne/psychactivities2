@@ -95,20 +95,30 @@
     function promptForTitle() {
         const modal = document.getElementById("title-modal");
         const input = document.getElementById("title-input");
+        const okBtn = document.getElementById("title-ok");
+
+        function submitTitle() {
+            const title = input.value.trim();
+            if (!title) return; // don’t submit empty
+            modal.classList.add("hidden");
+            setTitle(title);
+        }
 
         modal.classList.remove("hidden");
         input.value = "";
         input.focus();
 
-        document.getElementById("title-ok").onclick = () => {
-            const title = input.value.trim();
-            if (!title) return;
+        // Click submission
+        okBtn.onclick = submitTitle;
 
-            modal.classList.add("hidden");
-            setTitle(title);
+        // Enter key submission
+        input.onkeydown = (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                submitTitle();
+            }
         };
     }
-
 
     // ---------------------------------------------------------------------------
     // Thought element creation

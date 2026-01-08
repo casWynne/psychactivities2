@@ -277,6 +277,119 @@
           ]
         }
       ]
+    },
+    {
+      "id": "staff-10",
+      "name": "Dr Helen Heaviside-Brown",
+      "email": "H.Heaviside-brown@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/helenheaviside.jpg",
+      "avatarPosition": "50% 35%",
+      "keywords": [
+        "Interpersonal Expectancies",
+        "Performance Expectancies",
+        "Impression Formation",
+        "Expectancy Effects"
+      ],
+      "topics": [
+        {
+          "title": "The formation and consequences of interpersonal expectancies.",
+          "description": "During interpersonal interactions people create impressions of one another almost instantaneously using “thin-slices” of information available to them at that moment. These initial impressions are used to predict the proceedings and outcomes of future interactions with that other person, resulting in them forming an expectancy of that person. Expectancies created about other people are referred to as interpersonal expectancies. Existing research has suggested that interpersonal expectancies can have robust, long-lasting consequences for both the person who creates the expectancy and the person who the expectancy is created about. Despite such suggestions, our understanding of how these expectancies develop, and their consequences across many settings, remains limited. Advancing our understanding in this area across diverse contexts will help us to understand how to harness the impressions and expectancies which are created about us, and how to manage the consequences of expectancy formation. Whilst historically the research in this field has been dominated by a quantitative research methodology, there is scope for a qualitative exploration to be conducted on the topic to expand our knowledge around perceptions and experiences of interpersonal expectancies. ",
+          "ideas": [
+            "The sources of information used to create impressions and subsequent expectancies across different settings (e.g., education, court, sport).",
+            "The consequences of interpersonal expectancies for the person creating the expectancy.",
+            "The consequences of interpersonal expectancies for the person who the expectancy is created about (this can be explored across any setting, e.g., education, family units, criminal systems, sport, health settings).",
+            "The consequences of interpersonal expectancies for a target’s wider support network (this can be explored across any setting, e.g., education, family units, criminal systems, sport, health settings)."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-11",
+      "name": "Lewis Miles-Berry",
+      "email": "L.Miles-Berry@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/lewismilesberry.jpg",
+      "avatarPosition": "50% 10%",
+      "keywords": [
+        "Self-Regulation",
+        "Inter-Role Conflict",
+        "Academic Self-Efficacy",
+        "Cognitive Appraisal"
+      ],
+      "topics": [
+        {
+          "title": "Inter-role conflict: Exploring the role of cognitive appraisal, academic self-efficacy and self-control on learning strategies",
+          "description": "This research topic explores how cognitive appraisal, and self-control influences self-regulated learning. In everyday life, many students experience conflicts between a series of competing demands and obligations across their working lives, personal lives and academic lives. Cognitive appraisal is a way that people assess these demands, self-control is what people use to manage these demands and academic self-efficacy is people’s belief in their ability to accomplish academic tasks. ",
+          "ideas": [
+            "You could investigate how academic self-efficacy influences the relationship between inter-role demands and cognitive appraisal (Quantitative)",
+            "How cognitive appraisal influences the relationship between inter-role demands and self-regulated approaches to learning (Quantitative)",
+            "How students experience and make sense of inter-role demands (Qualitative)",
+            "How students experience academic or work ‘spillover’ into their personal lives or vice versa (Qualitative)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-12",
+      "name": "Dr Tim Gomersall",
+      "email": "T.Gomersall@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/timgomersall.jpg",
+      "avatarPosition": "50% 50%",
+      "keywords": [
+        "Health Psychology",
+        "Wellbeing",
+        "Creativity",
+        "Arts-based research"
+      ],
+      "topics": [
+        {
+          "title": "Examining the relationship between creativity and wellbeing",
+          "description": "This project would unpack the relationship between engagement in creative arts practices (eg. drawing, music, creative writing, painting, film-making) and wellbeing. There is a growing evidence-base about the positive impact of the arts on mental health and wellbeing, and so-called 'social prescribing' has seen a growing uptake in clinical settings, to promote recovery among people with mental health difficulties. However, the mechanisms linking creative work to wellbeing are in need of further research. This would be an opportunity for a student to deepen their understanding of psychological wellbeing, to explore a form of creative work they are interested in, while gaining valuable research, analysis, and critical thinking skills. ",
+          "ideas": [
+            "A qualitative study of arts participation and wellbeing. This project would involve collecting in-depth data with participants who are involved in the creative arts. You would explore the meanings participants attribute to their creative work, and examine how this supports them to live well. As well as 'traditional' data collection, students would be encouraged to explore using alternative methods (in particular, exploring the artworks participants themselves have made) to understand the links between creativity and wellbeing. ",
+            "Identifying the impact of creative work on wellbeing. This would be a survey-based, quantitative study in which you measure the extent of participants' involvement with creative practices, and their self-reported life satisfaction. We would also examine the potential impact of moderating variables (eg, socioeconomic status, gender, self-reported physical health) to examine some of the different impacts of creativity across different groups."
+          ]
+        },
+                {
+          "title": "Examining the impact of the wellness influencer industry",
+          "description": "Wellness is a growing trend among young adults, and the presence of influencers on social media channels is central to this. Wellness influencers are typically young, fit, and glamorous, and present a carefully curated version of themselves to their audiences. They may or may not have relevant qualifications and experience for presenting health advice. Although some studies have shown that influencers can inspire followers to adopt health-related goals, their content is unregulated, and may be unreliable, unrealistic, or driven by commercial goals. Even medically qualified influencers have been shown to be prone to ideological biases, and to providing confusing and contradictory advice on health. This project would take a critical look at the impact of the wellness influencer industry, either through interviews with individuals who consume wellness influencer content, or through case studies of particular influencers' content.",
+          "ideas": [
+            "For this project, you would examine the subjective impact of consuming wellness influencer content. Through individual interviews, and discussions related to posts from your participants' favoured influencers, you would examine how engaging with influencers affects your participants' relationship to their own health and wellbeing. This would be a qualitative project, using interviews and a critical, social constructionsit lens for the analysis. ",
+            "This project would use pre-existing data - primarily posts from prominent wellness influencers themselves - to critically examine how wellness is constructed. There is a vast body of such data to draw on here, often laced with rich details of personal narrative and lifestyle. Through a detailed analysis of a selected corpus of influencer content, you would adopt a critical, social constructionist perspective to unpack the ideology of influencer culture. This might include the gendered nature of the wellness space, the deployment of 'expertise' and 'authenticity', contradictions in advice, and how idealised versions of the self are created."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-13",
+      "name": "Dr Lisa Webster",
+      "email": "l.webster@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/lisawebster.jpg",
+      "avatarPosition": "50% 10%",
+      "keywords": [
+        "Resilience",
+        "Connectedness ",
+        "Mental health of at-risk populations"
+      ],
+      "topics": [
+        {
+          "title": "Mental Health, Risk, and Resilience in At-Risk Populations",
+          "description": "The prevalence of mental ill-health in at-risk populations such as students, military veterans, and community first responders remains high as these groups face persistent exposure to stress, trauma, and role-related demands. Students often contend with academic pressure, identity development, economic insecurity, and work-study conflict; veterans experience social isolation due to the challenges of reintegration into civilian life further compounding existing trauma exposure; and first responders routinely encounter traumatic incidents and chronic occupational stress with minimal support for their wellbeing. Across these populations, mental health outcomes are shaped not only by risk factors, but also by protective factors such as resilience, social support and connectedness, and access to care. Research within this area is both qualitative and quantitative but there is a need for more context-sensitive and culturally informed approaches.",
+          "ideas": [
+            "How students experience and manage working and studying at university. What impact does financial stress have on academic engagement and/or social connectedness? How do students cope under such stress? To what extent does resilience buffer the relationship between financial stress and academic or social outcomes? What coping strategies are used by students with higher vs lower resilience under financial stress? How do students perceive the availability and effectiveness of university support in mitigating financial and academic stress?",
+            "Understanding the experiences of veterans reintegrating into civilian life. This could relate to work, family life, culture. For example, how does loss of military community affect veterans’ sense of connectedness? What barriers prevent veterans from accessing mental health or employment support services? How do veterans reconstruct identity and purpose after service? You may wish to consider intersectional challenges such as race and ethnicity and the lack of culturally competent care.",
+            "How do community first responders cope with the demands of their role? Community first responders are often reluctant to seek formal mental health support due to stigma. What practical and psychological barriers prevent help-seeking (time, cost, fear of consequences)? What factors make formal support more acceptable (peer referral, anonymous services, external providers)?"
+          ]
+        },
+                {
+          "title": "",
+          "description": "",
+          "ideas": [
+            "",
+            "",
+            ""
+          ]
+        }
+      ]
     }
   ]
 }

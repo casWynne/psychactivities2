@@ -18,57 +18,100 @@ document.addEventListener("DOMContentLoaded", () => {
     // Super keywords
     useSuperKeywords: true,
     superKeywords: {
-      "Learning, Cognition & Memory": [
-        "Sequences",
-        "Serial Dependence",
-        "Statistical Learning",
-        "Implicit Learning",
+      "Learning, Cognition & Expectancies": [
         "Learning",
         "Memory",
-        "Social Cognition",
+        "Statistical Learning",
+        "Sequences",
+        "Serial Dependence",
+        "Expectancy Effects",
+        "Interpersonal Expectancies",
+        "Performance Expectancies",
+        "Cognitive Appraisal",
+        "Self-Regulation",
+        "Impression Formation",
+        "Moral Judgement",
+        "Blended Learning",
+        "Implicit Learning"
+      ],
+
+      "Language, Communication & Neurodevelopment": [
+        "Language Disorders",
+        "Stuttering",
+        "Autism",
         "Visual Disorders"
       ],
-      "Language, Communication & Neurodiversity": [
-        "Stuttering",
-        "Language Disorders",
-        "Autism",
-        "Social Cognition",
-        "Anxiety"
-      ],
-      "Wellbeing, Mental Health & Flourishing": [
-        "Human Flourishing",
+
+      "Mental Health, Wellbeing & Flourishing": [
+        "Anxiety",
+        "Wellbeing",
         "Well-being",
         "Well-being Literacy",
+        "Hope & Wellbeing",
+        "Human Flourishing",
         "Balance and Harmony",
         "Forgiveness",
-        "Anxiety",
-        "Hope & Wellbeing"
+        "Resilience",
+        "Health Psychology",
+        "Mental health of at-risk populations"
       ],
-      "Culture, Identity & Social Justice": [
+
+      "Identity, Culture & Social Inequality": [
         "Culture",
+        "Cross-cultural and international psychology",
+        "Cultural intelligence",
         "Migration & Identity",
+        "Social Identity",
         "Race/Ethnicity",
         "Racism",
         "Intersectionality",
         "Microaggressions",
-        "Widening Participation",
-        "Student Experience",
-        "Cultural intelligence",
-        "Agriculturation & Adjustment",
-        "Cross-cultural and international psychology"
+        "Masculinities",
+        "Weight Stigma",
+        "Body Image",
+        "Agriculturation & Adjustment"
       ],
-      "Behaviour, Decision-Making & Influence": [
+
+      "Social Cognition & Interpersonal Processes": [
+        "Social Cognition",
+        "Connectedness",
+        "Inter-Role Conflict",
+        "Academic Self-Efficacy",
+        "Personality Traits"
+      ],
+
+      "Student Experience, Engagement & Participation": [
+        "Student Engagement",
+        "Student Experience",
+        "Student Success",
+        "Student Wellbeing",
+        "Widening Participation"
+      ],
+
+      "Risk, Harm & Offending Behaviour": [
+        "Antisocial Traits",
+        "Criminal Attitudes",
+        "Offence Types",
+        "Offtending attitudes",
         "Gambling",
-        "Responsible Gambling",
+        "Responsible Gambling"
+      ],
+
+      "Media, Digital & Consumer Psychology": [
         "Advertising",
         "Branding",
-        "Enivronmental Behaviour"
+        "Digital Cultures"
       ],
-      "Environment, Values & Society": [
-        "Human Environment Relationships",
+
+      "Environment, Sustainability & Human–Environment Relations": [
         "Enivronmental Behaviour",
-        "Hope & Wellbeing",
-        "Balance and Harmony"
+        "Human Environment Relationships"
+      ],
+
+      "Creativity, Methods & Emerging Approaches": [
+        "Creativity",
+        "Arts-based research",
+        "Articificial Intelligence"
       ]
     }
   };

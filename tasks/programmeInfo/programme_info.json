@@ -1,0 +1,382 @@
+{
+    "programmes": [
+      {
+        "id": 1,
+        "name": "BSc Psychology",
+        "details": [
+          {
+            "type": "header",
+            "content": "Accreditation"
+          },
+          {
+            "type": "text",
+            "content": "The programme is accredited by the British Psychological Society (BPS), ensuring students are eligible for Graduate Basis for Chartership (GBC), an essential qualification for those pursuing a career as a Chartered Psychologist."
+          },
+          {
+            "type": "image",
+            "src": "assets/BPS-Logo.png",
+            "alt": "Psychology Programme Image"
+          },
+          {
+            "type": "header",
+            "content": "Support and Guidance"
+          },
+          {
+            "type": "text",
+            "content": "Every student is assigned a Personal Tutor to guide them throughout their academic journey, offering both academic and pastoral support. There’s also access to Student Liaison Officers and Peer Support Champions who help with transitioning to university life, writing assignments, or preparing for exams."
+          },
+          {
+            "type": "header",
+            "content": "Employability and Career Development"
+          },
+          {
+            "type": "text",
+            "content": "The university's Graduate Outcomes and Enterprise Team helps students develop career skills through workshops, career advice sessions, and placements. Psychology students can also take part in the Professional Development and Placement module, offering hands-on work experience, giving students real-world experience in psychology-related roles."
+          },
+          {
+            "type": "header",
+            "content": "Assessment and Feedback"
+          },
+          {
+            "type": "text",
+            "content": "Assessments vary across modules, including essays, presentations, portfolios, and group work. Students will receive timely and detailed feedback within 15 working days, which helps improve their academic performance."
+          },
+          {
+            "type": "header",
+            "content": "Optional Modules and Flexibility"
+          },
+          {
+            "type": "text",
+            "content": "In the later stages of the degree, students can choose from a variety of optional modules tailored to specific psychology interests like Counselling Psychology, Forensic Psychology, and Cyberpsychology, allowing flexibility in their academic journey."
+          },
+          {
+            "type": "header",
+            "content": "Capstone Assessment and Professional Challenge"
+          },
+          {
+            "type": "text",
+            "content": "At the end of each academic year, students complete a Capstone Assessment, integrating their learning across modules, as well as a Professional Challenge where they work with employers on real-world problems, building teamwork and application skills."
+          }
+        ],
+        "modules": [
+          1,
+          2,
+          3,
+          4,
+          9
+        ],
+        "staff": 1
+      },
+      {
+        "id": 2,
+        "name": "BSc Counselling Psychology",
+        "details": [
+          {
+            "type": "header",
+            "content": "Programme Overview"
+          },
+          {
+            "type": "text",
+            "content": "This programme provides an in-depth understanding of human behavior..."
+          },
+          {
+            "type": "image",
+            "src": "assets/psychology.jpg",
+            "alt": "Psychology Programme Image"
+          }
+        ],
+        "modules": [
+          1,
+          2,
+          3,
+          6,
+          9
+        ],
+        "staff": 2
+      },
+      {
+        "id": 3,
+        "name": "BSc Sport Psychology",
+        "details": [
+          {
+            "type": "header",
+            "content": "Programme Overview"
+          },
+          {
+            "type": "text",
+            "content": "This programme provides an in-depth understanding of human behavior..."
+          },
+          {
+            "type": "image",
+            "src": "assets/psychology.jpg",
+            "alt": "Psychology Programme Image"
+          }
+        ],
+        "modules": [
+          1,
+          2,
+          3,
+          8,
+          9
+        ],
+        "staff": 1
+      },
+      {
+        "id": 4,
+        "name": "BSc Forensic Psychology",
+        "details": [
+          {
+            "type": "header",
+            "content": "Programme Overview"
+          },
+          {
+            "type": "text",
+            "content": "This programme provides an in-depth understanding of human behavior..."
+          },
+          {
+            "type": "image",
+            "src": "assets/psychology.jpg",
+            "alt": "Psychology Programme Image"
+          }
+        ],
+        "modules": [
+          1,
+          2,
+          3,
+          5,
+          9
+        ],
+        "staff": 1
+      },
+      {
+        "id": 5,
+        "name": "BSc Psychology and Child Development",
+        "details": [
+          {
+            "type": "image",
+            "src": "assets/child-dev.jpg",
+            "alt": "Psychology Programme Image"
+          },
+          {
+            "type": "header",
+            "content": "Programme Overview"
+          },
+          {
+            "type": "text",
+            "content": "On this course, you will study specialist modules in child and educational psychology alongside the core psychology curriculum. We focus on understanding how psychology shapes children’s learning and development, and how we can apply psychological theory to support children in education and in the wider community."
+          },
+          {
+            "type": "header",
+            "content": "Who is this programme for?"
+          },
+          {
+            "type": "text",
+            "content": "This programme is ideal for anyone who’s interested in using psychology to make a positive contribution to the lives of children and young people."
+          }
+        ],
+        "modules": [
+          6,
+          9
+        ],
+        "staff": 3
+      }
+    ],
+    "modules": [
+      {
+        "id": 1,
+        "name": "Introduction to Research Skills for Psychologists - Quantitative",
+        "description": "Introduction to Psychology",
+        "details": [
+          {
+            "type": "header",
+            "content": "Programme Overview"
+          },
+          {
+            "type": "text",
+            "content": "This programme provides an in-depth understanding of human behavior..."
+          },
+          {
+            "type": "image",
+            "src": "assets/psychology.jpg",
+            "alt": "Psychology Programme Image"
+          }
+        ],
+        "assessment": "Poster Presentation (50%), Essay (50%)"
+      },
+      {
+        "id": 2,
+        "name": "Professional Development for Psychologists",
+        "description": "Cognitive Neuroscience",
+        "details": [
+          {
+            "type": "header",
+            "content": "Programme Overview"
+          },
+          {
+            "type": "text",
+            "content": "This programme provides an in-depth understanding of human behavior..."
+          },
+          {
+            "type": "image",
+            "src": "assets/psychology.jpg",
+            "alt": "Psychology Programme Image"
+          }
+        ],
+        "assessment": "Poster Presentation (50%), Essay (50%)"
+      },
+      {
+        "id": 3,
+        "name": "Contemporary Issues in Psychology",
+        "description": "Research Methods in Psychology",
+        "details": [
+          {
+            "type": "header",
+            "content": "Programme Overview"
+          },
+          {
+            "type": "text",
+            "content": "This programme provides an in-depth understanding of human behavior..."
+          },
+          {
+            "type": "image",
+            "src": "assets/psychology.jpg",
+            "alt": "Psychology Programme Image"
+          }
+        ],
+        "assessment": "Poster Presentation (50%), Essay (50%)"
+      },
+      {
+        "id": 4,
+        "name": "Introduction to Forensic Psychology",
+        "description": "Developmental Psychology",
+        "details": [
+          {
+            "type": "header",
+            "content": "Programme Overview"
+          },
+          {
+            "type": "text",
+            "content": "This programme provides an in-depth understanding of human behavior..."
+          },
+          {
+            "type": "image",
+            "src": "assets/psychology.jpg",
+            "alt": "Psychology Programme Image"
+          }
+        ],
+        "assessment": "Poster Presentation (50%), Essay (50%)"
+      },
+      {
+        "id": 5,
+        "name": "Introduction to Counselling Psychology",
+        "description": "Developmental Psychology",
+        "details": [
+          {
+            "type": "header",
+            "content": "Programme Overview"
+          },
+          {
+            "type": "text",
+            "content": "This programme provides an in-depth understanding of human behavior..."
+          },
+          {
+            "type": "image",
+            "src": "assets/psychology.jpg",
+            "alt": "Psychology Programme Image"
+          }
+        ],
+        "assessment": "Poster Presentation (50%), Essay (50%)"
+      },
+      {
+        "id": 6,
+        "name": "Introduction to Child and Educational Psychology (first year)",
+        "description": "Developmental Psychology",
+        "details": [
+          {
+            "type": "header",
+            "content": "Module Overview"
+          },
+          {
+            "type": "text",
+            "content": "In this module we take a deep dive into understanding foundational concepts in child and educational psychology. We begin by looking at how children develop during in their first few years of life. We then turn to look at some key theories of psychology and how they we can apply them in an educational context. Finally, we explore some current debates in educational psychology around how best to identify and support students with additional needs."
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "name": "Principles of Sport Psychology",
+        "description": "Developmental Psychology",
+        "details": [
+          {
+            "type": "header",
+            "content": "Programme Overview"
+          },
+          {
+            "type": "text",
+            "content": "This programme provides an in-depth understanding of human behavior..."
+          },
+          {
+            "type": "image",
+            "src": "assets/psychology.jpg",
+            "alt": "Psychology Programme Image"
+          }
+        ],
+        "assessment": "Poster Presentation (50%), Essay (50%)"
+      },
+      {
+        "id": 8,
+        "name": "Understanding Human Behaviour",
+        "description": "Developmental Psychology",
+        "details": [
+          {
+            "type": "header",
+            "content": "Programme Overview"
+          },
+          {
+            "type": "text",
+            "content": "This programme provides an in-depth understanding of human behavior..."
+          },
+          {
+            "type": "image",
+            "src": "assets/psychology.jpg",
+            "alt": "Psychology Programme Image"
+          }
+        ],
+        "assessment": "Poster Presentation (50%), Essay (50%)"
+      },
+      {
+        "id": 9,
+        "name": "Child and Educational Psychology in Theory and Practice",
+        "description": "Developmental Psychology",
+        "details": [
+          {
+            "type": "header",
+            "content": "Programme Overview"
+          },
+          {
+            "type": "text",
+            "content": "This programme provides an in-depth understanding of human behavior..."
+          },
+          {
+            "type": "image",
+            "src": "assets/psychology.jpg",
+            "alt": "Psychology Programme Image"
+          }
+        ],
+        "assessment": "Poster Presentation (50%), Essay (50%)"
+      }
+    ],
+    "staff": [
+      {
+        "id": 1,
+        "name": "Candice Whitaker",
+        "picture": "assets/candice.png"
+      },
+      {
+        "id": 2,
+        "name": "Fayme Yeates",
+        "picture": "assets/fayme.png"
+      }
+
+    ]
+  }

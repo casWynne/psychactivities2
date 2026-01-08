@@ -1,0 +1,121 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9; /* Light, neutral background */
+    color: #333; /* Slightly muted text color */
+    margin: 0;
+    padding: 20px;
+}
+
+
+#thoughts-container, #q-sort-grid {
+    margin-top: 20px;
+}
+
+#thoughts-list div {
+    padding: 10px;
+    margin: 5px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    cursor: grab;
+}
+
+.grid-row {
+    display: flex;
+    justify-content: center; /* Center the rows */
+    margin-bottom: 10px; /* Space between rows */
+}
+
+.grid-cell {
+    width: 100px; /* Square dimensions */
+    height: 100px;
+    border: 2px solid #ccc; /* Default border */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.drop-zone {
+    border: 2px dashed #aaa; /* Different style for drop zones */
+}
+
+.draggable {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: grab;
+    border: 2px solid; /* Border will be styled via JavaScript */
+}
+
+/* Container to hold the thought sections side by side */
+.thoughts-row {
+    display: flex;
+    justify-content: space-between; /* Spread them out evenly */
+    margin-bottom: 20px;
+}
+
+.thought-section {
+    flex: 1; /* Each section takes up equal space */
+    margin: 0 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    min-height: 100px;
+    text-align: center; /* Center the text in each section */
+}
+
+/* Thought section borders */
+#negative-thoughts-list {
+    border-color: red;
+}
+
+#neutral-thoughts-list {
+    border-color: blue;
+}
+
+#positive-thoughts-list {
+    border-color: green;
+}
+
+/* Thought item style */
+.thought-item {
+    position: relative;
+    padding: 10px;
+    border: 2px solid #ccc;
+    display: inline-block;
+    margin: 5px;
+    cursor: grab;
+    width: 100px;
+    height: 100px;
+    box-sizing: border-box;
+}
+
+/* Thought border colors based on value */
+.positive {
+    border-color: green;
+}
+
+.neutral {
+    border-color: blue;
+}
+
+.negative {
+    border-color: red;
+}
+
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: red;
+    font-size: 16px;  /* Adjust size of the "X" */
+    font-family: Arial, sans-serif;  /* Change the font */
+    cursor: pointer;
+    font-weight: bold;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+

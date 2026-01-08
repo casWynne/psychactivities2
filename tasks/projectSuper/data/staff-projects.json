@@ -4,7 +4,7 @@
       "id": "staff-1",
       "name": "Dr Fayme Yeates",
       "email": "staff1@university.ac.uk",
-      "avatar": "images/fayme.png",
+      "avatar": "../../assets/staff/faymeyeates.png",
       "avatarPosition": "50% 5%",
       "keywords": [
         "Sequences",
@@ -57,7 +57,7 @@
       "id": "staff-3",
       "name": "Dr Paul McGivern",
       "email": "p.mcgivern@leedstrinity.ac.uk",
-      "avatar": "images/paulmcgivern.jpg",
+      "avatar": "../../assets/staff/paulmcgivern.jpg",
       "avatarPosition": "50%",
       "keywords": [
         "Gambling",
@@ -82,7 +82,7 @@
       "id": "staff-4",
       "name": "Dr Richard A.C. Simpson",
       "email": "R.Simpson@leedstrinity.ac.uk",
-      "avatar": "images/richardsimpson.jpg",
+      "avatar": "../../assets/staff/richardsimpson.jpg",
       "avatarPosition": "50%",
       "keywords": [
         "Human Flourishing",
@@ -108,7 +108,7 @@
       "id": "staff-5",
       "name": "Dr Shames Maskeen",
       "email": "s.maskeen@leedstrinity.ac.uk",
-      "avatar": "images/shamesmaskeen.jpg",
+      "avatar": "../../assets/staff/shamesmaskeen.jpg",
       "avatarPosition": "50%",
       "keywords": [
         "Widening Participation",
@@ -211,7 +211,7 @@
       "id": "staff-8",
       "name": "Dr Alison Torn",
       "email": "a.torn@leedstrinity.ac.uk",
-      "avatar": "images/alisontorn.jpg",
+      "avatar": "../../assets/staff/alisontorn.jpg",
       "avatarPosition": "50% 30%",
       "keywords": [
         "Student Engagement",
@@ -247,7 +247,7 @@
       "id": "staff-9",
       "name": "Dr Candice Whitaker",
       "email": "c.whitaker@leedstrinity.ac.uk",
-      "avatar": "images/candicewhitaker.jpg",
+      "avatar": "../../assets/staff/candicewhitaker.jpg",
       "avatarPosition": "50% 50%",
       "keywords": [
         "Masculinities",

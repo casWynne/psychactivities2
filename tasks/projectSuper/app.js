@@ -672,7 +672,7 @@ document.addEventListener("DOMContentLoaded", () => {
       card.setAttribute("aria-expanded", "false");
 
       const avatarSrc =
-        item.avatar && item.avatar.trim() !== "" ? item.avatar : "images/default-avatar.jpg";
+        item.avatar && item.avatar.trim() !== "" ? item.avatar : "../../assets/staff/default-avatar.jpg";
       const avatarPosition = item.avatarPosition || "50% 50%";
 
       const keywordsHtml = (item.keywords || [])

@@ -164,6 +164,10 @@
         el.dataset.title = title || "";
         el.dataset.notes = notes || "";
 
+        if (notes && notes.trim()) {
+            el.classList.add("has-notes");
+        }
+
         el.appendChild(createCloseButton(el));
 
         const content = document.createElement("div");
@@ -292,6 +296,14 @@
         const notesInput = $("modal-thought-notes");
         const countEl = $("title-count");
 
+        const heading = modal.querySelector("h3");
+        if (heading) {
+            heading.textContent = mode === "edit"
+                ? "Edit thought"
+                : "Add thought";
+        }
+
+
         if (!modal || !titleInput || !notesInput) return;
 
         modalMode = mode;
@@ -377,6 +389,9 @@
                     const content = el.querySelector(".thought-content");
                     if (content) content.textContent = title;
                 }
+
+                if (notes.trim()) el.classList.add("has-notes");
+                else el.classList.remove("has-notes");
                 closeThoughtModal();
                 return;
             }
@@ -468,27 +483,27 @@
     // ---------------------------------------------------------------------------
     // Core UI actions
     // ---------------------------------------------------------------------------
-    function addThoughtFromInput() {
-        const thoughtText = $("thought-text")?.value ?? "";
-        if (!thoughtText.trim()) return;
+    // function addThoughtFromInput() {
+    //     const thoughtText = $("thought-text")?.value ?? "";
+    //     if (!thoughtText.trim()) return;
 
-        const thoughtValue = getNewThoughtType(); // <-- NEW
+    //     const thoughtValue = getNewThoughtType(); // <-- NEW
 
-        const id = `thought-${state.nextThoughtId++}`;
-        const className = `thought-item ${thoughtValue}`;
+    //     const id = `thought-${state.nextThoughtId++}`;
+    //     const className = `thought-item ${thoughtValue}`;
 
-        const thoughtEl = buildThoughtElement({
-            id,
-            text: thoughtText.trim(),
-            className,
-        });
+    //     const thoughtEl = buildThoughtElement({
+    //         id,
+    //         text: thoughtText.trim(),
+    //         className,
+    //     });
 
-        // Always add to the "Unsorted" tray
-        $("neutral-thoughts-list")?.appendChild(thoughtEl);
+    //     // Always add to the "Unsorted" tray
+    //     $("neutral-thoughts-list")?.appendChild(thoughtEl);
 
-        $("thought-text").value = "";
-        $("thought-text")?.focus();
-    }
+    //     $("thought-text").value = "";
+    //     $("thought-text")?.focus();
+    // }
 
 
 
@@ -791,50 +806,83 @@
 
 
 
-    function collectThoughtsWithNotes() {
+    function collectThoughtsForPrint() {
         const all = Array.from(document.querySelectorAll(".thought-item"));
-        const withNotes = all
-            .map((el) => {
-                const title = (el.dataset.title || "").trim();
-                const notes = (el.dataset.notes || "").trim();
-                if (!notes) return null;
 
-                const value = getThoughtValueLabel(el);
-                return { id: el.id, title: title || "(untitled)", notes, value };
-            })
-            .filter(Boolean);
+        const items = all.map((el) => {
+            const title = (el.dataset.title || "").trim() || "(untitled)";
+            const notes = (el.dataset.notes || "").trim();
+            const value = getThoughtValueLabel(el);
 
-        // Sort by grid value then title (unsorted at end)
+            return {
+                id: el.id,
+                title,
+                notes,
+                hasNotes: !!notes,
+                value,
+            };
+        });
+
+        // Sort by grid value, unsorted last, then title
         const order = { "-3": 1, "-2": 2, "-1": 3, "0": 4, "1": 5, "2": 6, "3": 7, "Unsorted": 99 };
-        withNotes.sort((a, b) => (order[a.value] - order[b.value]) || a.title.localeCompare(b.title));
+        items.sort((a, b) =>
+            (order[a.value] - order[b.value]) ||
+            a.title.localeCompare(b.title)
+        );
 
-        return withNotes;
+        return items;
     }
+
 
     function buildPrintNotesSection() {
         const section = $("print-notes");
         const body = $("print-notes-body");
         if (!section || !body) return;
 
-        const items = collectThoughtsWithNotes();
-
-        // If no notes, keep section hidden so prints stay clean
+        const items = collectThoughtsForPrint();
         if (!items.length) {
             section.hidden = true;
             body.innerHTML = "";
             return;
         }
 
-        section.hidden = false;
+        // Group by position
+        const groups = {};
+        items.forEach((t) => {
+            const key = t.value ?? "Unsorted";
+            if (!groups[key]) groups[key] = [];
+            groups[key].push(t);
+        });
 
-        body.innerHTML = items.map((t) => `
-    <div class="print-note-item">
-      <div class="print-note-title">${escapeHtml(t.title)}</div>
-      <div class="print-note-meta">Position: ${escapeHtml(String(t.value))}</div>
-      <div class="print-note-text">${escapeHtml(t.notes)}</div>
+        // Order groups numerically, unsorted last
+        const orderedKeys = Object.keys(groups).sort((a, b) => {
+            if (a === "Unsorted") return 1;
+            if (b === "Unsorted") return -1;
+            return Number(a) - Number(b);
+        });
+
+        body.innerHTML = orderedKeys.map((key) => `
+    <div class="print-note-group">
+      <h4 class="print-note-group-title">
+        ${key === "Unsorted" ? "Unsorted thoughts" : `Position ${key}`}
+      </h4>
+
+      ${groups[key].map(t => `
+        <div class="print-note-item">
+          <div class="print-note-title">${escapeHtml(t.title)}</div>
+          ${t.hasNotes
+                ? `<div class="print-note-text">${escapeHtml(t.notes)}</div>`
+                : `<div class="print-note-empty"><em>No notes</em></div>`
+            }
+        </div>
+      `).join("")}
     </div>
   `).join("");
+
+        section.hidden = false;
     }
+
+
 
     function clearPrintNotesSection() {
         const section = $("print-notes");

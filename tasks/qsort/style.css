@@ -1,0 +1,154 @@
+/* ==========================================================================
+   LANDING PAGE — Q-SORT
+   ========================================================================== */
+
+:root{
+  --bg: #f7f7fb;
+  --card: #ffffff;
+  --text: #1f2937;
+  --muted: rgba(31, 41, 55, 0.72);
+
+  --border: rgba(0,0,0,0.12);
+  --border-strong: rgba(0,0,0,0.18);
+
+  --radius: 14px;
+  --gap: 14px;
+
+  --max: 980px;
+}
+
+*,
+*::before,
+*::after{ box-sizing: border-box; }
+
+body{
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+.page{
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 28px 16px 34px;
+}
+
+/* Header */
+.landing-header{
+  padding: 10px 6px 0;
+  margin-bottom: 18px;
+}
+
+.landing-header h1{
+  font-size: 2rem;
+  margin: 0 0 6px;
+  letter-spacing: 0.2px;
+}
+
+.muted{
+  opacity: 0.78;
+}
+
+.landing-header .muted{
+  margin: 0;
+  max-width: 70ch;
+  line-height: 1.4;
+}
+
+/* Main content layout */
+.landing{
+  display: grid;
+  gap: var(--gap);
+}
+
+/* Cards */
+.card{
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 16px 14px;
+}
+
+.card h2{
+  font-size: 1.1rem;
+  margin: 0 0 10px;
+}
+
+.card p{
+  margin: 0;
+  line-height: 1.5;
+  max-width: 80ch;
+}
+
+.card ul,
+.card ol{
+  margin: 0;
+  padding-left: 18px;
+  line-height: 1.5;
+}
+
+.card li{
+  margin: 6px 0;
+}
+
+/* Actions */
+.landing-actions{
+  background: rgba(255,255,255,0.70);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* Buttons */
+.btn{
+  border: 1px solid var(--border-strong);
+  background: #fff;
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn.primary{
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+.btn.ghost{
+  background: #fff;
+}
+
+.btn:disabled{
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn:active{
+  transform: translateY(1px);
+}
+
+/* Footer */
+.landing-footer{
+  margin-top: 16px;
+  padding: 8px 6px 0;
+  font-size: 0.95rem;
+}
+
+/* Nice responsive spacing */
+@media (max-width: 640px){
+  .page{ padding-top: 18px; }
+  .landing-header h1{ font-size: 1.7rem; }
+  .landing-actions{ justify-content: stretch; }
+  .landing-actions .btn{ flex: 1; justify-content: center; }
+}

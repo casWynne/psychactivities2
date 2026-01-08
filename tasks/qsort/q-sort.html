@@ -2,127 +2,169 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./q-sort.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Q-Sort</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+    <link rel="stylesheet" href="q-sort.css" />
+
+    <!-- html2canvas for export PNG -->
+    <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script defer src="q-sort.js"></script>
 </head>
 
 <body>
-
-<header>
-    <h1>Q-Sort</h1>
-</header>
-
-<section class="task-description">
-    <p>
-        Describe what a Q-Sort is, how it is used, and in what settings.
-    </p>
-    <p>
-        Instructions for the user to follow.
-    </p>
-</section>
-
-<div class="task">
-    <!-- Subject Input -->
-    <div class="subject-input">
-        <p>Start by entering your main subject or topic:</p>
-        <input type="text" id="subject-text" placeholder="Describe your subject or topic...">
-        <button id="set-subject-button">Start</button>
-    </div>
-
-    <!-- Thought Input -->
-    <div class="statement-input">
-        <input type="text" id="thought-text" placeholder="Enter a thought...">
-        <input type="radio" name="thought-value" value="negative" id="negative-thought">
-        <label for="negative-thought">Negative</label>
-        <input type="radio" name="thought-value" value="neutral" id="neutral-thought">
-        <label for="neutral-thought">Neutral</label>
-        <input type="radio" name="thought-value" value="positive" id="positive-thought" checked>
-        <label for="positive-thought">Positive</label>
-
-        <button id="add-thought">Add Thought</button>
-    </div>
-
-    <!-- Thought List -->
-    <div id="thoughts-container" class="thoughts-row">
-        <!-- Negative Thoughts Section -->
-        <div id="negative-thoughts-list" class="thought-section">
-            <h4>Negative Thoughts</h4>
-        </div>
-    
-        <!-- Neutral Thoughts Section -->
-        <div id="neutral-thoughts-list" class="thought-section">
-            <h4>Neutral Thoughts</h4>
-        </div>
-    
-        <!-- Positive Thoughts Section -->
-        <div id="positive-thoughts-list" class="thought-section">
-            <h4>Positive Thoughts</h4>
+    <!-- Desktop-only blocker -->
+    <div class="mobile-block" id="mobileBlock" hidden>
+        <div class="mobile-block-card">
+            <h2>Desktop required</h2>
+            <p>This Q-sort uses drag-and-drop and a dense grid, so it won’t behave well on a phone.</p>
         </div>
     </div>
-    <!-- Q-Sort Grid -->
-    <div id="q-sort-grid">
-        <h3 id="grid-subject-header">Q-Sort Grid</h3>
-    
-        <div class="grid-row top-grid">
-            <div class="grid-cell drop-zone top-cell" data-column="1" data-value="-3">Negative<br>-3</div>
-            <div class="grid-cell drop-zone top-cell" data-column="2" data-value="-2">-2</div>
-            <div class="grid-cell drop-zone top-cell" data-column="3" data-value="-1">-1</div>
-            <div class="grid-cell drop-zone top-cell" data-column="4" data-value="0">Neutral<br>0</div>
-            <div class="grid-cell drop-zone top-cell" data-column="5" data-value="1">1</div>
-            <div class="grid-cell drop-zone top-cell" data-column="6" data-value="2">2</div>
-            <div class="grid-cell drop-zone top-cell" data-column="7" data-value="3">Positive<br>3</div>
-        </div>
-    
-        <div class="grid-row">
-            <div class="grid-cell drop-zone" data-column="1" id="row1-1" data-value=""></div>
-            <div class="grid-cell drop-zone" data-column="2" id="row1-2" data-value=""></div>
-            <div class="grid-cell drop-zone" data-column="3" id="row1-3" data-value=""></div>
-            <div class="grid-cell drop-zone" data-column="4" id="row1-4" data-value=""></div>
-            <div class="grid-cell drop-zone" data-column="5" id="row1-5" data-value=""></div>
-            <div class="grid-cell drop-zone" data-column="6" id="row1-6" data-value=""></div>
-            <div class="grid-cell drop-zone" data-column="7" id="row1-7" data-value=""></div>
-        </div>
-    
-        <div class="grid-row">
-            <div class="grid-cell drop-zone" data-column="1" id="row2-1" data-value=""></div>
-            <div class="grid-cell drop-zone" data-column="2" id="row2-2" data-value=""></div>
-            <div class="grid-cell drop-zone" data-column="3" id="row2-3" data-value=""></div>
-            <div class="grid-cell drop-zone" data-column="4" id="row2-4" data-value=""></div>
-            <div class="grid-cell drop-zone" data-column="5" id="row2-5" data-value=""></div>
-            <div class="grid-cell drop-zone" data-column="6" id="row2-6" data-value=""></div>
-            <div class="grid-cell drop-zone" data-column="7" id="row2-7" data-value=""></div>
-        </div>
-    
-        <div class="grid-row">
-            <div class="grid-cell drop-zone" data-column="2" id="row3-2" data-value=""></div>
-            <div class="grid-cell drop-zone" data-column="3" id="row3-3" data-value=""></div>
-            <div class="grid-cell drop-zone" data-column="4" id="row3-4" data-value=""></div>
-            <div class="grid-cell drop-zone" data-column="5" id="row3-5" data-value=""></div>
-            <div class="grid-cell drop-zone" data-column="6" id="row3-6" data-value=""></div>
-        </div>
-    
-        <div class="grid-row">
-            <div class="grid-cell drop-zone" data-column="3" id="row4-3" data-value=""></div>
-            <div class="grid-cell drop-zone" data-column="4" id="row4-4" data-value=""></div>
-            <div class="grid-cell drop-zone" data-column="5" id="row4-5" data-value=""></div>
-        </div>
-    
-        <div class="grid-row">
-            <div class="grid-cell drop-zone" data-column="4" id="row5-4" data-value=""></div>
-        </div>
-    </div>
-    
 
-    <div class="download">
-        <button id="download">Download</button>
-    </div>
+    <!-- Top navigation -->
+    <nav class="topnav" role="navigation" aria-label="Q-sort toolbar">
+        <div class="topnav-left">
+            <strong class="brand">Q-Sort</strong>
+            <span class="muted" id="navTitle"></span>
+        </div>
 
-</div>
+        <div class="topnav-right">
+            <button class="btn ghost" id="navNew" type="button">New</button>
 
-<script src="./q-sort.js"></script>
+            <label class="btn ghost">
+                Load
+                <input id="navLoadFile" type="file" accept="application/json" hidden />
+            </label>
 
+            <!-- Keep these in nav ONLY if you still want them.
+           If you want actions ONLY in the bottom bar, remove these two buttons
+           and we’ll wire bottom buttons instead. -->
+            <button class="btn ghost" id="navHelp" type="button">Help</button>
+        </div>
+    </nav>
+
+    <main class="qsort-shell">
+        <div class="qsort-layout">
+            <section class="panel add-panel" aria-label="Add thought">
+
+                <div class="row">
+                    <h2 class="panel-title">Add thought</h2>
+
+                    <div class="controls controls-wrap">
+                        <input id="thought-text" type="text" placeholder="Enter a thought…" />
+
+                        <label class="toggle">
+                            <input id="toggleThoughtTypes" type="checkbox" />
+                            Enable thought types
+                        </label>
+
+                        <fieldset class="radio-group">
+                            <legend class="visually-hidden">Thought type</legend>
+                            <label><input type="radio" name="thought-value" value="negative" /> Negative</label>
+                            <label><input type="radio" name="thought-value" value="neutral" /> Neutral</label>
+                            <label><input type="radio" name="thought-value" value="positive" checked /> Positive</label>
+                        </fieldset>
+
+                        <button id="add-thought" class="btn primary" type="button">
+                            Add thought
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Unsorted tray -->
+                <div class="tray">
+                    <div class="tray-title">Unsorted thoughts</div>
+
+                    <div id="neutral-thoughts-list" class="thought-list tray-list" aria-label="Unsorted thoughts"></div>
+
+                    <!-- Hidden banks kept for JS compatibility -->
+                    <div id="negative-thoughts-list" hidden></div>
+                    <div id="positive-thoughts-list" hidden></div>
+                </div>
+
+            </section>
+
+            <!-- Grid -->
+            <section class="panel grid-panel" aria-label="Q-sort grid">
+                <div id="q-sort-grid">
+                    <h3 id="grid-subject-header">Q-Sort Grid</h3>
+
+                    <!-- Header row (keep as-is if you still want top-cell dropping) -->
+                    <div class="grid-row top-grid">
+                        <div class="grid-cell drop-zone top-cell" data-column="1" data-value="-3">Negative<br>-3</div>
+                        <div class="grid-cell drop-zone top-cell" data-column="2" data-value="-2">-2</div>
+                        <div class="grid-cell drop-zone top-cell" data-column="3" data-value="-1">-1</div>
+                        <div class="grid-cell drop-zone top-cell" data-column="4" data-value="0">Neutral<br>0</div>
+                        <div class="grid-cell drop-zone top-cell" data-column="5" data-value="1">1</div>
+                        <div class="grid-cell drop-zone top-cell" data-column="6" data-value="2">2</div>
+                        <div class="grid-cell drop-zone top-cell" data-column="7" data-value="3">Positive<br>3</div>
+                    </div>
+
+                    <!-- Full rows -->
+                    <div class="grid-row">
+                        <div class="grid-cell drop-zone" data-column="1" id="row1-1"></div>
+                        <div class="grid-cell drop-zone" data-column="2" id="row1-2"></div>
+                        <div class="grid-cell drop-zone" data-column="3" id="row1-3"></div>
+                        <div class="grid-cell drop-zone" data-column="4" id="row1-4"></div>
+                        <div class="grid-cell drop-zone" data-column="5" id="row1-5"></div>
+                        <div class="grid-cell drop-zone" data-column="6" id="row1-6"></div>
+                        <div class="grid-cell drop-zone" data-column="7" id="row1-7"></div>
+                    </div>
+
+                    <div class="grid-row">
+                        <div class="grid-cell drop-zone" data-column="1" id="row2-1"></div>
+                        <div class="grid-cell drop-zone" data-column="2" id="row2-2"></div>
+                        <div class="grid-cell drop-zone" data-column="3" id="row2-3"></div>
+                        <div class="grid-cell drop-zone" data-column="4" id="row2-4"></div>
+                        <div class="grid-cell drop-zone" data-column="5" id="row2-5"></div>
+                        <div class="grid-cell drop-zone" data-column="6" id="row2-6"></div>
+                        <div class="grid-cell drop-zone" data-column="7" id="row2-7"></div>
+                    </div>
+
+                    <!-- Pyramid rows (with true blanks) -->
+                    <div class="grid-row">
+                        <div class="grid-cell blank"></div>
+                        <div class="grid-cell drop-zone" data-column="2" id="row3-2"></div>
+                        <div class="grid-cell drop-zone" data-column="3" id="row3-3"></div>
+                        <div class="grid-cell drop-zone" data-column="4" id="row3-4"></div>
+                        <div class="grid-cell drop-zone" data-column="5" id="row3-5"></div>
+                        <div class="grid-cell drop-zone" data-column="6" id="row3-6"></div>
+                        <div class="grid-cell blank"></div>
+                    </div>
+
+                    <div class="grid-row">
+                        <div class="grid-cell blank"></div>
+                        <div class="grid-cell blank"></div>
+                        <div class="grid-cell drop-zone" data-column="3" id="row4-3"></div>
+                        <div class="grid-cell drop-zone" data-column="4" id="row4-4"></div>
+                        <div class="grid-cell drop-zone" data-column="5" id="row4-5"></div>
+                        <div class="grid-cell blank"></div>
+                        <div class="grid-cell blank"></div>
+                    </div>
+
+                    <div class="grid-row">
+                        <div class="grid-cell blank"></div>
+                        <div class="grid-cell blank"></div>
+                        <div class="grid-cell blank"></div>
+                        <div class="grid-cell drop-zone" data-column="4" id="row5-4"></div>
+                        <div class="grid-cell blank"></div>
+                        <div class="grid-cell blank"></div>
+                        <div class="grid-cell blank"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- Bottom actions -->
+        <footer class="bottombar" role="contentinfo" aria-label="Actions">
+            <button class="btn" id="btnSaveLocal" type="button">Save (local)</button>
+            <button class="btn ghost" id="btnClearLocal" type="button">Clear local</button>
+            <button class="btn" id="btnExportJson" type="button">Export (JSON)</button>
+            <button class="btn" id="btnPrintGrid" type="button">Print grid</button>
+            <span class="muted" id="localStatus" aria-live="polite"></span>
+        </footer>
+
+    </main>
 </body>
+
 </html>

@@ -93,9 +93,22 @@
     }
 
     function promptForTitle() {
-        const title = window.prompt("Title / topic for this Q-sort?");
-        if (title && title.trim()) setTitle(title.trim());
+        const modal = document.getElementById("title-modal");
+        const input = document.getElementById("title-input");
+
+        modal.classList.remove("hidden");
+        input.value = "";
+        input.focus();
+
+        document.getElementById("title-ok").onclick = () => {
+            const title = input.value.trim();
+            if (!title) return;
+
+            modal.classList.add("hidden");
+            setTitle(title);
+        };
     }
+
 
     // ---------------------------------------------------------------------------
     // Thought element creation

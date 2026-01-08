@@ -146,6 +146,8 @@ body {
 }
 
 .grid-panel {
+    background-color: #f0f2f5;
+
     min-height: 0;
     max-height: calc(100vh - var(--nav-h) - 24px);
     display: flex;
@@ -156,7 +158,6 @@ body {
 
 
 .grid-panel #q-sort-grid {
-    background-color: #f0f2f5;
     display: grid;
     place-items: center;
     padding: 10px;
@@ -166,7 +167,26 @@ body {
     transform-origin: top center;
 }
 
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.modal-box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 320px;
+}
+
+.hidden {
+    display: none;
+}
+s
 
 /* ==========================================================================
    ADD THOUGHT CONTROLS

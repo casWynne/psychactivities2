@@ -562,7 +562,12 @@
 
         if (printBtn) {
             printBtn.addEventListener("click", () => {
+                document.body.classList.add("is-printing");
                 window.print();
+                // remove after printing (some browsers support afterprint reliably)
+                window.addEventListener("afterprint", () => {
+                    document.body.classList.remove("is-printing");
+                }, { once: true });
             });
         }
 

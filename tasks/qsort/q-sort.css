@@ -145,23 +145,27 @@ body {
     overflow: auto;
 }
 
-/* Right column grid fills remaining space */
 .grid-panel {
     min-height: 0;
+    max-height: calc(100vh - var(--nav-h) - 24px);
     display: flex;
     flex-direction: column;
+    overflow: auto;
+    scrollbar-gutter: stable both-edges;
 }
 
+
 .grid-panel #q-sort-grid {
-    flex: 1;
-    min-height: 0;
     display: grid;
     place-items: center;
-    overflow: hidden;
     padding: 10px;
+    min-height: fit-content;
+    overflow: visible;
     transform: scale(0.92);
-    transform-origin: center;
+    transform-origin: top center;
 }
+
+
 
 /* ==========================================================================
    ADD THOUGHT CONTROLS
@@ -260,17 +264,17 @@ input[type="text"] {
     cursor: grabbing;
 }
 
-.thought-content{
-  font-size: 0.85rem;
-  font-weight: 500;
+.thought-content {
+    font-size: 0.85rem;
+    font-weight: 500;
 
-  /* keep text away from close button */
-  padding-right: 18px;
+    /* keep text away from close button */
+    padding-right: 18px;
 
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 5;
-  overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
 }
 
 
@@ -286,24 +290,24 @@ input[type="text"] {
     border-color: var(--pos);
 }
 
-.close-btn{
-  position: absolute;
-  top: 6px;
-  right: 6px;
+.close-btn {
+    position: absolute;
+    top: 6px;
+    right: 6px;
 
-  width: 20px;
-  height: 20px;
-  display: grid;
-  place-items: center;
+    width: 20px;
+    height: 20px;
+    display: grid;
+    place-items: center;
 
-  border-radius: 999px;
-  background: rgba(255,255,255,.9);
-  border: 1px solid rgba(0,0,0,.12);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .9);
+    border: 1px solid rgba(0, 0, 0, .12);
 
-  font-size: 14px;
-  line-height: 1;
-  color: #c00;
-  opacity: 0.85;
+    font-size: 14px;
+    line-height: 1;
+    color: #c00;
+    opacity: 0.85;
 }
 
 .thought-item:hover .close-btn {
@@ -423,5 +427,121 @@ input[type="text"] {
 
     .grid-panel {
         order: 1;
+    }
+}
+
+/* ==========================================================================
+   PRINT — title, then grid, then unsorted tray
+   ========================================================================== */
+/* ==========================================================================
+   PRINT — title, then grid, then unsorted tray
+   ========================================================================== */
+@media print {
+
+    /* Page reset */
+    body {
+        background: #fff !important;
+        margin: 0 !important;
+    }
+
+    @page {
+        margin: 12mm;
+    }
+
+    /* Turn the app back into a normal document for printing */
+    .qsort-shell {
+        height: auto !important;
+        padding: 0 !important;
+        display: block !important;
+    }
+
+    .qsort-layout {
+        display: block !important;
+        height: auto !important;
+        min-height: auto !important;
+    }
+
+    .add-panel,
+    .grid-panel {
+        display: block !important;
+        min-height: auto !important;
+        overflow: visible !important;
+    }
+
+    /* Remove on-screen centring + scaling rules that can cause overlap */
+    .grid-panel #q-sort-grid {
+        transform: none !important;
+        overflow: visible !important;
+        padding: 0 !important;
+        margin: 0 0 14mm 0 !important;
+        /* <-- gap before tray */
+        display: block !important;
+    }
+
+    /* Hide everything by default (but keep layout alive) */
+    body * {
+        visibility: hidden !important;
+    }
+
+    /* Show only: title, grid, tray (and their children) */
+    #grid-subject-header,
+    #q-sort-grid,
+    .tray,
+    #grid-subject-header *,
+    #q-sort-grid *,
+    .tray * {
+        visibility: visible !important;
+    }
+
+    /* UI-only elements should not appear */
+    .topnav,
+    .bottombar,
+    .close-btn,
+    .radio-group,
+    .toggle,
+    .row,
+    /* hides add-thought controls */
+    input,
+    button,
+    textarea,
+    select {
+        visibility: hidden !important;
+    }
+
+    /* Title */
+    #grid-subject-header {
+        font-size: 16pt !important;
+        margin: 0 0 8mm 0 !important;
+    }
+
+    /* Tray prints after grid */
+    .tray {
+        margin: 0 !important;
+        padding-top: 6mm !important;
+        border-top: 1px solid #000 !important;
+        display: block !important;
+        clear: both !important;
+    }
+
+    .tray-title {
+        font-size: 12pt !important;
+        margin: 0 0 4mm 0 !important;
+    }
+
+    .tray-list {
+        border: 1px solid #000 !important;
+        border-radius: 0 !important;
+        padding: 6mm !important;
+        min-height: 0 !important;
+    }
+
+    /* Print-friendly borders */
+    .drop-zone {
+        border-color: #000 !important;
+    }
+
+    .thought-item {
+        border-color: #000 !important;
+        page-break-inside: avoid;
     }
 }

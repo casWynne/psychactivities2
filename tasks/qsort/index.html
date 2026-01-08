@@ -2,217 +2,239 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Q-Sort Tool</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Q-Sort Tool</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-    <div class="page">
-        <header class="landing-header">
-            <h1>Q-Sort Tool</h1>
-            <p class="muted">Sort statements into a grid to represent a viewpoint, priority, or experience.</p>
-        </header>
+  <div class="page">
+    <header class="landing-header">
+      <h1>Q-Sort Tool</h1>
+      <p class="muted">Sort statements into a grid to represent a viewpoint, priority, or experience.</p>
+    </header>
 
-        <main class="landing">
-            <section class="card">
-                <h2>What is a Q-sort?</h2>
-                <p>
-                    A Q-sort is a structured way of ranking statements (or “thought cards”) along a scale
-                    such as “most like me” to “least like me”. It’s often used in psychology and education
-                    to capture a person’s perspective in a form that can be discussed or analysed.
-                </p>
-            </section>
+    <main class="landing">
+      <section class="card">
+        <h2>What is a Q-sort?</h2>
+        <p>
+          A Q-sort is a structured way of ranking statements (or “thought cards”) along a scale
+          such as “most like me” to “least like me”. It’s often used in psychology and education
+          to capture a person’s perspective in a form that can be discussed or analysed.
+        </p>
+      </section>
 
-            <section class="card">
-                <h2>How can it be used?</h2>
-                <ul>
-                    <li><strong>Supervision / coaching:</strong> sort challenges from “most pressing” to “least
-                        pressing”.</li>
-                    <li><strong>Therapy / reflection:</strong> sort beliefs from “strongly true” to “strongly untrue”.
-                    </li>
-                    <li><strong>Teaching:</strong> sort concepts from “confident” to “not confident”.</li>
-                    <li><strong>Research:</strong> collect comparable ranked sorts across participants.</li>
-                </ul>
-            </section>
+      <section class="card">
+        <h2>How can it be used?</h2>
+        <ul>
+          <li><strong>Supervision / coaching:</strong> sort challenges from “most pressing” to “least
+            pressing”.</li>
+          <li><strong>Therapy / reflection:</strong> sort beliefs from “strongly true” to “strongly untrue”.
+          </li>
+          <li><strong>Teaching:</strong> sort concepts from “confident” to “not confident”.</li>
+          <li><strong>Research:</strong> collect comparable ranked sorts across participants.</li>
+        </ul>
+      </section>
 
-            <section class="card">
-                <h2>How to use this app</h2>
-                <ol>
-                    <li>Start a new Q-sort (or load one you saved earlier).</li>
-                    <li>Give it a title/topic (e.g., “My current stressors”).</li>
-                    <li>Add thought cards (positive / neutral / negative if you want that structure).</li>
-                    <li>Drag cards into the grid to rank them.</li>
-                    <li>Save as JSON to continue later, or export the grid as an image.</li>
-                </ol>
-            </section>
+      <section class="card">
+        <h2>How to use this app</h2>
+        <ol>
+          <li>Start a new Q-sort (or load one you saved earlier).</li>
+          <li>Give it a title/topic (e.g., “My current stressors”).</li>
+          <li>Add thought cards (positive / neutral / negative if you want that structure).</li>
+          <li>Drag cards into the grid to rank them.</li>
+          <li>Save as JSON to continue later, or export the grid as an image.</li>
+        </ol>
+      </section>
 
-            <section class="landing-actions">
-                <button class="btn primary" id="startNew" type="button">Start new Q-sort</button>
+      <section class="landing-actions">
+        <button class="btn primary" id="startNew" type="button">Start new Q-sort</button>
 
-                <button class="btn ghost" id="continueLocal" type="button" disabled>
-                    Continue (local)
-                </button>
+        <button class="btn ghost" id="continueLocal" type="button" disabled>
+          Continue (local)
+        </button>
 
-                <button class="btn ghost" id="clearLocal" type="button">
-                    Clear local data
-                </button>
+        <button class="btn ghost" id="clearLocal" type="button">
+          Clear local data
+        </button>
 
-                <button class="btn ghost" id="importJson" type="button">
-                    Import JSON
-                </button>
-                <input id="loadFile" type="file" accept="application/json" hidden />
-            </section>
+        <button class="btn ghost" id="importJson" type="button">
+          Import JSON
+        </button>
+        <input id="loadFile" type="file" accept="application/json" hidden />
 
-        </main>
+        <button class="btn ghost" id="startBeta" type="button">Start Beta</button>
 
-        <footer class="landing-footer muted">
-            <span>Created by Caspar Wynne</span>
-        </footer>
-    </div>
+      </section>
 
-<script>
-  // ----------------------------
-  // Elements
-  // ----------------------------
-  const btnStart = document.getElementById("startNew");
-  const btnContinue = document.getElementById("continueLocal");
-  const btnClear = document.getElementById("clearLocal");
-  const btnImport = document.getElementById("importJson");
-  const fileInput = document.getElementById("loadFile");
+    </main>
 
-  // ----------------------------
-  // Helpers
-  // ----------------------------
-  function qsortUrl() {
-    // Robust for GitHub Pages / subfolders
-    return new URL("q-sort.html", window.location.href).href;
-  }
+    <footer class="landing-footer muted">
+      <span>Created by Caspar Wynne</span>
+    </footer>
+  </div>
 
-  function hasLocalSave() {
-    try {
-      return !!localStorage.getItem("qsort_last");
-    } catch {
-      return false;
+  <script>
+    // ----------------------------
+    // Elements
+    // ----------------------------
+    const btnStart = document.getElementById("startNew");
+    const btnContinue = document.getElementById("continueLocal");
+    const btnClear = document.getElementById("clearLocal");
+    const btnImport = document.getElementById("importJson");
+    const fileInput = document.getElementById("loadFile");
+    const btnBeta = document.getElementById("startBeta");
+    // ----------------------------
+    // Helpers
+    // ----------------------------
+    function qsortUrl() {
+      // Robust for GitHub Pages / subfolders
+      return new URL("q-sort.html", window.location.href).href;
     }
-  }
 
-  function setModeNewAndGo() {
-    try {
-      sessionStorage.setItem("qsort_mode", "new");
-      sessionStorage.removeItem("qsort_payload");
-    } catch (e) {
-      console.warn("sessionStorage blocked:", e);
+    function qsortBetaUrl() {
+      // Robust for GitHub Pages / subfolders
+      return new URL("./q-sort2/q-sort2.html", window.location.href).href;
     }
-    window.location.assign(qsortUrl());
-  }
 
-  function setModeLoadAndGo(jsonText) {
-    try {
-      sessionStorage.setItem("qsort_mode", "load");
-      sessionStorage.setItem("qsort_payload", jsonText);
-    } catch (e) {
-      console.warn("sessionStorage blocked:", e);
-    }
-    window.location.assign(qsortUrl());
-  }
-
-  function updateContinueState() {
-    if (!btnContinue) return;
-
-    const hasSave = hasLocalSave();
-    btnContinue.disabled = !hasSave;
-    btnContinue.textContent = hasSave
-      ? "Continue (local)"
-      : "Continue (local — none saved)";
-  }
-
-  // ----------------------------
-  // Start New
-  // ----------------------------
-  if (btnStart) {
-    btnStart.addEventListener("click", setModeNewAndGo);
-  }
-
-  // ----------------------------
-  // Continue Local
-  // ----------------------------
-  if (btnContinue) {
-    btnContinue.addEventListener("click", () => {
+    function hasLocalSave() {
       try {
-        const raw = localStorage.getItem("qsort_last");
-        if (!raw) {
+        return !!localStorage.getItem("qsort_last");
+      } catch {
+        return false;
+      }
+    }
+
+    function setModeNewAndGo() {
+      try {
+        sessionStorage.setItem("qsort_mode", "new");
+        sessionStorage.removeItem("qsort_payload");
+      } catch (e) {
+        console.warn("sessionStorage blocked:", e);
+      }
+      window.location.assign(qsortUrl());
+    }
+
+    function setModeBetaNewAndGo() {
+      try {
+        sessionStorage.setItem("qsort_mode", "new");
+        sessionStorage.removeItem("qsort_payload");
+      } catch (e) {
+        console.warn("sessionStorage blocked:", e);
+      }
+      window.location.assign(qsortBetaUrl());
+    }
+
+    function setModeLoadAndGo(jsonText) {
+      try {
+        sessionStorage.setItem("qsort_mode", "load");
+        sessionStorage.setItem("qsort_payload", jsonText);
+      } catch (e) {
+        console.warn("sessionStorage blocked:", e);
+      }
+      window.location.assign(qsortUrl());
+    }
+
+    function updateContinueState() {
+      if (!btnContinue) return;
+
+      const hasSave = hasLocalSave();
+      btnContinue.disabled = !hasSave;
+      btnContinue.textContent = hasSave
+        ? "Continue (local)"
+        : "Continue (local — none saved)";
+    }
+
+    // ----------------------------
+    // Start New
+    // ----------------------------
+    if (btnStart) {
+      btnStart.addEventListener("click", setModeNewAndGo);
+    }
+
+    if (btnBeta) {
+      btnBeta.addEventListener("click", setModeBetaNewAndGo);
+    }
+
+    // ----------------------------
+    // Continue Local
+    // ----------------------------
+    if (btnContinue) {
+      btnContinue.addEventListener("click", () => {
+        try {
+          const raw = localStorage.getItem("qsort_last");
+          if (!raw) {
+            updateContinueState();
+            return;
+          }
+          setModeLoadAndGo(raw);
+        } catch {
+          alert("Could not access local save in this browser.");
+        }
+      });
+    }
+
+    // ----------------------------
+    // Clear Local
+    // ----------------------------
+    if (btnClear) {
+      btnClear.addEventListener("click", () => {
+        if (!hasLocalSave()) {
+          alert("There is no local Q-sort to clear.");
           updateContinueState();
           return;
         }
-        setModeLoadAndGo(raw);
-      } catch {
-        alert("Could not access local save in this browser.");
-      }
-    });
-  }
 
-  // ----------------------------
-  // Clear Local
-  // ----------------------------
-  if (btnClear) {
-    btnClear.addEventListener("click", () => {
-      if (!hasLocalSave()) {
-        alert("There is no local Q-sort to clear.");
-        updateContinueState();
-        return;
-      }
+        const ok = confirm(
+          "This will permanently remove the locally saved Q-sort from this browser.\n\nThis cannot be undone."
+        );
+        if (!ok) return;
 
-      const ok = confirm(
-        "This will permanently remove the locally saved Q-sort from this browser.\n\nThis cannot be undone."
-      );
-      if (!ok) return;
+        try {
+          localStorage.removeItem("qsort_last");
+          updateContinueState();
+          alert("Local Q-sort data cleared.");
+        } catch {
+          alert("Could not clear local data in this browser.");
+        }
+      });
+    }
 
-      try {
-        localStorage.removeItem("qsort_last");
-        updateContinueState();
-        alert("Local Q-sort data cleared.");
-      } catch {
-        alert("Could not clear local data in this browser.");
-      }
-    });
-  }
+    // ----------------------------
+    // Import JSON
+    // ----------------------------
+    if (btnImport && fileInput) {
+      btnImport.addEventListener("click", () => fileInput.click());
 
-  // ----------------------------
-  // Import JSON
-  // ----------------------------
-  if (btnImport && fileInput) {
-    btnImport.addEventListener("click", () => fileInput.click());
+      fileInput.addEventListener("change", async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
 
-    fileInput.addEventListener("change", async (e) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
+        try {
+          const text = await file.text();
 
-      try {
-        const text = await file.text();
+          // Validate quickly before navigating
+          const data = JSON.parse(text);
+          if (!data || typeof data !== "object") throw new Error("Not an object");
+          if (data.version !== 1) throw new Error("Unsupported version");
 
-        // Validate quickly before navigating
-        const data = JSON.parse(text);
-        if (!data || typeof data !== "object") throw new Error("Not an object");
-        if (data.version !== 1) throw new Error("Unsupported version");
+          // Normalise + load
+          setModeLoadAndGo(JSON.stringify(data));
+        } catch (err) {
+          console.error(err);
+          alert("That file doesn't look like a valid Q-sort JSON export.");
+        } finally {
+          e.target.value = "";
+        }
+      });
+    }
 
-        // Normalise + load
-        setModeLoadAndGo(JSON.stringify(data));
-      } catch (err) {
-        console.error(err);
-        alert("That file doesn't look like a valid Q-sort JSON export.");
-      } finally {
-        e.target.value = "";
-      }
-    });
-  }
-
-  // ----------------------------
-  // Initial UI state
-  // ----------------------------
-  updateContinueState();
-</script>
+    // ----------------------------
+    // Initial UI state
+    // ----------------------------
+    updateContinueState();
+  </script>
 
 
 

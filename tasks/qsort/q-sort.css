@@ -156,6 +156,7 @@ body {
 
 
 .grid-panel #q-sort-grid {
+    background-color: #f0f2f5;
     display: grid;
     place-items: center;
     padding: 10px;

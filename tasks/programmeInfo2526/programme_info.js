@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function loadData() {
     try {
-      const res = await fetch("../data/programme_info.json", { cache: "no-store" });
+      const res = await fetch("programme_info.json", { cache: "no-store" });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       state.data = data;

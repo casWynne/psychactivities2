@@ -105,6 +105,23 @@ body {
     transform: translateY(1px);
 }
 
+/* Soft warning button (Clear local) */
+.btn.warn {
+  background: #fdecea;          /* very soft red */
+  border-color: #f5c2c0;
+  color: #8a1f1f;
+}
+
+.btn.warn:hover:not(:disabled) {
+  background: #f9d6d3;
+}
+
+.btn.warn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+
 /* ==========================================================================
    PAGE LAYOUT
    ========================================================================== */

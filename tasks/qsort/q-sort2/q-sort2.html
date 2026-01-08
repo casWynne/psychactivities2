@@ -33,9 +33,14 @@
             <button class="btn ghost" id="navNew" type="button">New</button>
 
             <label class="btn ghost">
-                Load
+                Load JSON
                 <input id="navLoadFile" type="file" accept="application/json" hidden />
             </label>
+
+            <button class="btn ghost" id="navLoadLocal" type="button">
+                Load (local)
+            </button>
+
 
             <!-- Keep these in nav ONLY if you still want them.
            If you want actions ONLY in the bottom bar, remove these two buttons
@@ -203,16 +208,16 @@
                 <div id="print-notes-body"></div>
             </section>
         </div>
-            <!-- Bottom actions -->
-            <footer class="bottombar" role="contentinfo" aria-label="Actions">
-                <button class="btn" id="btnSaveLocal" type="button">Save (local)</button>
-                <button class="btn ghost" id="btnClearLocal" type="button">Clear local</button>
-                <button class="btn" id="btnExportJson" type="button">Export (JSON)</button>
-                <button class="btn" id="btnPrintGrid" type="button">Print grid</button>
-                <span class="muted" id="localStatus" aria-live="polite"></span>
-                <span class="muted" id="appVersion"></span>
-                Created by Caspar Wynne
-            </footer>
+        <!-- Bottom actions -->
+        <footer class="bottombar" role="contentinfo" aria-label="Actions">
+            <button class="btn" id="btnSaveLocal" type="button">Save (local)</button>
+            <button class="btn warn" id="btnClearLocal" type="button">Clear local</button>
+            <button class="btn" id="btnExportJson" type="button">Export (JSON)</button>
+            <button class="btn" id="btnPrintGrid" type="button">Print grid</button>
+            <span class="muted" id="localStatus" aria-live="polite"></span>
+            <span class="muted" id="appVersion"></span>
+            Created by Caspar Wynne
+        </footer>
 
     </main>
 </body>

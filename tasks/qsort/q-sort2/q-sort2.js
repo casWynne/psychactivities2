@@ -20,10 +20,11 @@
         try { return !!localStorage.getItem("qsort_last"); }
         catch { return false; }
     }
-
+    
     function updateLocalUI() {
         const status = $("localStatus");
         const clearBtn = $("btnClearLocal");
+        const navLoadBtn = $("navLoadLocal");
 
         const hasSave = hasLocalSave();
 
@@ -37,7 +38,12 @@
             clearBtn.disabled = !hasSave;
             clearBtn.textContent = hasSave ? "Clear local" : "Clear local (none)";
         }
+
+        if (navLoadBtn) {
+            navLoadBtn.disabled = !hasSave;
+        }
     }
+
 
     // ---------------------------------------------------------------------------
     // App State
@@ -788,6 +794,26 @@
                 ].join("\n")
             );
         });
+
+        on($("navLoadLocal"), "click", () => {
+            if (!hasLocalSave()) {
+                updateLocalUI();
+                return;
+            }
+
+            try {
+                const raw = localStorage.getItem("qsort_last");
+                if (!raw) return;
+
+                const data = JSON.parse(raw);
+                loadFromData(data);
+                alert("Loaded local Q-sort.");
+            } catch (err) {
+                console.error(err);
+                alert("Could not load local data.");
+            }
+        });
+
     }
 
     function getThoughtValueLabel(thoughtEl) {

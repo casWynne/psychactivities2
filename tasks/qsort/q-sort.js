@@ -43,6 +43,13 @@
             navLoadBtn.disabled = !hasSave;
         }
     }
+
+    const DEFAULT_LABELS = {
+        left: "Negative",
+        centre: "Neutral",
+        right: "Positive",
+    };
+
     const DEFAULT_LAYOUT_ID = "pyramid-7";
 
     const GRID_LAYOUTS = {
@@ -129,10 +136,16 @@
             cell.dataset.column = String(col);
             cell.dataset.value = val;
 
-            // optional labels at ends + centre
-            if (col === 1) cell.innerHTML = `Negative<br>${val}`;
-            else if (col === half + 1) cell.textContent = val; // neutral
-            else if (col === layout.columns) cell.innerHTML = `Positive<br>${val}`;
+            const labels = normaliseLabels(state.labels);
+
+            if (col === 1) cell.innerHTML = `${escapeHtml(labels.left)}<br>${escapeHtml(val)}`;
+            else if (col === half + 1) {
+                // Centre cell: show label if provided, otherwise just the numeric value
+                const centreLabel = (labels.centre || "").trim();
+                if (centreLabel) cell.innerHTML = `${escapeHtml(centreLabel)}<br>${escapeHtml(val)}`;
+                else cell.textContent = val;
+            }
+            else if (col === layout.columns) cell.innerHTML = `${escapeHtml(labels.right)}<br>${escapeHtml(val)}`;
             else cell.textContent = val;
 
             topRow.appendChild(cell);
@@ -167,8 +180,6 @@
         root.querySelectorAll(".drop-zone").forEach(wireGridCellDrop);
     }
 
-
-
     // ---------------------------------------------------------------------------
     // App State
     // ---------------------------------------------------------------------------
@@ -177,7 +188,8 @@
         app: "q-sort-annotated",
         title: "",
         layoutId: DEFAULT_LAYOUT_ID,
-        nextThoughtId: 1 // will be bumped based on existing or loaded thoughts
+        labels: { ...DEFAULT_LABELS },
+        nextThoughtId: 1
     };
 
     const APP_INFO = {
@@ -210,8 +222,6 @@
         return map;
     }
 
-
-
     // ---------------------------------------------------------------------------
     // Title handling
     // ---------------------------------------------------------------------------
@@ -229,7 +239,18 @@
         const modal = document.getElementById("title-modal");
         const input = document.getElementById("title-input");
         const okBtn = document.getElementById("title-ok");
+        if (!modal || !input || !okBtn) return;
+
+        const labels = normaliseLabels(DEFAULT_LABELS);
+        const leftEl = document.getElementById("label-left");
+        const centreEl = document.getElementById("label-centre");
+        const rightEl = document.getElementById("label-right");
         let selectedLayout = state.layoutId || DEFAULT_LAYOUT_ID;
+
+        if (leftEl) leftEl.value = labels.left;
+        if (centreEl) centreEl.value = labels.centre;
+        if (rightEl) rightEl.value = labels.right;
+
 
         function setSelected(id) {
             selectedLayout = id;
@@ -247,15 +268,20 @@
             const title = input.value.trim();
             if (!title) return;
 
+            setLabels({
+                left: leftEl?.value ?? "",
+                centre: centreEl?.value ?? "",
+                right: rightEl?.value ?? "",
+            });
+
+
             modal.classList.add("hidden");
             setTitle(title);
 
-            // ✅ remember & build the chosen layout
             state.layoutId = selectedLayout;
-            clearAllThoughts();          // optional: ensures fresh start
-            renderGrid(selectedLayout);  // ✅ this is the key line
+            clearAllThoughts();
+            renderGrid(selectedLayout);
         }
-
 
         modal.classList.remove("hidden");
         input.value = "";
@@ -272,6 +298,109 @@
             }
         };
     }
+
+    function normaliseLabels(labels) {
+        const L = labels && typeof labels === "object" ? labels : {};
+        return {
+            left: String(L.left ?? "Negative").trim() || "Negative",
+            centre: String(L.centre ?? "Neutral").trim() || "Neutral",
+            right: String(L.right ?? "Positive").trim() || "Positive",
+        };
+    }
+
+    function setLabels(labels) {
+        state.labels = normaliseLabels(labels);
+        applyTopCellLabels(); // updates UI without rebuilding grid
+    }
+
+    function applyTopCellLabels() {
+        const labels = normaliseLabels(state.labels);
+
+        const topCells = document.querySelectorAll(".top-cell[data-column][data-value]");
+        if (!topCells.length) return;
+
+        // identify left / centre / right by column number
+        const cols = Array.from(topCells).map(c => parseInt(c.dataset.column, 10)).filter(Number.isFinite);
+        const maxCol = Math.max(...cols);
+        const minCol = Math.min(...cols);
+        const centreCol = Math.floor((maxCol + minCol) / 2);
+
+        topCells.forEach((cell) => {
+            const col = parseInt(cell.dataset.column, 10);
+            const val = cell.dataset.value;
+
+            if (col === minCol) cell.innerHTML = `${escapeHtml(labels.left)}<br>${escapeHtml(val)}`;
+            else if (col === centreCol) {
+                const centreLabel = (labels.centre || "").trim();
+                if (centreLabel) cell.innerHTML = `${escapeHtml(centreLabel)}<br>${escapeHtml(val)}`;
+                else cell.textContent = val;
+            }
+            else if (col === maxCol) cell.innerHTML = `${escapeHtml(labels.right)}<br>${escapeHtml(val)}`;
+            else cell.textContent = val;
+        });
+    }
+
+    function openLabelsModal() {
+        const modal = $("labels-modal");
+        const left = $("edit-label-left");
+        const centre = $("edit-label-centre");
+        const right = $("edit-label-right");
+        if (!modal || !left || !centre || !right) return;
+
+        const labels = normaliseLabels(state.labels);
+        left.value = labels.left;
+        centre.value = labels.centre;
+        right.value = labels.right;
+
+        modal.classList.remove("hidden");
+        left.focus();
+        left.select();
+    }
+
+    function closeLabelsModal() {
+        const modal = $("labels-modal");
+        if (!modal) return;
+        modal.classList.add("hidden");
+    }
+
+    function wireLabelsModal() {
+        const modal = $("labels-modal");
+        const btnSave = $("labels-save");
+        const btnCancel = $("labels-cancel");
+        const left = $("edit-label-left");
+        const centre = $("edit-label-centre");
+        const right = $("edit-label-right");
+
+        if (!modal || !btnSave || !btnCancel || !left || !centre || !right) return;
+
+        on(btnCancel, "click", (e) => {
+            e.preventDefault();
+            closeLabelsModal();
+        });
+
+        on(btnSave, "click", (e) => {
+            e.preventDefault();
+            setLabels({
+                left: left.value,
+                centre: centre.value,
+                right: right.value,
+            });
+            closeLabelsModal();
+        });
+
+        // click outside closes
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) closeLabelsModal();
+        });
+
+        // ESC closes
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+                closeLabelsModal();
+            }
+        });
+    }
+
 
     function renderLayoutPicker({ selectedId, onSelect }) {
         const grid = document.getElementById("layoutGrid");
@@ -685,6 +814,14 @@
             btn.setAttribute("aria-expanded", "false");
         };
 
+        on($("menuLabels"), "click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            openLabelsModal();
+        });
+
+
+
         const toggleMenu = () => {
             const isOpen = !menu.classList.contains("hidden");
             if (isOpen) closeMenu();
@@ -921,11 +1058,13 @@
         const data = {
             version: state.version,
             title: state.title || "",
-            layoutId: state.layoutId || DEFAULT_LAYOUT_ID,   // ✅ ADD THIS
+            layoutId: state.layoutId || DEFAULT_LAYOUT_ID,
+            labels: normaliseLabels(state.labels),
             banks: { positive: [], neutral: [], negative: [] },
             grid: [],
             meta: { savedAt: new Date().toISOString() },
         };
+
 
         // Banks
         const bankMap = {
@@ -1021,6 +1160,7 @@
         renderGrid(layoutId);    // rebuilds grid
         setTitle(String(data.title || ""));
         state.layoutId = layoutId;
+        setLabels(data.labels);
 
 
         // Load banks
@@ -1076,6 +1216,7 @@
         on($("navNew"), "click", () => {
             clearAllThoughts();
             setTitle("");
+            setLabels(DEFAULT_LABELS);
             promptForTitle();
         });
 
@@ -1490,6 +1631,7 @@
         sessionStorage.removeItem("qsort_payload");
 
         if (mode === "new") {
+            setLabels(DEFAULT_LABELS);
             promptForTitle();
         } else if (mode === "load" && payload) {
             try {
@@ -1588,6 +1730,7 @@
         updateLocalUI();
         wireThoughtModal();
         wireNotesModal();
+        wireLabelsModal();
 
     }
 

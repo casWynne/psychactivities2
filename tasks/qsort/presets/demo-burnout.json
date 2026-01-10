@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "title": "fgh",
+  "layoutId": "pyramid-5",
+  "banks": {
+    "positive": [],
+    "neutral": [
+      {
+        "id": "thought-9",
+        "title": "qew",
+        "notes": "",
+        "className": "thought-item neutral"
+      }
+    ],
+    "negative": []
+  },
+  "grid": [
+    {
+      "cellId": "row1-2",
+      "thought": {
+        "id": "thought-10",
+        "title": "wer",
+        "notes": "",
+        "className": "thought-item neutral"
+      }
+    },
+    {
+      "cellId": "row4-3",
+      "thought": {
+        "id": "thought-11",
+        "title": "ert",
+        "notes": "ert",
+        "className": "thought-item neutral has-notes"
+      }
+    }
+  ],
+  "meta": {
+    "savedAt": "2026-01-10T21:02:26.733Z"
+  }
+}

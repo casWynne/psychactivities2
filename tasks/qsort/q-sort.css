@@ -1,568 +1,946 @@
 /* ==========================================================================
-   Q-SORT — CLEAN BASE
+   Q-SORT 2 — STYLES (REFRACTORED)
    ========================================================================== */
 
-:root {
-    --bg: #f9f9f9;
-    --card: #ffffff;
-    --text: #333;
+/* --------------------------------------------------------------------------
+   TOKENS
+   -------------------------------------------------------------------------- */
+:root{
+  --bg:#f9f9f9;
+  --card:#ffffff;
+  --text:#333;
 
-    --border: rgba(0, 0, 0, 0.12);
-    --border-strong: rgba(0, 0, 0, 0.18);
-    --muted: rgba(0, 0, 0, 0.75);
+  --border:rgba(0,0,0,0.12);
+  --border-strong:rgba(0,0,0,0.18);
+  --muted:rgba(0,0,0,0.75);
 
-    --nav-h: 64px;
-    --sidebar-w: 380px;
+  --nav-h:64px;
+  --sidebar-w:380px;
 
-    --radius: 14px;
-    --gap: 12px;
+  --radius:14px;
+  --gap:12px;
 
-    --cell: 100px;
-    --drop-dash: rgba(0, 0, 0, 0.28);
+  --cell:100px;
+  --drop-dash:rgba(0,0,0,0.28);
 
-    --neg: #d32f2f;
-    --neu: #1976d2;
-    --pos: #2e7d32;
+  --neg:#d32f2f;
+  --neu:#1976d2;
+  --pos:#2e7d32;
+
+  /* Bottom bar is fixed; reserve space in layout */
+  --bottom-h:74px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-/* Always respect the hidden attribute */
-[hidden] {
-    display: none !important;
-}
+/* --------------------------------------------------------------------------
+   BASE
+   -------------------------------------------------------------------------- */
+[hidden]{ display:none !important; }
 
 *,
 *::before,
-*::after {
-    box-sizing: border-box;
+*::after{ box-sizing:border-box; }
+
+html, body{ height:100%; }
+
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-}
+.muted{ opacity:0.75; }
 
-/* ==========================================================================
+/* --------------------------------------------------------------------------
    TOP NAV
-   ========================================================================== */
-
-.topnav {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    height: var(--nav-h);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--gap);
-    padding: 10px 14px;
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
+   -------------------------------------------------------------------------- */
+.topnav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  height:var(--nav-h);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:var(--gap);
+  padding:10px 14px;
+  background:var(--card);
+  border-bottom:1px solid var(--border);
 }
 
-.topnav-left {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
+.topnav-left{
+  display:flex;
+  align-items:baseline;
+  gap:10px;
 }
 
-.topnav-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
+.topnav-right{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
 }
 
-.brand {
-    letter-spacing: 0.3px;
+.brand{ letter-spacing:0.3px; }
+
+/* --------------------------------------------------------------------------
+   TOP RIGHT DROPDOWN MENU
+   -------------------------------------------------------------------------- */
+.menu-wrap{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
 }
 
-.muted {
-    opacity: 0.75;
+.menu{
+  position:absolute;
+  top:calc(100% + 8px);
+  right:0;
+
+  min-width:220px;
+  background:#fff;
+  border:1px solid var(--border-strong);
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.12);
+
+  padding:8px;
+  z-index:100;
 }
 
-/* ==========================================================================
+.menu.hidden{ display:none; }
+
+.menu-group-label{
+  font-size:0.8rem;
+  opacity:0.7;
+  padding:6px 10px 4px;
+}
+
+.menu-sep{
+  height:1px;
+  background:var(--border);
+  margin:8px 0;
+}
+
+.menu-item{
+  width:100%;
+  text-align:left;
+  border:0;
+  background:transparent;
+  padding:10px 10px;
+  border-radius:10px;
+  cursor:pointer;
+  font:inherit;
+
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.menu-item:hover{ background:rgba(0,0,0,0.06); }
+
+.menu-item.warn{ color:#8a1f1f; }
+.menu-item.warn:hover{ background:#fdecea; }
+
+/* Keep the old bottom buttons in DOM but not visible */
+.bottombar-actions-hidden{ display:none; }
+
+/* --------------------------------------------------------------------------
    BUTTONS
-   ========================================================================== */
-
-.btn {
-    border: 1px solid var(--border-strong);
-    background: #fff;
-    padding: 8px 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    font: inherit;
+   -------------------------------------------------------------------------- */
+.btn{
+  border:1px solid var(--border-strong);
+  background:#fff;
+  padding:8px 10px;
+  border-radius:10px;
+  cursor:pointer;
+  font:inherit;
 }
 
-.btn.primary {
-    background: #111;
-    color: #fff;
-    border-color: #111;
+.btn.primary{
+  background:#111;
+  color:#fff;
+  border-color:#111;
 }
 
-.btn:active {
-    transform: translateY(1px);
+.btn:active{ transform:translateY(1px); }
+
+/* Soft warning button (Clear local) */
+.btn.warn{
+  background:#fdecea;
+  border-color:#f5c2c0;
+  color:#8a1f1f;
 }
 
-/* ==========================================================================
-   PAGE LAYOUT
-   ========================================================================== */
+.btn.warn:hover:not(:disabled){ background:#f9d6d3; }
+.btn.warn:disabled{ opacity:0.45; cursor:not-allowed; }
 
-.qsort-shell {
-    height: calc(100vh - var(--nav-h));
-    padding: var(--gap);
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap);
+/* --------------------------------------------------------------------------
+   APP LAYOUT
+   -------------------------------------------------------------------------- */
+.qsort-shell{
+  height:calc(100vh - var(--nav-h));
+  padding:var(--gap);
+  /* reserve space so content never sits under fixed bottom bar */
+  padding-bottom: calc(var(--gap) + var(--bottom-h) + var(--safe-bottom));
+  display:flex;
+  flex-direction:column;
+  gap:var(--gap);
 }
 
-.qsort-layout {
-    flex: 1;
-    min-height: 0;
-    /* enables proper internal scrolling */
-    display: grid;
-    grid-template-columns: var(--sidebar-w) 1fr;
-    gap: var(--gap);
+.qsort-layout{
+  flex:1;
+  min-height:0; /* enables internal scroll areas */
+  display:grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  gap:var(--gap);
+  align-items:stretch;
 }
 
-.panel {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px;
+.panel{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:14px;
+  min-height:0;
 }
 
-.panel-title {
-    font-size: 1.05rem;
-    font-weight: 600;
-    margin: 0 0 10px;
+.panel-title{
+  font-size:1.05rem;
+  font-weight:600;
+  margin:0 0 10px;
 }
 
-/* Left column scrolls independently if needed */
-.add-panel {
-    min-height: 0;
-    overflow: auto;
+/* --------------------------------------------------------------------------
+   LEFT PANEL (ADD / TRAY / BIN)
+   -------------------------------------------------------------------------- */
+.add-panel{
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+  overflow:hidden;
 }
 
-.grid-panel {
-    background-color: #f0f2f5;
+.tray{
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+  flex:1;
 
-    min-height: 0;
-    max-height: calc(100vh - var(--nav-h) - 24px);
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-    scrollbar-gutter: stable both-edges;
+  margin-top:10px;
+  border-top:1px solid rgba(0,0,0,0.10);
+  padding-top:10px;
 }
 
-
-.grid-panel #q-sort-grid {
-    display: grid;
-    place-items: center;
-    padding: 10px;
-    min-height: fit-content;
-    overflow: visible;
-    transform: scale(0.92);
-    transform-origin: top center;
+.tray-title{
+  font-weight:600;
+  margin-bottom:8px;
+  opacity:0.85;
 }
 
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* This is the important one: the tray LIST grows to fill remaining height */
+.tray-list{
+  flex:1;
+  min-height:0;
+  overflow:auto;
+
+  border:1px dashed rgba(25,118,210,0.55);
+  border-radius:12px;
+  padding:10px;
+
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--cell), 1fr));
+  gap:10px;
+  align-content:start;
 }
 
-.modal-box {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 320px;
+/* Bin sticks to bottom of left panel */
+.bin-wrap{ margin-top:auto; }
+
+.bin-title{
+  font-weight:600;
+  margin:12px 0 8px;
+  opacity:0.85;
 }
 
-.hidden {
-    display: none;
-}
-s
+.bin-zone{
+  min-height:78px;
+  border-radius:12px;
+  padding:12px;
 
-/* ==========================================================================
+  display:grid;
+  place-items:center;
+  text-align:center;
+  font-weight:600;
+
+  border:2px dashed #c62828;
+  color:#8a1f1f;
+
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(198,40,40,0.10) 0px,
+    rgba(198,40,40,0.10) 10px,
+    rgba(198,40,40,0.00) 10px,
+    rgba(198,40,40,0.00) 20px
+  );
+}
+
+.bin-zone.is-over{
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(198,40,40,0.18) 0px,
+    rgba(198,40,40,0.18) 10px,
+    rgba(198,40,40,0.02) 10px,
+    rgba(198,40,40,0.02) 20px
+  );
+  transform:scale(1.01);
+}
+
+/* --------------------------------------------------------------------------
+   RIGHT PANEL (GRID)
+   -------------------------------------------------------------------------- */
+.grid-panel{
+  background-color:#f0f2f5;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  overflow:auto;
+  scrollbar-gutter: stable both-edges;
+}
+
+/* Make the grid area feel “full” without forcing your cells to stretch */
+.grid-panel #q-sort-grid{
+  flex:1;
+  width:100%;
+  padding:10px;
+
+  display:grid;
+  place-content:center; /* centered within available space */
+  overflow:visible;
+
+  transform:scale(0.92);
+  transform-origin:center;
+}
+
+/* --------------------------------------------------------------------------
    ADD THOUGHT CONTROLS
-   ========================================================================== */
+   -------------------------------------------------------------------------- */
+.row{ margin-bottom:12px; }
 
-.row {
-    margin-bottom: 12px;
+.controls{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.controls-wrap{ flex-wrap:wrap; }
+
+input[type="text"]{
+  height:34px;
+  padding:6px 10px;
+  border-radius:10px;
+  border:1px solid var(--border-strong);
+  font:inherit;
+  min-width:160px;
 }
 
-.controls {
-    display: flex;
-    gap: 10px;
-    align-items: center;
+textarea{
+  width:100%;
+  resize:vertical;
 }
 
-.controls-wrap {
-    flex-wrap: wrap;
+.radio-group{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  border:1px solid var(--border);
+  padding:8px 10px;
+  border-radius:12px;
 }
 
-input[type="text"] {
-    height: 34px;
-    padding: 6px 10px;
-    border-radius: 10px;
-    border: 1px solid var(--border-strong);
-    font: inherit;
-    min-width: 160px;
+.toggle{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  user-select:none;
 }
 
-.radio-group {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    border: 1px solid var(--border);
-    padding: 8px 10px;
-    border-radius: 12px;
-}
-
-/* ==========================================================================
-   UNSORTED TRAY
-   ========================================================================== */
-
-.tray {
-    margin-top: 10px;
-    border-top: 1px solid rgba(0, 0, 0, 0.10);
-    padding-top: 10px;
-}
-
-.tray-title {
-    font-weight: 600;
-    margin-bottom: 8px;
-    opacity: 0.85;
-}
-
-.tray-list {
-    min-height: 90px;
-    border: 1px dashed rgba(25, 118, 210, 0.55);
-    border-radius: 12px;
-    padding: 10px;
-}
-
-/* ==========================================================================
+/* --------------------------------------------------------------------------
    THOUGHT CARDS
-   ========================================================================== */
+   -------------------------------------------------------------------------- */
+.thought-item{
+  position:relative;
+  width:var(--cell);
+  height:var(--cell);
 
-.thought-item {
-    position: relative;
-    width: var(--cell);
-    height: var(--cell);
+  background:#fff;
+  border:2px solid rgba(0,0,0,.25);
+  border-radius:12px;
 
-    /* restore the visual card */
-    background: #fff;
-    border: 2px solid rgba(0, 0, 0, .25);
-    /* <-- this makes your border colors work again */
-    border-radius: 12px;
+  cursor:grab;
+  overflow:hidden;
 
-    /* interaction */
-    cursor: grab;
-    overflow: hidden;
+  padding:12px 12px 10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  line-height:1.2;
 
-    /* layout */
-    padding: 12px 12px 10px;
-    /* a bit more breathing room */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    line-height: 1.2;
-
-    /* wrapping */
-    overflow-wrap: anywhere;
-    word-break: normal;
-    hyphens: auto;
+  overflow-wrap:anywhere;
+  word-break:normal;
+  hyphens:auto;
 }
 
-.thought-item:active {
-    cursor: grabbing;
+.thought-item:active{ cursor:grabbing; }
+
+.thought-content{
+  font-size:0.85rem;
+  font-weight:500;
+  padding-right:18px;
+
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:5;
+  overflow:hidden;
 }
 
-.thought-content {
-    font-size: 0.85rem;
-    font-weight: 500;
+.thought-item.has-notes::before{
+  content:"";
+  position:absolute;
+  top:6px;
+  left:6px;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#444;
+  box-shadow:0 0 0 2px #fff;
+  opacity:0.85;
+  pointer-events:none;
+}
 
-    /* keep text away from close button */
-    padding-right: 18px;
+.negative{ border-color:var(--neg); }
+.neutral{ border-color:var(--neu); }
+.positive{ border-color:var(--pos); }
 
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 5;
-    overflow: hidden;
+.close-btn{
+  position:absolute;
+  top:6px;
+  right:6px;
+
+  width:20px;
+  height:20px;
+  display:grid;
+  place-items:center;
+
+  border-radius:999px;
+  background:rgba(255,255,255,.9);
+  border:1px solid rgba(0,0,0,.12);
+
+  font-size:14px;
+  line-height:1;
+  color:#c00;
+  opacity:0.85;
+}
+
+.thought-item:hover .close-btn{ opacity:1; }
+
+/* Hide return button when thought is in tray */
+.tray-list .close-btn{ display:none; }
+
+/* --------------------------------------------------------------------------
+   GRID CELLS / DROP ZONES
+   -------------------------------------------------------------------------- */
+.grid-row{
+  display:flex;
+  justify-content:center;
+  margin-bottom:10px;
+}
+
+.grid-cell{
+  width:var(--cell);
+  height:var(--cell);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  border-radius:10px;
+}
+
+.drop-zone{
+  border:2px dashed var(--drop-dash);
+  background:#fff;
+}
+
+.grid-cell.blank{
+  border:none !important;
+  background:transparent !important;
+  pointer-events:none;
+}
+
+.drop-zone:empty::before{ content:""; }
+
+/* --------------------------------------------------------------------------
+   MODALS
+   -------------------------------------------------------------------------- */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.4);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:200;
+}
+
+.modal-box{
+  background:#fff;
+  padding:20px;
+  border-radius:10px;
+  width:320px;
+}
+
+.hidden{ display:none; }
+
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:12px;
+}
+
+/* Notes modal sizing */
+#notes-modal .modal-box{
+  width:520px;
+  max-width:calc(100vw - 24px);
+}
+
+#notes-modal-body{
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:10px;
+  min-height:120px;
+  background:#fafafa;
+}
+
+/* Presets modal layout */
+.presets-modal{
+  width: 860px;
+  max-width: calc(100vw - 24px);
+  border-radius: 14px;
+}
+
+.presets-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+}
+
+.presets-title{
+  margin:0;
+}
+
+.presets-sub{
+  margin:6px 0 0;
+}
+
+.presets-search{
+  margin-top: 12px;
+}
+
+.presets-search input{
+  width: 100%;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+  padding: 8px 12px;
+  font: inherit;
+}
+
+.presets-body{
+  margin-top: 12px;
+  display:grid;
+  grid-template-columns: 1.05fr 1.45fr;
+  gap: 12px;
+  min-height: 420px;
+}
+
+/* Left list */
+.presets-list{
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+  overflow: auto;
+}
+
+.preset-row{
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  cursor: pointer;
+}
+
+.preset-row:hover{
+  background: rgba(0,0,0,0.02);
+}
+
+.preset-row[aria-selected="true"]{
+  background: rgba(25,118,210,0.08);
+  outline: 2px solid rgba(25,118,210,0.35);
+  outline-offset: -2px;
+}
+
+.preset-row-title{
+  font-weight: 700;
+  margin: 0 0 4px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.preset-row-desc{
+  margin: 0;
+  opacity: 0.75;
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+/* Layout badge */
+.preset-badge{
+  font-size: 0.78rem;
+  opacity: 0.85;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 999px;
+  padding: 2px 8px;
+  white-space: nowrap;
+  background: #fafafa;
+}
+
+/* Right detail panel */
+.presets-detail{
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+  padding: 14px;
+  display:flex;
+  flex-direction:column;
+  gap: 10px;
+}
+
+.preset-detail-title{
+  font-weight: 800;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.preset-detail-desc{
+  margin: 0;
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+.preset-detail-meta{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top: 2px;
+}
+
+.preset-actions{
+  margin-top: auto;
+  display:flex;
+  gap:10px;
+  justify-content:flex-end;
 }
 
 
-.negative {
-    border-color: var(--neg);
+/* --------------------------------------------------------------------------
+   LAYOUT PICKER (NEW MODAL)
+   -------------------------------------------------------------------------- */
+.layout-grid{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap:10px;
 }
 
-.neutral {
-    border-color: var(--neu);
+.layout-option{
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px;
+  cursor:pointer;
+  background:#fff;
+  text-align:left;
 }
 
-.positive {
-    border-color: var(--pos);
+.layout-option:hover{
+  border-color:var(--border-strong);
+  background:rgba(0,0,0,0.02);
 }
 
-.close-btn {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-
-    width: 20px;
-    height: 20px;
-    display: grid;
-    place-items: center;
-
-    border-radius: 999px;
-    background: rgba(255, 255, 255, .9);
-    border: 1px solid rgba(0, 0, 0, .12);
-
-    font-size: 14px;
-    line-height: 1;
-    color: #c00;
-    opacity: 0.85;
+.layout-option[aria-pressed="true"]{
+  outline:3px solid rgba(25,118,210,0.35);
+  border-color:rgba(25,118,210,0.75);
 }
 
-.thought-item:hover .close-btn {
-    opacity: 1;
+.layout-name{
+  font-weight:700;
+  font-size:0.9rem;
+  margin-bottom:8px;
 }
 
-
-/* ==========================================================================
-   GRID (PYRAMID)
-   ========================================================================== */
-
-.grid-row {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 10px;
+.layout-thumb{
+  width:100%;
+  aspect-ratio:16 / 10;
+  border-radius:10px;
+  border:1px solid rgba(0,0,0,0.10);
+  background:#fafafa;
+  padding:8px;
+  display:grid;
+  gap:4px;
 }
 
-.grid-cell {
-    width: var(--cell);
-    height: var(--cell);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    border-radius: 10px;
+.layout-thumb .trow{ display:grid; gap:4px; }
+.layout-thumb .tcell{
+  border:1px dashed rgba(0,0,0,0.18);
+  border-radius:6px;
+  background:#fff;
+}
+.layout-thumb .tblank{ border:0; background:transparent; }
+
+/* --------------------------------------------------------------------------
+   BOTTOM ACTION BAR (FIXED)
+   -------------------------------------------------------------------------- */
+.bottombar{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:20;
+
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(8px);
+
+  border-top:1px solid var(--border);
+  border-left:0;
+  border-right:0;
+  border-bottom:0;
+  border-radius:0;
+
+  padding:10px;
+  padding-bottom: calc(10px + var(--safe-bottom));
+
+  display:flex;
+  gap:10px;
+  justify-content:flex-end;
+  flex-wrap:wrap;
 }
 
-/* Drop targets */
-.drop-zone {
-    border: 2px dashed var(--drop-dash);
-    background: #fff;
+#localStatus{
+  margin-left:auto;
+  white-space:nowrap;
 }
 
-/* Invisible pyramid spacers */
-.grid-cell.blank {
-    border: none !important;
-    background: transparent !important;
-    pointer-events: none;
-}
-
-/* Optional: hint text for empty cells */
-.drop-zone:empty::before {
-    content: "";
-}
-
-/* ==========================================================================
-   BOTTOM ACTION BAR
-   ========================================================================== */
-
-.bottombar {
-    position: sticky;
-    bottom: 0;
-    z-index: 20;
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(8px);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 10px;
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-}
-
-/* ==========================================================================
+/* --------------------------------------------------------------------------
    MOBILE BLOCKER OVERLAY
-   ========================================================================== */
-
-.mobile-block {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.65);
-    display: grid;
-    place-items: center;
-    padding: 18px;
-    z-index: 100;
+   -------------------------------------------------------------------------- */
+.mobile-block{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.65);
+  display:grid;
+  place-items:center;
+  padding:18px;
+  z-index:100;
 }
 
-.mobile-block-card {
-    max-width: 520px;
-    background: #fff;
-    border-radius: 16px;
-    padding: 18px;
+.mobile-block-card{
+  max-width:520px;
+  background:#fff;
+  border-radius:16px;
+  padding:18px;
 }
 
-.toggle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    user-select: none;
-}
-
-#localStatus {
-    margin-left: auto;
-    white-space: nowrap;
-}
-
-
-/* ==========================================================================
+/* --------------------------------------------------------------------------
    RESPONSIVE
-   ========================================================================== */
-
-@media (max-width: 1100px) {
-    :root {
-        --sidebar-w: 320px;
-    }
+   -------------------------------------------------------------------------- */
+@media (max-width: 1100px){
+  :root{ --sidebar-w:320px; }
 }
 
-@media (max-width: 900px) {
-    .qsort-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .add-panel {
-        order: 2;
-    }
-
-    .grid-panel {
-        order: 1;
-    }
+@media (max-width: 900px){
+  .qsort-layout{ grid-template-columns:1fr; }
+  .add-panel{ order:2; }
+  .grid-panel{ order:1; }
 }
 
-/* ==========================================================================
-   PRINT — title, then grid, then unsorted tray
-   ========================================================================== */
-/* ==========================================================================
-   PRINT — title, then grid, then unsorted tray
-   ========================================================================== */
-@media print {
+/* --------------------------------------------------------------------------
+   PRINT — title, then grid, then tray, then notes
+   -------------------------------------------------------------------------- */
+@media print{
+  body{
+    background:#fff !important;
+    margin:0 !important;
+  }
 
-    /* Page reset */
-    body {
-        background: #fff !important;
-        margin: 0 !important;
-    }
+  @page{ margin:12mm; }
 
-    @page {
-        margin: 12mm;
-    }
+  .qsort-shell{
+    height:auto !important;
+    padding:0 !important;
+    display:block !important;
+  }
 
-    /* Turn the app back into a normal document for printing */
-    .qsort-shell {
-        height: auto !important;
-        padding: 0 !important;
-        display: block !important;
-    }
+  .qsort-layout{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:8mm !important;
+    height:auto !important;
+    min-height:auto !important;
+  }
 
-    .qsort-layout {
-        display: block !important;
-        height: auto !important;
-        min-height: auto !important;
-    }
+  .add-panel,
+  .grid-panel{
+    display:block !important;
+    min-height:auto !important;
+    overflow:visible !important;
+  }
 
-    .add-panel,
-    .grid-panel {
-        display: block !important;
-        min-height: auto !important;
-        overflow: visible !important;
-    }
+  .add-panel .row{ display:none !important; }
 
-    /* Remove on-screen centring + scaling rules that can cause overlap */
-    .grid-panel #q-sort-grid {
-        transform: none !important;
-        overflow: visible !important;
-        padding: 0 !important;
-        margin: 0 0 14mm 0 !important;
-        /* <-- gap before tray */
-        display: block !important;
-    }
+  .grid-panel #q-sort-grid{
+    transform:none !important;
+    overflow:visible !important;
+    padding:0 !important;
+    margin:0 0 14mm 0 !important;
+    display:block !important;
+  }
 
-    /* Hide everything by default (but keep layout alive) */
-    body * {
-        visibility: hidden !important;
-    }
+  /* Hide everything by default */
+  body *{ visibility:hidden !important; }
 
-    /* Show only: title, grid, tray (and their children) */
-    #grid-subject-header,
-    #q-sort-grid,
-    .tray,
-    #grid-subject-header *,
-    #q-sort-grid *,
-    .tray * {
-        visibility: visible !important;
-    }
+  /* Show only: title, grid, tray, notes */
+  #grid-subject-header,
+  #q-sort-grid,
+  .tray,
+  #print-notes,
+  #grid-subject-header *,
+  #q-sort-grid *,
+  .tray *,
+  #print-notes *{
+    visibility:visible !important;
+  }
 
-    /* UI-only elements should not appear */
-    .topnav,
-    .bottombar,
-    .close-btn,
-    .radio-group,
-    .toggle,
-    .row,
-    /* hides add-thought controls */
-    input,
-    button,
-    textarea,
-    select {
-        visibility: hidden !important;
-    }
+  /* UI-only elements should not appear */
+  .topnav,
+  .bottombar,
+  .close-btn,
+  .radio-group,
+  .toggle,
+  .row,
+  input,
+  button,
+  textarea,
+  select{
+    visibility:hidden !important;
+  }
 
-    /* Title */
-    #grid-subject-header {
-        font-size: 16pt !important;
-        margin: 0 0 8mm 0 !important;
-    }
+  #grid-subject-header{
+    font-size:16pt !important;
+    margin:0 0 8mm 0 !important;
+  }
 
-    /* Tray prints after grid */
-    .tray {
-        margin: 0 !important;
-        padding-top: 6mm !important;
-        border-top: 1px solid #000 !important;
-        display: block !important;
-        clear: both !important;
-    }
+  .tray{
+    margin:0 !important;
+    padding-top:6mm !important;
+    border-top:1px solid #000 !important;
+    display:block !important;
+    clear:both !important;
+  }
 
-    .tray-title {
-        font-size: 12pt !important;
-        margin: 0 0 4mm 0 !important;
-    }
+  .tray-title{
+    font-size:12pt !important;
+    margin:0 0 4mm 0 !important;
+  }
 
-    .tray-list {
-        border: 1px solid #000 !important;
-        border-radius: 0 !important;
-        padding: 6mm !important;
-        min-height: 0 !important;
-    }
+  .tray-list{
+    border:1px solid #000 !important;
+    border-radius:0 !important;
+    padding:6mm !important;
+    min-height:0 !important;
+  }
 
-    /* Print-friendly borders */
-    .drop-zone {
-        border-color: #000 !important;
-    }
+  .drop-zone{ border-color:#000 !important; }
+  .thought-item{
+    border-color:#000 !important;
+    page-break-inside:avoid;
+  }
 
-    .thought-item {
-        border-color: #000 !important;
-        page-break-inside: avoid;
-    }
+  body::after{
+    content:"Q-Sort Annotated · v2.0.0-beta";
+    position:fixed;
+    bottom:6mm;
+    right:6mm;
+    font-size:9pt;
+    color:#555;
+  }
+
+  .print-notes{
+    margin-top:10mm !important;
+    padding-top:6mm !important;
+    border-top:1px solid #000 !important;
+  }
+
+  .print-note-group{ margin-bottom:8mm; }
+
+  .print-note-group-title{
+    font-size:11pt;
+    margin:0 0 3mm 0;
+    border-bottom:1px solid #000;
+  }
+
+  .print-notes-title{
+    font-size:12pt !important;
+    margin:0 0 4mm 0 !important;
+  }
+
+  .print-note-item{
+    margin-bottom:4mm;
+    page-break-inside:avoid;
+  }
+
+  .print-note-title{
+    font-weight:700 !important;
+    margin:0 0 2mm 0 !important;
+  }
+
+  .print-note-meta{
+    font-size:10pt !important;
+    opacity:0.8 !important;
+    margin:0 0 2mm 0 !important;
+  }
+
+  .print-note-text{
+    white-space:pre-wrap;
+    line-height:1.35;
+  }
+
+  /* Never print modals */
+  .modal{ visibility:hidden !important; }
+
+  .print-note-empty{
+    font-size:10pt;
+    opacity:0.6;
+    margin-top:1mm;
+  }
+
+  #print-layout{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:8mm;
+  }
+
+  #grid-subject-header{ order:1; }
+  #q-sort-grid{ order:2; }
+  .tray{ order:3; }
+  #print-notes{ order:4; }
 }

@@ -184,7 +184,7 @@
     // App State
     // ---------------------------------------------------------------------------
     const state = {
-        version: 2,
+        version: 3,
         app: "q-sort-annotated",
         title: "",
         layoutId: DEFAULT_LAYOUT_ID,
@@ -194,7 +194,7 @@
 
     const APP_INFO = {
         name: "Q-Sort Annotated",
-        version: "2.0.0",
+        version: "3.0.0 beta",
     };
     // ---------------------------------------------------------------------------
     // Desktop-only blocker (optional)

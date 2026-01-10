@@ -194,7 +194,7 @@
 
     const APP_INFO = {
         name: "Q-Sort Annotated",
-        version: "2.0.0-beta",
+        version: "2.0.0",
     };
     // ---------------------------------------------------------------------------
     // Desktop-only blocker (optional)

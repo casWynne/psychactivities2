@@ -235,27 +235,28 @@
         if (navTitle) navTitle.textContent = state.title ? `— ${state.title}` : "";
     }
 
-    function promptForTitle() {
+    function promptForTitle({ showCancel = true } = {}) {
         const modal = document.getElementById("title-modal");
         const input = document.getElementById("title-input");
         const okBtn = document.getElementById("title-ok");
+        const cancelBtn = document.getElementById("title-cancel");
+
         if (!modal || !input || !okBtn) return;
 
-        const labels = normaliseLabels(DEFAULT_LABELS);
         const leftEl = document.getElementById("label-left");
         const centreEl = document.getElementById("label-centre");
         const rightEl = document.getElementById("label-right");
+
         let selectedLayout = state.layoutId || DEFAULT_LAYOUT_ID;
 
+        // --- Set current labels into inputs (use DEFAULT_LABELS or state.labels as you prefer) ---
+        const labels = normaliseLabels(state.labels || DEFAULT_LABELS);
         if (leftEl) leftEl.value = labels.left;
         if (centreEl) centreEl.value = labels.centre;
         if (rightEl) rightEl.value = labels.right;
 
-
         function setSelected(id) {
             selectedLayout = id;
-
-            // re-render so aria-pressed updates cleanly
             renderLayoutPicker({
                 selectedId: selectedLayout,
                 onSelect: setSelected
@@ -263,6 +264,25 @@
         }
 
         setSelected(selectedLayout);
+
+        // --- toggle cancel ---
+        if (cancelBtn) {
+            cancelBtn.hidden = !showCancel;
+            cancelBtn.disabled = !showCancel;
+        }
+
+        function closeModal() {
+            modal.classList.add("hidden");
+
+            // prevent handlers stacking up
+            if (cancelBtn) cancelBtn.onclick = null;
+            okBtn.onclick = null;
+            input.onkeydown = null;
+            modal.onclick = null;
+
+            // we DON'T remove document keydown here because you may have other ESC handlers already
+            // (your other modals do that globally)
+        }
 
         function submitTitle() {
             const title = input.value.trim();
@@ -274,30 +294,54 @@
                 right: rightEl?.value ?? "",
             });
 
-
-            modal.classList.add("hidden");
             setTitle(title);
 
             state.layoutId = selectedLayout;
             clearAllThoughts();
             renderGrid(selectedLayout);
+
+            closeModal();
         }
 
+        // --- show modal ---
         modal.classList.remove("hidden");
         input.value = "";
         input.focus();
 
-        // Click submission
+        // --- button wiring ---
         okBtn.onclick = submitTitle;
 
-        // Enter key submission
+        if (cancelBtn && showCancel) {
+            cancelBtn.onclick = (e) => {
+                e.preventDefault();
+                closeModal();
+            };
+        }
+
+        // Enter submits
         input.onkeydown = (e) => {
             if (e.key === "Enter") {
                 e.preventDefault();
                 submitTitle();
             }
         };
+
+        // Only allow click-outside to close when cancel is allowed
+        modal.onclick = (e) => {
+            if (!showCancel) return;
+            if (e.target === modal) closeModal();
+        };
+
+        // Only allow ESC to close when cancel is allowed
+        document.addEventListener("keydown", function escHandler(e) {
+            if (!showCancel) return;
+            if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+                closeModal();
+                document.removeEventListener("keydown", escHandler);
+            }
+        });
     }
+
 
     function normaliseLabels(labels) {
         const L = labels && typeof labels === "object" ? labels : {};
@@ -907,6 +951,48 @@
         viewingThoughtId = null;
     }
 
+    function openHelpModal() {
+        const modal = $("help-modal");
+        const closeBtn = $("help-close");
+        if (!modal) return;
+
+        modal.classList.remove("hidden");
+        modal.setAttribute("aria-hidden", "false");
+        if (closeBtn) closeBtn.focus();
+    }
+
+    function closeHelpModal() {
+        const modal = $("help-modal");
+        if (!modal) return;
+
+        modal.classList.add("hidden");
+        modal.setAttribute("aria-hidden", "true");
+    }
+
+    function wireHelpModal() {
+        const modal = $("help-modal");
+        const closeBtn = $("help-close");
+        if (!modal || !closeBtn) return;
+
+        on(closeBtn, "click", (e) => {
+            e.preventDefault();
+            closeHelpModal();
+        });
+
+        // click outside closes
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) closeHelpModal();
+        });
+
+        // ESC closes (this is fine even though other modals also listen;
+        // they only act when they are visible)
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+                closeHelpModal();
+            }
+        });
+    }
+
     function wireNotesModal() {
         const modal = $("notes-modal");
         const btnClose = $("notes-close");
@@ -1217,7 +1303,7 @@
             clearAllThoughts();
             setTitle("");
             setLabels(DEFAULT_LABELS);
-            promptForTitle();
+            promptForTitle({ showCancel: true }); // ✅ cancel visible
         });
 
         // Nav Load (file input)
@@ -1248,18 +1334,6 @@
 
         on($("navExport"), "click", exportGridPNG);
 
-        on($("navHelp"), "click", () => {
-            alert(
-                [
-                    "How to use Q-sort:",
-                    "1) Set a title/topic.",
-                    "2) Add thoughts (positive/neutral/negative).",
-                    "3) Drag thoughts into the grid to rank them.",
-                    "4) Save as JSON to continue later, or export as PNG.",
-                ].join("\n")
-            );
-        });
-
         on($("navLoadLocal"), "click", () => {
             if (!hasLocalSave()) {
                 updateLocalUI();
@@ -1278,6 +1352,12 @@
                 alert("Could not load local data.");
             }
         });
+
+        on($("navHelp"), "click", (e) => {
+            e.preventDefault();
+            openHelpModal();
+        });
+
 
     }
 
@@ -1632,7 +1712,7 @@
 
         if (mode === "new") {
             setLabels(DEFAULT_LABELS);
-            promptForTitle();
+            promptForTitle({ showCancel: false });
         } else if (mode === "load" && payload) {
             try {
                 const data = JSON.parse(payload);
@@ -1725,12 +1805,14 @@
         if (versionEl) {
             versionEl.textContent = `${APP_INFO.name} · v${APP_INFO.version}`;
         }
+
         wireTopRightMenu();
         wireBottomBar();
         updateLocalUI();
         wireThoughtModal();
         wireNotesModal();
         wireLabelsModal();
+        wireHelpModal();
 
     }
 

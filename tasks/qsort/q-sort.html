@@ -187,8 +187,10 @@
                         </label>
                     </div>
 
-                    <button id="title-ok" class="btn primary" type="button"
-                        style="margin-top:14px; width:100%;">OK</button>
+                    <div class="modal-actions" id="title-actions">
+                        <button type="button" class="btn" id="title-cancel">Cancel</button>
+                        <button type="button" class="btn primary" id="title-ok">OK</button>
+                    </div>
 
                 </div>
             </div>
@@ -295,6 +297,62 @@
             </div>
         </div>
 
+        <div id="help-modal" class="modal hidden" aria-hidden="true">
+            <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="help-title">
+                <h3 id="help-title">Help</h3>
+
+                <div class="help-body">
+                    <h4>Quick start</h4>
+                    <ol>
+                        <li>Click <b>New</b> and enter a title (and choose a layout).</li>
+                        <li>Add thoughts using <b>Add thought (with notes)</b>.</li>
+                        <li>Drag thoughts into the grid to rank them.</li>
+                        <li>Click a thought to view notes. Use <b>Edit</b> to update.</li>
+                    </ol>
+
+                    <h4>Moving, returning, deleting</h4>
+                    <ul>
+                        <li><b>Return to tray:</b> click the ↩ icon on a thought (when it’s on the grid).</li>
+                        <li><b>Delete:</b> drag a thought into the <b>Bin</b> area.</li>
+                        <li><b>Drop on the top scale:</b> drops into the nearest empty cell in that column.</li>
+                    </ul>
+
+                    <h4>Column labels</h4>
+                    <ul>
+                        <li>Set labels when creating a new sort (in the New modal).</li>
+                        <li>Edit labels anytime via <b>Menu → Edit column labels…</b>.</li>
+                        <li>Labels are saved in local saves + JSON exports.</li>
+                    </ul>
+
+                    <h4>Saving and loading</h4>
+                    <ul>
+                        <li><b>Save local:</b> stores your work in this browser (easy “continue later”).</li>
+                        <li><b>Export JSON:</b> downloads a file you can share or import later.</li>
+                        <li><b>Load local / Load JSON:</b> restores everything (grid, notes, labels).</li>
+                    </ul>
+
+                    <h4>Presets</h4>
+                    <ul>
+                        <li>Open <b>Menu → Presets…</b> to browse and load example Q-sorts.</li>
+                    </ul>
+
+                    <h4>Printing</h4>
+                    <ul>
+                        <li>Use <b>Menu → Print</b> to print the grid and notes summary.</li>
+                    </ul>
+
+                    <h4>Troubleshooting</h4>
+                    <ul>
+                        <li>If drag-and-drop feels “stuck”, try refreshing the page.</li>
+                        <li>If a save won’t load, check it’s a Q-sort JSON (version 2).</li>
+                    </ul>
+                </div>
+
+                <div class="modal-actions">
+                    <button id="help-close" class="btn primary" type="button">Close</button>
+                </div>
+            </div>
+        </div>
 
     </main>
 </body>

@@ -149,6 +149,7 @@
             else cell.textContent = val;
 
             topRow.appendChild(cell);
+
         });
 
         root.appendChild(topRow);
@@ -178,6 +179,8 @@
 
         // wire drops for the newly created cells
         root.querySelectorAll(".drop-zone").forEach(wireGridCellDrop);
+        updateGridCounter();
+
     }
 
     // ---------------------------------------------------------------------------
@@ -342,6 +345,26 @@
         });
     }
 
+    function getGridCapacity() {
+        // Grid *slots* only (exclude top-cells because they have no id)
+        return document.querySelectorAll('.drop-zone[id]').length;
+    }
+
+    function getTotalThoughtCount() {
+        // Count all thoughts that exist anywhere (tray + grid)
+        return document.querySelectorAll('.thought-item').length;
+    }
+
+    function updateGridCounter() {
+        const el = $("gridCounter");
+        if (!el) return;
+
+        const totalSlots = getGridCapacity();
+        const totalThoughts = getTotalThoughtCount();
+
+        el.textContent = `${totalThoughts}/${totalSlots} spaces`;
+        el.title = `${totalThoughts} thoughts created; ${totalSlots} grid spaces available`;
+    }
 
     function normaliseLabels(labels) {
         const L = labels && typeof labels === "object" ? labels : {};
@@ -531,11 +554,11 @@
 
             // ✅ Move back to tray
             tray.appendChild(thoughtElement);
+            updateGridCounter();
         });
 
         return closeButton;
     }
-
 
     function dragStart(e) {
         isDragging = true;
@@ -648,6 +671,7 @@
 
             // ✅ Append to the container that received the drop (tray)
             containerEl.appendChild(newItem);
+            updateGridCounter();
         });
     }
 
@@ -676,6 +700,7 @@
 
                 const newItem = buildThoughtElement({ id: sourceId, title, notes, className });
                 nearest.appendChild(newItem);
+                updateGridCounter();
                 return;
             }
 
@@ -684,6 +709,7 @@
 
             const newItem = buildThoughtElement({ id: sourceId, title, notes, className });
             cell.appendChild(newItem);
+            updateGridCounter();
         });
     }
 
@@ -711,6 +737,7 @@
 
             // remove the dragged thought from wherever it currently is
             removeOriginalIfExists(sourceId);
+            updateGridCounter();
         });
     }
 
@@ -834,10 +861,11 @@
             const thoughtEl = buildThoughtElement({ id, title, notes, className });
             $("neutral-thoughts-list")?.appendChild(thoughtEl);
 
+            updateGridCounter()
+
             // Clear quick input after adding (optional)
             const quick = $("thought-text");
             if (quick) quick.value = "";
-
             closeThoughtModal();
         });
     }
@@ -864,7 +892,22 @@
             openLabelsModal();
         });
 
+        on($("menuClearThoughts"), "click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
 
+            const ok = confirm("Clear all thoughts from the tray and grid?\n\nThis cannot be undone.");
+            if (!ok) return;
+
+            clearAllThoughts();
+            updateGridCounter();
+
+            // close the menu
+            const menu = $("navMenu");
+            const btn = $("navMenuBtn");
+            if (menu) menu.classList.add("hidden");
+            if (btn) btn.setAttribute("aria-expanded", "false");
+        });
 
         const toggleMenu = () => {
             const isOpen = !menu.classList.contains("hidden");
@@ -1029,32 +1072,6 @@
             openThoughtModal({ mode: "edit", thoughtEl: el });
         });
     }
-
-
-    // ---------------------------------------------------------------------------
-    // Core UI actions
-    // ---------------------------------------------------------------------------
-    // function addThoughtFromInput() {
-    //     const thoughtText = $("thought-text")?.value ?? "";
-    //     if (!thoughtText.trim()) return;
-
-    //     const thoughtValue = getNewThoughtType(); // <-- NEW
-
-    //     const id = `thought-${state.nextThoughtId++}`;
-    //     const className = `thought-item ${thoughtValue}`;
-
-    //     const thoughtEl = buildThoughtElement({
-    //         id,
-    //         text: thoughtText.trim(),
-    //         className,
-    //     });
-
-    //     // Always add to the "Unsorted" tray
-    //     $("neutral-thoughts-list")?.appendChild(thoughtEl);
-
-    //     $("thought-text").value = "";
-    //     $("thought-text")?.focus();
-    // }
 
     function setSubjectFromInput() {
         const subjectText = $("subject-text")?.value ?? "";
@@ -1234,6 +1251,8 @@
         document.querySelectorAll(".drop-zone[id]").forEach((cell) => {
             cell.innerHTML = "";
         });
+
+        updateGridCounter();
     }
 
     function loadFromData(data) {
@@ -1293,6 +1312,8 @@
             });
             cell.appendChild(el);
         });
+        updateGridCounter();
+
     }
 
     // ---------------------------------------------------------------------------
@@ -1554,13 +1575,13 @@
 
     async function fetchPresetManifest() {
         const res = await fetch("presets/presets.json", { cache: "no-store" });
-        if (!res.ok) throw new Error(`Preset manifest failed: ${res.status}`);
+        if (!res.ok) throw new Error(`Template manifest failed: ${res.status}`);
         return res.json();
     }
 
     async function loadPresetFile(filename) {
         const res = await fetch(`presets/${filename}`, { cache: "no-store" });
-        if (!res.ok) throw new Error(`Preset failed: ${res.status}`);
+        if (!res.ok) throw new Error(`Template failed: ${res.status}`);
         return res.json();
     }
 
@@ -1571,7 +1592,7 @@
         list.innerHTML = "";
 
         if (!items.length) {
-            list.innerHTML = `<div class="muted" style="padding:12px;">No presets found.</div>`;
+            list.innerHTML = `<div class="muted" style="padding:12px;">No templates found.</div>`;
             return;
         }
 
@@ -1588,7 +1609,7 @@
 
             row.innerHTML = `
       <div class="preset-row-title">
-        <span>${escapeHtml(p.title || "Untitled preset")}</span>
+        <span>${escapeHtml(p.title || "Untitled template")}</span>
         ${badge}
       </div>
       <p class="preset-row-desc">${escapeHtml(p.description || "")}</p>
@@ -1618,12 +1639,12 @@
         if (p.file) metaBits.push(`<span class="preset-badge">File: ${escapeHtml(p.file)}</span>`);
 
         panel.innerHTML = `
-    <h4 class="preset-detail-title">${escapeHtml(p.title || "Untitled preset")}</h4>
+    <h4 class="preset-detail-title">${escapeHtml(p.title || "Untitled template")}</h4>
     <p class="preset-detail-desc">${escapeHtml(p.description || "")}</p>
     <div class="preset-detail-meta">${metaBits.join("")}</div>
 
     <div class="preset-actions">
-      <button class="btn primary" type="button" id="presetPreviewLoad">Load preset</button>
+      <button class="btn primary" type="button" id="presetPreviewLoad">Load template</button>
     </div>
   `;
 
@@ -1654,7 +1675,7 @@
 
         // Loading state
         const list = $("presetsList");
-        if (list) list.innerHTML = `<div class="muted" style="padding:12px;">Loading presets…</div>`;
+        if (list) list.innerHTML = `<div class="muted" style="padding:12px;">Loading templates...</div>`;
         if (detail) detail.innerHTML = `<div class="muted">Loading…</div>`;
         if (search) search.value = "";
 
@@ -1665,7 +1686,7 @@
                 selectedPreset = null;
 
                 renderPresetList(presetCache);
-                if (detail) detail.innerHTML = `<div class="muted">Select a preset to see details.</div>`;
+                if (detail) detail.innerHTML = `<div class="muted">Select a template to see details.</div>`;
 
                 if (search) {
                     search.oninput = () => {
@@ -1679,14 +1700,14 @@
                         // If selection is filtered out, clear detail panel
                         if (selectedPreset && !filtered.some(x => x.id === selectedPreset.id)) {
                             selectedPreset = null;
-                            if (detail) detail.innerHTML = `<div class="muted">Select a preset to see details.</div>`;
+                            if (detail) detail.innerHTML = `<div class="muted">Select a template to see details.</div>`;
                         }
                     };
                 }
             })
             .catch((err) => {
                 console.error(err);
-                if (list) list.innerHTML = `<div class="muted" style="padding:12px;">Failed to load preset list.</div>`;
+                if (list) list.innerHTML = `<div class="muted" style="padding:12px;">Failed to load template list.</div>`;
                 if (detail) detail.innerHTML = "";
             });
     }
@@ -1733,6 +1754,7 @@
         window.addEventListener("resize", enforceDesktop);
 
         renderGrid(state.layoutId || DEFAULT_LAYOUT_ID);
+        updateGridCounter();
 
         on($("add-thought"), "click", () => openThoughtModal());
         on($("thought-text"), "keydown", (e) => {

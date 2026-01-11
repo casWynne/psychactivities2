@@ -399,6 +399,18 @@ textarea {
   user-select: none;
 }
 
+/* Grid fill counter (next to Add thought) */
+.thought-counter{
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #fafafa;
+  font-weight: 700;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+
 /* --------------------------------------------------------------------------
    THOUGHT CARDS
    -------------------------------------------------------------------------- */

@@ -58,7 +58,7 @@
 
                     <div class="menu-sep"></div>
                     <button class="menu-item" id="menuPresets" type="button">
-                        Presets…
+                        Templates...
                     </button>
 
                     <div class="menu-sep"></div>
@@ -82,6 +82,10 @@
                     <div class="menu-sep"></div>
                     <div class="menu-group-label">Danger</div>
 
+                    <button id="menuClearThoughts" class="menu-item warn" type="button">
+                        Clear all thoughts
+                    </button>
+
                     <button class="menu-item warn" id="menuClearLocal" type="button" role="menuitem">
                         Clear local
                     </button>
@@ -103,8 +107,12 @@
 
                         <div class="controls controls-wrap">
 
-                            <button id="add-thought" class="btn primary" type="button">Add thought (with
-                                notes)</button>
+                            <button id="add-thought" class="btn primary" type="button">Add thought</button>
+
+
+                            <div class="muted thought-counter" id="gridCounter" aria-live="polite">
+                                0/0 spaces
+                            </div>
                         </div>
                     </div>
 
@@ -277,21 +285,21 @@
             <div class="modal-box presets-modal">
                 <div class="presets-head">
                     <div>
-                        <h3 class="presets-title">Choose a preset</h3>
+                        <h3 class="presets-title">Choose a template</h3>
                         <p class="muted presets-sub">Loads an example Q-sort from this site.</p>
                     </div>
                     <button class="btn" id="presetsClose" type="button">Close</button>
                 </div>
 
                 <div class="presets-search">
-                    <input id="presetSearch" type="text" placeholder="Search presets…" />
+                    <input id="presetSearch" type="text" placeholder="Search templates…" />
                 </div>
 
                 <div class="presets-body">
                     <div class="presets-list" id="presetsList"></div>
 
                     <div class="presets-detail" id="presetDetail">
-                        <div class="muted">Select a preset to see details.</div>
+                        <div class="muted">Select a template to see details.</div>
                     </div>
                 </div>
             </div>
@@ -331,9 +339,9 @@
                         <li><b>Load local / Load JSON:</b> restores everything (grid, notes, labels).</li>
                     </ul>
 
-                    <h4>Presets</h4>
+                    <h4>Templates</h4>
                     <ul>
-                        <li>Open <b>Menu → Presets…</b> to browse and load example Q-sorts.</li>
+                        <li>Open <b>Menu → Templates...</b> to browse and load example Q-sorts.</li>
                     </ul>
 
                     <h4>Printing</h4>

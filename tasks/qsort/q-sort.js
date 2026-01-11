@@ -1001,8 +1001,18 @@
 
         modal.classList.remove("hidden");
         modal.setAttribute("aria-hidden", "false");
-        if (closeBtn) closeBtn.focus();
+
+        // ✅ Reset scroll position to top (modal content is usually the scroll container)
+        modal.scrollTop = 0;
+
+        // If your scrollable element is the inner box instead, reset that too
+        const box = modal.querySelector(".modal-box");
+        if (box) box.scrollTop = 0;
+
+        // ✅ Ensure we start at top before focusing
+        if (closeBtn) closeBtn.focus({ preventScroll: true });
     }
+
 
     function closeHelpModal() {
         const modal = $("help-modal");
@@ -1672,6 +1682,7 @@
         if (!modal) return;
 
         modal.classList.remove("hidden");
+        setTimeout(() => $("presetSearch")?.focus(), 0);
 
         // Loading state
         const list = $("presetsList");
@@ -1742,6 +1753,8 @@
                 console.error(err);
                 alert("That saved file wasn't valid JSON.");
             }
+        } else if (mode === "templates") {
+            openPresetsModal();
         }
     }
 

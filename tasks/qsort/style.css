@@ -145,6 +145,33 @@ body{
   font-size: 0.95rem;
 }
 
+/* ------------------------------------------------------------------
+   Danger / warning buttons (e.g. Clear local data)
+   ------------------------------------------------------------------ */
+
+.btn.danger {
+  color: #b3261e;                 /* Material-style warning red */
+  border-color: rgba(179, 38, 30, 0.45);
+  background: transparent;
+}
+
+.btn.danger:hover:not(:disabled) {
+  background: rgba(179, 38, 30, 0.08);
+  border-color: rgba(179, 38, 30, 0.65);
+}
+
+.btn.danger:active:not(:disabled) {
+  background: rgba(179, 38, 30, 0.14);
+}
+
+.btn.danger:disabled {
+  color: rgba(179, 38, 30, 0.35);
+  border-color: rgba(179, 38, 30, 0.25);
+  background: transparent;
+  cursor: not-allowed;
+}
+
+
 /* Nice responsive spacing */
 @media (max-width: 640px){
   .page{ padding-top: 18px; }

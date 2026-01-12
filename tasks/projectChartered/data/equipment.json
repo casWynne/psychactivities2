@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "title": "Project Chartered — LTU Psychology Labs",
+    "contactEmail": "c.wynne@leedstrinity.ac.uk",
+    "lastUpdated": "2026-01-12"
+  },
+  "items": [
+    {
+      "id": "ep3-eye-pen-3",
+      "name": "Eye and Pen 3 (EP3)",
+      "type": "hardware",
+      "category": "Eye-tracking / Writing",
+      "summary": "Digitising tablet and software for handwriting capture and analysis.",
+      "description": "Use EP3 to capture pen trajectories, pauses, and writing dynamics for research and teaching demonstrations.",
+      "keywords": ["writing", "handwriting", "tablet", "motor control", "eye-pen"],
+      "image": "assets/images/ep3.jpg",
+      "location": "Lab 2 — Cupboard A",
+      "availability": "booking-required",
+      "bookingInfo": "Email to request a booking slot. Include module / project and dates.",
+      "links": [
+        { "label": "Vendor / Product page", "url": "https://example.com" }
+      ],
+      "downloads": [
+        {
+          "label": "EP3 Manual",
+          "path": "assets/docs/ep3-manual.pdf",
+          "type": "pdf"
+        },
+        {
+          "label": "Risk Assessment (EP3)",
+          "path": "assets/docs/risk-assessment-ep3.pdf",
+          "type": "pdf",
+          "tag": "risk"
+        },
+        {
+          "label": "Training Quickstart",
+          "path": "assets/docs/training-ep3.docx",
+          "type": "docx",
+          "tag": "training"
+        }
+      ],
+      "notes": "Requires staff sign-off for student independent use."
+    },
+    {
+      "id": "gorilla",
+      "name": "Gorilla (Online Experiments)",
+      "type": "software",
+      "category": "Data collection",
+      "summary": "Build and run online experiments and surveys.",
+      "description": "Recommended for behavioural tasks, reaction time studies, and remote data collection.",
+      "keywords": ["online", "experiments", "surveys", "reaction time", "remote"],
+      "image": "assets/images/gorilla.jpg",
+      "location": "Web-based",
+      "availability": "staff-supported",
+      "links": [
+        { "label": "Gorilla platform", "url": "https://gorilla.sc" }
+      ],
+      "downloads": [
+        {
+          "label": "Getting started guide",
+          "path": "assets/docs/gorilla-getting-started.pdf",
+          "type": "pdf",
+          "tag": "training"
+        }
+      ],
+      "notes": "Some licences may be restricted; check with staff."
+    }
+  ]
+}

@@ -1,1 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Project Chartered — Lab Equipment</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <div class="brand">
+        <h1>Project Chartered</h1>
+        <p>Searchable psychology lab equipment + software library</p>
+      </div>
 
+      <div class="top-actions">
+        <a class="btn ghost" href="pages/help.html">Help</a>
+        <a class="btn ghost" href="pages/about.html">About</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap layout">
+    <aside class="panel">
+      <h2>Find equipment</h2>
+
+      <label class="field">
+        <span>Search</span>
+        <input id="q" type="search" placeholder="e.g., eye tracking, surveys, SONA…" />
+      </label>
+
+      <label class="field">
+        <span>Type</span>
+        <select id="typeFilter">
+          <option value="">All</option>
+          <option value="hardware">Hardware</option>
+          <option value="software">Software</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span>Category</span>
+        <select id="categoryFilter">
+          <option value="">All</option>
+        </select>
+      </label>
+
+      <div class="chips" id="keywordChips"></div>
+
+      <button class="btn" id="clearFilters">Clear filters</button>
+    </aside>
+
+    <section class="content">
+      <div class="meta-row">
+        <div id="resultCount" class="muted"></div>
+        <select id="sort">
+          <option value="name">Sort: Name (A–Z)</option>
+          <option value="category">Sort: Category</option>
+          <option value="type">Sort: Type</option>
+        </select>
+      </div>
+
+      <div id="cards" class="cards"></div>
+
+      <div id="emptyState" class="empty" hidden>
+        <h3>No matches</h3>
+        <p>Try different keywords, or clear the filters.</p>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

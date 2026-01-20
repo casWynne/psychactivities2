@@ -144,7 +144,7 @@
       "id": "staff-6",
       "name": "Dr Laura De Pretto",
       "email": "L.dePretto@leedstrinity.ac.uk",
-      "avatar": "",
+      "avatar": "../../assets/staff/lauradepretto.jpg",
       "avatarPosition": "50%",
       "keywords": [
         "Culture",
@@ -183,9 +183,9 @@
     },
     {
       "id": "staff-7",
-      "name": "Dr Russel Woodfield",
+      "name": "Dr Russell Woodfield",
       "email": "r.woodfield@leedstrinity.ac.uk",
-      "avatar": "",
+      "avatar": "../../assets/staff/russellwoodfield.png",
       "avatarPosition": "50%",
       "keywords": [
         "Personality Traits",
@@ -453,6 +453,63 @@
             "Explore how relationships with colleagues and supervisors in student jobs contribute to feelings of belonging, support, or stress, and how these social experiences relate to students’ wellbeing.",
             "Examine how students balance academic identity and worker identity, including whether workplace expectations, flexibility, and social support help or hinder their work–study balance.",
             "Investigate the types of social interactions in student employment that students perceive as most supportive or most challenging, and how these experiences shape confidence, motivation, and emerging professional identity."
+          ]
+        }
+      ]
+    },{
+      "id": "staff-16",
+      "name": "Dr Tracy Laverick",
+      "email": "t.laverick@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/tracylaverick.jpg",
+      "avatarPosition": "50% 20%",
+      "keywords": [
+        "Special Educational Needs",
+        "SEND Systems",
+        "Children",
+        "Young People",
+        "Education"
+      ],
+      "topics": [
+        {
+          "title": "Understanding the role of local authority SEND officers in implementing the national SEND system",
+          "description": "Within every local authority there is a workforce of SEND officers or Casework officers who are tasked with the job of implementing government policy for special educational needs. They draft the Education, Health and Care Plans that Children and Young People need to support them in educational settings as per the SEND Code of Practice (DfE/DoH 2015). They currently do this with no specific training or professional standards (Laverick & Baron 2024). I have been working with this workforce for the past 4 years to provide recognition and CPD. The new Schools white paper is due out in spring 2026 with potentially very significant changes for this team. This project will aim to answer the questions of what skills and training do they need to be able to deliver, how will interactions and communication with parents and children be supported and what are the potential unintended consequences of the transition from the current system to the new one.",
+          "ideas": [
+            "Attitudes towards or perceptions of local authority SEND staff and their role. (Qualitative)",
+            "What skills and knowledge do local authority teams need to be able to do their role successfully? (Mixed methods)",
+            "What evidence is there of good practice within local authority teams and what are the themes within this? (Qualitative)",
+            "What are student experiences of working with local authority SEND teams? (Qualitative)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-17",
+      "name": "Dr Victoria Heckels",
+      "email": "v.heckels@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/victoriaheckels.png",
+      "avatarPosition": "50% 30%",
+      "keywords": [
+        "Forensic Psychology"
+      ],
+      "topics": [
+        {
+          "title": "Why do people commit crime?",
+          "description": "There is a lot of research on why people commit crime and this focused on the nature nurture debate and to whether offenders are born or made. Research can be conducted both qualitatively or quantitatively to examine this.",
+          "ideas": [
+            "Research could be conducted to determine whether offenders have different personality traits to non offenders. This research would examine whether participants (probably a student population) who score high on a criminality scale have different personality characteristic to those who score low on the scale. The research would be quantitative in design.",
+            "Qualitative research could be conducted to look at participant's understanding and views of why people commit crime. Participants who work with offenders could be interviewed using a semi-structured interview to gain their views, with the data analysed using either Thematic Analysis or IPA.",
+            "Research could be conducted which examines motives for stalking. There is published reearch on how a lot of stalking is carried out by people who were in a romantic relationship. Research sould examine participant's understanding of stalking.",
+            "Qualitative research could be conducted to examine the perceived impact of stalking behaviour on victims."
+          ]
+        },
+                {
+          "title": "Understanding offenders",
+          "description": " A number of taxonomies have been used to try to understand offender. The usefulness  of these could be examined, as could the impact of these on participants perceptions of offending.",
+          "ideas": [
+            "Some research has used the dichotomy of organised/disorganised to interpret offenders, however little research has been done to consider whether organised/disorganised dichotomy exists. Research could also examine the usefulness of using this typology. The research lends itself to be more quantitative but qualitative design could also  be used.",
+            "Attitudes towards rape. This is a broad area of research which could focus on a number of factors such as aquaintance/stranger rape, male/female rape. This research could be conducted quantitively or qualitatively depending on the specific focus.",
+            "Stalking typologies could be examined to determine whether they help in the understanding of offences.",
+            "Research could focus on whether the type of stalker impacts the participant's understanding of their behaviour"
           ]
         }
       ]

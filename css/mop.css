@@ -1,9 +1,8 @@
 /* =========================================================
-   Student Minimal Theme (v3)
-   - Youthful, minimalist, mobile-first
-   - Calm neutrals + single accent
-   - Clear hierarchy + accessible focus
-   - Works with your existing HTML/JS classes
+   Student Minimal Theme (v3.2) — with tasteful "spice"
+   + NAV FIX:
+     - Desktop/tablet: centered + wraps (no weird scrolling)
+     - Mobile: horizontal scroll tabs
 ========================================================= */
 
 :root {
@@ -29,7 +28,7 @@
 
   /* Shape + spacing */
   --radius: 14px;
-  --radius-sm: 10px;
+  --radius-sm: 12px;
 
   /* Layout */
   --max: 900px;
@@ -49,15 +48,28 @@ body {
 
 body {
   margin: 0;
-  background: var(--bg);
   color: var(--text);
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+
+  /* Subtle background glows (spice, but calm) */
+  background:
+    radial-gradient(
+      1200px 600px at 10% -10%,
+      rgba(99, 102, 241, 0.08),
+      transparent 60%
+    ),
+    radial-gradient(
+      800px 500px at 90% 10%,
+      rgba(59, 130, 246, 0.06),
+      transparent 55%
+    ),
+    var(--bg);
 }
 
-/* Make links look modern by default */
+/* Links */
 a {
   color: inherit;
   text-decoration: none;
@@ -79,54 +91,113 @@ header {
   display: block;
 }
 
-/* ---------- Navigation (tabs, scrollable on mobile) ---------- */
-nav[aria-label="Programme Navigation"] {
+/* =========================================================
+   NAV (FIXED)
+   - Desktop/tablet: wrap + center
+   - Mobile: scrollable tabs
+========================================================= */
+
+nav[aria-label="Programme Navigation"]{
   background: var(--surface);
   border-bottom: 1px solid var(--border);
-  padding: 10px 10px;
+
+  /* Align nav width with main container */
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 10px;
+
   display: flex;
+  flex-wrap: wrap;          /* desktop wraps */
+  justify-content: center;  /* desktop centered */
   gap: 8px;
-  justify-content: flex-start;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
+
+  overflow: visible;        /* no weird scroll on desktop */
 }
 
-/* optional: subtle scrollbar for webkit */
-nav[aria-label="Programme Navigation"]::-webkit-scrollbar {
-  height: 8px;
-}
-nav[aria-label="Programme Navigation"]::-webkit-scrollbar-thumb {
-  background: rgba(17, 24, 39, 0.12);
-  border-radius: 999px;
-}
-
+/* Programme buttons */
 .programme-option {
   appearance: none;
+  position: relative;
+
   border: 1px solid transparent;
   background: transparent;
   color: var(--muted);
+
   padding: 10px 12px;
   border-radius: 999px;
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 550;
+
   cursor: pointer;
   white-space: nowrap;
-  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
+
+  transition:
+    background-color 140ms ease,
+    color 140ms ease,
+    border-color 140ms ease,
+    transform 120ms ease;
 }
 
 .programme-option:hover {
   background: var(--accent-soft);
   color: var(--accent);
   border-color: rgba(99, 102, 241, 0.15);
+  transform: translateY(-1px);
 }
 
-/* Your JS doesn’t currently set .active on these buttons,
-   but this is here if you add it later. */
+/* Optional active state (works if you set .active in JS) */
 .programme-option.active {
   background: var(--accent);
   color: #ffffff;
   border-color: rgba(99, 102, 241, 0.35);
+}
+
+/* Underline affordance on hover/active */
+.programme-option::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 4px;
+  height: 2px;
+  background: var(--accent);
+  opacity: 0;
+  transform: scaleX(0.6);
+  transition: opacity 140ms ease, transform 140ms ease;
+  border-radius: 999px;
+}
+
+.programme-option:hover::after {
+  opacity: 0.45;
+  transform: scaleX(1);
+}
+
+.programme-option.active::after {
+  opacity: 1;
+  transform: scaleX(1);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+/* Mobile: become scrollable tabs */
+@media (max-width: 768px){
+  nav[aria-label="Programme Navigation"]{
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+
+    /* Slightly roomier for touch */
+    padding: 10px 10px 12px;
+  }
+
+  nav[aria-label="Programme Navigation"]::-webkit-scrollbar{
+    height: 8px;
+  }
+  nav[aria-label="Programme Navigation"]::-webkit-scrollbar-thumb{
+    background: rgba(17, 24, 39, 0.12);
+    border-radius: 999px;
+  }
 }
 
 /* ---------- Main container ---------- */
@@ -134,32 +205,56 @@ main {
   max-width: var(--max);
   margin: 18px auto 80px;
   padding: 18px;
+
   background: var(--surface);
-  border: 1px solid var(--border);
   border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
+
+  /* Softer border + nicer depth */
+  border: 1px solid rgba(99, 102, 241, 0.10);
+  box-shadow:
+    0 10px 30px rgba(17, 24, 39, 0.08),
+    0 1px 0 rgba(255, 255, 255, 0.6) inset;
 }
 
-/* Typography inside main */
+/* ---------- Typography inside main ---------- */
 main h2 {
   margin: 0 0 8px;
   font-size: 1.55rem;
-  font-weight: 650;
-  letter-spacing: -0.015em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 main h3 {
   margin: 28px 0 10px;
   font-size: 1.05rem;
-  font-weight: 650;
+  font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--text);
+
+  /* Accent bar for scannability */
+  position: relative;
+  padding-left: 10px;
+}
+
+main h3::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.35em;
+  width: 4px;
+  height: 1em;
+  background: linear-gradient(
+    to bottom,
+    var(--accent),
+    rgba(99, 102, 241, 0.3)
+  );
+  border-radius: 999px;
 }
 
 main h4 {
   margin: 18px 0 8px;
   font-size: 0.95rem;
-  font-weight: 650;
+  font-weight: 700;
   color: var(--text);
 }
 
@@ -170,7 +265,7 @@ main p {
 
 main ul,
 main ol {
-  margin: 8px 0 14px 18px;
+  margin: 10px 0 14px 18px;
   color: var(--text);
 }
 
@@ -178,7 +273,7 @@ main li {
   margin: 6px 0;
 }
 
-/* Soft “info” text */
+/* Softer “info” text */
 .polite-notice,
 .Polite-notice {
   color: var(--muted);
@@ -193,23 +288,38 @@ main li {
   background: var(--surface);
   overflow: hidden;
   margin: 10px 0;
+
+  /* Small lift on hover */
+  transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
 }
 
-/* Collapsible header (looks like a modern list row) */
+.psychology-module:hover,
+.sociology-module:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08);
+  border-color: rgba(99, 102, 241, 0.18);
+}
+
+/* Collapsible header */
 .collapsible {
   width: 100%;
   text-align: left;
+
   border: 0;
   background: transparent;
+
   cursor: pointer;
   padding: 14px 14px;
+
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 650;
   color: var(--text);
+
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+
   transition: background-color 140ms ease, color 140ms ease;
 }
 
@@ -217,17 +327,30 @@ main li {
   background: var(--surface-2);
 }
 
+/* Chevron affordance */
+.collapsible::after {
+  content: "›";
+  font-size: 1.25rem;
+  color: var(--muted);
+  transform: rotate(0deg);
+  transition: transform 180ms ease, color 180ms ease;
+}
+
 .collapsible.active {
   background: var(--accent-soft);
   color: var(--text);
 }
 
-/* Subtle divider feeling */
+.collapsible.active::after {
+  transform: rotate(90deg);
+  color: var(--accent);
+}
+
+/* Module content */
 .module-content {
   display: none; /* your JS toggles this */
   padding: 0 14px 14px;
   border-top: 1px solid var(--border);
-  color: var(--muted);
 }
 
 .module-content p {
@@ -238,69 +361,80 @@ main li {
   margin-top: 18px;
 }
 
-/* Timetable line / emphasis */
+/* Timetable emphasis */
 .module-content strong {
-  font-weight: 650;
+  font-weight: 750;
 }
 
-/* This exists in your JS output */
 .gap {
   height: 6px;
 }
 
-/* Sociology module: slightly tinted border for distinction (minimal, not loud) */
+/* Sociology module: lightly differentiated border */
 .sociology-module {
-  border-color: rgba(59, 130, 246, 0.20);
+  border-color: rgba(59, 130, 246, 0.18);
 }
 
-/* If you want sociology collapsibles to hint “blue”, do it lightly */
+.sociology-module:hover {
+  border-color: rgba(59, 130, 246, 0.28);
+}
+
 .sociology-module .collapsible.active {
   background: rgba(59, 130, 246, 0.10);
 }
 
-/* ---------- Tags / helper classes ---------- */
+/* ---------- Helper classes ---------- */
 .purple {
   color: var(--accent);
-  font-weight: 650;
+  font-weight: 750;
 }
 
 .blue {
   color: #2563eb;
-  font-weight: 650;
+  font-weight: 750;
 }
 
-/* legacy classes in your old CSS (keep harmless) */
+/* Legacy classes retained for compatibility */
 .shared-module,
 .unique-module,
 .module {
-  /* not currently used consistently; kept for compatibility */
+  /* kept for compatibility with older markup */
 }
 
-/* ---------- Back button (link-like, modern) ---------- */
+/* ---------- Back button ---------- */
 .back-button {
   margin: 24px 0 0;
   width: 100%;
+
   padding: 12px 14px;
   border-radius: 999px;
+
   border: 1px solid rgba(99, 102, 241, 0.25);
   background: var(--accent-soft);
   color: var(--accent);
+
   font-size: 0.98rem;
-  font-weight: 650;
+  font-weight: 750;
+
   cursor: pointer;
-  transition: background-color 140ms ease, border-color 140ms ease, transform 120ms ease;
+
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    transform 120ms ease;
 }
 
 .back-button:hover {
   background: rgba(99, 102, 241, 0.14);
   border-color: rgba(99, 102, 241, 0.35);
+  transform: translateY(-1px);
 }
 
 .back-button:active {
   transform: translateY(1px);
 }
 
-/* ---------- Footer (not fixed; avoids covering content) ---------- */
+/* ---------- Footer ---------- */
 footer {
   text-align: center;
   padding: 14px 10px;

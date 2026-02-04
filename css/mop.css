@@ -1,232 +1,342 @@
-/* Root colors from your existing palette */
+/* =========================================================
+   Student Minimal Theme (v3)
+   - Youthful, minimalist, mobile-first
+   - Calm neutrals + single accent
+   - Clear hierarchy + accessible focus
+   - Works with your existing HTML/JS classes
+========================================================= */
+
 :root {
-    --primary: #842cbf;
-    --secondary: #fafafa;
-    --hover: #f2aee7;
-    --grey: #B5EAEA;
-    --background: #fafafa;
-    --charcoal: #232323;
+  /* Core surfaces */
+  --bg: #f9fafb;
+  --surface: #ffffff;
+  --surface-2: #f3f4f6;
+
+  /* Borders + shadows */
+  --border: #e5e7eb;
+  --shadow-sm: 0 1px 8px rgba(0, 0, 0, 0.06);
+
+  /* Text */
+  --text: #111827;
+  --muted: #6b7280;
+
+  /* Accent (single “brand” colour) */
+  --accent: #6366f1;       /* indigo */
+  --accent-soft: #eef2ff;
+
+  /* Focus ring */
+  --focus: #3b82f6;
+
+  /* Shape + spacing */
+  --radius: 14px;
+  --radius-sm: 10px;
+
+  /* Layout */
+  --max: 900px;
 }
 
-/* General body and layout styles */
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
 body {
-    font-family: 'Open Sans', sans-serif;
-    background-color: var(--background);
-    margin: 0;
-    padding: 0;
+  height: 100%;
 }
 
-/* Header styles */
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Make links look modern by default */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ---------- Header ---------- */
 header {
-    text-align: center;
-    padding: 20px;
-    background-color: var(--primary);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .header-image {
-    max-width: 100%;
-    height: auto;
+  height: 44px;
+  width: auto;
+  display: block;
 }
 
-/* Nav bar styles */
-nav {
-    display: flex;
-    justify-content: center;
-    background-color: var(--grey);
-    padding: 10px 0;
+/* ---------- Navigation (tabs, scrollable on mobile) ---------- */
+nav[aria-label="Programme Navigation"] {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 10px;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-start;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
 }
 
-/* Button styles for the nav */
+/* optional: subtle scrollbar for webkit */
+nav[aria-label="Programme Navigation"]::-webkit-scrollbar {
+  height: 8px;
+}
+nav[aria-label="Programme Navigation"]::-webkit-scrollbar-thumb {
+  background: rgba(17, 24, 39, 0.12);
+  border-radius: 999px;
+}
+
 .programme-option {
-    background-color: var(--secondary);
-    color: var(--charcoal);
-    border: none;
-    padding: 10px 20px;
-    margin: 0 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    border-radius: 5px;
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  padding: 10px 12px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
 }
 
-/* Button hover and focus effects */
-.programme-option:hover,
-.programme-option:focus {
-    background-color: var(--hover);
-    transform: scale(1.05);
+.programme-option:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: rgba(99, 102, 241, 0.15);
 }
 
-/* Ensuring button text is accessible */
-.programme-option:active {
-    background-color: var(--charcoal);
-    color: var(--hover);
+/* Your JS doesn’t currently set .active on these buttons,
+   but this is here if you add it later. */
+.programme-option.active {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: rgba(99, 102, 241, 0.35);
 }
 
-/* Main section styling */
+/* ---------- Main container ---------- */
 main {
-    background-color: var(--background);
-    border: 1px solid var(--grey);
-    border-radius: 8px;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 800px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
+  max-width: var(--max);
+  margin: 18px auto 80px;
+  padding: 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
 }
 
-/* Heading styles within the main section */
+/* Typography inside main */
 main h2 {
-    font-family: 'Merriweather', serif;
-    color: var(--primary);
-    margin-bottom: 15px;
+  margin: 0 0 8px;
+  font-size: 1.55rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
 }
 
-/* Paragraph styles within the main section */
+main h3 {
+  margin: 28px 0 10px;
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+main h4 {
+  margin: 18px 0 8px;
+  font-size: 0.95rem;
+  font-weight: 650;
+  color: var(--text);
+}
+
 main p {
-    font-family: 'Open Sans', sans-serif;
-    color: var(--charcoal);
-    line-height: 1.6;
+  margin: 0 0 10px;
+  color: var(--text);
 }
 
-/* Add a subtle hover effect for the main section */
-
-/* Footer styles */
-footer {
-    text-align: center;
-    background-color: var(--primary);
-    color: var(--secondary);
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+main ul,
+main ol {
+  margin: 8px 0 14px 18px;
+  color: var(--text);
 }
 
-/* Responsive adjustments for mobile screens */
-@media (max-width: 768px) {
-    nav {
-        flex-direction: column;
-    }
-
-    .programme-option {
-        margin: 5px 0;
-        width: 100%;
-    }
+main li {
+  margin: 6px 0;
 }
 
-/* Collapsible button styles */
+/* Soft “info” text */
+.polite-notice,
+.Polite-notice {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* ---------- Modules layout ---------- */
+.psychology-module,
+.sociology-module {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+/* Collapsible header (looks like a modern list row) */
 .collapsible {
-    background-color: var(--primary);
-    color: var(--secondary);
-    cursor: pointer;
-    padding: 10px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 16px;
-    transition: background-color 0.3s;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 14px 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+
+.collapsible:hover {
+  background: var(--surface-2);
 }
 
 .collapsible.active {
-    background-color: var(--hover);
-    color:var(--charcoal);
+  background: var(--accent-soft);
+  color: var(--text);
 }
 
-/* Module content */
+/* Subtle divider feeling */
 .module-content {
-    padding: 10px;
-    display: none;
-    background-color: var(--background);
-    border-left: 2px solid var(--hover);
-    border-right: 2px solid var(--hover);
-    border-bottom: 2px solid var(--hover);
+  display: none; /* your JS toggles this */
+  padding: 0 14px 14px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
 }
 
-.gap{
-    margin-bottom: 10px;
+.module-content p {
+  color: var(--text);
 }
 
-/* Style for the BPS logo */
-.bps-logo {
-    display: block; /* Centers the image horizontally */
-    margin: 5px auto; /* Adds space around the image and centers it */
-    max-width: 40%; /* Limits the width to keep it proportional */
-    height: auto; /* Maintains aspect ratio */
-    border-radius: 8px; /* Rounds the corners slightly */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
-    transition: transform 0.3s, box-shadow 0.3s; /* Adds smooth transitions */
+.module-content h3 {
+  margin-top: 18px;
 }
 
-/* Hover effect for the logo */
-.bps-logo:hover {
-    transform: scale(1.05); /* Slightly scales up the image */
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Intensifies the shadow on hover */
+/* Timetable line / emphasis */
+.module-content strong {
+  font-weight: 650;
 }
 
-.programme-buttons{
-    display: flex ;
+/* This exists in your JS output */
+.gap {
+  height: 6px;
 }
 
-/* Style for the back button */
-.back-button {
-    display: block; /* Makes it a block-level element to center it */
-    margin: 20px auto; /* Centers the button horizontally and adds vertical space */
-    padding: 10px 20px; /* Adds padding for a comfortable button size */
-    background-color: var(--primary); /* Matches the primary color used in other buttons */
-    color: var(--secondary); /* Text color to match other buttons */
-    border: none; /* Removes default border */
-    border-radius: 5px; /* Adds rounded corners */
-    font-size: 16px; /* Ensures text size matches other buttons */
-    cursor: pointer; /* Adds pointer cursor for better UX */
-    transition: background-color 0.3s, transform 0.2s; /* Smooth transition effects */
-    text-align: center; /* Centers the text within the button */
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+/* Sociology module: slightly tinted border for distinction (minimal, not loud) */
+.sociology-module {
+  border-color: rgba(59, 130, 246, 0.20);
 }
 
-/* Hover effect for the back button */
-.back-button:hover {
-    background-color: var(--hover); /* Change to the hover color */
-    transform: scale(1.05); /* Slightly enlarges the button on hover */
+/* If you want sociology collapsibles to hint “blue”, do it lightly */
+.sociology-module .collapsible.active {
+  background: rgba(59, 130, 246, 0.10);
 }
 
-/* Active effect for the back button */
-.back-button:active {
-    background-color: var(--charcoal); /* Darker color when the button is active */
-    transform: scale(0.98); /* Slightly shrinks the button on click */
-}
-.shared-module {
-    color: #2D9CDB; /* Blue color for shared modules */
-    font-size: 0.9em;
-    margin-left: 10px;
+/* ---------- Tags / helper classes ---------- */
+.purple {
+  color: var(--accent);
+  font-weight: 650;
 }
 
-.unique-module {
-    color: #27AE60; /* Green color for unique modules */
-    font-size: 0.9em;
-    margin-left: 10px;
+.blue {
+  color: #2563eb;
+  font-weight: 650;
 }
 
-/* Default module styling */
+/* legacy classes in your old CSS (keep harmless) */
+.shared-module,
+.unique-module,
 .module {
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+  /* not currently used consistently; kept for compatibility */
 }
 
-/* Sociology modules (pale blue) */
-.sociology-module button {
-    background-color: #0095ff; /* Pale blue */
+/* ---------- Back button (link-like, modern) ---------- */
+.back-button {
+  margin: 24px 0 0;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.98rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background-color 140ms ease, border-color 140ms ease, transform 120ms ease;
 }
 
-.purple{
-    color:var(--primary);
+.back-button:hover {
+  background: rgba(99, 102, 241, 0.14);
+  border-color: rgba(99, 102, 241, 0.35);
 }
 
-.blue{
-    color:#0095ff;
+.back-button:active {
+  transform: translateY(1px);
 }
 
-.polite-notice {
-    color: gray;
+/* ---------- Footer (not fixed; avoids covering content) ---------- */
+footer {
+  text-align: center;
+  padding: 14px 10px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+/* ---------- Accessible focus ---------- */
+.programme-option:focus-visible,
+.collapsible:focus-visible,
+.back-button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--focus) 70%, white 30%);
+  outline-offset: 3px;
+}
+
+/* ---------- Responsive tweaks ---------- */
+@media (max-width: 768px) {
+  main {
+    margin: 14px 10px 80px;
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .collapsible {
+    padding: 13px 12px;
+  }
+
+  .module-content {
+    padding: 0 12px 12px;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 }

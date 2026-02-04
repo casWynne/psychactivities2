@@ -6,21 +6,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const introContent = {
         title: "L6 Psychology Optional Module Information",
         description: `
-            This site has been put together to help you choose your optional modules for Level 6. Here are few key things to keep in mind:
-<h4>Module Availability</h4>
-<li>Modules will only run next year if they attract sufficient numbers of students to them.</li>
-<li>If a module is not running you will be allocated your reserve choice.</li>
-<li>We cannot, therefore, guarantee that all of the modules listed will run next year, but you will receive confirmation of your choices in May.</li>
-</ul>
-<h4>The Timetable</h4>
-<ul>
-<li>The Level 6 timetable is organised in blocks.</li>
-<li>We cannot run option modules at the same time.</li>
-<li>Your timetable depends on your core modules (e.g., PSY6145 Psychology Research Project), the optional modules you choose and your programme of study.</li>
-<li>Independent study with supervision from academic supervisors will form a lot of how you spend your time throughout Level 6. Supervision hours form a large component of modules such as PSY6145 Psychology Research Project and PSY6115 Professional Learning Through Work. So you may have less ‘classroom’ time than in previous years.</li>
-</ul>          
-            To get started click on your programme at the top.
-            `
+  This site has been put together to help you choose your optional modules for Level 6. Here are few key things to keep in mind:
+  <h4>Module Availability</h4>
+  <ul>
+    <li>Modules will only run next year if they attract sufficient numbers of students to them.</li>
+    <li>If a module is not running you will be allocated your reserve choice.</li>
+    <li>We cannot, therefore, guarantee that all of the modules listed will run next year, but you will receive confirmation of your choices in May.</li>
+  </ul>
+
+  <h4>The Timetable</h4>
+  <ul>
+    <li>The Level 6 timetable is organised in blocks.</li>
+    <li>We cannot run option modules at the same time.</li>
+    <li>Your timetable depends on your core modules (e.g., PSY6145 Psychology Research Project), the optional modules you choose and your programme of study.</li>
+    <li>Independent study with supervision from academic supervisors will form a lot of how you spend your time throughout Level 6. Supervision hours form a large component of modules such as PSY6145 Psychology Research Project and PSY6115 Professional Learning Through Work. So you may have less ‘classroom’ time than in previous years.</li>
+  </ul>
+
+  To get started click on your programme at the top.
+`
+
     };
     // function to load introductory content
     function loadIntroContent() {
@@ -492,7 +496,7 @@ const modules = {
         title: "Organised Crime",
         staff: "Dr Rob Hornsby",
         sociology: true,
-		credits: 30,
+        credits: 30,
         yearLong: true,
         semester1: false,
         semester2: false,

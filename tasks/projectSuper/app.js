@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     showKeywordLegend: true,        // show/hide legend box (above toolbar)
     enableLegendChipFilter: true,   // clicking legend chips applies filters
 
-    interestFormUrl: "https://forms.office.com/e/UT6nby4S1n",
+    interestFormUrl: "https://forms.office.com/Pages/ResponsePage.aspx?id=uiBM36hkUkOz-UeIGrvAmrupGAtLuGFKmf4kP4n8GhVUMDhPOVk5SVcyVVBNNEpRU1VJTVJFNjA3VC4u",
 
     // Super keywords
     useSuperKeywords: true,

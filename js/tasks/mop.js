@@ -135,8 +135,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     ${module.staff ? `<h3>Staff</h3><p>${module.staff}</p>` : ""}
                     ${module.credits ? `<h3>Credits</h3><p>${module.credits}</p>` : ""}
                     ${module.assignments ? `<h3>Assessments</h3><p>${module.assignments}</p>` : ""}
-                    ${module.day ? `<p><strong>2024-2025 timetable:</strong> ${module.day}*</p>` : "<p><strong>2024-2025 timetable:</strong> There is no timetable information for this module. Please contact module lead for more information."}
-                    ${module.day ? `<p class="Polite-notice">*Timetable information is from the first draft of the AY25/26 timetable. These are subject to change as the timetable becomes finalised. Please use information for guidance only.` : ""}
+                    ${module.day ? `<p><strong>Provisional Timetable:</strong> ${module.day}*</p>` : "<p><strong>Provisional Timetable:</strong> There is no timetable information for this module. Please contact module lead for more information."}
+                    ${module.day ? `<p class="Polite-notice">*Timetable information is derived from previous years. These are subject to change as the timetable becomes finalised. Please use information for guidance only.` : ""}
                 </div>
                 <div class="gap"></div>
             </div>
@@ -258,8 +258,9 @@ const modules = {
         yearLong: false,
         semester1: true,
         semester2: false,
-        description: "This module explores the biological foundations of stress and illness, examining how our bodies respond to stressors and the role of subjective appraisal in health outcomes. Stress is a key precursor to both physical and mental health issues, and the module investigates how pathological conditions can emerge. Topics include stress appraisal, hormonal and neurotransmitter changes, immune function, cardiovascular disease, affective disorders, addiction, epigenetics, coping strategies, and accessing support. <p>Students will progress towards submission through structured weekly milestones, with informal group presentations fostering cohort-wide discussion and real-time feedback. Additionally, each group will receive a personalized podcast (via Panopto) summarizing their progress and offering further insights.</p>",
-        assignments: "2,000-word Grant Proposal (100%)",
+        description: "<p>How does stress “get under the skin”? Why does one person develop illness while another adapts and thrives? This module explores stress and health from a biological perspective, examining how psychological experiences shape hormonal systems, immune function, cardiovascular processes, and brain chemistry.</p><p>You will explore stress appraisal, neuroendocrine responses, neurotransmitters, immune processes, cardiovascular disease, affective disorders, addiction, epigenetics, coping, stigma, and help-seeking – with a strong emphasis on how chronic stress contributes to physical and mental illness.</p><p>Assessment takes the form of a research-style grant proposal. As a cohort, you will agree a central stress-related topic (for example, loneliness in AY25/26). Working within this shared theme, we will design a biologically grounded experimental study and “apply” for a hypothetical £35,000 grant. The module is structured so that key elements of the proposal are developed progressively, with guided milestones and feedback embedded throughout. Your final submission will be an individual piece of work.</p><p>This approach mirrors real-world research practice: developing a focused research question, constructing a biologically informed rationale, designing a robust methodology, and anticipating potential confounds and pitfalls. For example, participant adherence.</p><p>This module is particularly well suited to students interested in health psychology, clinical psychology, neuroscience, or postgraduate research.</p>
+",
+        assignments: "2,500-word Group Grant Proposal (100%)",
         mandatory: false,
         day: "Thursdays: 9:30am - 12pm"
     },
@@ -349,8 +350,8 @@ const modules = {
         yearLong: false,
         semester1: false,
         semester2: true,
-        description: "Co-designed with Leeds Trinity psychology students, this module applies a discursive lens to critically explore topics decided on by the cohort. It uses interpretative frameworks to explore key ideological dilemmas and personal perspectives. The module is framed by two central questions: <ul><li>How does psychology help people?</li><li>How could psychology help people?</li></ul>Sessions are highly interactive, featuring small group discussions and debates.",
-        assignments: "2,000-word Written Report (100%)",
+        description: "The framework for this module has been co-constructed with Leeds Trinity psychology students, using a feminist lens together with discursive psychology to critically examine areas such as: gender, sexuality, race, social class and justice. You will learn how to apply critical discursive psychology to the analysis of talk and text (e.g., online discussion forums, newspaper articles and interviews), to explore how these topics and related issues are constructed, negotiated and reproduced within social discourses. The module will be book-ended by two pivotal questions: 1, How does psychology help people and 2, How could psychology help people? Sessions will be part lecture, but mainly driven by structured small group work, student-led analysis, presentations and facilitated discussion.",
+        assignments: "The assessment will be a 2000-word (or equivalent*) report comprised of a discursive analysis of a topic covered in the module or on a self-selected topic of interest.",
         mandatory: false,
         day: "Wednesdays: 10am - 12.30pm"
     },

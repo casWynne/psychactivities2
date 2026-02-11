@@ -1,0 +1,55 @@
+/* Hub-specific styling — stays minimal, lets the UI kit do the heavy lifting */
+
+.hub-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.hub-search { flex: 1; }
+
+.hub-actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.hub-chipbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.hub-meta {
+  padding-top: 0.2rem;
+}
+
+.hub-toggle {
+  gap: var(--space-2);
+  padding: 0.35rem 0.7rem;
+}
+
+.hub-toggle input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent-500);
+}
+
+.hub-empty {
+  margin-top: var(--space-6);
+}
+
+.hub-footer {
+  margin-top: var(--space-10);
+  padding: var(--space-6) 0 var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hub-footer__sep {
+  opacity: 0.5;
+}

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CCTK — Caspar’s Cool Tool Kit</title>
+  <meta name="description" content="CCTK — a central hub for Caspar’s research and teaching tools." />
+
+  <!-- Shared UI kit -->
+  <link rel="stylesheet" href="shared/cctk-ui/tokens.css">
+  <link rel="stylesheet" href="shared/cctk-ui/components.css">
+  <link rel="stylesheet" href="shared/cctk-ui/utilities.css">
+
+  <!-- Hub-specific -->
+  <link rel="stylesheet" href="css/hub.css">
+
+  <!-- Shared JS -->
+  <script defer src="shared/cctk-ui/theme.js"></script>
+  <script defer src="shared/cctk-ui/ui.js"></script>
+
+  <!-- Hub JS -->
+  <script defer src="js/hub.js"></script>
+</head>
+
+<body>
+  <main class="cctk-container">
+    <header class="cctk-header">
+      <div class="cctk-stack" style="gap: var(--space-2);">
+        <h1 class="cctk-title">CCTK</h1>
+        <p class="cctk-subtitle">
+          A small, tidy launcher for my research + teaching tools. Built for GitHub Pages. Designed to scale.
+        </p>
+      </div>
+
+      <div class="cctk-row">
+        <button class="cctk-iconbtn" data-cctk-theme-toggle title="Toggle theme" aria-label="Toggle theme">
+          🌗
+        </button>
+      </div>
+    </header>
+
+    <!-- Controls -->
+    <section class="cctk-card cctk-card--soft" data-accent="indigo">
+      <div class="cctk-card__inner cctk-stack" style="gap: var(--space-4);">
+        <div class="hub-controls">
+          <div class="hub-search">
+            <label class="cctk-sr-only" for="toolSearch">Search tools</label>
+            <input id="toolSearch" class="cctk-input" type="search" placeholder="Search tools (name, tags, description)..." autocomplete="off" />
+          </div>
+
+          <div class="hub-actions">
+            <button id="clearFiltersBtn" class="cctk-btn cctk-btn--ghost" type="button">Clear</button>
+          </div>
+        </div>
+
+        <div class="cctk-stack" style="gap: var(--space-2);">
+          <div class="hub-chipbar">
+            <div class="hub-chipbar__left">
+              <div id="tagChips" class="cctk-chips" data-accent="teal" aria-label="Tag filters"></div>
+            </div>
+            <div class="hub-chipbar__right">
+              <span class="hub-meta cctk-muted cctk-small" id="resultMeta">—</span>
+            </div>
+          </div>
+
+          <div class="hub-toggles cctk-row" style="gap: var(--space-2);">
+            <label class="hub-toggle cctk-chip cctk-chip--clickable" data-accent="purple">
+              <input id="showArchived" type="checkbox" />
+              <span>Show archived</span>
+            </label>
+
+            <label class="hub-toggle cctk-chip cctk-chip--clickable" data-accent="orange">
+              <input id="onlyInternal" type="checkbox" />
+              <span>Only internal</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="cctk-divider" />
+
+    <!-- Grid -->
+    <section>
+      <div id="toolGrid" class="cctk-grid" aria-live="polite"></div>
+
+      <div id="emptyState" class="cctk-card hub-empty cctk-hidden" data-accent="pink">
+        <div class="cctk-card__inner">
+          <h2 class="cctk-tool__name" style="margin:0;">No matches</h2>
+          <p class="cctk-tool__desc" style="margin-top: var(--space-2);">
+            Try a different search term, remove a tag filter, or hit <strong>Clear</strong>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="hub-footer cctk-muted cctk-small">
+      <span>© <span id="year"></span> CCTK</span>
+      <span class="hub-footer__sep">•</span>
+      <span>Made by Caspar Wynne</span>
+    </footer>
+  </main>
+</body>
+</html>

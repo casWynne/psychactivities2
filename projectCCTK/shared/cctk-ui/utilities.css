@@ -1,0 +1,38 @@
+/* CCTK UI Kit — Utilities */
+
+.cctk-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.cctk-row--between {
+  justify-content: space-between;
+}
+
+.cctk-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.cctk-muted { color: var(--text-2); }
+.cctk-small { font-size: 0.92rem; }
+.cctk-mono { font-family: var(--font-mono); }
+
+.cctk-divider {
+  height: 1px;
+  background: var(--border);
+  border: none;
+  margin: var(--space-6) 0;
+}
+
+.cctk-hidden { display: none !important; }
+
+.cctk-sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}

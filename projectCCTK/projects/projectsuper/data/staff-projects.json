@@ -1,0 +1,518 @@
+{
+  "staff": [
+    {
+      "id": "staff-1",
+      "name": "Dr Fayme Yeates",
+      "email": "staff1@university.ac.uk",
+      "avatar": "../../assets/staff/faymeyeates.png",
+      "avatarPosition": "50% 5%",
+      "keywords": [
+        "Sequences",
+        "Serial Dependence",
+        "Statistical Learning",
+        "Implicit Learning",
+        "Learning",
+        "Memory"
+      ],
+      "topics": [
+        {
+          "title": "Implicit learning - frequencies, patterns, and sequences",
+          "description": "People are able to extract and learn information about regularieis in their environment (statistical learning) which can occur without their awareness (implicit learning). We are interested in how this happens and what people learn, without realising. Research rocuses for the most part on how we learn connections or relationships between stimuli that are linked, predict certain outcomes or co-occur. This becomes more complicated when the relationships occur across time, or the learning is about distributed aspects like frequency or variability of stimuli and more research is needed to understand these aspects. Projects will look at measuring how and what people learn about distributional and conditional features of tehri environment, with a focus on stimuli seperated across time - examining timeing, serial order, frequency, variability, and conditional relationships between stimuli and how these impact learning.",
+          "ideas": [
+            "How do we learn distributed statistical information about different stimuli types (e.g. words, pictures, faces or auditory stimuli).",
+            "Using tasks such as the serial interception task (SISL) to examine distributional as well as conditional relationships between stimuli (try this out here: <a href='https://www.reberlab.psych.northwestern.edu/research/sisl-2' target='_blank'>SISL|ReberLab</a>)",
+            "Examining cue-competition and overshadowing effects between conditional and distributional aspects of stimuli. Does learning about conditional and distributional aspects of stimuli interact? Do we see cue-competition overshadowing?",
+            "Individual differences and statistical learning - how do people differ in their ability to learn about their environment statistically?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-2",
+      "name": "Dr Tim Vestner",
+      "email": "t.vestner@leedstrinity.ac.uk",
+      "avatar": "",
+      "keywords": [
+        "Social Cognition",
+        "Anxiety",
+        "Stuttering",
+        "Language Disorders",
+        "Autism",
+        "Visual Disorders"
+      ],
+      "topics": [
+        {
+          "title": "Social cognition – (Visual) perception of individuals and groups.",
+          "description": "Recognising faces and other social stimuli is a vital skill in everyday life. There is still much to find out about how we process faces or groups of people and all their various interactions. A new field of social interaction perception has emerged (Vestner et al., 2019) that systematically investigates how the brain processes social stimuli, as well as how people differ in their ability to do so. Projects within this topic tend to involve rather straightforward questions about the (usually visual) processing of social stimuli, explored using online experimental approaches.",
+          "ideas": [
+            "Individual differences, e.g. whether people with specific mental health conditions or certain traits are more or less able to recognise faces and facial expressions.",
+            "Processing of audio dialogue: We usually focus on the visual perception of social stimuli but very rarely investigate other senses. Projects could look at the perception of voices and explore, for example, how interpretation of emotional voices differ by context, or how good we are at estimating distances between speakers (and does this differ depending on how friendly we think the interaction is?).",
+            "Group interactions: We know a lot about how the brain processes two interacting people but it is completely unknown how we make sense if there are multiple groups of people. There are many questions that can be asked, such as the role of group membership, the actions of individual members versus the whole group, and how processing of small or large groups differ."
+          ]
+        },
+        {
+          "title": "Attitudes towards stuttering and related language and speech disorders.",
+          "description": "People who stutter (PWS) are experiencing everyday difficulties with not just communication, but also social relationships. Consequently, PWS are more prone to anxiety and social phobia, which in large parts is caused by social attitudes towards stuttering. General attitudes towards stuttering are well studied but much is unknown about specific population groups, mechanisms, accommodations, and effects on social relationships. Most research in this area uses existing questionnaires but there is also room for qualitative explorations. This topic can extend to other language or speech disorders, and even to healthy but atypical presentations, such as accents.",
+          "ideas": [
+            "Attitudes towards stuttering in minority populations, which could encompass either qualitative or quantitative approaches. Past students have, for example, successfully investigated attitudes towards stuttering in British-Pakistani populations, with their projects being currently under review for publication. This could be extended to other populations.",
+            "Attitudes towards stuttering in an intersectional context: Are people from certain (e.g. minoritised) groups more vulnerable to stigma resulting from stuttering?",
+            "Correlates of negative attitudes: Are people who have biases towards stuttering also more likely to have biases towards other things (e.g. dyslexia)? Are they more likely to have other characteristics (e.g. older, less educated etc.)?",
+            "You can also work directly with people who stutter, but you would need to think of a good way to get enough participants who stutter. In this case, you could directly investigate self-stigma, anxiety, social phobia, or factors affecting social relationships."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-3",
+      "name": "Dr Paul McGivern",
+      "email": "p.mcgivern@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/paulmcgivern.jpg",
+      "avatarPosition": "50%",
+      "keywords": [
+        "Gambling",
+        "Responsible Gambling",
+        "Advertising",
+        "Branding"
+      ],
+      "topics": [
+        {
+          "title": "The Role of Branding and Advertising on Gambling Uptake and Responsible Gambling.",
+          "description": "Gambling providers use a range of strategies and techniques to attract and retain customers. This includes use of humour, celebrity endorsement, and carefully crafted colour schemes to generate a unique brand. Whilst all UK gambling providers now offer a suite of responsible gambling tools, the way that these tools are promoted is still bound up within the branding of each gambling provider. Gambling research draws on both qualitative and quantitative methods, with more work needed in this area to better understand how these factors impact on gambling behaviours.",
+          "ideas": [
+            "Based on branding psychology, how have certain UK providers drawn on such research and is it effective in establishing brand loyalty?",
+            "Does brand loyalty with a particular provider impact on the extent to which they would use responsible gambling tools and how does having such tools bound up in the branding impact?",
+            "How does brand loyalty impact on gambling behaviours?",
+            "These are just a few ideas, and you may have some of your own in this area, which could be taken from both qualitative and quantitative perspectives"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-4",
+      "name": "Dr Richard A.C. Simpson",
+      "email": "R.Simpson@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/richardsimpson.jpg",
+      "avatarPosition": "50%",
+      "keywords": [
+        "Human Flourishing",
+        "Well-being",
+        "Well-being Literacy",
+        "Balance and Harmony",
+        "Forgiveness"
+      ],
+      "topics": [
+        {
+          "title": "The experience, attainment, and promotion of human flourishing.",
+          "description": "Over the past years there has been an increasing interest in the topic of human flourishing, including how we experience it, how we can attain it, and how we can promote it among individuals and broader society. Flourishing can be defined as “a state of personal and systemic quality in relation to all dimensions of existence, in a way that is relatively enduring and well-supported by the various conditions of life.” (Lomas & Vanderweele, 2022, p. 10). Flourishing can encompass how we are faring personally and collectively (e.g., well-being) and this can comprise of mental (e.g., happiness), physical (e.g., sleep quality), social (e.g., high-quality relationships), and spiritual (e.g., meaning and purpose) domains. Flourishing can also be moulded by the quality of the environment (e.g., through our communities, cross-cultural understanding, and how we communicate about and for flourishing through well-being literacy) and can be intentionally promoted and sustained through a range of activities (e.g., compassion, forgiveness, harmony). Given the concerns cited by the Global Flourishing Study and World Health Organization around declines in health and well-being across societies, there is a pressing need to advance understanding (e.g., how people conceptualize happiness), comprehension (e.g., how do we educate others on well-being), and capabilities (e.g., what activities and interventions can be used) to promote flourishing across diverse contexts (e.g., public health, sport, counselling, education, business, family). This necessitates the support from a variety of quantitative and or qualitative research methodologies to assess the experiences, changes, and resources that are required across these settings.",
+          "ideas": [
+            "How people within different settings (e.g., education, applied practice, business, sport and performance) conceptualize and make sense of terms like flourishing, well-being, or happiness.",
+            "How do educators (e.g., teachers, coaches), practitioners (e.g., psychologists), and public informants (e.g., media journalists, influencers) communicate about and for well-being. What informs their comprehension of well-being and how does this influence those they communicate with?",
+            "The different words and expressions (e.g., lexicon) that has been used across cultures and settings to communicate personal and societal happiness. How can knowledge on happiness from one language (e.g., the german word 'sehnsucht' or greek word 'aporia') enrich the emotional landscape of applied practitioners or people across society?",
+            "How the use of activities and interventions, like forgiveness and compassion (to self or others), can ameliorate suffering and promote flourishing across various settings."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-5",
+      "name": "Dr Shames Maskeen",
+      "email": "s.maskeen@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/shamesmaskeen.jpg",
+      "avatarPosition": "50%",
+      "keywords": [
+        "Widening Participation",
+        "Race/Ethnicity",
+        "Racism",
+        "Intersectionality",
+        "Microaggressions",
+        "Student Experience"
+      ],
+      "topics": [
+        {
+          "title": "Exploring the impact of microaggressions on students experiences in Higher Education",
+          "description": "Widening participation initiatives have helped to increase students from historically marginalised students access higher education. However, research shows that despite decades of equality legislation and policies, marginalised students in particular students of colour do not have an equitable experience in comparison to their White counterparts. Universities are responsible for creating learning environments in which all students can feel a sense of belonging and achieve their academic and professional potential. Microaggressions or everyday racism are common experiences reported by marginalised students in higher education. These experiences can manifest within teaching and learning environments, peer interactions, assessment practices and institutional cultures. While frequently normalised or minimised, microaggressions can have cumulative and harmful effects on students’ mental health, academic engagement, sense of belonging and long-term outcomes. This project area invites students to explore how microaggressions or everyday racism operates within higher education and how it shapes experiences and outcomes across the student lifecycle. Students will have the option to focus on a particular characteristic or identity (for example, race, ethnicity, religion, gender, disability or intersecting identities) as well as outcomes such as but not limited to mental health, academic engagement, retention, degree awarding outcomes and graduate employability.",
+          "ideas": [
+            "How students experience microaggressions or everyday racism within learning, teaching, and assessment contexts, and how these experiences shape engagement, confidence, and participation in academic life",
+            "How experiences of microaggressions or everyday racism influence students sense of belonging, wellbeing and decisions to persist, disengage or withdraw from higher education",
+            "How microaggressions or everyday racism shape students expectations of academic success, perceptions of fairness and confidence in achieving good degree outcomes including experiences related to the degree awarding gap",
+            "How experiences of microaggressions or everyday racism during higher education influence students perceptions of graduate employability, career aspirations and preparedness for the labour market"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-6",
+      "name": "Dr Laura De Pretto",
+      "email": "L.dePretto@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/lauradepretto.jpg",
+      "avatarPosition": "50%",
+      "keywords": [
+        "Culture",
+        "Migration & Identity",
+        "Cultural intelligence",
+        "Agriculturation & Adjustment",
+        "Human Environment Relationships",
+        "Enivronmental Behaviour",
+        "Hope & Wellbeing",
+        "Cross-cultural and international psychology"
+      ],
+      "topics": [
+        {
+          "title": "Culture, Identity, and Intercultural Exerpience",
+          "description": "Cultural diversity shapes how people understand themselves, relate to others, and navigate social and institutional environments. This research topic explores psychological processes related to culture, migration, identity, and intercultural interaction, with a particular focus on belonging , discrimination, cultural intelligence, and adjustment in diverse contexts susch as education, work, and everyday social life. Projects may examine how individuals experience and negotiate cultural differences, how indentities are constructed and challenged, and how intercultural skills and attitudes relate to wellbeing, learning, and social inclusion.",
+          "ideas": [
+            "Identity, belonging, and acculturation among migrant or minority groups",
+            "Perceived discrimination and its psychological consequences",
+            "Cultural intelligence and intercultural competence among students or staff",
+            "The role of language, accent, or ethnicity in social inclusion",
+            "Intercultural experiences in higher education (e.g., international study, virtual exchange, collaborative learning) "
+          ]
+        },
+        {
+          "title": "Human–Environment Relationships, Values, and Wellbeing",
+          "description": "This research topic examines how people relate to their natural and social environments, and how these relationships influence wellbeing, behaviour, and meaning in life. Drawing on social, cultural, and environmental psychology, projects explore how values, beliefs, and cultural contexts shape environmental attitudes, engagement with nature, and responses to environmental challenges. Projects may focus on wellbeing, hope, environmental behaviour, or nature connectedness, with attention to cultural and social differences.",
+          "ideas": [
+            "Relationships between access to green spaces and psychological wellbeing",
+            "Cultural or religious values and environmental concern",
+            "Pro-environmental behaviour and sustainability attitudes",
+            "Hope, meaning, and wellbeing in relation to social or environmental issues",
+            "Cross-cultural differences in environmental perceptions and behaviours"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-7",
+      "name": "Dr Russell Woodfield",
+      "email": "r.woodfield@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/russellwoodfield.png",
+      "avatarPosition": "50%",
+      "keywords": [
+        "Personality Traits",
+        "Antisocial Traits",
+        "Offtending attitudes",
+        "Criminal Attitudes",
+        "Offence Types"
+      ],
+      "topics": [
+        {
+          "title": "Attitudes towards Prisoners / Types of Offenders / Types of Offending / Approaches to Rehabilitation.",
+          "description": "<p>Public or professional attitudes and perceptions towards Prisoners in general or specific types of offenders or types of offending can greatly influence public policies or specific dealings with said individuals in a custodial or community setting. Stigma and misunderstanding can prevent effective implementation of professional practice standards and attempts at rehabilitation which would hope to provide safer communities.</p> <p>Some research in this area uses existing questionnaires but there is also room for qualitative explorations. As such this topic would be ideally suited to a qualitative or quantitative approach both having pros and cons that can feed into future research ideas in these areas.</p> <p>A quantitative approach may involve for example the administering to a sample of participants, established measures on the topics discussed to explore correlates and predictors of variables.</p> <p>A qualitative approach may involve for example in depth interviewing of 4-6 participants or use of a focus group to explore particular themes that are evident surrounding the topic areas.</p>",
+          "ideas": [
+            "Attitudes towards or perceptions of Prisoners and Prisonisation.",
+            "Attitudes towards or perceptions of specific offending populations e.g. offenders with mental illness, people that have offended sexually, drug addiction and offending etc.    ",
+            "Attitudes towards or perceptions of specific types of offending (as above).  ",
+            "Attitudes towards or perceptions of Rehabilitation approaches for people that have offended.  "
+          ]
+        },
+        {
+          "title": "Demographic and Personality variables that may influence problematic attitudes that are correlated with some types of offending behaviour.",
+          "description": "<p>Particular personality traits evident in varying spectrums in individuals have been shown to influence and support problematic attitudes that could support anti-social behaviours. In particular psychopathic or narcissistic traits (not to be confused as the same) have been shown to support problematic attitudes such as higher rape myth acceptances and support of dating violence attitudes to name examples.</p> <p>Similarly general personality variables (namely psychoticism, neuroticism and extraversion) based on Eysenck’s general model of criminality have shown support of problematic attitudes as well.</p> <p>Alongside this some personality variables in individuals may also support things such as coercive controlling behaviours in individuals for example who struggle with relationship and intimacy issues like intense jealousy.</p> <p><strong>Having said that these topic areas are not fixed, and ideas are welcomed for further discussion as there are a whole range of possible variables open to exploration.</strong></p> <p>Research in this area at undergraduate level uses existing questionnaires to facilitate a quantitative approach. <strong>Qualitative approaches for this type of topic are not suitable ethically at undergraduate level</strong> as they involve sensitive topics and do not allow for anonymity between researcher and participant as in the case of quantitative designs.</p> <p>A quantitative approach would typically involve for example the administering to a sample of participants, established measures on the topics discussed to explore correlates and predictors of variables.</p>",
+          "ideas": [
+            "Psychopathic personality traits and attitudes towards modern dating violence / rape myth acceptances.",
+            "Narcissistic personality traits and attitudes towards modern dating violence / rape myth acceptance.",
+            "General personality influencers and attitudes towards modern dating violence / rape myth acceptance."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-8",
+      "name": "Dr Alison Torn",
+      "email": "a.torn@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/alisontorn.jpg",
+      "avatarPosition": "50% 30%",
+      "keywords": [
+        "Student Engagement",
+        "Student Wellbeing",
+        "Student Success",
+        "Blended Learning",
+        "Articificial Intelligence"
+      ],
+      "topics": [
+        {
+          "title": "Student Engagement in Higher Education: Qualitative Insights into Transitions, Wellbeing, Lifeloads, Belonging, and Academic Demands",
+          "description": "Building on previous research conducted by myself and Candice Whitaker, this project explores how and why students engage with their university studies. This will include issues around engagement and disengagement, exploring the intersection between individual and structural factors including, but not limited to, the learning environment, transitions into university, well-being and ‘lifeloads’ outside of university (e.g. work, caring responsibilities). The project will require a strong understanding of qualitative methods (e.g. thematic analysis, IPA, discourse analysis); experience of conducting interviews would be preferable. Training will be given to conduct focus group interviews. This project would suit students interested in the student journey within a university environment and what facilitates or hinders this journey.",
+          "ideas": [
+            "This project explores how students experience and negotiate engagement with their studies alongside paid work, caring responsibilities, commuting, and other external demands (“lifeload”). The project will recruit from different subject areas across the university, utilising focus group interviews as the method of data collection.",
+            "This project examines how students experience key transitions (e.g. first year, post-pandemic learning, commuting to campus, returning to study) and how these shape engagement, belonging, and motivation. The project will recruit from different subject areas across the university, utilising focus group interviews as the method of data collection.",
+            "This project investigates how students experience the relationship between engagement, well-being, and mental health, including moments when engagement becomes overwhelming or unsustainable. The project will recruit from different subject areas across the university, utilising individual interviews as the method of data collection.",
+            "This project explores how students talk about engagement, success, and effort, and how these narratives reflect broader institutional and cultural expectations. The project will recruit from different subject areas across the university, utilising focus group interviews as the method of data collection."
+          ]
+        },
+        {
+          "title": "Exploring Student Experiences of Generative AI in Higher Education: Ethics, Learning Practices, Support, and Employability ",
+          "description": "With Generative Artificial Intelligence (GenAI) becoming embedded in our daily lives, I have a strong interest in how these tools are being used or avoided by the student population, and how universities can support students more to embrace this technology in order to prepare them for the professional world after university. The project will require a strong understanding of qualitative methods (e.g. thematic analysis, discourse analysis); experience of conducting interviews would be preferable. Training will be given to conduct focus group interviews. This project would suit students interested in the use of digital technologies and GenAI.",
+          "ideas": [
+            "This project explores how students understand, use, limit, or avoid GenAI tools in their university work, including uncertainty around boundaries and legitimacy. The project will recruit from different subject areas across the university, utilising focus group interviews as the method of data collection.",
+            "This project examines how students construct ethical boundaries around GenAI use, including ideas of cheating, originality, fairness, and “doing the work yourself.” The project will recruit from different subject areas across the university, utilising focus group interviews as the method of data collection.",
+            "This project explores how students connect GenAI use to employability, professional readiness, and their future working lives beyond university. The project will recruit from different subject areas across the university, utilising focus group interviews as the method of data collection.",
+            "This project investigates how students experience university-level communication, support, and teaching around GenAI, including perceptions of trust, surveillance, and clarity. The project will recruit from different subject areas across the university, utilising focus group interviews as the method of data collection."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-9",
+      "name": "Dr Candice Whitaker",
+      "email": "c.whitaker@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/candicewhitaker.jpg",
+      "avatarPosition": "50% 50%",
+      "keywords": [
+        "Masculinities",
+        "Body Image",
+        "Digital Cultures",
+        "Weight Stigma",
+        "Moral Judgement",
+        "Social Identity"
+      ],
+      "topics": [
+        {
+          "title": "Masculinities in the Digital Age: Social Attitudes, Online Role Models, and Wellbeing",
+          "description": "Digital environments play a central role in shaping contemporary understandings of masculinity. Social media, online forums, and influencer cultures expose users to highly visible norms around success, attractiveness, emotional expression, and gender roles. While much public debate focuses on boys and adolescents, these norms also shape the attitudes, identities, and wellbeing of adults, including young men navigating higher education, work, and relationships. Research is still limited on how adult men and mixed-gender adult populations perceive, internalise, or resist online masculinity norms, and how these attitudes relate to anxiety, body image, and social relationships.",
+          "ideas": [
+            "Adult perceptions of online male role models: How do adults evaluate different types of online male figures (e.g. fitness influencers, self-improvement figures, lifestyle coaches)? Are certain role models associated with stronger endorsement of traditional masculine norms, body dissatisfaction, or reduced emotional openness?",
+            "Attitudes towards incel-adjacent beliefs: How do adults perceive and evaluate beliefs commonly associated with incel or grievance-based narratives? What individual differences (e.g. empathy, loneliness, hostility) predict tolerance or rejection of these views?",
+            "Lived experiences of negotiating masculinity in digital spaces: This project would explore how adult men experience, interpret, and navigate masculinity norms in online environments, such as online dating apps or professional networking sites."
+          ]
+        },
+        {
+          "title": "Weight, Stigma, and Social Attitudes in the Context of Weight-Loss Medication",
+          "description": "Higher body weight and obesity are highly stigmatised in many societies, with individuals frequently subject to moral judgement regarding self-control, health, and personal responsibility. The increasing visibility of weight-loss medications has introduced new social narratives around legitimacy, effort, and deservingness in relation to weight loss. While these medications are typically discussed in medical terms, their broader social psychological consequences remain underexplored, particularly in relation to fat shaming, blame, and interpersonal evaluation.",
+          "ideas": [
+            "Social evaluation of weight-loss methods: Do adults judge individuals differently depending on whether weight loss is achieved through medication, diet, exercise, or no intervention? How does this affect perceptions of discipline, moral worth, or attractiveness?",
+            "Beliefs about responsibility and stigma: Are fat-shaming attitudes associated with stronger beliefs in personal responsibility for health outcomes? Do these beliefs vary by age, gender, or political orientation?",
+            "Norm change and public discourse: Does exposure to information framing obesity as multifactorial (e.g. genetic and environmental factors) reduce stigma compared to individual-responsibility framings?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-10",
+      "name": "Dr Helen Heaviside-Brown",
+      "email": "H.Heaviside-brown@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/helenheaviside.jpg",
+      "avatarPosition": "50% 35%",
+      "keywords": [
+        "Interpersonal Expectancies",
+        "Performance Expectancies",
+        "Impression Formation",
+        "Expectancy Effects"
+      ],
+      "topics": [
+        {
+          "title": "The formation and consequences of interpersonal expectancies.",
+          "description": "During interpersonal interactions people create impressions of one another almost instantaneously using “thin-slices” of information available to them at that moment. These initial impressions are used to predict the proceedings and outcomes of future interactions with that other person, resulting in them forming an expectancy of that person. Expectancies created about other people are referred to as interpersonal expectancies. Existing research has suggested that interpersonal expectancies can have robust, long-lasting consequences for both the person who creates the expectancy and the person who the expectancy is created about. Despite such suggestions, our understanding of how these expectancies develop, and their consequences across many settings, remains limited. Advancing our understanding in this area across diverse contexts will help us to understand how to harness the impressions and expectancies which are created about us, and how to manage the consequences of expectancy formation. Whilst historically the research in this field has been dominated by a quantitative research methodology, there is scope for a qualitative exploration to be conducted on the topic to expand our knowledge around perceptions and experiences of interpersonal expectancies. ",
+          "ideas": [
+            "The sources of information used to create impressions and subsequent expectancies across different settings (e.g., education, court, sport).",
+            "The consequences of interpersonal expectancies for the person creating the expectancy.",
+            "The consequences of interpersonal expectancies for the person who the expectancy is created about (this can be explored across any setting, e.g., education, family units, criminal systems, sport, health settings).",
+            "The consequences of interpersonal expectancies for a target’s wider support network (this can be explored across any setting, e.g., education, family units, criminal systems, sport, health settings)."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-11",
+      "name": "Lewis Miles-Berry",
+      "email": "L.Miles-Berry@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/lewismilesberry.jpg",
+      "avatarPosition": "50% 10%",
+      "keywords": [
+        "Self-Regulation",
+        "Inter-Role Conflict",
+        "Academic Self-Efficacy",
+        "Cognitive Appraisal"
+      ],
+      "topics": [
+        {
+          "title": "Inter-role conflict: Exploring the role of cognitive appraisal, academic self-efficacy and self-control on learning strategies",
+          "description": "This research topic explores how cognitive appraisal, and self-control influences self-regulated learning. In everyday life, many students experience conflicts between a series of competing demands and obligations across their working lives, personal lives and academic lives. Cognitive appraisal is a way that people assess these demands, self-control is what people use to manage these demands and academic self-efficacy is people’s belief in their ability to accomplish academic tasks. ",
+          "ideas": [
+            "You could investigate how academic self-efficacy influences the relationship between inter-role demands and cognitive appraisal (Quantitative)",
+            "How cognitive appraisal influences the relationship between inter-role demands and self-regulated approaches to learning (Quantitative)",
+            "How students experience and make sense of inter-role demands (Qualitative)",
+            "How students experience academic or work ‘spillover’ into their personal lives or vice versa (Qualitative)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-12",
+      "name": "Dr Tim Gomersall",
+      "email": "T.Gomersall@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/timgomersall.jpg",
+      "avatarPosition": "50% 50%",
+      "keywords": [
+        "Health Psychology",
+        "Wellbeing",
+        "Creativity",
+        "Arts-based research"
+      ],
+      "topics": [
+        {
+          "title": "Examining the relationship between creativity and wellbeing",
+          "description": "This project would unpack the relationship between engagement in creative arts practices (eg. drawing, music, creative writing, painting, film-making) and wellbeing. There is a growing evidence-base about the positive impact of the arts on mental health and wellbeing, and so-called 'social prescribing' has seen a growing uptake in clinical settings, to promote recovery among people with mental health difficulties. However, the mechanisms linking creative work to wellbeing are in need of further research. This would be an opportunity for a student to deepen their understanding of psychological wellbeing, to explore a form of creative work they are interested in, while gaining valuable research, analysis, and critical thinking skills. ",
+          "ideas": [
+            "A qualitative study of arts participation and wellbeing. This project would involve collecting in-depth data with participants who are involved in the creative arts. You would explore the meanings participants attribute to their creative work, and examine how this supports them to live well. As well as 'traditional' data collection, students would be encouraged to explore using alternative methods (in particular, exploring the artworks participants themselves have made) to understand the links between creativity and wellbeing. ",
+            "Identifying the impact of creative work on wellbeing. This would be a survey-based, quantitative study in which you measure the extent of participants' involvement with creative practices, and their self-reported life satisfaction. We would also examine the potential impact of moderating variables (eg, socioeconomic status, gender, self-reported physical health) to examine some of the different impacts of creativity across different groups."
+          ]
+        },
+        {
+          "title": "Examining the impact of the wellness influencer industry",
+          "description": "Wellness is a growing trend among young adults, and the presence of influencers on social media channels is central to this. Wellness influencers are typically young, fit, and glamorous, and present a carefully curated version of themselves to their audiences. They may or may not have relevant qualifications and experience for presenting health advice. Although some studies have shown that influencers can inspire followers to adopt health-related goals, their content is unregulated, and may be unreliable, unrealistic, or driven by commercial goals. Even medically qualified influencers have been shown to be prone to ideological biases, and to providing confusing and contradictory advice on health. This project would take a critical look at the impact of the wellness influencer industry, either through interviews with individuals who consume wellness influencer content, or through case studies of particular influencers' content.",
+          "ideas": [
+            "For this project, you would examine the subjective impact of consuming wellness influencer content. Through individual interviews, and discussions related to posts from your participants' favoured influencers, you would examine how engaging with influencers affects your participants' relationship to their own health and wellbeing. This would be a qualitative project, using interviews and a critical, social constructionsit lens for the analysis. ",
+            "This project would use pre-existing data - primarily posts from prominent wellness influencers themselves - to critically examine how wellness is constructed. There is a vast body of such data to draw on here, often laced with rich details of personal narrative and lifestyle. Through a detailed analysis of a selected corpus of influencer content, you would adopt a critical, social constructionist perspective to unpack the ideology of influencer culture. This might include the gendered nature of the wellness space, the deployment of 'expertise' and 'authenticity', contradictions in advice, and how idealised versions of the self are created."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-13",
+      "name": "Dr Lisa Webster",
+      "email": "l.webster@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/lisawebster.jpg",
+      "avatarPosition": "50% 10%",
+      "keywords": [
+        "Resilience",
+        "Connectedness ",
+        "Mental health of at-risk populations"
+      ],
+      "topics": [
+        {
+          "title": "Mental Health, Risk, and Resilience in At-Risk Populations",
+          "description": "The prevalence of mental ill-health in at-risk populations such as students, military veterans, and community first responders remains high as these groups face persistent exposure to stress, trauma, and role-related demands. Students often contend with academic pressure, identity development, economic insecurity, and work-study conflict; veterans experience social isolation due to the challenges of reintegration into civilian life further compounding existing trauma exposure; and first responders routinely encounter traumatic incidents and chronic occupational stress with minimal support for their wellbeing. Across these populations, mental health outcomes are shaped not only by risk factors, but also by protective factors such as resilience, social support and connectedness, and access to care. Research within this area is both qualitative and quantitative but there is a need for more context-sensitive and culturally informed approaches.",
+          "ideas": [
+            "How students experience and manage working and studying at university. What impact does financial stress have on academic engagement and/or social connectedness? How do students cope under such stress? To what extent does resilience buffer the relationship between financial stress and academic or social outcomes? What coping strategies are used by students with higher vs lower resilience under financial stress? How do students perceive the availability and effectiveness of university support in mitigating financial and academic stress?",
+            "Understanding the experiences of veterans reintegrating into civilian life. This could relate to work, family life, culture. For example, how does loss of military community affect veterans’ sense of connectedness? What barriers prevent veterans from accessing mental health or employment support services? How do veterans reconstruct identity and purpose after service? You may wish to consider intersectional challenges such as race and ethnicity and the lack of culturally competent care.",
+            "How do community first responders cope with the demands of their role? Community first responders are often reluctant to seek formal mental health support due to stigma. What practical and psychological barriers prevent help-seeking (time, cost, fear of consequences)? What factors make formal support more acceptable (peer referral, anonymous services, external providers)?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-14",
+      "name": "Dr Zacharia Nahouli",
+      "email": "z.nahouli@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/zacnahouli.jpg",
+      "avatarPosition": "50% 30%",
+      "keywords": [
+        "Police Interviewing",
+        "Eyewitness Memory",
+        "False Memories",
+        "Rapport Building",
+        "Decision Making"
+      ],
+      "topics": [
+        {
+          "title": "Memory Distortion: How Does Information Presentation and Recall Conditions Impact Memory?",
+          "description": "<p>There is a wealth of research that shows that the way information is presented to individuals can impact what they remember. For example, a common experimental design used is called the Deese-Roediger & McDermott (DRM) paradigm which presents individuals with a list of semantically-related words (e.g., bed, rest, awake) which also relate to a grouping word that is not presented in the list; we call this the critical lure - for this example the critical lure is sleep. Research finds that individuals will generally create a false memory for having seen this critical lure. False memories can also be developed in a similar way for pictures and videos. This is an important concept in forensic psychology as it relates to processes in police interviewing and court room settings - for example, the way that a police officer presents information to a witness or suspect may alter how they remember events and lead them to providing false information. False memories developed in this way have caused real-world miscarriages of justice.</p><p>Similarly, we know that the way individuals are asked to recall information can also impact how they remember events and lead to the creation of false memories. This can be impacted by police interviewers, whereby an accusatorial, coercive and leading form of interview makes it more likely that interviewees will develop false memories and/or provide false information, whereby building rapport with interviewees, showing empathy towards them, asking appropriate questions and using cognitive psychological techniques makes it more likely they will provide accurate and plentiful information. Again, recall conditions and their impact on memory has important implications for forensic practice.</p>",
+          "ideas": [
+            "Investigating how the presentation of information impacts memory for events. This could be done by using variations of the DRM paradigm (highlighted above), the misinformation paradigm (whereby the same event is presented to individuals in different ways), or utilising different types of questions (e.g., open vs. closed questions).",
+            "Investigating how recall conditions impact memory for events. This may involve presenting individuals with a video of an event and subsequently interviewing them for their memory while manipulating certain elements of the interview (e.g., cognitive stress, rapport building, different methods of recall).",
+            "Investigating how individual characteristics influence memory recall. For example, research has found characteristics such as age, gender, personality types, neurodivergences, suggestibility and compliance can influence whether someone develops false memories and the impact that different styles of interviewing may have."
+          ]
+        },
+        {
+          "title": "The Impact of Bias on Decision Making in Forensic Settings",
+          "description": "<p>Individuals can be implicitly bias towards others based on certain characteristics, and those biases can have impacts on the decisions they make. This is a particularly important concept to consider in forensic contexts such as courtroom settings, as jury members may base their verdicts on defendants based on these biases. For example, research has found jurors can be harsher or more lenient in their decisions based on:</p><ol><li>The defendant's age, race, or gender;</li><li>The clothes that the defendant is wearing;</li><li>How similar they feel they are to the defendant;</li><li>How emotional or unemotional the defendant is;</li><li>Factors such as the defendant's mental health or drug use;</li><li>Characteristics of the juror my also have an impact, such as their age, gender, personality type or perceptions towards offenders more generally.</li></ol><p>This is not an exhaustive list of factors, but we see that these can have an impact on whether a defendant is found guilty or innocent. They can also alter people's perceptions on the severity of the offence committed and the severity of the punishment that should be received. People can also have similar biases towards victims of crime which again may alter their perception of victims and how criminal cases should be handled. As such, understanding these factors is important to understand how they play out in real-world settings.</p>",
+          "ideas": [
+            "Investigating perceptions and attitudes towards offenders or victims and/or how they perceive this influences their decision making. This may be of a qualitative nature.",
+            "Investigating how different characteristics or factors of offenders/victims impact decision-making. This could be done by creating vignettes of offenders/offences and altering different features of these vignettes between groups (e.g., altering the race of the offender, or the severity or type of offence).",
+            "Investigating how participant characteristics alter their decision-making or perceptions of offenders/victims. This may use a similar method to project idea 2 but grouping participants based on their own characteristics (e.g., age, gender, personality characteristics)."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-15",
+      "name": "Dr Chris Rowley",
+      "email": "c.rowley@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/chrisrowley.jpg",
+      "avatarPosition": "50% 30%",
+      "keywords": [
+        "Transitions",
+        "Impression Management",
+        "Workplace Interactions",
+        "Support networks"
+      ],
+      "topics": [
+        {
+          "title": "Exploring the qualities and characteristics of effective support networks amongst dual-career athletes",
+          "description": "This project would look to explore the support networks of dual-career (potentially student-) athletes to help identify the features and characteristics of effective support networks. Through the adoption of psychosocial perspectives, this project will explore the different forms of support that peers and family members/loved ones provide, investigating the athletes' perceptions around the support that is sought and received from significant- and similar-others. This project would hold worthwhile implications for those who seek to support and develop dual-career athletes, accounting for sporting and professional/academic/vocational success and attainment, personal and professional wellbeing, and personal and professional identity.",
+          "ideas": [
+            "This qualitative project would seek to explore the support networks of dual-career (including student) athletes using a creative, participatory approach (i.e. photo-elicitation). Dual-career athletes will share artefacts (i.e. photos or drawings) representing key sources of support in their sporting and professional/academic/vocational lives. These will in turn be used to prompt in-depth interviews.",
+            "This large scale quantitative project would seek to examine the perceived social support received from family and friends by dual-career athletes using validated versions of the Perceived Social Support Scale. Sources of peer-support can be compared in terms of their effectiveness across a number of potential variables, including (but not exclusive to); level of sport participation (e.g., elite vs. sub-elite), academic or vocational load, career stage, living arrangements, or associated measures on related outcomes (i.e. wellbeing or student experience/satisfaction)."
+          ]
+        },
+        {
+          "title": "More Than Just a Job: Social Ties, Wellbeing, and Identity in Student Employment",
+          "description": "This project would seek to examine how students experience and navigate relationships with colleagues and supervisors while balancing occupational work and academic study demands, and how these interactions shape wellbeing, work–study balance, and developing personal and professional identity. Findings will provide insight into supportive and challenging social ties in student jobs and inform practices to enhance students’ workplace experiences and overall wellbeing.",
+          "ideas": [
+            "Explore how relationships with colleagues and supervisors in student jobs contribute to feelings of belonging, support, or stress, and how these social experiences relate to students’ wellbeing.",
+            "Examine how students balance academic identity and worker identity, including whether workplace expectations, flexibility, and social support help or hinder their work–study balance.",
+            "Investigate the types of social interactions in student employment that students perceive as most supportive or most challenging, and how these experiences shape confidence, motivation, and emerging professional identity."
+          ]
+        }
+      ]
+    },{
+      "id": "staff-16",
+      "name": "Dr Tracy Laverick",
+      "email": "t.laverick@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/tracylaverick.jpg",
+      "avatarPosition": "50% 20%",
+      "keywords": [
+        "Special Educational Needs",
+        "SEND Systems",
+        "Children",
+        "Young People",
+        "Education"
+      ],
+      "topics": [
+        {
+          "title": "Understanding the role of local authority SEND officers in implementing the national SEND system",
+          "description": "Within every local authority there is a workforce of SEND officers or Casework officers who are tasked with the job of implementing government policy for special educational needs. They draft the Education, Health and Care Plans that Children and Young People need to support them in educational settings as per the SEND Code of Practice (DfE/DoH 2015). They currently do this with no specific training or professional standards (Laverick & Baron 2024). I have been working with this workforce for the past 4 years to provide recognition and CPD. The new Schools white paper is due out in spring 2026 with potentially very significant changes for this team. This project will aim to answer the questions of what skills and training do they need to be able to deliver, how will interactions and communication with parents and children be supported and what are the potential unintended consequences of the transition from the current system to the new one.",
+          "ideas": [
+            "Attitudes towards or perceptions of local authority SEND staff and their role. (Qualitative)",
+            "What skills and knowledge do local authority teams need to be able to do their role successfully? (Mixed methods)",
+            "What evidence is there of good practice within local authority teams and what are the themes within this? (Qualitative)",
+            "What are student experiences of working with local authority SEND teams? (Qualitative)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-17",
+      "name": "Dr Victoria Heckels",
+      "email": "v.heckels@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/victoriaheckels.png",
+      "avatarPosition": "50% 30%",
+      "keywords": [
+        "Forensic Psychology"
+      ],
+      "topics": [
+        {
+          "title": "Why do people commit crime?",
+          "description": "There is a lot of research on why people commit crime and this focused on the nature nurture debate and to whether offenders are born or made. Research can be conducted both qualitatively or quantitatively to examine this.",
+          "ideas": [
+            "Research could be conducted to determine whether offenders have different personality traits to non offenders. This research would examine whether participants (probably a student population) who score high on a criminality scale have different personality characteristic to those who score low on the scale. The research would be quantitative in design.",
+            "Qualitative research could be conducted to look at participant's understanding and views of why people commit crime. Participants who work with offenders could be interviewed using a semi-structured interview to gain their views, with the data analysed using either Thematic Analysis or IPA.",
+            "Research could be conducted which examines motives for stalking. There is published reearch on how a lot of stalking is carried out by people who were in a romantic relationship. Research sould examine participant's understanding of stalking.",
+            "Qualitative research could be conducted to examine the perceived impact of stalking behaviour on victims."
+          ]
+        },
+                {
+          "title": "Understanding offenders",
+          "description": " A number of taxonomies have been used to try to understand offender. The usefulness  of these could be examined, as could the impact of these on participants perceptions of offending.",
+          "ideas": [
+            "Some research has used the dichotomy of organised/disorganised to interpret offenders, however little research has been done to consider whether organised/disorganised dichotomy exists. Research could also examine the usefulness of using this typology. The research lends itself to be more quantitative but qualitative design could also  be used.",
+            "Attitudes towards rape. This is a broad area of research which could focus on a number of factors such as aquaintance/stranger rape, male/female rape. This research could be conducted quantitively or qualitatively depending on the specific focus.",
+            "Stalking typologies could be examined to determine whether they help in the understanding of offences.",
+            "Research could focus on whether the type of stalker impacts the participant's understanding of their behaviour"
+          ]
+        }
+      ]
+    }
+  ]
+}

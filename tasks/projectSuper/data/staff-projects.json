@@ -513,6 +513,45 @@
           ]
         }
       ]
+    },
+    {
+      {
+      "id": "staff-18",
+      "name": "Dr Adam Lawrence",
+      "email": "a.lawrence@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/adamlawrence.jpg",
+      "avatarPosition": "50% 50%",
+      "keywords": [
+        "Online Learning",
+        "Cyberpsychology",
+        "AI Use",
+        "Remote Learning",
+        "Social Media Use"
+      ],
+      "topics": [
+        {
+          "title": "Online learning and Artificial Intelligence",
+          "description": "The education sector has changed considerably in recent years both as a response to the COVID-19 pandemic, and the growth and promotion of AI based technologies using large language models (LLMs). The availability of online resources and LLMs alongside issues like increased pressures to work whilst in full-time education, has led some to suggest that such technologies could be an effective replacement for traditional in-person student learning. Projects in this area can help to address important questions concerning the effectiveness of learning through remote delivery or through the use of technologies like AI Chat-Bots (ChatGPT, Copilot, Grok etc).",
+          "ideas": [
+            "Does remote vs. in-person delivery affect our ability to retain information (e.g. volume of information retained, perception of how well information is understood etc)?",
+            "Is the effectiveness of AI as a learning tool affected by features intended to make the technology seem more ‘authentic’ (e.g. the role of human-like avatars, more/less synthetic sounding voices etc)?",
+            "These are just a couple of ideas, and I would be happy to work with students to develop research questions based upon your own experiences of remote learning, and LLM use."
+          ]
+        },
+                {
+          "title": "Assessing accuracy and trustworthiness for information drawn from online sources",
+          "description": "Many of us believe that we are able to readily detect online mistruths (email scams/fake news etc.), and whilst “online-savvy” individuals may harbour a belief that they are unlikely to be deceived, research indicates that laypersons and even trained law-enforcement personnel are often unable to reliably detect truth from falsehood. With this in mind, projects in this area would investigate whether information presented from “trusted sources” or information which is presented in a way that appears “more legitimate”, is more readily believed than similar information presented through less familiar or “artificial” channels. Projects in this area could look at the effect of numerous different variables such as:",
+          "ideas": [
+            "News Source (e.g., news organisation, unknown website, random individual, trusted individual e.g., online influencer).",
+            "Online platform (Where the information was sourced from e.g., Facebook, Twitter, Reddit etc).",
+            "Nature of the news story (e.g., celebrity news, economic information, information regarding foreign policy etc)",
+            "Geographic location (is this a piece of UK-centric news, is this a more global story etc?)",
+            "Aspects of aesthetic presentation (e.g., how professional did the stimulus of interest look?)",
+            "Whether AI has covertly / overtly been used in the creation of the target stimuli."
+          ]
+        }
+      ]
+    }
     }
   ]
 }

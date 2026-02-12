@@ -68,12 +68,7 @@
       "email": "p.mcgivern@leedstrinity.ac.uk",
       "avatar": "../../assets/staff/paulmcgivern.jpg",
       "avatarPosition": "50%",
-      "keywords": [
-        "Gambling",
-        "Responsible Gambling",
-        "Advertising",
-        "Branding"
-      ],
+      "keywords": ["Gambling", "Responsible Gambling", "Advertising", "Branding"],
       "topics": [
         {
           "title": "The Role of Branding and Advertising on Gambling Uptake and Responsible Gambling.",
@@ -343,12 +338,7 @@
       "email": "T.Gomersall@leedstrinity.ac.uk",
       "avatar": "../../assets/staff/timgomersall.jpg",
       "avatarPosition": "50% 50%",
-      "keywords": [
-        "Health Psychology",
-        "Wellbeing",
-        "Creativity",
-        "Arts-based research"
-      ],
+      "keywords": ["Health Psychology", "Wellbeing", "Creativity", "Arts-based research"],
       "topics": [
         {
           "title": "Examining the relationship between creativity and wellbeing",
@@ -374,11 +364,7 @@
       "email": "l.webster@leedstrinity.ac.uk",
       "avatar": "../../assets/staff/lisawebster.jpg",
       "avatarPosition": "50% 10%",
-      "keywords": [
-        "Resilience",
-        "Connectedness ",
-        "Mental health of at-risk populations"
-      ],
+      "keywords": ["Resilience", "Connectedness ", "Mental health of at-risk populations"],
       "topics": [
         {
           "title": "Mental Health, Risk, and Resilience in At-Risk Populations",
@@ -456,19 +442,14 @@
           ]
         }
       ]
-    },{
+    },
+    {
       "id": "staff-16",
       "name": "Dr Tracy Laverick",
       "email": "t.laverick@leedstrinity.ac.uk",
       "avatar": "../../assets/staff/tracylaverick.jpg",
       "avatarPosition": "50% 20%",
-      "keywords": [
-        "Special Educational Needs",
-        "SEND Systems",
-        "Children",
-        "Young People",
-        "Education"
-      ],
+      "keywords": ["Special Educational Needs", "SEND Systems", "Children", "Young People", "Education"],
       "topics": [
         {
           "title": "Understanding the role of local authority SEND officers in implementing the national SEND system",
@@ -488,9 +469,7 @@
       "email": "v.heckels@leedstrinity.ac.uk",
       "avatar": "../../assets/staff/victoriaheckels.png",
       "avatarPosition": "50% 30%",
-      "keywords": [
-        "Forensic Psychology"
-      ],
+      "keywords": ["Forensic Psychology"],
       "topics": [
         {
           "title": "Why do people commit crime?",
@@ -502,7 +481,7 @@
             "Qualitative research could be conducted to examine the perceived impact of stalking behaviour on victims."
           ]
         },
-                {
+        {
           "title": "Understanding offenders",
           "description": " A number of taxonomies have been used to try to understand offender. The usefulness  of these could be examined, as could the impact of these on participants perceptions of offending.",
           "ideas": [
@@ -537,7 +516,7 @@
             "These are just a couple of ideas, and I would be happy to work with students to develop research questions based upon your own experiences of remote learning, and LLM use."
           ]
         },
-                {
+        {
           "title": "Assessing accuracy and trustworthiness for information drawn from online sources",
           "description": "Many of us believe that we are able to readily detect online mistruths (email scams/fake news etc.), and whilst “online-savvy” individuals may harbour a belief that they are unlikely to be deceived, research indicates that laypersons and even trained law-enforcement personnel are often unable to reliably detect truth from falsehood. With this in mind, projects in this area would investigate whether information presented from “trusted sources” or information which is presented in a way that appears “more legitimate”, is more readily believed than similar information presented through less familiar or “artificial” channels. Projects in this area could look at the effect of numerous different variables such as:",
           "ideas": [
@@ -551,3 +530,5 @@
         }
       ]
     }
+  ]
+}

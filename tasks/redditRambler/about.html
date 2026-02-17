@@ -133,6 +133,93 @@
             </li>
         </ol>
 
+        <h2>How to get a Reddit JSON file</h2>
+
+        <ol>
+            <li>Go to <a href="https://www.reddit.com" target="_blank" rel="noopener noreferrer">Reddit</a></li>
+
+            <li>Find the post you want to analyse and click on it so the full thread is visible.</li>
+
+            <li>
+                Click in the browser’s address bar.
+                At the very end of the URL, add:
+                <code>.json</code>
+            </li>
+
+            <li>
+                Press Enter.
+                The page will reload and display a structured text file (this is the JSON version).
+            </li>
+
+            <li>
+                Save the page:
+                <ul>
+                    <li><strong>Windows:</strong> Ctrl + S</li>
+                    <li><strong>Mac:</strong> Cmd + S</li>
+                </ul>
+                Save the file somewhere easy to find.
+            </li>
+
+            <li>
+                Repeat this for any additional posts you want to analyse.
+            </li>
+
+            <li>
+                When ready, go to <a href="index.html">the main Reddit Rambler page</a>,
+                upload your saved JSON files, and click <strong>Parse files</strong>.
+            </li>
+        </ol>
+
+        <hr>
+
+        <h3>Getting more comments (recommended)</h3>
+
+        <p>
+            By default, Reddit may only include a limited number of comments in the JSON file.
+            For larger discussions, you can ask Reddit to include more comments and deeper replies.
+        </p>
+
+        <p>
+            To do this, add the following to the end of the URL instead of just <code>.json</code>:
+        </p>
+
+        <div class="copyBlock">
+            <pre><code id="jsonParams">.json?limit=500&depth=10&sort=top&raw_json=1</code></pre>
+            <button class="copyBtn" data-copy-target="jsonParams">Copy</button>
+        </div>
+
+        <p>
+            So your final URL will look something like:
+        </p>
+
+        <pre><code>
+https://www.reddit.com/r/SUB/comments/POSTID/title.json?limit=500&depth=10&sort=top&raw_json=1
+</code></pre>
+
+        <h4>What these settings mean:</h4>
+
+        <ul>
+            <li><strong>limit=500</strong> → asks Reddit to include more comments (higher number = more comments)</li>
+            <li><strong>depth=10</strong> → includes replies nested deeper in the thread</li>
+            <li><strong>sort=top</strong> → orders comments by highest score (you can change this to <code>new</code> or
+                <code>old</code> if needed)
+            </li>
+            <li><strong>raw_json=1</strong> → keeps the text clean and easier to analyse</li>
+        </ul>
+
+        <div class="callout">
+            <strong>Important:</strong>
+            Even with these settings, very large threads may still contain “more” placeholders.
+            These represent additional comments that are not included in the saved file.
+            Reddit Rambler will tell you if this happens.
+        </div>
+
+        <p class="mini">
+            Tip: If your browser saves the file as <code>.txt</code>, you can rename it to <code>.json</code>.
+            The content matters more than the file extension.
+        </p>
+
+
         <h2>Does this upload my data anywhere?</h2>
         <div class="callout">
             <b>No.</b> This tool is “serverless” — it runs entirely in your browser.

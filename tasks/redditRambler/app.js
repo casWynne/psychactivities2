@@ -128,6 +128,47 @@ function nowStamp() {
     const pad = (n) => String(n).padStart(2, "0");
     return `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
 }
+/* =========================
+   HELPERS: COUNT t1 + more
+   ========================= */
+
+function countCommentNodes(commentListing) {
+    const counts = {
+        t1: 0,
+        moreNodes: 0,
+        moreChildIds: 0
+    };
+
+    function walk(children) {
+        if (!Array.isArray(children)) return;
+
+        for (const node of children) {
+            if (!node || typeof node !== "object") continue;
+
+            if (node.kind === "t1" && node.data) {
+                counts.t1 += 1;
+
+                const replies = node.data.replies;
+                if (replies && typeof replies === "object") {
+                    walk(replies?.data?.children);
+                }
+            }
+
+            if (node.kind === "more" && node.data) {
+                counts.moreNodes += 1;
+
+                const ids = node.data.children;
+                if (Array.isArray(ids)) {
+                    counts.moreChildIds += ids.length;
+                }
+            }
+        }
+    }
+
+    walk(commentListing?.data?.children);
+
+    return counts;
+}
 
 
 /* =========================
@@ -721,7 +762,9 @@ function renderReport(filesResult, opts, reportMeta) {
       <div><b>Total post videos:</b> ${reportMeta.totalVideos}</div>
       <div><b>Anonymised users:</b> ${reportMeta.mappingSize}</div>
       <div><b>Mapping persistence enabled:</b> ${reportMeta.persistenceEnabled ? "Yes" : "No"}</div>
-
+      <div><b>Extracted full comments (t1):</b> ${reportMeta.totalComments}</div>
+      <div><b>More placeholders:</b> ${reportMeta.totalMoreNodes}</div>
+      <div><b>Referenced comment IDs not included in file:</b> ${reportMeta.totalMoreIds}</div>
       <div class="participation">
         <h3>User participation</h3>
         <div><b>Unique anonymised users in comments:</b> ${part.totalAuthors}</div>
@@ -995,6 +1038,14 @@ if (btnParse) {
             const postListing = raw[0];
             const commentListing = raw[1];
 
+            const nodeCounts = countCommentNodes(commentListing);
+
+            log(`  Comment nodes in JSON:`);
+            log(`     t1 (full comments): ${nodeCounts.t1}`);
+            log(`     more placeholders:  ${nodeCounts.moreNodes}`);
+            log(`     referenced extra IDs: ${nodeCounts.moreChildIds}`);
+
+
             const t3 = findT3(postListing);
             if (!t3) {
                 log(`  ❌ No t3 post found. Skipping.`);
@@ -1048,7 +1099,12 @@ if (btnParse) {
             post.selftext = applyEthicalSafeguards(post.selftext, map, ethicsOpts);
             for (const c of comments) c.body = applyEthicalSafeguards(c.body, map, ethicsOpts);
 
-            filesResult.push({ source_file: file.name, post, comments });
+            filesResult.push({
+                source_file: file.name,
+                post,
+                comments,
+                nodeCounts
+            });
 
             log(`  ✅ Post + ${comments.length} comment(s). Images: ${post.image_urls.length} Videos: ${post.video ? 1 : 0}`);
         }
@@ -1066,6 +1122,16 @@ if (btnParse) {
 
         const totalPosts = filesResult.length;
         const totalComments = filesResult.reduce((sum, f) => sum + f.comments.length, 0);
+
+        const totalMoreNodes = filesResult.reduce(
+            (sum, f) => sum + (f.nodeCounts?.moreNodes || 0),
+            0
+        );
+
+        const totalMoreIds = filesResult.reduce(
+            (sum, f) => sum + (f.nodeCounts?.moreChildIds || 0),
+            0
+        );
         const totalImages = filesResult.reduce((sum, f) => sum + (f.post.image_urls?.length || 0), 0);
         const totalVideos = filesResult.reduce((sum, f) => sum + (f.post.video ? 1 : 0), 0);
 
@@ -1074,11 +1140,14 @@ if (btnParse) {
             totalFiles: files.length,
             totalPosts,
             totalComments,
+            totalMoreNodes,
+            totalMoreIds,
             totalImages,
             totalVideos,
             mappingSize: map.size,
             persistenceEnabled: persist
         };
+
 
         renderReport(filesResult, { hideDeleted }, reportMeta);
 
@@ -1158,6 +1227,26 @@ if (btnDownloadBib) {
         }
     });
 }
+// Generic copy button handler
+document.addEventListener("click", async (e) => {
+    const btn = e.target.closest(".copyBtn");
+    if (!btn) return;
+
+    const targetId = btn.getAttribute("data-copy-target");
+    const el = document.getElementById(targetId);
+    if (!el) return;
+
+    const text = el.textContent.trim();
+
+    try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = "Copied!";
+        setTimeout(() => (btn.textContent = "Copy"), 1200);
+    } catch {
+        btn.textContent = "Failed";
+        setTimeout(() => (btn.textContent = "Copy"), 1200);
+    }
+});
 
 /* =========================
    16) DOWNLOAD / PRINT BUTTON HANDLERS

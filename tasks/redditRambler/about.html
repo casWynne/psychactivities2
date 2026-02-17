@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About — Reddit JSON Report Tool</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Small extra styling just for this page */
+    .aboutwrap { max-width: 900px; margin: 0 auto; padding: 18px; }
+    .aboutwrap h1 { margin: 8px 0 6px; }
+    .aboutwrap h2 { margin-top: 22px; }
+    .aboutwrap p, .aboutwrap li { line-height: 1.5; }
+    .callout {
+      border: 1px solid var(--border, #ddd);
+      border-radius: 12px;
+      padding: 12px 14px;
+      background: #f7f7f7;
+      margin: 12px 0;
+    }
+    .steps li { margin: 8px 0; }
+    details { margin: 10px 0; }
+    summary { cursor: pointer; font-weight: 600; }
+    code, .kbd {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.95em;
+    }
+    .kbd {
+      border: 1px solid #ccc;
+      border-bottom-width: 2px;
+      border-radius: 6px;
+      padding: 1px 6px;
+      background: #fff;
+      display: inline-block;
+      margin: 0 2px;
+    }
+    .glossary dt { font-weight: 700; margin-top: 10px; }
+    .glossary dd { margin: 4px 0 10px 0; }
+    .mini { color: var(--muted, #555); font-size: 0.95em; }
+  </style>
+</head>
+
+<body>
+  <main class="aboutwrap">
+
+    <header>
+      <h1>About this tool</h1>
+      <p class="mini">
+        A gentle, serverless tool for turning exported Reddit JSON files into a readable report (PDF),
+        plus TXT and CSV files you can use in qualitative analysis.
+      </p>
+    </header>
+
+    <div class="callout">
+      <b>Good news:</b> this runs in your browser. You do not need to install anything.
+      <br><b>Important:</b> your files are processed locally on your computer (not uploaded to a server).
+    </div>
+
+    <h2>What this tool is for</h2>
+    <p>
+      This tool helps you take Reddit data (in JSON format) and turn it into outputs that are easier to work with:
+    </p>
+    <ul>
+      <li><b>PDF report</b> (print-to-PDF) for reading and sharing</li>
+      <li><b>TXT report</b> for quick scanning, quoting, and archiving</li>
+      <li><b>CSV exports</b> for analysis (Excel, R, NVivo, MAXQDA, Atlas.ti, etc.)</li>
+      <li><b>Coding-ready CSV</b> that includes blank “codes” and “notes” columns</li>
+    </ul>
+
+    <h2>How it works (plain English)</h2>
+    <ol class="steps">
+      <li>
+        <b>You choose your JSON files</b> using the Upload button.
+        <br><span class="mini">These are Reddit export JSON files that contain a post and its comments.</span>
+      </li>
+      <li>
+        <b>The tool reads the post</b> (title, text, subreddit, date) and finds any post media (images/videos).
+      </li>
+      <li>
+        <b>The tool reads all comments</b>, including replies, and “flattens” them into a list so they can be displayed and exported.
+      </li>
+      <li>
+        <b>Optional anonymisation</b> replaces usernames with anonymous IDs like <code>user_001</code>, <code>user_002</code>.
+      </li>
+      <li>
+        <b>Optional ethical safeguards</b> can redact email addresses and anonymise username mentions inside the text (like <code>u/SomeUser</code>).
+      </li>
+      <li>
+        <b>You download what you need</b>: PDF / TXT / CSV / Coding CSV.
+      </li>
+    </ol>
+
+    <h2>Does this upload my data anywhere?</h2>
+    <div class="callout">
+      <b>No.</b> This tool is “serverless” — it runs entirely in your browser.
+      <br>That means your files are processed on your device, and the outputs are created locally.
+    </div>
+
+    <details>
+      <summary>What “serverless” means (in one sentence)</summary>
+      <p>
+        Serverless means there is no special computer on the internet processing your files — it all happens inside your browser.
+      </p>
+    </details>
+
+    <h2>Features explained</h2>
+
+    <details open>
+      <summary>1) Upload JSON files</summary>
+      <p>
+        You can upload one file or multiple files. Each file is processed as one post + its comment thread.
+      </p>
+    </details>
+
+    <details>
+      <summary>2) Report preview (on-screen)</summary>
+      <p>
+        After parsing, the tool shows a readable report:
+      </p>
+      <ul>
+        <li>Post title, date, subreddit, and anonymised author ID</li>
+        <li>Post text (if any)</li>
+        <li>Post images with clickable URLs</li>
+        <li>Videos with clickable URLs (videos are not embedded in the PDF)</li>
+        <li>Comments displayed with indentation (replies are indented)</li>
+        <li>Comment image thumbnails when image URLs appear in comment text</li>
+      </ul>
+    </details>
+
+    <details>
+      <summary>3) PDF report (Print → Save as PDF)</summary>
+      <p>
+        Use the <b>Download PDF (Print)</b> button, then choose “Save as PDF”.
+      </p>
+      <p class="mini">
+        Videos cannot be embedded in a print-to-PDF report reliably, so this tool provides clickable links instead.
+      </p>
+
+      <div class="callout">
+        <b>Page numbers:</b> Most browsers add page numbers using a print setting.
+        <ul>
+          <li><b>Chrome / Edge:</b> Print → More settings → <b>Headers and footers</b></li>
+          <li><b>Safari (Mac):</b> File → Print → Show Details → <b>Print headers and footers</b></li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>4) TXT report download</summary>
+      <p>
+        A plain text version of the report. It includes:
+      </p>
+      <ul>
+        <li>Summary at the top (how many posts/comments, when the report was created)</li>
+        <li>Post text, image URLs, and video URL</li>
+        <li>Comments with indentation</li>
+        <li>Image links found inside comments</li>
+      </ul>
+      <p class="mini">
+        TXT is useful for quick searching (Ctrl+F), copying quotes, or storing alongside your project files.
+      </p>
+    </details>
+
+    <details>
+      <summary>5) CSV exports (Posts + Comments)</summary>
+      <p>
+        Downloads two CSV files:
+      </p>
+      <ul>
+        <li><b>Posts CSV</b> — one row per post, including image URLs and video links</li>
+        <li><b>Comments CSV</b> — one row per comment, plus post context (title/date)</li>
+      </ul>
+      <p class="mini">
+        CSV files open in Excel and can be imported into analysis tools or R.
+      </p>
+    </details>
+
+    <details>
+      <summary>6) Coding-ready CSV (for qualitative coding)</summary>
+      <p>
+        This is designed for NVivo / MAXQDA / Atlas.ti style workflows:
+      </p>
+      <ul>
+        <li>One row per comment</li>
+        <li>Includes post title + subreddit + date for context</li>
+        <li>Includes <b>parent comment text</b> (so replies have immediate context)</li>
+        <li>Includes blank columns for <b>codes</b> and <b>notes</b></li>
+      </ul>
+    </details>
+
+    <details>
+      <summary>7) User participation summary</summary>
+      <p>
+        The report includes a small table showing which anonymised users contributed the most comments
+        (e.g., top 15 contributors) and what percentage of the attributed comments they wrote.
+      </p>
+      <p class="mini">
+        This can help you spot if one or two users dominate a discussion thread.
+      </p>
+    </details>
+
+    <details>
+      <summary>8) Anonymisation (user IDs like user_001)</summary>
+      <p>
+        If enabled, the tool replaces Reddit usernames with anonymous IDs (example: <code>user_007</code>).
+        This happens for the post author and comment authors.
+      </p>
+    </details>
+
+    <details>
+      <summary>9) Ethical safeguards (recommended)</summary>
+      <p>
+        If enabled, the tool will:
+      </p>
+      <ul>
+        <li>Replace email-like strings with <code>[EMAIL]</code></li>
+        <li>Anonymise username mentions inside text (like <code>u/Someone</code>)</li>
+      </ul>
+      <p class="mini">
+        This helps reduce accidental sharing of personally identifying information when you export or share data.
+      </p>
+    </details>
+
+    <details>
+      <summary>10) Mapping persistence + mapping upload/download</summary>
+      <p>
+        The tool can keep the same anonymised IDs across sessions:
+      </p>
+      <ul>
+        <li><b>Persist mapping</b> means your browser remembers the mapping.</li>
+        <li><b>Download mapping</b> lets you save it as a JSON file.</li>
+        <li><b>Upload mapping</b> lets you restore it on another device or browser.</li>
+      </ul>
+      <div class="callout">
+        <b>Why this matters:</b> If you are coding multiple posts over time, you probably want the same user to remain
+        <code>user_012</code> in every export.
+      </div>
+    </details>
+
+    <h2>Glossary (no jargon, promise)</h2>
+    <dl class="glossary">
+      <dt>JSON</dt>
+      <dd>A file format that stores structured data. In this tool, each JSON file contains one Reddit post and its comments.</dd>
+
+      <dt>Parse</dt>
+      <dd>To read a file and extract the useful pieces from it (title, text, comments, dates, etc.).</dd>
+
+      <dt>Post (t3)</dt>
+      <dd>The main Reddit post. Reddit labels posts as “t3” internally.</dd>
+
+      <dt>Comment (t1)</dt>
+      <dd>A Reddit comment. Reddit labels comments as “t1” internally.</dd>
+
+      <dt>Thread / Replies</dt>
+      <dd>Comments can have replies, which can have replies. That creates a nested “thread”.</dd>
+
+      <dt>Flatten</dt>
+      <dd>To turn a nested thread into a list, while keeping the reply depth (indentation) so it’s still readable.</dd>
+
+      <dt>Depth</dt>
+      <dd>How deep a comment is in the reply chain. Depth 0 = top-level comment.</dd>
+
+      <dt>Anonymise</dt>
+      <dd>To replace names with anonymous IDs like <code>user_001</code> so people are harder to identify.</dd>
+
+      <dt>Ethical safeguards</dt>
+      <dd>Extra automatic cleaning steps to reduce identifying information (like emails and usernames inside text).</dd>
+
+      <dt>CSV</dt>
+      <dd>A spreadsheet-friendly file format (“comma separated values”). You can open it in Excel and import it into many tools.</dd>
+
+      <dt>Coding-ready CSV</dt>
+      <dd>A CSV shaped for qualitative coding: one row per comment, plus columns for codes and notes.</dd>
+
+      <dt>LocalStorage</dt>
+      <dd>A small storage area in your browser that can remember settings and mappings (only on your computer).</dd>
+
+      <dt>Print-to-PDF</dt>
+      <dd>Using your browser’s print function to save the report as a PDF. Usually: Print → Save as PDF.</dd>
+    </dl>
+
+    <h2>Tips if you’re nervous about computers</h2>
+    <div class="callout">
+      <ul>
+        <li><b>You can’t really “break” the tool</b> — worst case, refresh the page and try again.</li>
+        <li><b>Your files aren’t being uploaded</b> to a server. They stay on your computer.</li>
+        <li>If something looks wrong, check the on-screen <b>Log</b> area. It explains what was skipped and why.</li>
+        <li>Start with <b>one JSON file</b> first, then try multiple once you’re confident.</li>
+      </ul>
+    </div>
+
+    <h2>Limitations (being honest)</h2>
+    <ul>
+      <li>This tool only works with the expected Reddit JSON structure (post listing + comment listing).</li>
+      <li>Videos are shown as links (not embedded) to keep the report reliable and printable.</li>
+      <li>Some media links might be expired or blocked by browser security settings.</li>
+      <li>Ethical safeguards help, but you should still manually review exports before sharing.</li>
+    </ul>
+
+    <hr style="margin:22px 0;">
+
+    <p class="mini">
+      Back to the tool: <a href="index.html">Return to upload page</a>
+    </p>
+
+  </main>
+</body>
+</html>

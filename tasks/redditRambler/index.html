@@ -4,15 +4,16 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Reddit JSON → Report (Serverless)</title>
+    <title>Reddit Rambler</title>
     <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
     <header class="top">
-        <h1>Reddit JSON → Report</h1>
+        <h1>Reddit Rambler</h1>
         <p class="sub">Upload Reddit JSON files (like your R script expects). Generates a printable report (Save as
             PDF).</p>
+        <a href="about.html">About</a>
     </header>
 
     <main class="wrap">
@@ -92,6 +93,49 @@
             </div>
         </section>
     </main>
+    <footer class="appfooter">
+        <div class="footleft">
+            <span id="appMeta"></span>
+        </div>
+        <div class="footright">
+            <button id="btnCite" type="button">Cite this tool</button>
+        </div>
+    </footer>
+
+    <!-- Citation modal/panel -->
+    <div id="citeModal" class="modal hidden" aria-hidden="true">
+        <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="citeTitle">
+            <div class="modalHeader">
+                <h2 id="citeTitle">Cite Reddit Rambler</h2>
+                <button id="btnCloseCite" class="iconbtn" aria-label="Close">✕</button>
+            </div>
+
+            <p class="mini">
+                Choose your format below. If you’re unsure, use APA 7.
+            </p>
+
+            <div class="citeBlock">
+                <div class="citeTop">
+                    <h3>APA 7</h3>
+                    <button id="btnCopyApa" type="button">Copy</button>
+                </div>
+                <pre id="citeApa" class="prebox"></pre>
+            </div>
+
+            <div class="citeBlock">
+                <div class="citeTop">
+                    <h3>BibTeX</h3>
+                    <button id="btnCopyBib" type="button">Copy</button>
+                </div>
+                <pre id="citeBib" class="prebox"></pre>
+            </div>
+
+            <div class="modalFooter">
+                <button id="btnDownloadBib" type="button">Download .bib</button>
+                <button id="btnCloseCite2" type="button">Close</button>
+            </div>
+        </div>
+    </div>
 
     <script src="app.js"></script>
 </body>

@@ -429,8 +429,8 @@ async function waitForImages(container) {
         imgs.map((img) => {
             if (img.complete && img.naturalWidth > 0) return Promise.resolve();
             return new Promise((resolve) => {
-                img.addEventListener("load", resolve, { once: true });
-                img.addEventListener("error", resolve, { once: true });
+                if (img) { img.addEventListener("load", resolve, { once: true }) };
+                if (img) { img.addEventListener("error", resolve, { once: true }) };
             });
         })
     );
@@ -870,30 +870,29 @@ async function copyToClipboard(text) {
 let lastFocusedElement = null;
 
 function openCiteModal() {
-  if (!citeModal) return;
+    if (!citeModal) return;
 
-  lastFocusedElement = document.activeElement;
+    lastFocusedElement = document.activeElement;
 
-  citeApa.textContent = buildApaCitation();
-  citeBib.textContent = buildBibtexCitation();
+    if (citeApa) citeApa.textContent = buildApaCitation();
+    if (citeBib) citeBib.textContent = buildBibtexCitation();
 
-  citeModal.classList.remove("hidden");
+    citeModal.classList.remove("hidden");
 
-  // Move focus inside modal safely
-  const focusTarget = btnCloseCite || citeModal.querySelector("button");
-  if (focusTarget) focusTarget.focus();
+    const focusTarget = btnCloseCite || citeModal.querySelector("button");
+    if (focusTarget) focusTarget.focus();
 }
 
 function closeCiteModal() {
-  if (!citeModal) return;
+    if (!citeModal) return;
 
-  // Return focus BEFORE hiding
-  if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
-    lastFocusedElement.focus();
-  }
+    if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+        lastFocusedElement.focus();
+    }
 
-  citeModal.classList.add("hidden");
+    citeModal.classList.add("hidden");
 }
+
 
 
 /* =========================
@@ -942,160 +941,162 @@ if (mapInput) {
 /* =========================
    15) MAIN: PARSE BUTTON HANDLER
    ========================= */
-btnParse.addEventListener("click", async () => {
-    // Reset UI
-    if (logEl) logEl.textContent = "";
-    if (reportEl) reportEl.innerHTML = `<p class="hint">Parsing…</p>`;
+if (btnParse) {
+    btnParse.addEventListener("click", async () => {
+        // Reset UI
+        if (logEl) logEl.textContent = "";
+        if (reportEl) reportEl.innerHTML = `<p class="hint">Parsing…</p>`;
 
-    if (btnPrint) btnPrint.disabled = true;
-    if (btnTxt) btnTxt.disabled = true;
-    if (btnCsv) btnCsv.disabled = true;
-    if (btnCodingCsv) btnCodingCsv.disabled = true;
+        if (btnPrint) btnPrint.disabled = true;
+        if (btnTxt) btnTxt.disabled = true;
+        if (btnCsv) btnCsv.disabled = true;
+        if (btnCodingCsv) btnCodingCsv.disabled = true;
 
-    LAST_FILES_RESULT = null;
-    LAST_REPORT_META = null;
+        LAST_FILES_RESULT = null;
+        LAST_REPORT_META = null;
 
-    const files = [...(fileInput?.files || [])];
-    if (!files.length) {
-        if (reportEl) reportEl.innerHTML = `<p class="hint">No files selected.</p>`;
-        log("No files selected.");
-        return;
-    }
-
-    log(`Found ${files.length} file(s).`);
-
-    // Read UI toggles safely (in case element missing)
-    const persist = !!chkPersistMap?.checked;
-    const hideDeleted = !!chkHideDeleted?.checked;
-
-    const ethicsOn = !!chkEthics?.checked;
-    const mapMentions = !!chkMapMentions?.checked;
-
-    const map = persist ? loadMap() : new Map();
-    if (persist) log(`Loaded mapping (${map.size} user(s)) from localStorage.`);
-
-    const filesResult = [];
-
-    for (const file of files) {
-        log(`Processing: ${file.name}`);
-
-        let raw;
-        try {
-            raw = JSON.parse(await file.text());
-        } catch (e) {
-            log(`  ❌ Failed to parse JSON: ${e?.message || e}`);
-            continue;
+        const files = [...(fileInput?.files || [])];
+        if (!files.length) {
+            if (reportEl) reportEl.innerHTML = `<p class="hint">No files selected.</p>`;
+            log("No files selected.");
+            return;
         }
 
-        if (!Array.isArray(raw) || raw.length < 2) {
-            log(`  ❌ Unexpected structure (expected [postListing, commentListing]). Skipping.`);
-            continue;
+        log(`Found ${files.length} file(s).`);
+
+        // Read UI toggles safely (in case element missing)
+        const persist = !!chkPersistMap?.checked;
+        const hideDeleted = !!chkHideDeleted?.checked;
+
+        const ethicsOn = !!chkEthics?.checked;
+        const mapMentions = !!chkMapMentions?.checked;
+
+        const map = persist ? loadMap() : new Map();
+        if (persist) log(`Loaded mapping (${map.size} user(s)) from localStorage.`);
+
+        const filesResult = [];
+
+        for (const file of files) {
+            log(`Processing: ${file.name}`);
+
+            let raw;
+            try {
+                raw = JSON.parse(await file.text());
+            } catch (e) {
+                log(`  ❌ Failed to parse JSON: ${e?.message || e}`);
+                continue;
+            }
+
+            if (!Array.isArray(raw) || raw.length < 2) {
+                log(`  ❌ Unexpected structure (expected [postListing, commentListing]). Skipping.`);
+                continue;
+            }
+
+            const postListing = raw[0];
+            const commentListing = raw[1];
+
+            const t3 = findT3(postListing);
+            if (!t3) {
+                log(`  ❌ No t3 post found. Skipping.`);
+                continue;
+            }
+
+            const post_id = t3.name ?? "";
+            const post = {
+                source_file: file.name,
+                post_id,
+                subreddit: t3.subreddit_name_prefixed ?? "",
+                title: t3.title ?? "",
+                selftext: t3.selftext ?? "",
+                url: t3.url ?? "",
+                permalink: t3.permalink ?? "",
+                author_raw: t3.author ?? "",
+                created_utc: t3.created_utc ?? null,
+                created_dt_utc: asDatetimeUTC(t3.created_utc),
+                score: t3.score ?? null,
+                num_comments: t3.num_comments ?? null,
+                image_urls: getPostImageUrls(t3),
+                video: getPostVideoInfo(t3),
+                author_anon: ""
+            };
+
+            const comments = flattenComments(commentListing, file.name, post_id);
+
+            // 1) Map real authors
+            const authorsThisFile = [post.author_raw, ...comments.map((c) => c.author_raw)];
+            ensureMapped(map, authorsThisFile);
+
+            // 2) Map mentioned usernames (optional)
+            if (mapMentions) {
+                const mentioned = [
+                    ...extractUserMentions(post.title),
+                    ...extractUserMentions(post.selftext),
+                    ...comments.flatMap((c) => extractUserMentions(c.body))
+                ];
+                ensureMapped(map, mentioned);
+            }
+
+            // 3) Apply anon IDs
+            post.author_anon = isDeletedAuthor(post.author_raw) ? "" : (map.get(post.author_raw) || "");
+            for (const c of comments) {
+                c.author_anon = isDeletedAuthor(c.author_raw) ? "" : (map.get(c.author_raw) || "");
+            }
+
+            // 4) Apply ethical safeguards to text (post + comments)
+            const ethicsOpts = { ethicsOn, mapMentions };
+            post.title = applyEthicalSafeguards(post.title, map, ethicsOpts);
+            post.selftext = applyEthicalSafeguards(post.selftext, map, ethicsOpts);
+            for (const c of comments) c.body = applyEthicalSafeguards(c.body, map, ethicsOpts);
+
+            filesResult.push({ source_file: file.name, post, comments });
+
+            log(`  ✅ Post + ${comments.length} comment(s). Images: ${post.image_urls.length} Videos: ${post.video ? 1 : 0}`);
         }
 
-        const postListing = raw[0];
-        const commentListing = raw[1];
-
-        const t3 = findT3(postListing);
-        if (!t3) {
-            log(`  ❌ No t3 post found. Skipping.`);
-            continue;
+        if (!filesResult.length) {
+            if (reportEl) reportEl.innerHTML = `<p class="hint">No usable files parsed. Check the log.</p>`;
+            log("Done (no usable files).");
+            return;
         }
 
-        const post_id = t3.name ?? "";
-        const post = {
-            source_file: file.name,
-            post_id,
-            subreddit: t3.subreddit_name_prefixed ?? "",
-            title: t3.title ?? "",
-            selftext: t3.selftext ?? "",
-            url: t3.url ?? "",
-            permalink: t3.permalink ?? "",
-            author_raw: t3.author ?? "",
-            created_utc: t3.created_utc ?? null,
-            created_dt_utc: asDatetimeUTC(t3.created_utc),
-            score: t3.score ?? null,
-            num_comments: t3.num_comments ?? null,
-            image_urls: getPostImageUrls(t3),
-            video: getPostVideoInfo(t3),
-            author_anon: ""
+        if (persist) {
+            saveMap(map);
+            log(`Saved mapping (${map.size} user(s)) to localStorage.`);
+        }
+
+        const totalPosts = filesResult.length;
+        const totalComments = filesResult.reduce((sum, f) => sum + f.comments.length, 0);
+        const totalImages = filesResult.reduce((sum, f) => sum + (f.post.image_urls?.length || 0), 0);
+        const totalVideos = filesResult.reduce((sum, f) => sum + (f.post.video ? 1 : 0), 0);
+
+        const reportMeta = {
+            createdUTC: new Date().toISOString().replace("T", " ").replace("Z", " UTC"),
+            totalFiles: files.length,
+            totalPosts,
+            totalComments,
+            totalImages,
+            totalVideos,
+            mappingSize: map.size,
+            persistenceEnabled: persist
         };
 
-        const comments = flattenComments(commentListing, file.name, post_id);
+        renderReport(filesResult, { hideDeleted }, reportMeta);
 
-        // 1) Map real authors
-        const authorsThisFile = [post.author_raw, ...comments.map((c) => c.author_raw)];
-        ensureMapped(map, authorsThisFile);
+        log("Waiting for images to load (so they print properly)...");
+        await waitForImages(reportEl);
+        log("Images ready.");
 
-        // 2) Map mentioned usernames (optional)
-        if (mapMentions) {
-            const mentioned = [
-                ...extractUserMentions(post.title),
-                ...extractUserMentions(post.selftext),
-                ...comments.flatMap((c) => extractUserMentions(c.body))
-            ];
-            ensureMapped(map, mentioned);
-        }
+        LAST_FILES_RESULT = filesResult;
+        LAST_REPORT_META = reportMeta;
 
-        // 3) Apply anon IDs
-        post.author_anon = isDeletedAuthor(post.author_raw) ? "" : (map.get(post.author_raw) || "");
-        for (const c of comments) {
-            c.author_anon = isDeletedAuthor(c.author_raw) ? "" : (map.get(c.author_raw) || "");
-        }
+        if (btnPrint) btnPrint.disabled = false;
+        if (btnTxt) btnTxt.disabled = false;
+        if (btnCsv) btnCsv.disabled = false;
+        if (btnCodingCsv) btnCodingCsv.disabled = false;
 
-        // 4) Apply ethical safeguards to text (post + comments)
-        const ethicsOpts = { ethicsOn, mapMentions };
-        post.title = applyEthicalSafeguards(post.title, map, ethicsOpts);
-        post.selftext = applyEthicalSafeguards(post.selftext, map, ethicsOpts);
-        for (const c of comments) c.body = applyEthicalSafeguards(c.body, map, ethicsOpts);
-
-        filesResult.push({ source_file: file.name, post, comments });
-
-        log(`  ✅ Post + ${comments.length} comment(s). Images: ${post.image_urls.length} Videos: ${post.video ? 1 : 0}`);
-    }
-
-    if (!filesResult.length) {
-        if (reportEl) reportEl.innerHTML = `<p class="hint">No usable files parsed. Check the log.</p>`;
-        log("Done (no usable files).");
-        return;
-    }
-
-    if (persist) {
-        saveMap(map);
-        log(`Saved mapping (${map.size} user(s)) to localStorage.`);
-    }
-
-    const totalPosts = filesResult.length;
-    const totalComments = filesResult.reduce((sum, f) => sum + f.comments.length, 0);
-    const totalImages = filesResult.reduce((sum, f) => sum + (f.post.image_urls?.length || 0), 0);
-    const totalVideos = filesResult.reduce((sum, f) => sum + (f.post.video ? 1 : 0), 0);
-
-    const reportMeta = {
-        createdUTC: new Date().toISOString().replace("T", " ").replace("Z", " UTC"),
-        totalFiles: files.length,
-        totalPosts,
-        totalComments,
-        totalImages,
-        totalVideos,
-        mappingSize: map.size,
-        persistenceEnabled: persist
-    };
-
-    renderReport(filesResult, { hideDeleted }, reportMeta);
-
-    log("Waiting for images to load (so they print properly)...");
-    await waitForImages(reportEl);
-    log("Images ready.");
-
-    LAST_FILES_RESULT = filesResult;
-    LAST_REPORT_META = reportMeta;
-
-    if (btnPrint) btnPrint.disabled = false;
-    if (btnTxt) btnTxt.disabled = false;
-    if (btnCsv) btnCsv.disabled = false;
-    if (btnCodingCsv) btnCodingCsv.disabled = false;
-
-    log("Done. Report ready.");
-});
+        log("Done. Report ready.");
+    })
+};
 
 // Footer meta text
 if (appMeta) {

@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Articificial Intelligence",
         "Social Media Use",
         "Cyberpsychology",
-        "Digital Intervention"
+        "Digital Interventions"
       ],
 
       "Environment & Sustainability Psychology": [

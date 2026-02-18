@@ -199,27 +199,27 @@ const programmeDetails = {
             "psy6015", "psy6065", "psy6075", "psy6085", "psy6135", "psy6155", "psy6175", "psy6003"
         ]
     },
-    "with-soc": {
-        title: "Psychology with Sociology",
-        sociology: false,
-        description: "Students on this programme must choose <strong class='purple'>two optional modules from Psychology</strong> (marked with purple boxes), and either:<ul><li class='blue'>one year-long module from Sociology (marked with blue boxes)</li></ul><strong>OR</strong><ul><li class='blue'>two shorter Sociology modules (one from Semester 1 and one from Semester 2).</li></ul>Consider balancing your choices across the two semesters.",
-        modules: [
-            "psy6145", "psy6115", "psy6005", "psy6035", "psy6045", "psy6125", "psy6165",
-            "psy6015", "psy6065", "psy6075", "psy6085", "psy6135", "psy6155", "psy6175",
-            "soc6053", "soc6033", "soc6073", "soc6063", "soc6025", "soc6035", "soc6065", "soc6055", "soc6075", "soc6085"
+    // "with-soc": {
+    //     title: "Psychology with Sociology",
+    //     sociology: false,
+    //     description: "Students on this programme must choose <strong class='purple'>two optional modules from Psychology</strong> (marked with purple boxes), and either:<ul><li class='blue'>one year-long module from Sociology (marked with blue boxes)</li></ul><strong>OR</strong><ul><li class='blue'>two shorter Sociology modules (one from Semester 1 and one from Semester 2).</li></ul>Consider balancing your choices across the two semesters.",
+    //     modules: [
+    //         "psy6145", "psy6115", "psy6005", "psy6035", "psy6045", "psy6125", "psy6165",
+    //         "psy6015", "psy6065", "psy6075", "psy6085", "psy6135", "psy6155", "psy6175",
+    //         "soc6053", "soc6033", "soc6073", "soc6063", "soc6025", "soc6035", "soc6065", "soc6055", "soc6075", "soc6085"
 
-        ]
-    },
-    "with-crim": {
-        title: "Psychology with Criminology",
-        sociology: true,
-        description: "Students on this programme must choose <strong class='purple'>two optional modules from Psychology</strong> (marked with purple boxes), and either:<ul><li class='blue'>one year-long module from Criminology (marked with blue boxes)</li></ul><strong>OR</strong><ul><li class='blue'>two shorter Criminology modules (one from Semester 1 and one from Semester 2).</li></ul> Consider balancing your choices across the two semesters.",
-        modules: [
-            "psy6145", "psy6115", "psy6005", "psy6035", "psy6045", "psy6125", "psy6165",
-            "psy6015", "psy6065", "psy6075", "psy6085", "psy6135", "psy6155", "psy6175",
-            "soc6053", "soc6033", "soc6073", "soc6063", "soc6025", "soc6035", "soc6095", "soc6065", "soc6055", "soc6075", "soc6085"
-        ]
-    }
+    //     ]
+    // },
+    // "with-crim": {
+    //     title: "Psychology with Criminology",
+    //     sociology: true,
+    //     description: "Students on this programme must choose <strong class='purple'>two optional modules from Psychology</strong> (marked with purple boxes), and either:<ul><li class='blue'>one year-long module from Criminology (marked with blue boxes)</li></ul><strong>OR</strong><ul><li class='blue'>two shorter Criminology modules (one from Semester 1 and one from Semester 2).</li></ul> Consider balancing your choices across the two semesters.",
+    //     modules: [
+    //         "psy6145", "psy6115", "psy6005", "psy6035", "psy6045", "psy6125", "psy6165",
+    //         "psy6015", "psy6065", "psy6075", "psy6085", "psy6135", "psy6155", "psy6175",
+    //         "soc6053", "soc6033", "soc6073", "soc6063", "soc6025", "soc6035", "soc6095", "soc6065", "soc6055", "soc6075", "soc6085"
+    //     ]
+    // }
 };
 
 const modules = {

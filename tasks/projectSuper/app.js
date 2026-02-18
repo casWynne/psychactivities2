@@ -71,9 +71,11 @@ document.addEventListener("DOMContentLoaded", () => {
     "Stress",
     "Stress Appraisal",
     "Chronic Stress",
+    "Chronic Stressors",
     "Chronic Illness",
     "Chronic Pain",
     "Tinnitus",
+    "Pain Tolerance",
     "Bereavement",
     "Mental Health",
     "Mental health of at-risk populations",
@@ -153,7 +155,8 @@ document.addEventListener("DOMContentLoaded", () => {
     "Digital Cultures",
     "Articificial Intelligence",
     "Social Media Use",
-    "Cyberpsychology"
+    "Cyberpsychology",
+    "Digital Intervention"
   ],
 
   "Environment & Sustainability Psychology": [

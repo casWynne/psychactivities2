@@ -53,7 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
     "Widening Participation",
     "Transitions",
     "Role Transition",
-    "Academic Self-Efficacy"
+    "Academic Self-Efficacy",
+    "Student Mental Health",
+    "Student Wellbeing"
   ],
 
   "Neurodevelopment & Communication": [
@@ -93,7 +95,9 @@ document.addEventListener("DOMContentLoaded", () => {
     "Self-Compassion",
     "Positive Psychology",
     "Loneliness",
-    "Neuroticism"
+    "Neuroticism",
+    "Forgiveness",
+    "Mindfulness"
   ],
 
   "Identity, Culture & Social Inequality": [

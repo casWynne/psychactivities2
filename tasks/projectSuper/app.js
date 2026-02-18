@@ -99,7 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "Forgiveness",
     "Mindfulness"
   ],
-
   "Identity, Culture & Social Inequality": [
     "Agriculturation & Adjustment",
     "Cross-cultural and international psychology",

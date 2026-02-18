@@ -31,7 +31,7 @@
       "id": "staff-2",
       "name": "Dr Tim Vestner",
       "email": "t.vestner@leedstrinity.ac.uk",
-      "avatar": "",
+      "avatar": "../../assets/staff/timvestner.JPG",
       "keywords": [
         "Social Cognition",
         "Anxiety",
@@ -526,6 +526,42 @@
             "Geographic location (is this a piece of UK-centric news, is this a more global story etc?)",
             "Aspects of aesthetic presentation (e.g., how professional did the stimulus of interest look?)",
             "Whether AI has covertly / overtly been used in the creation of the target stimuli."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-19",
+      "name": "Dr Christopher Lewis",
+      "email": "c.lewis@leedstrinity.ac.uk",
+      "avatar": "",
+      "avatarPosition": "50% 50%",
+      "keywords": [
+        "Well-being",
+        "Happiness",
+        "Depression",
+        "Self-report measures",
+        "Personality",
+        "Social Desirability"
+      ],
+      "topics": [
+        {
+          "title": "Well-being measurement: correlates and validity of the Depression–Happiness Scale",
+          "description": "There is a growing number of self-report measures of well-being currently available to researchers and practitioners. One such measure is the Depression–Happiness Scale (7-item and 25-item), designed to measure well-being in non-clinical samples on a single continuum from depression to happiness, rather than as separate concepts. The scale asks about the frequency of both positive and negative feelings over the past week (e.g., \"I felt sad\" vs. \"I felt happy\"). Negative items are reverse scored so that higher scores always indicate better well-being. This topic area proposes further research on the correlates of the Depression–Happiness Scale, including its relationship with personality, other measures of happiness, social desirability, and broader well-being constructs.",
+          "ideas": [
+            "How does the Depression–Happiness Scale relate to personality traits (e.g., HEXACO)?",
+            "How does the Depression–Happiness Scale relate to other measures of happiness (convergent validity)?",
+            "What is the relationship between Depression–Happiness Scale scores and social desirability (response bias)?",
+            "How does the Depression–Happiness Scale relate to other measures of well-being (e.g., life satisfaction, mental health, flourishing)?"
+          ]
+        },
+                {
+          "title": "",
+          "description": "",
+          "ideas": [
+            "",
+            "",
+            ""
           ]
         }
       ]

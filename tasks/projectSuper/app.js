@@ -77,7 +77,8 @@ document.addEventListener("DOMContentLoaded", () => {
         "Stress",
         "Stress Appraisal",
         "Compassion",
-        "Coping Strategies"
+        "Coping Strategies",
+        "Tinnitus"
       ],
       "Identity, Culture & Social Inequality": [
         "Agriculturation & Adjustment",
@@ -98,7 +99,9 @@ document.addEventListener("DOMContentLoaded", () => {
         "Social Norms",
         "Identity",
         "LGBTQIA+",
-        "Gender Identity"
+        "Gender Identity",
+        "Religious Identity",
+        "Self-Compassion"
       ],
       "Social Cognition & Interpersonal Processes": [
         "Connectedness",
@@ -114,7 +117,8 @@ document.addEventListener("DOMContentLoaded", () => {
         "Neuroticism",
         "Positive Psychology",
         "Social Cognitive Theories",
-        "Behaviour Change"
+        "Behaviour Change",
+        "Motivation"
       ],
       "Student Experience, Engagement & Participation": [
         "Blended Learning",
@@ -125,7 +129,9 @@ document.addEventListener("DOMContentLoaded", () => {
         "Widening Participation",
         "Transitions",
         "Role Transition",
-        "Student Mental Health"
+        "Student Mental Health",
+        "Motivation",
+        "Self-Compassion"
       ],
       "Risk, Harm & Offending Behaviour": [
         "Antisocial Traits",

@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     ${module.credits ? `<h3>Credits</h3><p>${module.credits}</p>` : ""}
                     ${module.assignments ? `<h3>Assessments</h3><p>${module.assignments}</p>` : ""}
                     ${module.day ? `<p><strong>Provisional Timetable:</strong> ${module.day}*</p>` : "<p><strong>Provisional Timetable:</strong> There is no timetable information for this module. Please contact module lead for more information."}
-                    ${module.day ? `<p class="Polite-notice">*Timetable information is derived from previous years. These are subject to change as the timetable becomes finalised. Please use information for guidance only.` : ""}
+                    ${module.day ? `<p class="Polite-notice">*These are subject to change as the timetable becomes finalised. Please use information for guidance only.` : ""}
                 </div>
                 <div class="gap"></div>
             </div>
@@ -274,7 +274,7 @@ const modules = {
         description: "<p>Business Psychology is the term we use to describe the application of psychology to work, organisations and employment. You may also see this area referred to as Occupational Psychology, Organisational Psychology, Industrial Psychology, Work Psychology or Personnel Psychology. There is a growing demand for business psychologists in the UK, driven by increased focus on employee wellbeing, leadership, inclusion, performance and organisational change. According to Prospects, entry-level salaries typically start at around £27,000, with experienced and senior practitioners earning up to £70,000, depending on sector, role and level of responsibility. If you do not want a career as a business psychologist, you can still benefit from this module. The knowledge and skills developed are relevant to any workplace and are particularly useful when preparing for graduate jobs, placements and interviews.</p><p>What do Business psychologists do? Business psychology is concerned with how people think, feel and behave at work, and how organisations can support individuals, teams and systems to function effectively. Its aim is to: ‘increase the effectiveness of the organisation and improve the job satisfaction of individuals’ (British Psychological Society, 2013).</p><p>Where do they work?  Business psychologists work in a wide range of sectors and organisations, including: </p><ul><li>Large private organisations (eg airlines, retail, finance, technology)</li><li>Public and government services (eg the Civil Service, NHS, local authorities)</li><li>Armed forces and defence organisations</li><li>Management training and development organisations</li><li>Consultancy and professional services firms</li></ul><p>This includes multinational organisations such as Google and Rolls-Royce. They often work alongside managers and leaders, HR and people development teams, training and learning specialists, trade union representatives, wellbeing and organisational change professionals.</p><p>The module is designed to follow the employee journey, from application, early career decisions through to later working life. Along the way, you will explore how psychology helps us understand both positive and challenging experiences of work (and student life).</p><p>The module might cover some of the following topics:</p><ul><li>Career counselling, career choice, employability and career development</li><li>Job analysis, recruitment and selection, including fair assessment, interviewing and bias in hiring </li><li>Training, learning and competency development across the employee lifecycle </li><li>Motivation, job satisfaction, commitment and employee retention </li><li>Performance management and fair appraisal systems </li><li>Leadership, management and inclusive cooperation within and between teams </li><li>Organisational design, structure and inclusive workplace culture </li><li>The changing nature of work, organisational change, power and inequality </li><li>Equality, diversity and inclusion at work, including the Equality Act, disability and reasonable adjustments </li><li>Wellbeing, stress, conflict and support at the individual, team and organisational level</li><p>This module is particularly useful if you want to understand how psychology applies beyond clinical or academic settings, develop skills valued by employers across sectors, strengthen your employability and interview confidence, explore leadership, wellbeing, equality and organisational change, and prepare for careers in HR, management, consultancy, public services or postgraduate study.</p>",
         assignments: "2,000-word Case Study (100%)",
         mandatory: false,
-        day: "Thursdays: 2pm - 4:30pm",
+        day: "Thursdays: 1pm - 3:30pm",
     },
     "psy6045": {
         title: "Psychology of Mental Health and Distress",
@@ -287,7 +287,7 @@ const modules = {
         description: "This module provides a critical exploration of mental distress, examining its historical, social, and cultural contexts. It covers key models of mental illness, including biomedical, biopsychosocial, and service-user-led approaches, while also addressing barriers to treatment and equitable access to care. <p>Through lectures, group discussions, and debates, students will engage with topics such as psychiatric diagnosis, stigma, psychological interventions, and recovery. This challenging yet engaging module strengthens critical thinking skills, offering valuable insights applicable across psychology and mental health fields.</p>",
         assignments: "2,000-word Written Assignment (100%)",
         mandatory: false,
-        day: "Wednesdays: 9am - 11:30am"
+        day: "Fridays: 1:00pm - 3:00pm"
     },
     "psy6125": {
         title: "Health Behaviour Change in Context",
@@ -300,7 +300,7 @@ const modules = {
         description: "This module explores how health psychology assesses and influences behaviour change across various settings, from hospitals to communities. Topics include the Leeds Health Profile, health behaviours, behaviour change models, and effective communication for a lay audience. <p>Taught through interactive seminars and online resources, this module equips students with practical skills relevant to careers in health psychology, with many past students progressing into professional training or using it to enhance their degree profile.</p>",
         assignments: "2,500-word Intervention Assessment (100%)",
         mandatory: false,
-        day: "Mondays: 12pm - 1pm & Wednesdays: 11:30am - 1pm"
+        day: "Wednesdays: 10:00am - 12:30pm"
     },
     "psy6165": {
         title: "Illusions, Biases, and Cognitive Impairments",
@@ -313,7 +313,7 @@ const modules = {
         description: "This module explores how outliers, individual differences, and disorders reveal the complexities of human cognition. By examining amnesia, visual disorders, cultural and individual biases, and neurological conditions, students will gain insight into memory, perception, and consciousness. <p>Through critical analysis of atypical cognitive phenomena, students will challenge conventional understanding of how the mind works. Assessment allows for exploration of a chosen topic, encouraging deeper engagement with the subject.</p>",
         assignments: "2,500-word Essay (100%)",
         mandatory: false,
-        day: "Fridays: 1.30pm - 4pm"
+        day: "Fridays: 9:30am - 12:00pm"
     },
     "psy6015": {
         title: "Psychology Negotiated Essay",
@@ -326,7 +326,7 @@ const modules = {
         description: "This module offers students the opportunity to explore a self-chosen topic within psychology through a 2,500-word critical essay, without conducting empirical research. With guidance from a supervisor, students can delve deeply into an area of personal interest, ensuring it falls within psychology and does not overlap with other Level 6 assessments. <p>Past topics have included eugenics, social representation theory, gender identity, electroconvulsive therapy, and cultural influences on biological evolution.</p> Students submit a proposal at the start of Semester 2 and are matched with a supervisor from a diverse range of expertise, including critical psychology, forensic psychology, and mental health. Early discussion with staff is encouraged to refine ideas.",
         assignments: "2,500-word Negotiated Essay (100%)",
         mandatory: false,
-        day: "Wednesday, week 1 only: 9am - 10am"
+        day: "Monday, week 1 only: 11:00am - 12:00pm"
     },
     "psy6065": {
         title: "Counselling Psychology",
@@ -339,7 +339,7 @@ const modules = {
         description: "This module explores the theories, techniques, and applications of counselling psychology, focusing on the Psychodynamic, Humanistic, and Cognitive-Behavioural approaches. Students will critically examine how these frameworks address psychological distress and evaluate their effectiveness through research evidence.<p>The module also covers integrated therapy approaches, alternative delivery methods (e.g., time-limited therapy, NHS Stepped Care), and emerging trends, including new technologies and Positive Psychology.</p><p>Key topics include:</p><ul><li>The origins and applications of psychodynamic, humanistic, and cognitive-behavioural therapy</li><li>Therapeutic relationships and counselling delivery models</li><li>Innovations in counselling, including digital interventions</li><p>Assessment involves a client case study, where students apply multiple therapeutic approaches to assess psychological distress and develop an evidence-based intervention plan.</p>",
         assignments: "2,500-word Case Study (100%)",
         mandatory: false,
-        day: "Thursdays: 2pm - 4:30pm"
+        day: "Thursdays: 9:30am - 12:00pm"
     },
     "psy6075": {
         title: "Critical Psychology",
@@ -356,7 +356,7 @@ const modules = {
     },
     "psy6085": {
         title: "Cyberpsychology",
-        staff: "Dr Paul McGivern, Dr Tim Vestner",
+        staff: "Dr Paul McGivern",
         credits: 15,
         sociology: false,
         yearLong: false,
@@ -365,7 +365,7 @@ const modules = {
         description: "This module explores the psychological impact of technology and human-computer interaction, examining how digital advancements shape individuals and society. Topics include online relationships, social media, gaming, addiction, cybercrime, data security, and the online behavior of children and young people. <p>Drawing from social, cognitive, health, and developmental psychology, students will critically analyze how technology influences thoughts, behaviors, and identity. The module also considers the benefits and challenges of emerging digital trends in education, health, and social settings.</p>",
         assignments: "2,500-word Written Assignment (100%)",
         mandatory: false,
-        day: "Fridays: 1.30pm - 4pm"
+        day: "Fridays: 1:00pm - 3:30pm"
     },
     "psy6135": {
         title: "Forensic Psychology",
@@ -378,7 +378,7 @@ const modules = {
         description: "<p>On this module, students will learn about the application of Psychology in the forensic field, and introduce them to the breadth, scope and contribution of contemporary forensic psychology to the criminal justice system.</p><p>It connects with the wider psychology degree programme as it builds upon previous knowledge of key psychological paradigms (i.e., biological, social, cognitive & developmental psychology, & individual differences) while going deeper to apply them specifically to understanding crime and criminality, processes within the criminal justice system (e.g., police interviewing, jury decision making and prison rehabilitation), and some of the major issues that face forensic psychologists today. On completion of the module, students will be able to critically evaluate the contributions of psychology at all levels (i.e., from the detection of crime to the prosecution, incarceration, and rehabilitation of offenders).</p><p>This module will cover topics such as:</p><ul><li>Psychological theories of crime and criminality</li><li>Motivations and explanations for different types of offending behaviour, such as violent, sexual or acquisitive crimes</li><li>Psychological applications to criminal justice processes within:</li><ul><li>Policing (e.g., police interviewing)</li><li>Courts (e.g., jury decision making)</li><li>Prison & Probation (e.g., offender rehabilitation)</li></ul><li>Offender risk assessment</li><li>Working with different types of offenders (e.g., violent offenders, youth offenders, female offenders)</li><li>Victims of crime and how to support them</li><li>The role of forensic psychologists and ethical practice</li>",
         assignments: "2,500-word Essay (100%)",
         mandatory: false,
-        day: "Mondays: 9am - 11.30am"
+        day: "Mondays: 9:30am - 12:00pm"
     },
     "psy6155": {
         title: "Environmental Psychology",
@@ -391,6 +391,7 @@ const modules = {
         description: "This module examines the psychological relationship between humans and the natural environment, exploring both our impact on the planet and how nature influences wellbeing and psychological outcomes. <p>Students will investigate two key areas:</p><ol><li>Encouraging pro-environmental behavior – Understanding, assessing, and modifying environmental awareness using psychological theories, with a focus on the UN Sustainable Development Goals.</li><li>The psychological benefits of nature – Exploring restorative environments, biophilia, nature therapies, and child development.</li></ol><p>For assessment, students will create a resource to promote pro-environmental behaviors, choosing from formats such as educational workshops, podcasts, or infographics.</p>",
         assignments: "2,000-words or equivalent Negotiated Assessment (100%)",
         mandatory: false,
+        day: "Wednesdays: 10:00am - 12:30pm"
     },
     "psy6175": {
         title: "Collaborative Insights in Psychology and Culture",

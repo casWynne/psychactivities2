@@ -68,7 +68,12 @@
       "email": "p.mcgivern@leedstrinity.ac.uk",
       "avatar": "../../assets/staff/paulmcgivern.jpg",
       "avatarPosition": "50%",
-      "keywords": ["Gambling", "Responsible Gambling", "Advertising", "Branding"],
+      "keywords": [
+        "Gambling",
+        "Responsible Gambling",
+        "Advertising",
+        "Branding"
+      ],
       "topics": [
         {
           "title": "The Role of Branding and Advertising on Gambling Uptake and Responsible Gambling.",
@@ -338,7 +343,12 @@
       "email": "T.Gomersall@leedstrinity.ac.uk",
       "avatar": "../../assets/staff/timgomersall.jpg",
       "avatarPosition": "50% 50%",
-      "keywords": ["Health Psychology", "Wellbeing", "Creativity", "Arts-based research"],
+      "keywords": [
+        "Health Psychology",
+        "Wellbeing",
+        "Creativity",
+        "Arts-based research"
+      ],
       "topics": [
         {
           "title": "Examining the relationship between creativity and wellbeing",
@@ -364,7 +374,11 @@
       "email": "l.webster@leedstrinity.ac.uk",
       "avatar": "../../assets/staff/lisawebster.jpg",
       "avatarPosition": "50% 10%",
-      "keywords": ["Resilience", "Connectedness ", "Mental health of at-risk populations"],
+      "keywords": [
+        "Resilience",
+        "Connectedness ",
+        "Mental health of at-risk populations"
+      ],
       "topics": [
         {
           "title": "Mental Health, Risk, and Resilience in At-Risk Populations",
@@ -449,7 +463,13 @@
       "email": "t.laverick@leedstrinity.ac.uk",
       "avatar": "../../assets/staff/tracylaverick.jpg",
       "avatarPosition": "50% 20%",
-      "keywords": ["Special Educational Needs", "SEND Systems", "Children", "Young People", "Education"],
+      "keywords": [
+        "Special Educational Needs",
+        "SEND Systems",
+        "Children",
+        "Young People",
+        "Education"
+      ],
       "topics": [
         {
           "title": "Understanding the role of local authority SEND officers in implementing the national SEND system",
@@ -469,7 +489,9 @@
       "email": "v.heckels@leedstrinity.ac.uk",
       "avatar": "../../assets/staff/victoriaheckels.png",
       "avatarPosition": "50% 30%",
-      "keywords": ["Forensic Psychology"],
+      "keywords": [
+        "Forensic Psychology"
+      ],
       "topics": [
         {
           "title": "Why do people commit crime?",
@@ -575,6 +597,214 @@
           "ideas": [
             "Understand the relationship between illness identity and self-management behaviours within a chronic illness (e.g., autoimmune diseases, diabetes, obesity, PCOS etc).",
             "Explore the perceptions of mental illness recovery in the media/social media by asking participants to describe the sort of messages and images they see."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-21",
+      "name": "Anna Moore",
+      "email": "a.moore@leedstrinity.ac.uk",
+      "avatar": "",
+      "avatarPosition": "50% 20%",
+      "keywords": [
+        "Prisoners",
+        "Prison Life",
+        "Sexual Offending",
+        "Stalking",
+        "Schema Therapy",
+        "Risk Assessment",
+        "Offending Behaviour Programmes",
+        "Social Media"
+      ],
+      "topics": [
+        {
+          "title": "Sex Dolls, Gender Attitudes, and Relationships",
+          "description": "This project explores public and student attitudes towards the use of sex dolls and whether this relates to negative attitudes towards women. The research may examine whether there is a correlation between sex doll use and misogynistic beliefs, whether exposure or usage impacts attitudes towards women, and whether it influences perceptions of dating and romantic relationships in positive or negative ways. Participants would ideally be recruited from both student and general populations. This project is suitable for quantitative survey-based research and would require knowledge of survey design, recruitment strategies, and statistical analysis.",
+          "ideas": [
+            "Is there a correlation between sex doll use and negative attitudes towards women?",
+            "Does sex doll use influence perceptions of dating and romantic relationships?",
+            "Are attitudes towards sex doll use associated with broader beliefs about gender roles and sexuality?",
+            "Do demographic or personality variables predict attitudes towards sex doll use?"
+          ]
+        },
+        {
+          "title": "Perceptions and Experiences of Stalking in LGBTQIA+ Communities",
+          "description": "This project investigates perceptions and lived experiences of stalking among individuals who identify as LGBTQIA+. The research may explore whether experiences of stalking differ across sexual and gender identities, how stalking is understood and reported, and whether attitudes towards stalking vary within and outside LGBTQIA+ communities. Participants would ideally be recruited from student and general populations. This project is suitable for quantitative survey research or qualitative exploration, depending on focus, and would require knowledge of research design, recruitment, and ethical considerations in sensitive topics.",
+          "ideas": [
+            "What are the stalking experiences of individuals who identify as LGBTQIA+?",
+            "Are there differences in how stalking is perceived or reported across different identity groups?",
+            "How do attitudes towards stalking differ between LGBTQIA+ and non-LGBTQIA+ participants?",
+            "What factors influence willingness to report stalking within LGBTQIA+ communities?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-22",
+      "name": "Dr Ben Morris",
+      "email": "b.morris@leedstrinity.ac.uk",
+      "avatar": "",
+      "avatarPosition": "50% 20%",
+      "keywords": [
+        "Health Behaviour",
+        "Behaviour Change",
+        "Motivation",
+        "Social Cognitive Theories",
+        "Theory of Planned Behaviour",
+        "Mindfulness",
+        "Environment"
+      ],
+      "topics": [
+        {
+          "title": "Modifying Binge Drinking Using the Theory of Planned Behaviour",
+          "description": "This quantitative project explores the psychological determinants underlying binge drinking and seeks to modify these through a targeted messaging intervention. The study will be grounded in an extended version of the Theory of Planned Behaviour (Ajzen, 1991), examining constructs such as attitudes, subjective norms, perceived behavioural control, and additional theoretically relevant variables. Students will design and evaluate a theory-driven intervention aimed at influencing key determinants of behaviour. This project would suit students interested in behaviour change, health promotion, and motivation.",
+          "ideas": [
+            "Which psychological determinants most strongly predict binge drinking intentions and behaviour?",
+            "Can a brief theory-based messaging intervention change attitudes or perceived behavioural control?",
+            "Do changes in intentions mediate changes in drinking behaviour?",
+            "Are intervention effects moderated by demographic or personality variables?"
+          ]
+        },
+        {
+          "title": "Tai Chi, Mindfulness, and Wellbeing (PERMA Framework)",
+          "description": "This quantitative project compares existing tai chi practitioners with established PERMA-based wellbeing data, with a particular focus on mindfulness-related constructs. The study will examine whether engagement in tai chi is associated with higher levels of mindfulness and broader wellbeing indicators. Students will work with validated psychometric measures and comparative analysis. This project is suitable for those interested in mindfulness, health psychology, and the psychological benefits of physical practices.",
+          "ideas": [
+            "Do tai chi practitioners report higher levels of mindfulness compared to normative PERMA datasets?",
+            "Which components of PERMA (Positive emotion, Engagement, Relationships, Meaning, Accomplishment) are most strongly associated with tai chi practice?",
+            "Does length or frequency of tai chi practice predict wellbeing outcomes?",
+            "Are mindfulness scores mediators between tai chi practice and wellbeing?"
+          ]
+        },
+        {
+          "title": "Theory-Driven Behaviour Change: A Topical Health Behaviour",
+          "description": "This quantitative project explores and seeks to modify the psychological determinants underlying a contemporary health behaviour of your choice (to be negotiated). The behaviour must be topical and relevant to psychological inquiry (e.g., vaping, physical activity, dietary behaviour, sleep hygiene, social media use and wellbeing). Students will adopt a health psychological theory (such as the Theory of Planned Behaviour or other social cognitive models) and design a study targeting specific psychological determinants identified within that framework. This project would suit students interested in behaviour change, motivation, and health promotion.",
+          "ideas": [
+            "Identify key psychological determinants of a contemporary health behaviour using a social cognitive model.",
+            "Design and evaluate a theory-based intervention targeting attitudes, norms, or perceived control.",
+            "Examine whether changes in psychological determinants predict behavioural change.",
+            "Compare the predictive utility of different health psychological theories."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-23",
+      "name": "Dr James Jackson",
+      "email": "j.jackson@leedstrinity.ac.uk",
+      "avatar": "",
+      "avatarPosition": "50% 20%",
+      "keywords": [
+        "Chronic Stress",
+        "Chronic Pain",
+        "Tinnitus",
+        "Loneliness",
+        "Coping Strategies",
+        "Neuroticism",
+        "Catastrophization",
+        "Mindfulness",
+        "Stress Appraisal"
+      ],
+      "topics": [
+        {
+          "title": "Loneliness and Mental Health in Student Populations",
+          "description": "This quantitative project explores the psychological effects of loneliness within a student population. Chronic stressors such as loneliness may interact with moderators including social support, personality traits (e.g., neuroticism, catastrophization), and coping strategies to influence mental health and wellbeing outcomes. Students will have flexibility to identify and investigate variables of interest within this framework. The project will require knowledge of survey design, recruitment strategies, and statistical analysis (e.g., ANOVA or regression). This topic would suit students interested in critical determinants of mental health and wellbeing.",
+          "ideas": [
+            "Does loneliness predict mental health outcomes after controlling for personality traits?",
+            "Do coping strategies moderate the relationship between loneliness and wellbeing?",
+            "Is perceived social support a protective buffer against the effects of loneliness?",
+            "Which psychological variables best predict vulnerability to loneliness-related distress?"
+          ]
+        },
+        {
+          "title": "Acute Stress and Pain Tolerance: Stress Analgesia and the Cold Pressor Task",
+          "description": "This quantitative laboratory-based project investigates the effects of acute stressors on pain tolerance using the Cold Pressor Task. Increased stress may trigger endogenous opioid release (endorphins), leading to increased pain tolerance — a phenomenon known as stress-induced analgesia. Students may manipulate acute stress using tasks such as mental arithmetic (e.g., serial subtraction) and explore additional variables such as the psychological effects of swearing. The project requires a clear ethical understanding of administering temporary pain under controlled laboratory conditions, effective recruitment strategies, and confidence with statistical analysis (e.g., ANOVA). This project would suit students interested in stress appraisal, biopsychology, and psychophysiological responses to stress.",
+          "ideas": [
+            "Does acute cognitive stress increase pain tolerance in the Cold Pressor Task?",
+            "Does swearing influence pain tolerance under stress conditions?",
+            "Do individual differences (e.g., mindfulness, catastrophization) moderate stress analgesia effects?",
+            "Does stress appraisal predict variation in pain tolerance?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-24",
+      "name": "Dr Jamie Cruickshank",
+      "email": "j.cruickshank@leedstrinity.ac.uk",
+      "avatar": "",
+      "avatarPosition": "50% 20%",
+      "keywords": [
+        "Health Psychology",
+        "Chronic Illness",
+        "Student Mental Health",
+        "Bereavement",
+        "Resilience",
+        "Role Transition",
+        "Religious Identity",
+        "Gender Identity",
+        "LGBTQIA+",
+        "Cyberpsychology"
+      ],
+      "topics": [
+        {
+          "title": "Coping and Adjustment in Chronic Illness and Ongoing Health Stressors",
+          "description": "This topic explores how individuals cope with and adjust to chronic health conditions and long-term stressors. Areas of interest include coeliac disease, ME/CFS, Long-COVID, and broader experiences of ongoing illness-related uncertainty. Projects may examine coping strategies, illness perceptions, resilience, identity shifts, and psychological wellbeing. Both quantitative and qualitative approaches are welcome, depending on the focus. This topic would suit students interested in health psychology, chronic stress, and psychological adaptation.",
+          "ideas": [
+            "How do individuals with chronic illness conceptualise their condition and its impact on identity?",
+            "What coping strategies are associated with better psychological adjustment?",
+            "Does resilience moderate the relationship between illness severity and wellbeing?",
+            "How do individuals experience ongoing uncertainty related to Long-COVID or ME/CFS?"
+          ]
+        },
+        {
+          "title": "Loss, Transition, and Mental Health",
+          "description": "This topic examines psychological responses to significant life changes and losses, including bereavement, role transitions, and professional identity shifts in mental health or healthcare professionals. Projects may explore coping, resilience, meaning-making, and mental health outcomes during periods of transition. Both qualitative and quantitative designs are suitable. This topic would appeal to students interested in resilience, adjustment, and identity processes.",
+          "ideas": [
+            "How do individuals make sense of bereavement or significant loss?",
+            "What factors predict resilient adjustment following role transition?",
+            "How do healthcare or mental health professionals cope with occupational stress and identity strain?",
+            "Does meaning-making mediate the relationship between loss and psychological wellbeing?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staff-25",
+      "name": "Mark Durkin",
+      "email": "m.durkin@leedstrinity.ac.uk",
+      "avatar": "",
+      "avatarPosition": "50% 20%",
+      "keywords": [
+        "Self-Compassion",
+        "Compassion",
+        "Stress",
+        "Wellbeing",
+        "Mental Health",
+        "Positive Psychology",
+        "Helping Professions",
+        "Lived Experience",
+        "Student Mental Health"
+      ],
+      "topics": [
+        {
+          "title": "The Effect of Self-Compassion on Student Mental Health",
+          "description": "This project explores the relationship between self-compassion and student mental health and wellbeing. Using a quantitative design, students will examine whether self-compassion predicts psychological outcomes such as stress, wellbeing, and mental health indicators. The study may focus on general student populations or specific groups such as Police or Nursing students. The project requires knowledge of survey design, recruitment strategies, and statistical analyses including mediation, ANOVA, and regression. This topic would suit students interested in self-compassion, positive psychology, and student wellbeing.",
+          "ideas": [
+            "Does self-compassion predict lower levels of stress and psychological distress in students?",
+            "Does self-compassion mediate the relationship between academic stress and wellbeing?",
+            "Are there differences in self-compassion and wellbeing across different student groups (e.g., Police vs Nursing vs general students)?",
+            "Does self-compassion buffer against burnout in professional training programmes?"
+          ]
+        },
+        {
+          "title": "The Impact of Including People with Lived Experience in Professional Services",
+          "description": "This project explores the impact of including individuals with lived experience within professional services, such as mental health, addiction services, or the criminal justice system. The focus may be on outcomes for service users, professionals, or individuals with lived experience themselves. Both quantitative and qualitative approaches are appropriate, including interviews, focus groups, and thematic analysis. The project requires knowledge of recruitment techniques and appropriate methodological design. This topic would suit students interested in mental health, addiction, criminology, and service development.",
+          "ideas": [
+            "How does the inclusion of lived experience practitioners influence service user outcomes?",
+            "How do professionals perceive the integration of lived experience roles?",
+            "What impact does lived experience involvement have on organisational culture?",
+            "What are the psychological benefits or challenges for individuals in lived experience roles?"
           ]
         }
       ]

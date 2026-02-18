@@ -78,7 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
         "Stress Appraisal",
         "Compassion",
         "Coping Strategies",
-        "Tinnitus"
+        "Tinnitus",
+        "Health Behaviour"
       ],
       "Identity, Culture & Social Inequality": [
         "Agriculturation & Adjustment",
@@ -113,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Social Norms",
         "LGBTQIA+",
         "Lived Experience",
-        "Lonliness",
+        "Loneliness",
         "Neuroticism",
         "Positive Psychology",
         "Social Cognitive Theories",

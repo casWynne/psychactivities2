@@ -655,35 +655,29 @@
       "avatar": "",
       "avatarPosition": "50% 20%",
       "keywords": [
-        "Chronic Stress",
-        "Chronic Pain",
         "Tinnitus",
-        "Loneliness",
-        "Coping Strategies",
-        "Neuroticism",
-        "Catastrophization",
-        "Mindfulness",
-        "Stress Appraisal"
+        "Chronic Stressors", 
+        "Pain Tolerance",
+        "Digital Interventions",
+        "Mindfulness"
       ],
       "topics": [
         {
-          "title": "Loneliness and Mental Health in Student Populations",
-          "description": "This quantitative project explores the psychological effects of loneliness within a student population. Chronic stressors such as loneliness may interact with moderators including social support, personality traits (e.g., neuroticism, catastrophization), and coping strategies to influence mental health and wellbeing outcomes. Students will have flexibility to identify and investigate variables of interest within this framework. The project will require knowledge of survey design, recruitment strategies, and statistical analysis (e.g., ANOVA or regression). This topic would suit students interested in critical determinants of mental health and wellbeing.",
+          "title": "Boosting Pain Tolerance Using the Cold Pressor Task",
+          "description": "This project will test simple, brief strategies that might improve pain tolerance during the cold pressor task (hand in cold water). Students will compare how long people can keep their hand submerged under different coping conditions, and how painful they rate the experience. Participants will complete the cold pressor task under one of several short, standardised conditions. A neutral control condition (e.g., repeating a neutral word, or sitting quietly) can be included for comparison. The main outcome is subjective pain intensity. A straightforward between-subjects design works well (randomly allocate participants to one condition). The hypothesis is that certain approaches may improve tolerance compared to a control.",
           "ideas": [
-            "Does loneliness predict mental health outcomes after controlling for personality traits?",
-            "Do coping strategies moderate the relationship between loneliness and wellbeing?",
-            "Is perceived social support a protective buffer against the effects of loneliness?",
-            "Which psychological variables best predict vulnerability to loneliness-related distress?"
+            "Example condition includes: (1) swearing (repeating a chosen swear word aloud).",
+            "Example condition includes: (2) relaxation (slow breathing with a brief calming script).",
+            "Example condition includes: (3) mental arithmetic (counting backwards in 7s)."
           ]
         },
         {
-          "title": "Acute Stress and Pain Tolerance: Stress Analgesia and the Cold Pressor Task",
-          "description": "This quantitative laboratory-based project investigates the effects of acute stressors on pain tolerance using the Cold Pressor Task. Increased stress may trigger endogenous opioid release (endorphins), leading to increased pain tolerance — a phenomenon known as stress-induced analgesia. Students may manipulate acute stress using tasks such as mental arithmetic (e.g., serial subtraction) and explore additional variables such as the psychological effects of swearing. The project requires a clear ethical understanding of administering temporary pain under controlled laboratory conditions, effective recruitment strategies, and confidence with statistical analysis (e.g., ANOVA). This project would suit students interested in stress appraisal, biopsychology, and psychophysiological responses to stress.",
+          "title": "Tinnitus Distress and Mistrust of General Practitioners",
+          "description": "This project examines whether mistrust of General Practitioners (GPs) is associated with greater tinnitus distress and altered help-seeking behaviour. Many individuals with tinnitus report feeling dismissed or told that “nothing can be done,” which may influence trust in primary care and shape long-term adjustment. Participants with tinnitus will complete brief questionnaire measures assessing tinnitus distress, trust or mistrust in GPs (using an adapted Trust in Physician scale), and healthcare experiences related to tinnitus (e.g., previous GP consultations, perceived helpfulness, intention to seek future help). The primary outcome will be tinnitus distress. Analyses will examine whether higher mistrust of GPs is associated with higher tinnitus distress and reduced help-seeking intentions. Correlation and simple linear regression analyses will be used. The central hypothesis is that greater mistrust will be associated with higher tinnitus distress. This relationship may reflect negative healthcare experiences that reinforce feelings of helplessness or invalidation. The project is ethically low risk, feasible via online recruitment, and provides students with experience in survey design, clinical constructs, and applied health psychology research.",
           "ideas": [
-            "Does acute cognitive stress increase pain tolerance in the Cold Pressor Task?",
-            "Does swearing influence pain tolerance under stress conditions?",
-            "Do individual differences (e.g., mindfulness, catastrophization) moderate stress analgesia effects?",
-            "Does stress appraisal predict variation in pain tolerance?"
+            "Idea 1: Mistrust and Help-Seeking Avoidance. Add a short measure of help-seeking intentions (e.g., likelihood of consulting a GP in future). Test whether higher mistrust predicts reduced willingness to seek medical advice for tinnitus or related symptoms.",
+            "Idea 2: The Role of Feeling Dismissed. Include items assessing perceived dismissal (e.g., “My GP took my tinnitus seriously”). Test whether perceived dismissal explains (mediates) the relationship between mistrust and tinnitus distress.",
+            "Idea 3: First Consultation Experience. Ask participants to rate the quality of their first GP consultation for tinnitus (information provided, empathy, referrals). Compare distress levels between those reporting positive versus negative initial experiences."
           ]
         }
       ]

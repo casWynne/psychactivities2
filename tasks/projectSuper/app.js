@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ],
       "Mental Health, Wellbeing & Flourishing": [
         "Anxiety",
+        "Wellbeing",
         "Balance and Harmony",
         "Forgiveness",
         "Health Psychology",
@@ -67,7 +68,16 @@ document.addEventListener("DOMContentLoaded", () => {
         "Support Networks",
         "Depression",
         "Happiness",
-        "Health"
+        "Health",
+        "Bereavement",
+        "Catastrophization",
+        "Chronic Illness",
+        "Chronic Pain",
+        "Chronic Stress",
+        "Stress",
+        "Stress Appraisal",
+        "Compassion",
+        "Coping Strategies"
       ],
       "Identity, Culture & Social Inequality": [
         "Agriculturation & Adjustment",
@@ -86,7 +96,9 @@ document.addEventListener("DOMContentLoaded", () => {
         "Personality",
         "Social Desirability",
         "Social Norms",
-        "Identity"
+        "Identity",
+        "LGBTQIA+",
+        "Gender Identity"
       ],
       "Social Cognition & Interpersonal Processes": [
         "Connectedness",
@@ -95,7 +107,14 @@ document.addEventListener("DOMContentLoaded", () => {
         "Academic Self-Efficacy",
         "Personality Traits",
         "Impression Management",
-        "Social Norms"
+        "Social Norms",
+        "LGBTQIA+",
+        "Lived Experience",
+        "Lonliness",
+        "Neuroticism",
+        "Positive Psychology",
+        "Social Cognitive Theories",
+        "Behaviour Change"
       ],
       "Student Experience, Engagement & Participation": [
         "Blended Learning",
@@ -104,7 +123,9 @@ document.addEventListener("DOMContentLoaded", () => {
         "Student Success",
         "Student Wellbeing",
         "Widening Participation",
-        "Transitions"
+        "Transitions",
+        "Role Transition",
+        "Student Mental Health"
       ],
       "Risk, Harm & Offending Behaviour": [
         "Antisocial Traits",
@@ -134,7 +155,12 @@ document.addEventListener("DOMContentLoaded", () => {
         "Human Environment Relationships",
         "Workplace Interactions",
         "Widening Participation",
-        "Transitions"
+        "Transitions",
+        "Bereavement",
+        "Chronic Illness",
+        "Chronic Pain",
+        "Chronic Stress",
+        "Environment",
       ],
       "Creativity, Methods & Emerging Approaches": [
         "Creativity",

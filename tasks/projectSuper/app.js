@@ -169,8 +169,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "Creativity",
     "Arts-based research"
   ]
-}
-
   };
 
   // =====================================================================

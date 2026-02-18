@@ -534,13 +534,12 @@
       "id": "staff-19",
       "name": "Dr Christopher Lewis",
       "email": "c.lewis@leedstrinity.ac.uk",
-      "avatar": "",
+      "avatar": "../../assets/staff/chrislewis.jpg",
       "avatarPosition": "50% 50%",
       "keywords": [
         "Well-being",
         "Happiness",
         "Depression",
-        "Self-report measures",
         "Personality",
         "Social Desirability"
       ],
@@ -554,14 +553,28 @@
             "What is the relationship between Depression–Happiness Scale scores and social desirability (response bias)?",
             "How does the Depression–Happiness Scale relate to other measures of well-being (e.g., life satisfaction, mental health, flourishing)?"
           ]
-        },
-                {
-          "title": "",
-          "description": "",
+        }
+      ]
+    },
+    {
+      "id": "staff-20",
+      "name": "Dr Lousia Peters",
+      "email": "l.peters@leedstrinity.ac.uk",
+      "avatar": "../../assets/staff/louisapeters.jpg",
+      "avatarPosition": "50% 10%",
+      "keywords": [
+        "Health",
+        "Mental Health",
+        "Identity",
+        "Social Norms"
+      ],
+      "topics": [
+        {
+          "title": "Identity and illness",
+          "description": "This project explores the relationship between our identity and illness. Identity is often an overlooked facet of chronic illness self-management and recovery from mental illness; however, our sense of self influences our thoughts and behaviours. For example, research has found that having opportunities to connect to positive traits or enact social identities can help people living with serious mental illness to engage with recovery (Peters et al., 2023). Both the areas of identity and illness are broad, providing scope to explore lots of different factors and influences.",
           "ideas": [
-            "",
-            "",
-            ""
+            "Understand the relationship between illness identity and self-management behaviours within a chronic illness (e.g., autoimmune diseases, diabetes, obesity, PCOS etc).",
+            "Explore the perceptions of mental illness recovery in the media/social media by asking participants to describe the sort of messages and images they see."
           ]
         }
       ]

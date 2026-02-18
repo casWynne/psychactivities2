@@ -19,99 +19,126 @@ document.addEventListener("DOMContentLoaded", () => {
     useSuperKeywords: true,
     superKeywords: {
       "Learning, Cognition & Expectancies": [
+        "AI Use",
+        "Children",
+        "Young People",
+        "Cognitive Appraisal",
+        "Expectancy Effects",
+        "Implicit Learning",
+        "Impression Formation",
+        "Interpersonal Expectancies",
         "Learning",
         "Memory",
-        "Statistical Learning",
+        "Moral Judgement",
+        "Performance Expectancies",
+        "Self-Regulation",
         "Sequences",
         "Serial Dependence",
-        "Expectancy Effects",
-        "Interpersonal Expectancies",
-        "Performance Expectancies",
-        "Cognitive Appraisal",
-        "Self-Regulation",
-        "Impression Formation",
-        "Moral Judgement",
-        "Blended Learning",
-        "Implicit Learning"
+        "Statistical Learning",
+        "SEND Systems",
+        "Special Educational Needs",
+        "Online Learning",
+        "Education"
       ],
-
       "Language, Communication & Neurodevelopment": [
+        "Autism",
+        "Children",
+        "Young People",
         "Language Disorders",
         "Stuttering",
-        "Autism",
-        "Visual Disorders"
+        "Visual Disorders",
+        "Remote Learning",
+        "SEND Systems",
+        "Special Educational Needs"
       ],
-
       "Mental Health, Wellbeing & Flourishing": [
         "Anxiety",
-        "Wellbeing",
-        "Well-being",
-        "Well-being Literacy",
-        "Hope & Wellbeing",
-        "Human Flourishing",
         "Balance and Harmony",
         "Forgiveness",
-        "Resilience",
         "Health Psychology",
-        "Mental health of at-risk populations"
+        "Hope & Wellbeing",
+        "Human Flourishing",
+        "Mental health of at-risk populations",
+        "Mental Health",
+        "Resilience",
+        "Well-being",
+        "Well-being Literacy",
+        "Wellbeing",
+        "Support Networks",
+        "Depression",
+        "Happiness",
+        "Health"
       ],
-
       "Identity, Culture & Social Inequality": [
-        "Culture",
+        "Agriculturation & Adjustment",
         "Cross-cultural and international psychology",
         "Cultural intelligence",
+        "Culture",
+        "Intersectionality",
+        "Masculinities",
+        "Microaggressions",
         "Migration & Identity",
-        "Social Identity",
         "Race/Ethnicity",
         "Racism",
-        "Intersectionality",
-        "Microaggressions",
-        "Masculinities",
+        "Social Identity",
         "Weight Stigma",
         "Body Image",
-        "Agriculturation & Adjustment"
+        "Personality",
+        "Social Desirability",
+        "Social Norms",
+        "Identity"
       ],
-
       "Social Cognition & Interpersonal Processes": [
-        "Social Cognition",
         "Connectedness",
+        "Social Cognition",
         "Inter-Role Conflict",
         "Academic Self-Efficacy",
-        "Personality Traits"
+        "Personality Traits",
+        "Impression Management",
+        "Social Norms"
       ],
-
       "Student Experience, Engagement & Participation": [
+        "Blended Learning",
         "Student Engagement",
         "Student Experience",
         "Student Success",
         "Student Wellbeing",
-        "Widening Participation"
+        "Widening Participation",
+        "Transitions"
       ],
-
       "Risk, Harm & Offending Behaviour": [
         "Antisocial Traits",
         "Criminal Attitudes",
+        "Decision Making",
+        "Eyewitness Memory",
+        "False Memories",
+        "Gambling",
         "Offence Types",
         "Offtending attitudes",
-        "Gambling",
-        "Responsible Gambling"
+        "Police Interviewing",
+        "Rapport Building",
+        "Responsible Gambling",
+        "Forensic Psychology"
       ],
-
       "Media, Digital & Consumer Psychology": [
         "Advertising",
         "Branding",
-        "Digital Cultures"
+        "Digital Cultures",
+        "Articificial Intelligence",
+        "Social Media Use",
+        "Cyberpsychology",
+        "Online Learning"
       ],
-
       "Environment, Sustainability & Human–Environment Relations": [
         "Enivronmental Behaviour",
-        "Human Environment Relationships"
+        "Human Environment Relationships",
+        "Workplace Interactions",
+        "Widening Participation",
+        "Transitions"
       ],
-
       "Creativity, Methods & Emerging Approaches": [
         "Creativity",
-        "Arts-based research",
-        "Articificial Intelligence"
+        "Arts-based research"
       ]
     }
   };

@@ -1,0 +1,16 @@
+{
+  "presets": [
+    {
+      "id": "demo-relationships",
+      "title": "Relationships: trust vs risk",
+      "description": "Example Q-sort for teaching discussion.",
+      "file": "demo-relationships.json"
+    },
+    {
+      "id": "demo-burnout",
+      "title": "Student wellbeing: workload vs support",
+      "description": "Example set for a seminar activity.",
+      "file": "demo-burnout.json"
+    }
+  ]
+}

@@ -193,6 +193,7 @@ button, input { font-family: inherit; }
 .cctk-tool:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-2);
+  border-color: var(--accent-200);
   border-color: color-mix(in srgb, var(--accent-200) 60%, var(--border));
 }
 
@@ -245,6 +246,7 @@ button, input { font-family: inherit; }
 
 .cctk-btn:hover {
   transform: translateY(-1px);
+  border-color: var(--accent-200);
   border-color: color-mix(in srgb, var(--accent-200) 70%, var(--border));
 }
 
@@ -256,10 +258,12 @@ button, input { font-family: inherit; }
 }
 
 .cctk-btn--primary {
+  background: var(--accent-500);
   background: linear-gradient(0deg,
     color-mix(in srgb, var(--accent-500) 92%, black 8%),
     var(--accent-500)
   );
+  border-color: var(--accent-500);
   border-color: color-mix(in srgb, var(--accent-500) 70%, var(--border));
   color: white;
 }
@@ -272,6 +276,7 @@ button, input { font-family: inherit; }
 }
 
 .cctk-btn--ghost:hover {
+  background: var(--accent-50);
   background: color-mix(in srgb, var(--accent-50) 70%, transparent);
 }
 
@@ -298,6 +303,7 @@ button, input { font-family: inherit; }
 
 .cctk-iconbtn:hover {
   transform: translateY(-1px);
+  border-color: var(--accent-200);
   border-color: color-mix(in srgb, var(--accent-200) 70%, var(--border));
 }
 
@@ -325,25 +331,33 @@ button, input { font-family: inherit; }
 }
 
 .cctk-badge[data-status="active"] {
+  border-color: var(--green-200);
   border-color: color-mix(in srgb, var(--green-200) 60%, var(--border));
+  background: var(--green-50);
   background: color-mix(in srgb, var(--green-50) 80%, var(--surface));
 }
 .cctk-badge[data-status="active"] .cctk-dot { background: var(--green-500); }
 
 .cctk-badge[data-status="in-progress"] {
+  border-color: var(--indigo-200);
   border-color: color-mix(in srgb, var(--indigo-200) 60%, var(--border));
+  background: var(--indigo-50);
   background: color-mix(in srgb, var(--indigo-50) 80%, var(--surface));
 }
 .cctk-badge[data-status="in-progress"] .cctk-dot { background: var(--indigo-500); }
 
 .cctk-badge[data-status="planned"] {
+  border-color: var(--yellow-200);
   border-color: color-mix(in srgb, var(--yellow-200) 60%, var(--border));
+  background: var(--yellow-50);
   background: color-mix(in srgb, var(--yellow-50) 80%, var(--surface));
 }
 .cctk-badge[data-status="planned"] .cctk-dot { background: var(--yellow-500); }
 
 .cctk-badge[data-status="archived"] {
+  border-color: var(--border);
   border-color: color-mix(in srgb, rgba(255,255,255,0.08) 100%, var(--border));
+  background: var(--surface);
   background: color-mix(in srgb, rgba(0,0,0,0.06) 100%, var(--surface));
   color: var(--text-2);
 }

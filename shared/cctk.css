@@ -1,0 +1,480 @@
+/* ==========================================================================
+   CCTK Shared Stylesheet
+   Combines: design tokens, components, utilities, nav bar, footer
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   TOKENS — colours, spacing, radius, shadow
+   -------------------------------------------------------------------------- */
+
+:root {
+  /* Typography */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter,
+    "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+
+  /* Spacing scale */
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.25rem;  /* 20px */
+  --space-6: 1.5rem;   /* 24px */
+  --space-8: 2rem;     /* 32px */
+  --space-10: 2.5rem;  /* 40px */
+  --space-12: 3rem;    /* 48px */
+
+  /* Radius */
+  --r-xs: 10px;
+  --r-sm: 14px;
+  --r-md: 18px;
+  --r-lg: 24px;
+
+  /* Shadows */
+  --shadow-1: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-2: 0 8px 24px rgba(0,0,0,0.07);
+  --shadow-3: 0 16px 42px rgba(0,0,0,0.10);
+
+  /* Layout */
+  --maxw: 1100px;
+
+  /* Neutrals (LIGHT) */
+  --bg: #FAFAF8;
+  --surface: #FFFFFF;
+  --surface-2: #F5F6F3;
+  --border: rgba(34, 34, 34, 0.10);
+  --text: #222426;
+  --text-2: rgba(34, 36, 38, 0.72);
+  --text-3: rgba(34, 36, 38, 0.52);
+
+  /* Focus ring */
+  --focus: rgba(60, 130, 246, 0.35);
+
+  /* Accent colours (500 = main, 200 = soft border, 50 = tint) */
+  --red-500: #E14B5A;   --red-200: rgba(225, 75, 90, 0.28);   --red-50: rgba(225, 75, 90, 0.08);
+  --orange-500: #F07A2B; --orange-200: rgba(240, 122, 43, 0.26); --orange-50: rgba(240, 122, 43, 0.08);
+  --yellow-500: #D9A400; --yellow-200: rgba(217, 164, 0, 0.26); --yellow-50: rgba(217, 164, 0, 0.08);
+  --green-500: #2FAE7B;  --green-200: rgba(47, 174, 123, 0.26); --green-50: rgba(47, 174, 123, 0.08);
+  --teal-500: #1BA6A6;   --teal-200: rgba(27, 166, 166, 0.26);  --teal-50: rgba(27, 166, 166, 0.08);
+  --blue-500: #3B82F6;   --blue-200: rgba(59, 130, 246, 0.26);  --blue-50: rgba(59, 130, 246, 0.08);
+  --indigo-500: #5A63E6; --indigo-200: rgba(90, 99, 230, 0.26); --indigo-50: rgba(90, 99, 230, 0.08);
+  --purple-500: #8B5CF6; --purple-200: rgba(139, 92, 246, 0.26); --purple-50: rgba(139, 92, 246, 0.08);
+  --pink-500: #E04BA6;   --pink-200: rgba(224, 75, 166, 0.26);  --pink-50: rgba(224, 75, 166, 0.08);
+
+  /* Default accent */
+  --accent-500: var(--indigo-500);
+  --accent-200: var(--indigo-200);
+  --accent-50:  var(--indigo-50);
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --t-fast: 140ms;
+  --t-med: 220ms;
+}
+
+/* Dark theme */
+html[data-theme="dark"] {
+  --bg: #0E1014;
+  --surface: #151923;
+  --surface-2: #10141D;
+  --border: rgba(255, 255, 255, 0.10);
+  --text: rgba(255, 255, 255, 0.92);
+  --text-2: rgba(255, 255, 255, 0.70);
+  --text-3: rgba(255, 255, 255, 0.52);
+  --shadow-1: 0 1px 2px rgba(0,0,0,0.35);
+  --shadow-2: 0 10px 30px rgba(0,0,0,0.45);
+  --shadow-3: 0 18px 54px rgba(0,0,0,0.55);
+  --focus: rgba(59, 130, 246, 0.55);
+  --red-50:    rgba(225, 75, 90, 0.14);
+  --orange-50: rgba(240, 122, 43, 0.14);
+  --yellow-50: rgba(217, 164, 0, 0.14);
+  --green-50:  rgba(47, 174, 123, 0.14);
+  --teal-50:   rgba(27, 166, 166, 0.14);
+  --blue-50:   rgba(59, 130, 246, 0.14);
+  --indigo-50: rgba(90, 99, 230, 0.14);
+  --purple-50: rgba(139, 92, 246, 0.14);
+  --pink-50:   rgba(224, 75, 166, 0.14);
+}
+
+/* Per-element accent overrides */
+[data-accent="red"]    { --accent-500: var(--red-500);    --accent-200: var(--red-200);    --accent-50: var(--red-50); }
+[data-accent="orange"] { --accent-500: var(--orange-500); --accent-200: var(--orange-200); --accent-50: var(--orange-50); }
+[data-accent="yellow"] { --accent-500: var(--yellow-500); --accent-200: var(--yellow-200); --accent-50: var(--yellow-50); }
+[data-accent="green"]  { --accent-500: var(--green-500);  --accent-200: var(--green-200);  --accent-50: var(--green-50); }
+[data-accent="teal"]   { --accent-500: var(--teal-500);   --accent-200: var(--teal-200);   --accent-50: var(--teal-50); }
+[data-accent="blue"]   { --accent-500: var(--blue-500);   --accent-200: var(--blue-200);   --accent-50: var(--blue-50); }
+[data-accent="indigo"] { --accent-500: var(--indigo-500); --accent-200: var(--indigo-200); --accent-50: var(--indigo-50); }
+[data-accent="purple"] { --accent-500: var(--purple-500); --accent-200: var(--purple-200); --accent-50: var(--purple-50); }
+[data-accent="pink"]   { --accent-500: var(--pink-500);   --accent-200: var(--pink-200);   --accent-50: var(--pink-50); }
+
+/* Base resets */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a { color: inherit; text-decoration: none; }
+button, input { font-family: inherit; }
+
+/* --------------------------------------------------------------------------
+   COMPONENTS — cards, buttons, badges, grid
+   -------------------------------------------------------------------------- */
+
+.cctk-container {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: var(--space-10) var(--space-4);
+}
+
+/* Header */
+.cctk-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.cctk-title {
+  margin: 0;
+  font-size: 1.8rem;
+  letter-spacing: -0.02em;
+}
+
+.cctk-subtitle {
+  margin: var(--space-2) 0 0 0;
+  color: var(--text-2);
+  max-width: 62ch;
+}
+
+/* Cards */
+.cctk-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
+}
+
+.cctk-card--soft {
+  background: linear-gradient(0deg, var(--surface), var(--surface));
+  position: relative;
+  overflow: hidden;
+}
+
+.cctk-card--soft::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(1200px 300px at 20% 0%, var(--accent-50), transparent 55%),
+              radial-gradient(700px 240px at 90% 10%, var(--accent-50), transparent 60%);
+  pointer-events: none;
+}
+
+.cctk-card__inner {
+  position: relative;
+  padding: var(--space-6);
+}
+
+/* Tool card */
+.cctk-tool {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition: transform var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease), border-color var(--t-med) var(--ease);
+}
+
+.cctk-tool:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-2);
+  border-color: var(--accent-200);
+  border-color: color-mix(in srgb, var(--accent-200) 60%, var(--border));
+}
+
+.cctk-tool__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.cctk-tool__name {
+  margin: 0;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+}
+
+.cctk-tool__tagline {
+  margin: var(--space-1) 0 0 0;
+  color: var(--text-2);
+}
+
+.cctk-tool__desc {
+  margin: 0;
+  color: var(--text-2);
+}
+
+.cctk-tool__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+/* Buttons */
+.cctk-btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 0.62rem 0.95rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: transform var(--t-fast) var(--ease), background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+  box-shadow: var(--shadow-1);
+}
+
+.cctk-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent-200);
+  border-color: color-mix(in srgb, var(--accent-200) 70%, var(--border));
+}
+
+.cctk-btn:active { transform: translateY(0px); }
+
+.cctk-btn:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.cctk-btn--primary {
+  background: var(--accent-500);
+  background: linear-gradient(0deg,
+    color-mix(in srgb, var(--accent-500) 92%, black 8%),
+    var(--accent-500)
+  );
+  border-color: var(--accent-500);
+  border-color: color-mix(in srgb, var(--accent-500) 70%, var(--border));
+  color: white;
+}
+
+.cctk-btn--primary:hover { box-shadow: var(--shadow-2); }
+
+.cctk-btn--ghost {
+  background: transparent;
+  box-shadow: none;
+}
+
+.cctk-btn--ghost:hover {
+  background: var(--accent-50);
+  background: color-mix(in srgb, var(--accent-50) 70%, transparent);
+}
+
+.cctk-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Icon button */
+.cctk-iconbtn {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+  box-shadow: var(--shadow-1);
+}
+
+.cctk-iconbtn:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent-200);
+  border-color: color-mix(in srgb, var(--accent-200) 70%, var(--border));
+}
+
+/* Status badge */
+.cctk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  border: 1px solid var(--border);
+  color: var(--text);
+  background: var(--surface);
+  white-space: nowrap;
+}
+
+.cctk-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--text-3);
+  flex-shrink: 0;
+}
+
+.cctk-badge[data-status="active"] {
+  border-color: var(--green-200);
+  border-color: color-mix(in srgb, var(--green-200) 60%, var(--border));
+  background: var(--green-50);
+  background: color-mix(in srgb, var(--green-50) 80%, var(--surface));
+}
+.cctk-badge[data-status="active"] .cctk-dot { background: var(--green-500); }
+
+.cctk-badge[data-status="in-progress"] {
+  border-color: var(--indigo-200);
+  border-color: color-mix(in srgb, var(--indigo-200) 60%, var(--border));
+  background: var(--indigo-50);
+  background: color-mix(in srgb, var(--indigo-50) 80%, var(--surface));
+}
+.cctk-badge[data-status="in-progress"] .cctk-dot { background: var(--indigo-500); }
+
+.cctk-badge[data-status="planned"] {
+  border-color: var(--yellow-200);
+  border-color: color-mix(in srgb, var(--yellow-200) 60%, var(--border));
+  background: var(--yellow-50);
+  background: color-mix(in srgb, var(--yellow-50) 80%, var(--surface));
+}
+.cctk-badge[data-status="planned"] .cctk-dot { background: var(--yellow-500); }
+
+.cctk-badge[data-status="archived"] {
+  border-color: var(--border);
+  border-color: color-mix(in srgb, rgba(255,255,255,0.08) 100%, var(--border));
+  background: var(--surface);
+  background: color-mix(in srgb, rgba(0,0,0,0.06) 100%, var(--surface));
+  color: var(--text-2);
+}
+.cctk-badge[data-status="archived"] .cctk-dot { background: var(--text-3); }
+
+/* Grid */
+.cctk-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-4);
+}
+
+.cctk-col-12 { grid-column: span 12; }
+.cctk-col-6  { grid-column: span 6; }
+.cctk-col-4  { grid-column: span 4; }
+
+@media (max-width: 980px) {
+  .cctk-col-4 { grid-column: span 6; }
+}
+@media (max-width: 640px) {
+  .cctk-container { padding: var(--space-8) var(--space-4); }
+  .cctk-col-6, .cctk-col-4 { grid-column: span 12; }
+  .cctk-header { flex-direction: column; align-items: stretch; }
+}
+
+/* --------------------------------------------------------------------------
+   UTILITIES
+   -------------------------------------------------------------------------- */
+
+.cctk-row { display: flex; align-items: center; gap: var(--space-3); }
+.cctk-row--between { justify-content: space-between; }
+.cctk-stack { display: flex; flex-direction: column; gap: var(--space-3); }
+
+.cctk-muted  { color: var(--text-2); }
+.cctk-small  { font-size: 0.92rem; }
+.cctk-mono   { font-family: var(--font-mono); }
+
+.cctk-divider {
+  height: 1px;
+  background: var(--border);
+  border: none;
+  margin: var(--space-6) 0;
+}
+
+.cctk-hidden { display: none !important; }
+
+.cctk-sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}
+
+/* --------------------------------------------------------------------------
+   NAV BAR — shared top navigation
+   Included on every sub-app page. Links back to CCTK home.
+   -------------------------------------------------------------------------- */
+
+.cctk-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.cctk-nav__logo {
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-decoration: none;
+  transition: color var(--t-fast) var(--ease);
+}
+
+.cctk-nav__logo:hover { color: var(--accent-500); }
+
+.cctk-nav__sep {
+  color: var(--text-3);
+  font-size: 0.8rem;
+  user-select: none;
+}
+
+.cctk-nav__current {
+  color: var(--text-2);
+  font-size: 0.9rem;
+}
+
+/* Optional link back to sub-app landing from app page */
+.cctk-nav__back {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: var(--text-3);
+  text-decoration: none;
+  transition: color var(--t-fast) var(--ease);
+}
+
+.cctk-nav__back:hover { color: var(--text-2); }
+
+/* --------------------------------------------------------------------------
+   FOOTER
+   -------------------------------------------------------------------------- */
+
+.cctk-footer {
+  text-align: center;
+  padding: var(--space-8) var(--space-4);
+  color: var(--text-3);
+  font-size: 0.88rem;
+}
+
+.cctk-footer a {
+  color: var(--text-2);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

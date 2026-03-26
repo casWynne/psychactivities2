@@ -1,41 +1,150 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<!doctype html>
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Psych Recruitment</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CCTK — Caspar's Cool Tool Kit</title>
+  <meta name="description" content="A small collection of research and teaching tools for psychology staff and students." />
+  <link rel="stylesheet" href="shared/cctk.css" />
+  <script defer src="shared/cctk-nav.js"></script>
 </head>
 
 <body>
-    <div id="main-menu">
-        <h1>Psych Recruitment - Admin Menu</h1>
-        <button onclick="startTask('morpheme_madness')">Morpheme Madness</button>
-        <button onclick="startTask('flanker')">Flanker Task</button>
-        <button onclick="startTask('dot_probe')">Dot Probe</button>
-        <button onclick="startTask('wsct_task')">Wisconsin Card Sorting</button>
-        <a href="tasks/programmeInfo/programme_info.html"><button>Programme Info (new)</button></a>
-        <a href="tasks/qsort/index.html"><button>Q-Sort</button></a>
-        <button onclick="startTask('visual_illusions')">Visual Illusions</button>
-        <button onclick="startTask('audio_illusions')">Audio Illusions</button>
-        <button onclick="startTask('drag_task')">Drag Task</button>
-        <button onclick="startTask('mop')">MOP</button>
-        <a href="tasks/mop2627 v1/index.html"><button>MOP2627 v1</button></a>
-        <a href="tasks/mop2627 v2//index.html"><button>MOP2627 v2</button></a>
-        <button onclick="startTask('stimuliShuffle')">Stimuli Shuffle</button>
-        <a href="tasks/lavvaan.html"><button>lavaan</button></a>
-        <a href="tasks/projectSuper/projectSuper.html"><button>Project Supervisors</button></a>
-        <a href="tasks/projectSuper/signup.html"><button>Signup Test</button></a>
-        <a href="tasks/visualIllusions/visualIllusions.html"><button>VI2</button></a>
-        <a href="tasks/projectChartered/index.html"><button>Project Chartered</button></a>
-        <a href="tasks/redditRambler/index.html"><button>Reddit Rambler</button></a>
+  <main class="cctk-container">
 
+    <header class="cctk-header">
+      <div class="cctk-stack" style="gap: var(--space-2);">
+        <h1 class="cctk-title">CCTK</h1>
+        <p class="cctk-subtitle">
+          Caspar's Cool Tool Kit — a set of research and teaching tools for psychology
+          staff and students. Hosted on GitHub Pages.
+        </p>
+      </div>
+      <button class="cctk-iconbtn" data-cctk-theme-toggle title="Toggle theme" aria-label="Toggle theme">🌗</button>
+    </header>
 
+    <hr class="cctk-divider" />
 
+    <div class="cctk-grid">
+
+      <!-- Q-Sort -->
+      <article class="cctk-card cctk-tool cctk-col-4" data-accent="teal">
+        <div class="cctk-card__inner cctk-stack">
+          <div class="cctk-tool__top">
+            <div>
+              <h2 class="cctk-tool__name">Q-Sort Tool</h2>
+              <p class="cctk-tool__tagline">Drag-and-drop Q-sort for research &amp; teaching</p>
+            </div>
+            <span class="cctk-badge" data-status="active">
+              <span class="cctk-dot"></span> Active
+            </span>
+          </div>
+          <p class="cctk-tool__desc">
+            Rank statements on a grid from "most like me" to "least like me". Supports
+            custom cards, presets, JSON export, and print-ready output.
+          </p>
+          <div class="cctk-tool__actions">
+            <a href="q-sort/index.html" class="cctk-btn cctk-btn--primary" data-accent="teal">Launch →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- MOP2 -->
+      <article class="cctk-card cctk-tool cctk-col-4" data-accent="indigo">
+        <div class="cctk-card__inner cctk-stack">
+          <div class="cctk-tool__top">
+            <div>
+              <h2 class="cctk-tool__name">Module Option Planner</h2>
+              <p class="cctk-tool__tagline">New programme — AY 2627+</p>
+            </div>
+            <span class="cctk-badge" data-status="in-progress">
+              <span class="cctk-dot"></span> In progress
+            </span>
+          </div>
+          <p class="cctk-tool__desc">
+            Step-by-step wizard for planning module choices across Years 1–3.
+            Shows pathways, timetables, and credit counts.
+          </p>
+          <div class="cctk-tool__actions">
+            <a href="mop2/index.html" class="cctk-btn cctk-btn--primary" data-accent="indigo">Launch →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Super (planned) -->
+      <article class="cctk-card cctk-tool cctk-col-4" data-accent="purple">
+        <div class="cctk-card__inner cctk-stack">
+          <div class="cctk-tool__top">
+            <div>
+              <h2 class="cctk-tool__name">Supervisor Finder</h2>
+              <p class="cctk-tool__tagline">Dissertation idea &amp; supervisor directory</p>
+            </div>
+            <span class="cctk-badge" data-status="planned">
+              <span class="cctk-dot"></span> Planned
+            </span>
+          </div>
+          <p class="cctk-tool__desc">
+            Browse staff research interests and find a dissertation supervisor that matches
+            your project idea.
+          </p>
+          <div class="cctk-tool__actions">
+            <a href="super/index.html" class="cctk-btn cctk-btn--ghost">Coming soon</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Database (planned) -->
+      <article class="cctk-card cctk-tool cctk-col-4" data-accent="orange">
+        <div class="cctk-card__inner cctk-stack">
+          <div class="cctk-tool__top">
+            <div>
+              <h2 class="cctk-tool__name">Resource Database</h2>
+              <p class="cctk-tool__tagline">Equipment, software &amp; kit directory</p>
+            </div>
+            <span class="cctk-badge" data-status="planned">
+              <span class="cctk-dot"></span> Planned
+            </span>
+          </div>
+          <p class="cctk-tool__desc">
+            Searchable directory of lab equipment, licensed software, and research kits
+            available to psychology students and staff.
+          </p>
+          <div class="cctk-tool__actions">
+            <a href="database/index.html" class="cctk-btn cctk-btn--ghost">Coming soon</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- MOP (archived) -->
+      <article class="cctk-card cctk-tool cctk-col-4" data-accent="indigo">
+        <div class="cctk-card__inner cctk-stack">
+          <div class="cctk-tool__top">
+            <div>
+              <h2 class="cctk-tool__name">Module Option Planner <span class="cctk-small cctk-muted">(legacy)</span></h2>
+              <p class="cctk-tool__tagline">Old programme — pre-2627</p>
+            </div>
+            <span class="cctk-badge" data-status="archived">
+              <span class="cctk-dot"></span> Archived
+            </span>
+          </div>
+          <p class="cctk-tool__desc">
+            The original Level 6 module options planner. Kept for reference — superseded
+            by the new Module Option Planner above.
+          </p>
+          <div class="cctk-tool__actions">
+            <a href="mop/index.html" class="cctk-btn cctk-btn--ghost">View archived</a>
+          </div>
+        </div>
+      </article>
 
     </div>
-    <script src="js/main.js"></script>
-</body>
 
+    <footer class="cctk-footer">
+      <span>© <span id="year"></span> CCTK</span>
+      &nbsp;·&nbsp;
+      <span>Made by Caspar Wynne</span>
+    </footer>
+
+  </main>
+</body>
 </html>

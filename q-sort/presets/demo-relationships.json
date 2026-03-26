@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "title": "relationships",
+  "layoutId": "flat-7",
+  "banks": {
+    "positive": [],
+    "neutral": [
+      {
+        "id": "thought-8",
+        "title": "dfg",
+        "notes": "",
+        "className": "thought-item neutral"
+      }
+    ],
+    "negative": []
+  },
+  "grid": [
+    {
+      "cellId": "row1-2",
+      "thought": {
+        "id": "thought-6",
+        "title": "asd",
+        "notes": "",
+        "className": "thought-item neutral"
+      }
+    },
+    {
+      "cellId": "row1-3",
+      "thought": {
+        "id": "thought-7",
+        "title": "sdf",
+        "notes": "sdf",
+        "className": "thought-item neutral has-notes"
+      }
+    }
+  ],
+  "meta": {
+    "savedAt": "2026-01-10T21:01:57.707Z"
+  }
+}

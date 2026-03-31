@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Reddit Rambler</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <header class="top">
+        <h1>Reddit Rambler</h1>
+        <p class="sub">Upload Reddit JSON files. Generates a printable report (Save as
+            PDF, TXT or CSV).</p>
+        <a href="about.html">About</a>
+    </header>
+
+    <main class="wrap">
+        <section class="card">
+            <h2>Upload</h2>
+
+            <div class="row">
+                <input id="fileInput" type="file" accept=".json,application/json" multiple />
+                <button id="btnParse" class="primary">Parse files</button>
+                <button id="btnPrint" disabled>Download PDF (Print)</button>
+                <button id="btnTxt" disabled>Download TXT</button>
+                <button id="btnCsv" disabled>Download CSVs</button>
+                <button id="btnCodingCsv" disabled>Download Coding CSV</button>
+
+            </div>
+            <div class="printhelp">
+                <details>
+                    <summary><strong>How to add page numbers to the PDF</strong></summary>
+
+                    <div class="printhelp-content">
+                        <p><b>Chrome / Edge:</b></p>
+                        <ol>
+                            <li>Click <b>Download PDF (Print)</b></li>
+                            <li>Click <b>More settings</b></li>
+                            <li>Enable <b>Headers and footers</b></li>
+                        </ol>
+
+                        <p><b>Safari (Mac):</b></p>
+                        <ol>
+                            <li>File → Print</li>
+                            <li>Click <b>Show Details</b></li>
+                            <li>Enable <b>Print headers and footers</b></li>
+                        </ol>
+                    </div>
+                </details>
+                <details>
+                    <summary><strong>Settings</strong></summary>
+                    <div class="row">
+                        <label class="chk">
+                            <input id="chkPersistMap" type="checkbox" checked />
+                            Persist anonymisation mapping (localStorage)
+                        </label>
+
+                        <label class="chk">
+                            <input id="chkHideDeleted" type="checkbox" />
+                            Hide deleted/removed authors
+                        </label>
+                        <label class="chk">
+                            <input id="chkEthics" type="checkbox" checked />
+                            Ethical safeguards (redact u/ usernames + emails)
+                        </label>
+
+                        <label class="chk">
+                            <input id="chkMapMentions" type="checkbox" checked />
+                            Map mentioned usernames (so u/Name becomes u/user_###)
+                        </label>
+
+                        <div class="row">
+                            <button id="btnDownloadMap">Download mapping</button>
+
+                            <label class="filelabel">
+                                Upload mapping:
+                                <input id="mapInput" type="file" accept=".json,application/json" />
+                            </label>
+                        </div>
+                </details>
+            </div>
+            </div>
+
+            <pre id="log" class="log" aria-live="polite"></pre>
+        </section>
+
+        <section class="card">
+            <h2>Report preview</h2>
+            <div id="report" class="report">
+                <p class="hint">Upload JSON files and click <b>Parse files</b>.</p>
+            </div>
+        </section>
+    </main>
+    <footer class="appfooter">
+        <div class="footleft">
+            <span id="appMeta"></span>
+        </div>
+        <div class="footright">
+            <button id="btnCite" type="button">Cite this tool</button>
+        </div>
+    </footer>
+
+    <!-- Citation modal/panel -->
+    <div id="citeModal" class="modal hidden" aria-hidden="true">
+        <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="citeTitle">
+            <div class="modalHeader">
+                <h2 id="citeTitle">Cite Reddit Rambler</h2>
+                <button id="btnCloseCite" class="iconbtn" aria-label="Close">✕</button>
+            </div>
+
+            <p class="mini">
+                Choose your format below. If you’re unsure, use APA 7.
+            </p>
+
+            <div class="citeBlock">
+                <div class="citeTop">
+                    <h3>APA 7</h3>
+                    <button id="btnCopyApa" type="button">Copy</button>
+                </div>
+                <pre id="citeApa" class="prebox"></pre>
+            </div>
+
+            <div class="citeBlock">
+                <div class="citeTop">
+                    <h3>BibTeX</h3>
+                    <button id="btnCopyBib" type="button">Copy</button>
+                </div>
+                <pre id="citeBib" class="prebox"></pre>
+            </div>
+
+            <div class="modalFooter">
+                <button id="btnDownloadBib" type="button">Download .bib</button>
+                <button id="btnCloseCite2" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+<script src="app.js"></script>
+</body>
+
+</html>

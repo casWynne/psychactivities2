@@ -4,7 +4,7 @@
       "id": "staff-1",
       "name": "Dr Fayme Yeates",
       "email": "staff1@university.ac.uk",
-      "avatar": "../assets/staff/faymeyeates.png",
+      "avatar": "../../assets/staff/faymeyeates.png",
       "avatarPosition": "50% 5%",
       "keywords": [
         "Sequences",

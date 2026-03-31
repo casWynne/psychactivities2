@@ -18,54 +18,5 @@
             "",
             ""
           ],
-              {
-      "id": "staff-21",
-      "name": "Anna Moore",
-      "email": "a.moore@leedstrinity.ac.uk",
-      "avatar": "",
-      "avatarPosition": "50% 20%",
-      "keywords": [
-        "Prisoners",
-        "Prison Life",
-        "Sexual Offending",
-        "Stalking",
-        "Schema Therapy",
-        "Risk Assessment",
-        "Offending Behaviour Programmes",
-        "Social Media"
-      ],
-      "topics": [
-        {
-          "title": "Sex Dolls, Gender Attitudes, and Relationships",
-          "description": "This project explores public and student attitudes towards the use of sex dolls and whether this relates to negative attitudes towards women. The research may examine whether there is a correlation between sex doll use and misogynistic beliefs, whether exposure or usage impacts attitudes towards women, and whether it influences perceptions of dating and romantic relationships in positive or negative ways. Participants would ideally be recruited from both student and general populations. This project is suitable for quantitative survey-based research and would require knowledge of survey design, recruitment strategies, and statistical analysis.",
-          "ideas": [
-            "Is there a correlation between sex doll use and negative attitudes towards women?",
-            "Does sex doll use influence perceptions of dating and romantic relationships?",
-            "Are attitudes towards sex doll use associated with broader beliefs about gender roles and sexuality?",
-            "Do demographic or personality variables predict attitudes towards sex doll use?"
-          ]
         },
-        {
-          "title": "Perceptions and Experiences of Stalking in LGBTQIA+ Communities",
-          "description": "This project investigates perceptions and lived experiences of stalking among individuals who identify as LGBTQIA+. The research may explore whether experiences of stalking differ across sexual and gender identities, how stalking is understood and reported, and whether attitudes towards stalking vary within and outside LGBTQIA+ communities. Participants would ideally be recruited from student and general populations. This project is suitable for quantitative survey research or qualitative exploration, depending on focus, and would require knowledge of research design, recruitment, and ethical considerations in sensitive topics.",
-          "ideas": [
-            "What are the stalking experiences of individuals who identify as LGBTQIA+?",
-            "Are there differences in how stalking is perceived or reported across different identity groups?",
-            "How do attitudes towards stalking differ between LGBTQIA+ and non-LGBTQIA+ participants?",
-            "What factors influence willingness to report stalking within LGBTQIA+ communities?"
-          ]
-        }
-      ]
-    },
-        },
-                {
-          "title": "",
-          "description": "",
-          "ideas": [
-            "",
-            "",
-            ""
-          ]
-        }
-      ]
-    }
+            }

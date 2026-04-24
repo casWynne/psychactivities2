@@ -277,7 +277,7 @@ input:focus {
 
 .btn-start {
   width: 100%;
-  background: var(--text);
+  background: #111;
   color: #fff;
   font-size: 1rem;
   font-weight: 600;
@@ -306,6 +306,10 @@ input:focus {
 }
 .btn-skip:hover { border-color: #4facfe; color: #4facfe; background: rgba(79,172,254,0.05); }
 
+[data-theme="dark"] .btn-start {
+  background: #f0f0f0;
+  color: #111;
+}
 /* ── Runner header ── */
 .runner-top {
   display: flex;

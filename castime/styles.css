@@ -31,7 +31,7 @@ body {
 /* ── Header ── */
 .header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
 }
 
 .wordmark {
@@ -55,6 +55,55 @@ body {
 /* ── Layout ── */
 #setup { max-width: 640px; margin: 0 auto; }
 #runner { display: none; max-width: 900px; margin: 0 auto; }
+
+/* ── Preset bar ── */
+.preset-bar-wrap {
+  margin-bottom: 20px;
+}
+
+.preset-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.preset-bar-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  white-space: nowrap;
+  margin-right: 2px;
+}
+
+.preset-pill {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.preset-pill:hover {
+  border-color: #4facfe;
+  color: #4facfe;
+  background: rgba(79,172,254,0.05);
+}
+
+.preset-pill--active {
+  border-color: #00c9a7;
+  color: #00c9a7;
+  background: rgba(0,201,167,0.08);
+  font-weight: 600;
+}
 
 /* ── Card ── */
 .card {
@@ -419,28 +468,6 @@ input:focus {
 }
 .btn-dismiss:hover { background: #333; transform: translateY(-1px); }
 
-/* ── Rainbow palette for groups (7 colours) ── */
-.gc0 { background: #fff0f0; color: var(--r0); }
-.gc1 { background: #fff4e6; color: var(--r1); }
-.gc2 { background: #fffde7; color: #b8860b; }
-.gc3 { background: #f1f8e9; color: #2e7d32; }
-.gc4 { background: #e3f2fd; color: #1565c0; }
-.gc5 { background: #f3e5f5; color: #6a1b9a; }
-.gc6 { background: #fce4ec; color: #880e4f; }
-
-.border0 { border-top-color: var(--r0); }
-.border1 { border-top-color: var(--r1); }
-.border2 { border-top-color: var(--r2); }
-.border3 { border-top-color: var(--r3); }
-.border4 { border-top-color: var(--r4); }
-.border5 { border-top-color: var(--r5); }
-.border6 { border-top-color: var(--r6); }
-
-@media (max-width: 600px) {
-  .runner-top { flex-direction: column; align-items: flex-start; }
-  .live-clock { font-size: 2rem; }
-}
-
 /* ── Footer ── */
 .site-footer {
   position: fixed;
@@ -455,4 +482,11 @@ input:focus {
   background: var(--bg);
   border-top: 1px solid var(--border);
   z-index: 50;
+}
+
+@media (max-width: 600px) {
+  .runner-top { flex-direction: column; align-items: flex-start; }
+  .live-clock { font-size: 2rem; }
+  .preset-bar { gap: 6px; }
+  .preset-pill { font-size: 0.78rem; padding: 5px 11px; }
 }

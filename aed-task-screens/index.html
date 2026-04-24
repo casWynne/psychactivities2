@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AED Task Screens</title>
+  <style>
+    /* ── Tokens ──────────────────────────────────────────────── */
+    :root {
+      --bg:       #0d0f12;
+      --surface:  #161a1f;
+      --border:   #2a2f38;
+      --text:     #e8eaed;
+      --muted:    #6b7280;
+      --accent:   #e63946;
+      --accent2:  #f4a261;
+      --radius:   8px;
+      --font:     'DM Sans', system-ui, sans-serif;
+    }
+
+    /* ── Reset ───────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ──────────────────────────────────────────────── */
+    header {
+      padding: 28px 32px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    header h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    header p {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 2px;
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ── Grid ────────────────────────────────────────────────── */
+    main {
+      flex: 1;
+      padding: 32px;
+    }
+
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    /* ── Card ────────────────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+      text-decoration: none;
+      display: block;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(230, 57, 70, 0.15);
+    }
+
+    .card:active {
+      transform: translateY(0);
+    }
+
+    .card-thumb {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+      background: var(--border);
+    }
+
+    .card-label {
+      padding: 10px 12px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-label span {
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ── Empty state ─────────────────────────────────────────── */
+    #empty {
+      display: none;
+      text-align: center;
+      padding: 80px 32px;
+      color: var(--muted);
+    }
+
+    #empty h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    #empty code {
+      font-family: 'DM Mono', monospace;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.82rem;
+    }
+
+    /* ── Footer ──────────────────────────────────────────────── */
+    footer {
+      padding: 16px 32px;
+      border-top: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-icon">♥</div>
+    <div>
+      <h1>AED Task Screens</h1>
+      <p>CCTK · Click a screen to open fullscreen</p>
+    </div>
+  </header>
+
+  <main>
+    <div id="grid"></div>
+    <div id="empty">
+      <h2>No images configured</h2>
+      <p>Add image filenames to the <code>IMAGES</code> array in <code>index.html</code>.</p>
+    </div>
+  </main>
+
+  <footer>
+    <span id="count"></span>
+    <span>Space · close fullscreen</span>
+  </footer>
+
+  <script>
+    // ════════════════════════════════════════════════════════════
+    //  CONFIGURATION — add your image filenames here
+    //
+    //  Files live in:
+    //    images/            ← full-size images (shown in viewer)
+    //    images/thumbnails/ ← small JPG thumbnails (shown in grid)
+    //
+    //  Each entry:
+    //    file  — full-size filename in images/
+    //    thumb — thumbnail filename in images/thumbnails/
+    //            (if omitted, falls back to file — slower)
+    //    label — display name
+    // ════════════════════════════════════════════════════════════
+    const IMAGES = [
+      { file: "Mind Maze.png",             thumb: "Mind Maze - thumb.jpg",             label: "Mind Maze" },
+      { file: "Putting Pressure.png",      thumb: "Putting Pressure - thumb.jpg",      label: "Putting Pressure" },
+      { file: "Stack Attack.png",          thumb: "Stack Attack - thumb.jpg",          label: "Stack Attack" },
+      { file: "Turbo Trouble.png",         thumb: "TurboTrouble - thumb.jpg",          label: "Turbo Trouble" },
+      { file: "Cognitive Curiosities.png", thumb: "Cognitive Curiosities - thumb.jpg", label: "Cognitive Curiosities" },
+    ];
+    // ════════════════════════════════════════════════════════════
+
+    const grid  = document.getElementById('grid');
+    const empty = document.getElementById('empty');
+    const count = document.getElementById('count');
+
+    if (IMAGES.length === 0) {
+      empty.style.display = 'block';
+      count.textContent = '0 screens';
+    } else {
+      count.textContent = `${IMAGES.length} screen${IMAGES.length !== 1 ? 's' : ''}`;
+
+      IMAGES.forEach((img, i) => {
+        const card = document.createElement('a');
+        card.className = 'card';
+        card.href = `viewer.html?img=${encodeURIComponent(img.file)}&label=${encodeURIComponent(img.label || img.file)}`;
+
+        const thumb = document.createElement('img');
+        thumb.className = 'card-thumb';
+        thumb.src = img.thumb
+          ? `images/thumbnails/${img.thumb}`
+          : `images/${img.file}`;
+        thumb.alt = img.label || img.file;
+        thumb.loading = 'lazy';
+
+        const label = document.createElement('div');
+        label.className = 'card-label';
+        label.innerHTML = `<strong>${img.label || img.file}</strong><span>${String(i + 1).padStart(2, '0')}</span>`;
+
+        card.appendChild(thumb);
+        card.appendChild(label);
+        grid.appendChild(card);
+      });
+    }
+  </script>
+
+</body>
+</html>

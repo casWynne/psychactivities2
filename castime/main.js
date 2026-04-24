@@ -23,16 +23,21 @@ const PRESETS = [
     slotMins: 10,
     warnMins: 2,
     activities: [
-      { name: 'Interview Practice' },
-      { name: 'Campus Tour' },
-      { name: 'Q&A with Students' },
+      { name: 'Operation Elevation (AS27)' },
+      { name: 'Mind Maze (AS27)' },
+      { name: 'Turbo Trouble (AS24)' },
+      { name: 'Cogntive Curiosities (AS29)' },
+      { name: 'Stack Attack (AS27)' },
+      { name: 'Putting Pressure (AS27)' },
     ],
     groups: [
       { name: null }, // Group A
       { name: null }, // Group B
       { name: null }, // Group C
+      { name: null }, // Group D
+      { name: null }, // Group E
     ],
-    finalTask: { enabled: true, name: 'Welcome Talk' },
+    finalTask: { enabled: true, name: 'Let's Build (AS27)' },
   },
   {
     name: 'Workshop Rotation (Short)',
@@ -43,6 +48,7 @@ const PRESETS = [
       { name: 'Activity 2' },
       { name: 'Activity 3' },
       { name: 'Activity 4' },
+      { name: 'Activity 5' },
     ],
     groups: [
       { name: null }, // Group A

@@ -1,107 +1,378 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="styles.css">
-<title>CasTime</title>
-</head>
-<body>
+// ── State ──────────────────────────────────────────────────────────────────
+let activities = [];
+let groups = [];
+let finalTask = { enabled: true, name: 'Final Gathering' };
+let slotSecs = 600;
+let warnSecs = 120;
+let currentRound = 0;
+let totalRounds = 0;
+let secsLeft = 600;
+let ticker = null;
+let warnChirped = false;
+let wakeLock = null;
+let fanfareCtx = null;   // kept so we can stop it on dismiss
 
-<div class="header">
-  <div class="wordmark">CasTime</div>
-  <div class="tagline">Round-robin activity scheduler</div>
-</div>
+const RAINBOW = ['#ff4d4d','#ff8c00','#ffd000','#4caf50','#2196f3','#9c27b0','#e91e8c'];
 
-<!-- ══ SETUP ══ -->
-<div id="setup">
-  <div class="card">
-    <div class="card-title">Session</div>
-    <div class="row">
-      <div class="field">
-        <label>Minutes per slot</label>
-        <input type="number" id="slotMins" value="10" min="1" max="120">
-      </div>
-      <div class="field">
-        <label>Warn (mins before)</label>
-        <input type="number" id="warnMins" value="2" min="0" max="30">
-      </div>
-    </div>
-  </div>
+// ── Group label helpers ────────────────────────────────────────────────────
+function generateGroupLabel(index) {
+  let label = '';
+  let i = index;
+  do {
+    label = String.fromCharCode(65 + (i % 26)) + label;
+    i = Math.floor(i / 26) - 1;
+  } while (i >= 0);
+  return 'Group ' + label;
+}
 
-  <div class="card">
-    <div class="card-title">Activities</div>
-    <div id="actList"></div>
-    <button class="btn btn-add" onclick="addActivity()">+ Add activity</button>
-  </div>
+function groupDisplayName(g) {
+  return g.name !== null ? g.name : g.label;
+}
 
-  <div class="card">
-    <div class="card-title">Groups</div>
-    <div id="grpList"></div>
-    <button class="btn btn-add" onclick="addGroup()">+ Add group</button>
-  </div>
+// ── Setup ──────────────────────────────────────────────────────────────────
+function addActivity(name = '') {
+  activities.push({ id: Date.now() + Math.random(), name });
+  renderSetup();
+}
 
-  <div class="card">
-    <div class="card-title">Final gathering <span style="font-size:0.7rem;font-weight:400;color:var(--muted);text-transform:none;letter-spacing:0">(optional)</span></div>
-    <p style="font-size:0.82rem;color:var(--muted);margin-bottom:14px;line-height:1.5;">After all rotations, everyone comes together here. No timer — shown on the last change overlay.</p>
-    <div id="finalTaskWrap"></div>
-  </div>
+function addGroup(customName = null) {
+  const label = generateGroupLabel(groups.length);
+  groups.push({ id: Date.now() + Math.random(), label, name: customName });
+  renderSetup();
+}
 
-  <button class="btn btn-start" onclick="startSession()">Start session →</button>
-</div>
+function removeActivity(idx) { activities.splice(idx, 1); renderSetup(); }
+function removeGroup(idx) {
+  groups.splice(idx, 1);
+  groups.forEach((g, i) => { g.label = generateGroupLabel(i); });
+  renderSetup();
+}
 
-<!-- ══ RUNNER ══ -->
-<div id="runner">
-  <div class="runner-top">
-    <div>
-      <div class="live-clock" id="liveClock">10:00</div>
-      <div class="round-label" id="roundLabel">Round 1 of 4</div>
-      <div id="wakeLockStatus" style="margin-top:6px;font-size:0.72rem;color:var(--muted);letter-spacing:0.03em;"></div>
-    </div>
-    <div class="ring-wrap">
-      <svg class="ring-svg" width="100" height="100">
-        <circle cx="50" cy="50" r="42" fill="none" stroke="#efefef" stroke-width="7"/>
-        <circle cx="50" cy="50" r="42" fill="none"
-          stroke="url(#rg)" stroke-width="7"
-          stroke-linecap="round"
-          stroke-dasharray="263.9" stroke-dashoffset="0"
-          id="ringCircle"/>
-        <defs>
-          <linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:#00c9a7"/>
-            <stop offset="100%" style="stop-color:#4facfe"/>
-          </linearGradient>
-        </defs>
-      </svg>
-      <div class="ring-inner">
-        <div class="ring-time" id="ringTime">10:00</div>
-        <div class="ring-sub">left</div>
-      </div>
-    </div>
-    <button class="btn btn-ghost" onclick="resetToSetup()">← Setup</button>
-  </div>
+function renderSetup() {
+  // Activities
+  const al = document.getElementById('actList');
+  al.innerHTML = '';
+  activities.forEach((a, i) => {
+    const d = document.createElement('div');
+    d.className = 'entry-row';
+    d.innerHTML = `
+      <div class="dot" style="background:${RAINBOW[i % 7]}"></div>
+      <input type="text" placeholder="Activity name" value="${a.name}"
+        oninput="activities[${i}].name=this.value">
+      <button class="btn btn-remove" onclick="removeActivity(${i})">✕</button>`;
+    al.appendChild(d);
+  });
 
-  <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
-  <div class="warn-bar" id="warnBar">⏱ Change coming up soon</div>
+  // Groups
+  const gl = document.getElementById('grpList');
+  gl.innerHTML = '';
+  groups.forEach((g, i) => {
+    const d = document.createElement('div');
+    d.className = 'entry-row';
+    d.innerHTML = `
+      <div class="dot" style="background:${RAINBOW[i % 7]}"></div>
+      <input type="text" placeholder="${g.label}" value="${g.name !== null ? g.name : ''}"
+        oninput="groups[${i}].name = this.value.trim() !== '' ? this.value : null">
+      <button class="btn btn-remove" onclick="removeGroup(${i})">✕</button>`;
+    gl.appendChild(d);
+  });
 
-  <div class="grid-label">Current positions</div>
-  <div class="act-grid" id="actGrid"></div>
+  // Final task
+  const fw = document.getElementById('finalTaskWrap');
+  fw.innerHTML = '';
+  if (finalTask.enabled) {
+    const d = document.createElement('div');
+    d.className = 'entry-row';
+    d.innerHTML = `
+      <div class="dot" style="background:#aaa"></div>
+      <input type="text" placeholder="Final gathering name" value="${finalTask.name}"
+        oninput="finalTask.name = this.value.trim() || 'Final Gathering'">
+      <button class="btn btn-remove" onclick="removeFinalTask()">✕</button>`;
+    fw.appendChild(d);
+  } else {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-add';
+    btn.textContent = '+ Add final gathering';
+    btn.onclick = () => { finalTask.enabled = true; finalTask.name = 'Final Gathering'; renderSetup(); };
+    fw.appendChild(btn);
+  }
+}
 
-  <div style="text-align:center;margin-top:8px;padding-bottom:48px;">
-    <button class="btn btn-skip" onclick="skipRound()">Move on early →</button>
-  </div>
-</div>
+function removeFinalTask() {
+  finalTask.enabled = false;
+  renderSetup();
+}
 
-<!-- ══ OVERLAY ══ -->
-<div id="overlay">
-  <div class="overlay-title" id="overlayTitle">Change places!</div>
-  <div class="overlay-sub" id="overlaySub">Move to your next activity</div>
-  <div class="overlay-cards" id="overlayCards"></div>
-  <button class="btn-dismiss" id="dismissBtn" onclick="dismissAlarm()">We've moved →</button>
-</div>
+// Defaults
+['Interview', 'Campus Tour', 'Q&A Session'].forEach(n => addActivity(n));
+[null, null, null].forEach(() => addGroup());
 
-<footer class="site-footer">Created by Caspar Wynne</footer>
+// ── Start ──────────────────────────────────────────────────────────────────
+function startSession() {
+  if (activities.length < 2 || groups.length < 2) {
+    alert('Please add at least 2 activities and 2 groups.');
+    return;
+  }
+  slotSecs = parseInt(document.getElementById('slotMins').value) * 60 || 600;
+  warnSecs = parseInt(document.getElementById('warnMins').value) * 60 || 120;
+  totalRounds = activities.length;
+  currentRound = 0;
+  secsLeft = slotSecs;
+  warnChirped = false;
 
-<script src="main.js"></script>
-</body>
-</html>
+  document.getElementById('setup').style.display = 'none';
+  document.getElementById('runner').style.display = 'block';
+  buildGrid();
+  renderRound();
+  acquireWakeLock();
+  tick();
+  ticker = setInterval(tick, 1000);
+}
+
+// ── Grid ───────────────────────────────────────────────────────────────────
+function buildGrid() {
+  const g = document.getElementById('actGrid');
+  const cols = Math.min(activities.length, 3);
+  g.style.gridTemplateColumns = `repeat(${cols},1fr)`;
+  g.innerHTML = '';
+  activities.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'act-card';
+    d.id = `ac${i}`;
+    g.appendChild(d);
+  });
+}
+
+function getAssignments(round) {
+  return activities.map((_, ai) =>
+    groups.filter((_, gi) => (gi + round) % activities.length === ai)
+  );
+}
+
+function renderRound() {
+  document.getElementById('roundLabel').textContent =
+    `Round ${currentRound + 1} of ${totalRounds}`;
+  const assign = getAssignments(currentRound);
+  activities.forEach((a, i) => {
+    const card = document.getElementById(`ac${i}`);
+    const here = assign[i];
+    const color = RAINBOW[i % 7];
+    card.style.borderTopColor = color;
+    card.innerHTML = `
+      <div class="act-name">${a.name || `Activity ${i + 1}`}</div>
+      <div class="chips">
+        ${here.length
+          ? here.map(g => {
+              const gi = groups.indexOf(g);
+              const c = RAINBOW[gi % 7];
+              return `<span class="chip" style="background:${c}18;color:${c}">${groupDisplayName(g)}</span>`;
+            }).join('')
+          : '<span class="empty-chip">—</span>'
+        }
+      </div>`;
+  });
+}
+
+// ── Tick ───────────────────────────────────────────────────────────────────
+function tick() {
+  updateDisplay();
+  secsLeft--;
+  if (secsLeft < 0) {
+    clearInterval(ticker);
+    ticker = null;
+    triggerAlarm();
+  }
+}
+
+function updateDisplay() {
+  const m = Math.floor(Math.abs(secsLeft) / 60);
+  const s = Math.abs(secsLeft) % 60;
+  const str = (secsLeft < 0 ? '-' : '') + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  document.getElementById('ringTime').textContent = str;
+
+  const pct = Math.max(0, secsLeft / slotSecs);
+  document.getElementById('ringCircle').style.strokeDashoffset = 263.9 * (1 - pct);
+
+  const elapsed = currentRound * slotSecs + (slotSecs - Math.max(0, secsLeft));
+  document.getElementById('progBar').style.width =
+    Math.min(100, (elapsed / (totalRounds * slotSecs)) * 100) + '%';
+
+  const now = new Date();
+  document.getElementById('liveClock').textContent =
+    now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  const wb = document.getElementById('warnBar');
+  if (secsLeft <= warnSecs && secsLeft > 0) {
+    wb.style.display = 'block';
+    wb.textContent = `⏱ Change in ${Math.ceil(secsLeft / 60)} min${Math.ceil(secsLeft / 60) !== 1 ? 's' : ''}`;
+    if (!warnChirped) { warnChirped = true; playChirp(); }
+  } else {
+    wb.style.display = 'none';
+  }
+}
+
+// ── Skip ───────────────────────────────────────────────────────────────────
+function skipRound() {
+  if (ticker) { clearInterval(ticker); ticker = null; }
+  secsLeft = 0;
+  triggerAlarm();
+}
+
+// ── Alarm ─────────────────────────────────────────────────────────────────
+function triggerAlarm() {
+  const isLastRound = currentRound + 1 >= totalRounds;
+
+  // Start next round timer immediately in the background
+  currentRound++;
+  secsLeft = slotSecs;
+  warnChirped = false;
+
+  if (!isLastRound) {
+    // Normal changeover — start timer immediately
+    renderRound();
+    ticker = setInterval(tick, 1000);
+  }
+
+  // Play fanfare (3x, getting louder) — returns a stop function
+  const stopFanfare = playFanfare();
+
+  // Build overlay
+  if (isLastRound) {
+    // Session complete — show final gathering if enabled
+    document.getElementById('overlayTitle').textContent =
+      finalTask.enabled ? finalTask.name : 'All done!';
+    document.getElementById('overlaySub').textContent =
+      finalTask.enabled
+        ? 'Everyone comes together — no timer, enjoy!'
+        : 'Great session — all rounds complete.';
+
+    document.getElementById('overlayCards').innerHTML = finalTask.enabled
+      ? `<div class="ov-card" style="border-top-color:#aaa">
+           <div class="ov-act">All groups</div>
+           <div class="ov-group">${groups.map(g => groupDisplayName(g)).join(', ')}</div>
+         </div>`
+      : '';
+
+    document.getElementById('dismissBtn').textContent = '← Back to setup';
+    document.getElementById('dismissBtn').onclick = () => { stopFanfare(); resetToSetup(); };
+  } else {
+    // Normal changeover
+    const assign = getAssignments(currentRound);
+    document.getElementById('overlayTitle').textContent = 'Change places!';
+    document.getElementById('overlaySub').textContent = 'Timer is running — move now!';
+    document.getElementById('dismissBtn').textContent = "We've moved →";
+    document.getElementById('dismissBtn').onclick = () => { stopFanfare(); dismissAlarm(); };
+
+    document.getElementById('overlayCards').innerHTML = assign.map((here, ai) => {
+      const color = RAINBOW[ai % 7];
+      const actName = activities[ai].name || `Activity ${ai + 1}`;
+      const groupNames = here.map(g => groupDisplayName(g)).join(' & ') || '—';
+      return `<div class="ov-card" style="border-top-color:${color}">
+        <div class="ov-act">${actName}</div>
+        <div class="ov-group">${groupNames}</div>
+      </div>`;
+    }).join('');
+  }
+
+  document.getElementById('overlay').classList.add('active');
+}
+
+function dismissAlarm() {
+  // Timer already running — just close overlay and re-render display
+  document.getElementById('overlay').classList.remove('active');
+  renderRound();
+}
+
+// ── Fanfare — 3 repeats, escalating volume, returns stop() ────────────────
+function playFanfare() {
+  let stopped = false;
+
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    fanfareCtx = ctx;
+
+    const notes = [523, 659, 784, 1047]; // C5 E5 G5 C6
+    const repGap = 1.0;   // seconds between repeats
+    const volumes = [0.25, 0.38, 0.55]; // getting louder each time
+
+    for (let rep = 0; rep < 3; rep++) {
+      notes.forEach((freq, ni) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.type = 'sine';
+        o.frequency.value = freq;
+        const st = ctx.currentTime + rep * repGap + ni * 0.18;
+        g.gain.setValueAtTime(0, st);
+        g.gain.linearRampToValueAtTime(volumes[rep], st + 0.04);
+        g.gain.exponentialRampToValueAtTime(0.001, st + 0.4);
+        o.start(st);
+        o.stop(st + 0.42);
+      });
+    }
+  } catch (e) {}
+
+  return function stop() {
+    if (!stopped && fanfareCtx) {
+      try { fanfareCtx.close(); } catch (e) {}
+      fanfareCtx = null;
+      stopped = true;
+    }
+  };
+}
+
+// ── Chirp (warning) ───────────────────────────────────────────────────────
+function playChirp() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [[0, 1800], [0.18, 1800]].forEach(([t, freq]) => {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type = 'sine';
+      o.frequency.setValueAtTime(freq, ctx.currentTime + t);
+      o.frequency.exponentialRampToValueAtTime(freq * 1.4, ctx.currentTime + t + 0.08);
+      g.gain.setValueAtTime(0, ctx.currentTime + t);
+      g.gain.linearRampToValueAtTime(0.4, ctx.currentTime + t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.12);
+      o.start(ctx.currentTime + t);
+      o.stop(ctx.currentTime + t + 0.15);
+    });
+  } catch (e) {}
+}
+
+// ── Wake Lock ──────────────────────────────────────────────────────────────
+async function acquireWakeLock() {
+  const el = document.getElementById('wakeLockStatus');
+  if (!('wakeLock' in navigator)) {
+    if (el) el.innerHTML = '⚪ Wake lock not supported by this browser';
+    return;
+  }
+  try {
+    wakeLock = await navigator.wakeLock.request('screen');
+    if (el) el.innerHTML = '🟢 Screen will stay awake';
+    wakeLock.addEventListener('release', () => {
+      if (el) el.innerHTML = '🟡 Wake lock released (tab hidden)';
+    });
+  } catch (e) {
+    if (el) el.innerHTML = '🔴 Wake lock blocked — screen may sleep';
+  }
+}
+
+function releaseWakeLock() {
+  if (wakeLock) { wakeLock.release(); wakeLock = null; }
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && ticker) acquireWakeLock();
+});
+
+// ── Reset ─────────────────────────────────────────────────────────────────
+function resetToSetup() {
+  clearInterval(ticker); ticker = null;
+  releaseWakeLock();
+  document.getElementById('overlay').classList.remove('active');
+  document.getElementById('runner').style.display = 'none';
+  document.getElementById('setup').style.display = 'block';
+}

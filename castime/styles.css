@@ -310,6 +310,28 @@ input:focus {
   background: #f0f0f0;
   color: #111;
 }
+
+[data-theme="dark"] .btn-start:hover { background: #ccc; }
+
+[data-theme="dark"] .btn-dismiss { color: #111; }
+
+[data-theme="dark"] #overlay { background: rgba(20,20,20,0.97); }
+
+[data-theme="dark"] input:focus { background: var(--surface); }
+
+[data-theme="dark"] .warn-bar {
+  background: rgba(255,248,225,0.08);
+  border-color: rgba(255,224,130,0.2);
+  color: #c8a800;
+}
+
+[data-theme="dark"] .btn-skip {
+  border-color: var(--border);
+  color: var(--muted);
+}
+
+[data-theme="dark"] .btn-remove { color: var(--muted); }
+
 /* ── Runner header ── */
 .runner-top {
   display: flex;

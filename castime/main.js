@@ -10,9 +10,100 @@ let secsLeft = 600;
 let ticker = null;
 let warnChirped = false;
 let wakeLock = null;
-let fanfareCtx = null;   // kept so we can stop it on dismiss
+let fanfareCtx = null;
 
 const RAINBOW = ['#ff4d4d','#ff8c00','#ffd000','#4caf50','#2196f3','#9c27b0','#e91e8c'];
+
+// ── Hardcoded Presets ──────────────────────────────────────────────────────
+// Edit this array to add, remove, or change presets.
+// Each preset has: name, slotMins, warnMins, activities[], groups[], finalTask{}
+const PRESETS = [
+  {
+    name: 'Applicant Experience Day',
+    slotMins: 10,
+    warnMins: 2,
+    activities: [
+      { name: 'Interview Practice' },
+      { name: 'Campus Tour' },
+      { name: 'Q&A with Students' },
+    ],
+    groups: [
+      { name: null }, // Group A
+      { name: null }, // Group B
+      { name: null }, // Group C
+    ],
+    finalTask: { enabled: true, name: 'Welcome Talk' },
+  },
+  {
+    name: 'Workshop Rotation (Short)',
+    slotMins: 5,
+    warnMins: 1,
+    activities: [
+      { name: 'Activity 1' },
+      { name: 'Activity 2' },
+      { name: 'Activity 3' },
+      { name: 'Activity 4' },
+    ],
+    groups: [
+      { name: null }, // Group A
+      { name: null }, // Group B
+      { name: null }, // Group C
+      { name: null }, // Group D
+    ],
+    finalTask: { enabled: false, name: 'Final Gathering' },
+  },
+  // Add more presets here following the same structure ↑
+];
+
+// ── Preset bar rendering ───────────────────────────────────────────────────
+function renderPresetBar() {
+  const bar = document.getElementById('presetBar');
+  if (!bar) return;
+  bar.innerHTML = '';
+
+  if (PRESETS.length === 0) return;
+
+  const label = document.createElement('span');
+  label.className = 'preset-bar-label';
+  label.textContent = 'Presets';
+  bar.appendChild(label);
+
+  PRESETS.forEach((p, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'preset-pill';
+    btn.textContent = p.name;
+    btn.onclick = () => applyPreset(i);
+    bar.appendChild(btn);
+  });
+}
+
+function applyPreset(index) {
+  const p = PRESETS[index];
+  if (!p) return;
+
+  document.getElementById('slotMins').value = p.slotMins;
+  document.getElementById('warnMins').value = p.warnMins;
+
+  activities = p.activities.map(a => ({
+    id: Date.now() + Math.random(),
+    name: a.name || '',
+  }));
+
+  groups = p.groups.map((g, i) => ({
+    id: Date.now() + Math.random(),
+    label: generateGroupLabel(i),
+    name: g.name,
+  }));
+
+  finalTask = { ...p.finalTask };
+
+  // Highlight the active pill
+  document.querySelectorAll('.preset-pill').forEach((btn, i) => {
+    btn.classList.toggle('preset-pill--active', i === index);
+  });
+
+  renderSetup();
+}
 
 // ── Group label helpers ────────────────────────────────────────────────────
 function generateGroupLabel(index) {
@@ -103,9 +194,15 @@ function removeFinalTask() {
   renderSetup();
 }
 
-// Defaults
-['Interview', 'Campus Tour', 'Q&A Session'].forEach(n => addActivity(n));
-[null, null, null].forEach(() => addGroup());
+// Defaults — load first preset if available, else fall back to sample data
+if (PRESETS.length > 0) {
+  applyPreset(0);
+} else {
+  ['Interview', 'Campus Tour', 'Q&A Session'].forEach(n => addActivity(n));
+  [null, null, null].forEach(() => addGroup());
+}
+
+renderPresetBar();
 
 // ── Start ──────────────────────────────────────────────────────────────────
 function startSession() {
@@ -222,47 +319,38 @@ function skipRound() {
 function triggerAlarm() {
   const isLastRound = currentRound + 1 >= totalRounds;
 
-  // Start next round timer immediately in the background
   currentRound++;
   secsLeft = slotSecs;
   warnChirped = false;
 
   if (!isLastRound) {
-    // Normal changeover — start timer immediately
     renderRound();
     ticker = setInterval(tick, 1000);
   }
 
-  // Play fanfare (3x, getting louder) — returns a stop function
   const stopFanfare = playFanfare();
 
-  // Build overlay
   if (isLastRound) {
-    // Session complete — show final gathering if enabled
     document.getElementById('overlayTitle').textContent =
       finalTask.enabled ? finalTask.name : 'All done!';
     document.getElementById('overlaySub').textContent =
       finalTask.enabled
         ? 'Everyone comes together — no timer, enjoy!'
         : 'Great session — all rounds complete.';
-
     document.getElementById('overlayCards').innerHTML = finalTask.enabled
       ? `<div class="ov-card" style="border-top-color:#aaa">
            <div class="ov-act">All groups</div>
            <div class="ov-group">${groups.map(g => groupDisplayName(g)).join(', ')}</div>
          </div>`
       : '';
-
     document.getElementById('dismissBtn').textContent = '← Back to setup';
     document.getElementById('dismissBtn').onclick = () => { stopFanfare(); resetToSetup(); };
   } else {
-    // Normal changeover
     const assign = getAssignments(currentRound);
     document.getElementById('overlayTitle').textContent = 'Change places!';
     document.getElementById('overlaySub').textContent = 'Timer is running — move now!';
     document.getElementById('dismissBtn').textContent = "We've moved →";
     document.getElementById('dismissBtn').onclick = () => { stopFanfare(); dismissAlarm(); };
-
     document.getElementById('overlayCards').innerHTML = assign.map((here, ai) => {
       const color = RAINBOW[ai % 7];
       const actName = activities[ai].name || `Activity ${ai + 1}`;
@@ -278,41 +366,34 @@ function triggerAlarm() {
 }
 
 function dismissAlarm() {
-  // Timer already running — just close overlay and re-render display
   document.getElementById('overlay').classList.remove('active');
   renderRound();
 }
 
-// ── Fanfare — 3 repeats, escalating volume, returns stop() ────────────────
+// ── Fanfare ────────────────────────────────────────────────────────────────
 function playFanfare() {
   let stopped = false;
-
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     fanfareCtx = ctx;
-
-    const notes = [523, 659, 784, 1047]; // C5 E5 G5 C6
-    const repGap = 1.0;   // seconds between repeats
-    const volumes = [0.25, 0.38, 0.55]; // getting louder each time
-
+    const notes = [523, 659, 784, 1047];
+    const repGap = 1.0;
+    const volumes = [0.25, 0.38, 0.55];
     for (let rep = 0; rep < 3; rep++) {
       notes.forEach((freq, ni) => {
         const o = ctx.createOscillator();
         const g = ctx.createGain();
-        o.connect(g);
-        g.connect(ctx.destination);
+        o.connect(g); g.connect(ctx.destination);
         o.type = 'sine';
         o.frequency.value = freq;
         const st = ctx.currentTime + rep * repGap + ni * 0.18;
         g.gain.setValueAtTime(0, st);
         g.gain.linearRampToValueAtTime(volumes[rep], st + 0.04);
         g.gain.exponentialRampToValueAtTime(0.001, st + 0.4);
-        o.start(st);
-        o.stop(st + 0.42);
+        o.start(st); o.stop(st + 0.42);
       });
     }
   } catch (e) {}
-
   return function stop() {
     if (!stopped && fanfareCtx) {
       try { fanfareCtx.close(); } catch (e) {}
@@ -322,7 +403,7 @@ function playFanfare() {
   };
 }
 
-// ── Chirp (warning) ───────────────────────────────────────────────────────
+// ── Chirp ─────────────────────────────────────────────────────────────────
 function playChirp() {
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -336,8 +417,7 @@ function playChirp() {
       g.gain.setValueAtTime(0, ctx.currentTime + t);
       g.gain.linearRampToValueAtTime(0.4, ctx.currentTime + t + 0.02);
       g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.12);
-      o.start(ctx.currentTime + t);
-      o.stop(ctx.currentTime + t + 0.15);
+      o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + 0.15);
     });
   } catch (e) {}
 }
@@ -366,6 +446,14 @@ function releaseWakeLock() {
 
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible' && ticker) acquireWakeLock();
+});
+
+// ── Spacebar → dismiss overlay ─────────────────────────────────────────────
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space' && document.getElementById('overlay').classList.contains('active')) {
+    e.preventDefault(); // stop page scroll
+    document.getElementById('dismissBtn').click();
+  }
 });
 
 // ── Reset ─────────────────────────────────────────────────────────────────

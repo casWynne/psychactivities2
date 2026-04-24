@@ -23,21 +23,16 @@ const PRESETS = [
     slotMins: 10,
     warnMins: 2,
     activities: [
-      { name: 'Operation Elevation (AS27)' },
-      { name: 'Mind Maze (AS27)' },
-      { name: 'Turbo Trouble (AS24)' },
-      { name: 'Cogntive Curiosities (AS29)' },
-      { name: 'Stack Attack (AS27)' },
-      { name: 'Putting Pressure (AS27)' },
+      { name: 'Interview Practice' },
+      { name: 'Campus Tour' },
+      { name: 'Q&A with Students' },
     ],
     groups: [
       { name: null }, // Group A
       { name: null }, // Group B
       { name: null }, // Group C
-      { name: null }, // Group D
-      { name: null }, // Group E
     ],
-    finalTask: { enabled: true, name: `Let's Build (AS27)` },
+    finalTask: { enabled: true, name: 'Welcome Talk' },
   },
   {
     name: 'Workshop Rotation (Short)',
@@ -48,7 +43,6 @@ const PRESETS = [
       { name: 'Activity 2' },
       { name: 'Activity 3' },
       { name: 'Activity 4' },
-      { name: 'Activity 5' },
     ],
     groups: [
       { name: null }, // Group A
@@ -145,18 +139,50 @@ function removeGroup(idx) {
   renderSetup();
 }
 
+// ── Drag state ─────────────────────────────────────────────────────────────
+let dragSrcIdx = null;
+
 function renderSetup() {
-  // Activities
+  // Activities — draggable
   const al = document.getElementById('actList');
   al.innerHTML = '';
   activities.forEach((a, i) => {
     const d = document.createElement('div');
-    d.className = 'entry-row';
+    d.className = 'entry-row draggable';
+    d.draggable = true;
+    d.dataset.idx = i;
     d.innerHTML = `
+      <span class="drag-handle" title="Drag to reorder">⠿</span>
       <div class="dot" style="background:${RAINBOW[i % 7]}"></div>
       <input type="text" placeholder="Activity name" value="${a.name}"
         oninput="activities[${i}].name=this.value">
       <button class="btn btn-remove" onclick="removeActivity(${i})">✕</button>`;
+
+    d.addEventListener('dragstart', e => {
+      dragSrcIdx = i;
+      d.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    d.addEventListener('dragend', () => {
+      d.classList.remove('dragging');
+      document.querySelectorAll('.entry-row').forEach(r => r.classList.remove('drag-over'));
+    });
+    d.addEventListener('dragover', e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      document.querySelectorAll('.entry-row').forEach(r => r.classList.remove('drag-over'));
+      d.classList.add('drag-over');
+    });
+    d.addEventListener('drop', e => {
+      e.preventDefault();
+      if (dragSrcIdx === null || dragSrcIdx === i) return;
+      // Reorder array
+      const moved = activities.splice(dragSrcIdx, 1)[0];
+      activities.splice(i, 0, moved);
+      dragSrcIdx = null;
+      renderSetup();
+    });
+
     al.appendChild(d);
   });
 

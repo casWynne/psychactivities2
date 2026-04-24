@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles.css">
+<title>CasTime</title>
+</head>
+<body>
+
+<div class="header">
+  <div class="wordmark">CasTime</div>
+  <div class="tagline">Round-robin activity scheduler</div>
+</div>
+
+<!-- ══ SETUP ══ -->
+<div id="setup">
+  <div class="card">
+    <div class="card-title">Session</div>
+    <div class="row">
+      <div class="field">
+        <label>Minutes per slot</label>
+        <input type="number" id="slotMins" value="10" min="1" max="120">
+      </div>
+      <div class="field">
+        <label>Warn (mins before)</label>
+        <input type="number" id="warnMins" value="2" min="0" max="30">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Activities</div>
+    <div id="actList"></div>
+    <button class="btn btn-add" onclick="addActivity()">+ Add activity</button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Groups</div>
+    <div id="grpList"></div>
+    <button class="btn btn-add" onclick="addGroup()">+ Add group</button>
+  </div>
+
+  <button class="btn btn-start" onclick="startSession()">Start session →</button>
+</div>
+
+<!-- ══ RUNNER ══ -->
+<div id="runner">
+  <div class="runner-top">
+    <div>
+      <div class="live-clock" id="liveClock">10:00</div>
+      <div class="round-label" id="roundLabel">Round 1 of 4</div>
+      <div id="wakeLockStatus" style="margin-top:6px;font-size:0.72rem;color:var(--muted);letter-spacing:0.03em;"></div>
+    </div>
+    <div class="ring-wrap">
+      <svg class="ring-svg" width="100" height="100">
+        <circle cx="50" cy="50" r="42" fill="none" stroke="#efefef" stroke-width="7"/>
+        <circle cx="50" cy="50" r="42" fill="none"
+          stroke="url(#rg)" stroke-width="7"
+          stroke-linecap="round"
+          stroke-dasharray="263.9" stroke-dashoffset="0"
+          id="ringCircle"/>
+        <defs>
+          <linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#00c9a7"/>
+            <stop offset="100%" style="stop-color:#4facfe"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="ring-inner">
+        <div class="ring-time" id="ringTime">10:00</div>
+        <div class="ring-sub">left</div>
+      </div>
+    </div>
+    <button class="btn btn-ghost" onclick="resetToSetup()">← Setup</button>
+  </div>
+
+  <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
+  <div class="warn-bar" id="warnBar">⏱ Change coming up soon</div>
+
+  <div class="grid-label">Current positions</div>
+  <div class="act-grid" id="actGrid"></div>
+</div>
+
+<!-- ══ OVERLAY ══ -->
+<div id="overlay">
+  <div class="overlay-title" id="overlayTitle">Change places!</div>
+  <div class="overlay-sub" id="overlaySub">Move to your next activity</div>
+  <div class="overlay-cards" id="overlayCards"></div>
+  <button class="btn-dismiss" id="dismissBtn" onclick="dismissAlarm()">We've moved →</button>
+</div>
+
+<footer class="site-footer">Created by Caspar Wynne</footer>
+<script src="main.js"></script>
+</body>
+</html>

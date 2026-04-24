@@ -37,7 +37,7 @@ const PRESETS = [
       { name: null }, // Group D
       { name: null }, // Group E
     ],
-    finalTask: { enabled: true, name: 'Let's Build (AS27)' },
+    finalTask: { enabled: true, name: "Let's Build (AS27)" },
   },
   {
     name: 'Workshop Rotation (Short)',

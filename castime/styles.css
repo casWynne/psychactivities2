@@ -18,6 +18,26 @@
   --r6: #e91e8c;
 }
 
+[data-theme="dark"] {
+  --bg: #141414;
+  --surface: #1f1f1f;
+  --border: #2e2e2e;
+  --text: #f0f0f0;
+  --muted: #666;
+  --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141414;
+    --surface: #1f1f1f;
+    --border: #2e2e2e;
+    --text: #f0f0f0;
+    --muted: #666;
+    --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2);
+  }
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -32,7 +52,24 @@ body {
 .header {
   text-align: center;
   margin-bottom: 32px;
+  position: relative;
 }
+
+.theme-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--muted);
+  transition: all 0.15s;
+  line-height: 1;
+}
+.theme-toggle:hover { border-color: #4facfe; color: #4facfe; }
 
 .wordmark {
   font-size: 2.2rem;

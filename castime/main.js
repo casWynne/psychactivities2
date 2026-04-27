@@ -17,6 +17,7 @@ let breakSecs = 0;
 let breakAutoProgress = true;
 let fanfareEnabled = true;
 let warnSoundEnabled = true;
+let timingMode = 'slot';
 let warnChirped = false;
 let wakeLock = null;
 let fanfareCtx = null;
@@ -184,6 +185,7 @@ function groupDisplayName(g) {
 function addActivity(name = '') {
   activities.push({ id: Date.now() + Math.random(), name });
   renderSetup();
+  recalcFinishBy();
 }
 
 function addGroup(customName = null) {
@@ -192,7 +194,7 @@ function addGroup(customName = null) {
   renderSetup();
 }
 
-function removeActivity(idx) { activities.splice(idx, 1); renderSetup(); }
+function removeActivity(idx) { activities.splice(idx, 1); renderSetup(); recalcFinishBy(); }
 function removeGroup(idx) {
   groups.splice(idx, 1);
   groups.forEach((g, i) => { g.label = generateGroupLabel(i); });
@@ -277,7 +279,10 @@ function renderSetup() {
   updateFinalGatheringVisibility();
 })();
 
-renderPresetBar();
+document.addEventListener('DOMContentLoaded', () => {
+  renderPresetBar();
+  populateSavedSessions();
+});
 
 // ── Start ──────────────────────────────────────────────────────────────────
 function startSession() {
@@ -756,8 +761,154 @@ function resetToSetup() {
   document.getElementById('setup').style.display = 'block';
   const pb = document.getElementById('pauseBtn');
   if (pb) pb.textContent = '⏸ Pause';
-<<<<<<< HEAD
 }
-=======
+
+// ── Timing mode toggle ────────────────────────────────────────────────────
+
+function setTimingMode(mode) {
+  timingMode = mode;
+  document.getElementById('modeSlotField').style.display = mode === 'slot' ? '' : 'none';
+  document.getElementById('modeFinishField').style.display = mode === 'finish' ? '' : 'none';
+  document.getElementById('modeSlotBtn').classList.toggle('timing-mode-btn--active', mode === 'slot');
+  document.getElementById('modeFinishBtn').classList.toggle('timing-mode-btn--active', mode === 'finish');
+  if (mode === 'finish') applyFinishBy();
 }
->>>>>>> 366ea876ea10c26c4035bb37e7d359e7ce31e4aa
+
+// ── Finish By ─────────────────────────────────────────────────────────────
+function applyFinishBy() {
+  const val = document.getElementById('finishBy').value;
+  const hint = document.getElementById('finishByHint');
+  if (!val) { hint.textContent = ''; return; }
+
+  const now = new Date();
+  const [h, m] = val.split(':').map(Number);
+  const end = new Date(now);
+  end.setHours(h, m, 0, 0);
+  if (end <= now) end.setDate(end.getDate() + 1); // next day if past
+
+  const numActs = activities.length || 3;
+  const breakEnabled = document.getElementById('breakToggle').checked;
+  const breakMinsVal = breakEnabled ? (parseFloat(document.getElementById('breakMins').value) || 0) : 0;
+  const totalMins = (end - now) / 60000;
+  const totalBreakMins = breakMinsVal * (numActs - 1);
+  const slotMinsCalc = Math.max(1, Math.floor((totalMins - totalBreakMins) / numActs));
+
+  document.getElementById('slotMins').value = slotMinsCalc;
+  hint.textContent = `→ ${slotMinsCalc} min slots`;
+}
+
+// Recalculate if activities/breaks change while in finish-by mode
+function recalcFinishBy() {
+  if (timingMode === 'finish' && document.getElementById('finishBy').value) applyFinishBy();
+}
+
+// ── Save / Load Sessions ───────────────────────────────────────────────────
+const STORAGE_KEY = 'castime-sessions';
+
+function getStoredSessions() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
+}
+
+function captureCurrentSetup() {
+  return {
+    slotMins: document.getElementById('slotMins').value,
+    warnEnabled: document.getElementById('warnToggle').checked,
+    warnMins: document.getElementById('warnMins').value,
+    warnSound: document.getElementById('warnSoundToggle').checked,
+    fanfare: document.getElementById('fanfareSoundToggle').checked,
+    breakEnabled: document.getElementById('breakToggle').checked,
+    breakMins: document.getElementById('breakMins').value,
+    breakAutoProgress: document.getElementById('breakAutoProgress').checked,
+    continuousTiming: document.getElementById('continuousToggle').checked,
+    finalEnabled: document.getElementById('finalGatheringToggle').checked,
+    finalName: document.getElementById('finalGatheringName').value,
+    activities: activities.map(a => ({ name: a.name })),
+    groups: groups.map(g => ({ name: g.name })),
+    savedAt: new Date().toLocaleString(),
+  };
+}
+
+function applySetup(s) {
+  document.getElementById('slotMins').value = s.slotMins ?? 10;
+  document.getElementById('warnToggle').checked = s.warnEnabled ?? true;
+  document.getElementById('warnMins').value = s.warnMins ?? 2;
+  document.getElementById('warnSoundToggle').checked = s.warnSound ?? true;
+  document.getElementById('fanfareSoundToggle').checked = s.fanfare ?? true;
+  document.getElementById('breakToggle').checked = s.breakEnabled ?? false;
+  document.getElementById('breakMins').value = s.breakMins ?? 2;
+  document.getElementById('breakAutoProgress').checked = s.breakAutoProgress ?? false;
+  document.getElementById('continuousToggle').checked = s.continuousTiming ?? false;
+  document.getElementById('finalGatheringToggle').checked = s.finalEnabled ?? true;
+  document.getElementById('finalGatheringName').value = s.finalName ?? 'Final Gathering';
+  finalTask = { enabled: s.finalEnabled ?? true, name: s.finalName ?? 'Final Gathering' };
+
+  activities = (s.activities || []).map(a => ({
+    id: Date.now() + Math.random(), name: a.name || ''
+  }));
+  groups = (s.groups || []).map((g, i) => ({
+    id: Date.now() + Math.random(), label: generateGroupLabel(i), name: g.name
+  }));
+
+  updateWarnFieldVisibility();
+  updateBreakFieldVisibility();
+  updateFinalGatheringVisibility();
+  document.querySelectorAll('.preset-pill').forEach(b => b.classList.remove('preset-pill--active'));
+  renderSetup();
+}
+
+function saveSession() {
+  const name = prompt('Name this session:');
+  if (!name || !name.trim()) return;
+  const sessions = getStoredSessions();
+  sessions[name.trim()] = captureCurrentSetup();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
+  populateSavedSessions();
+  // Select the newly saved one
+  document.getElementById('savedSessionSelect').value = name.trim();
+}
+
+function loadSession() {
+  const name = document.getElementById('savedSessionSelect').value;
+  if (!name) return;
+  const sessions = getStoredSessions();
+  if (!sessions[name]) return;
+  applySetup(sessions[name]);
+}
+
+function deleteSession() {
+  const name = document.getElementById('savedSessionSelect').value;
+  if (!name) return;
+  if (!confirm(`Delete "${name}"?`)) return;
+  const sessions = getStoredSessions();
+  delete sessions[name];
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
+  populateSavedSessions();
+}
+
+function previewSavedSession() {
+  const name = document.getElementById('savedSessionSelect').value;
+  const sessions = getStoredSessions();
+  const s = sessions[name];
+  const hint = document.getElementById('savedSessionHint');
+  if (!hint) return;
+  if (s) {
+    hint.textContent = `${s.activities?.length || 0} activities · ${s.groups?.length || 0} groups · saved ${s.savedAt || ''}`;
+  } else {
+    hint.textContent = '';
+  }
+}
+
+function populateSavedSessions() {
+  const sel = document.getElementById('savedSessionSelect');
+  const sessions = getStoredSessions();
+  const keys = Object.keys(sessions);
+  sel.innerHTML = '<option value="">— Saved sessions —</option>';
+  keys.forEach(k => {
+    const o = document.createElement('option');
+    o.value = k; o.textContent = k;
+    sel.appendChild(o);
+  });
+  previewSavedSession();
+}
+
+// Init handled by DOMContentLoaded above

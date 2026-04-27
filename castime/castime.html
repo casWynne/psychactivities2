@@ -33,33 +33,23 @@
         <div class="howto-section">
           <div class="howto-step">
             <div class="howto-num">1</div>
-            <div>
-              <strong>Set up your session</strong> — Choose how many minutes each activity slot lasts, and configure warnings, breaks, and sounds to suit your event.
-            </div>
+            <div><strong>Set up your session</strong> — Choose how many minutes each activity slot lasts, and configure warnings, breaks, and sounds to suit your event.</div>
           </div>
           <div class="howto-step">
             <div class="howto-num">2</div>
-            <div>
-              <strong>Add activities</strong> — These are the stations or tasks that groups will rotate through. Drag to reorder them.
-            </div>
+            <div><strong>Add activities</strong> — These are the stations or tasks that groups will rotate through. Drag to reorder them.</div>
           </div>
           <div class="howto-step">
             <div class="howto-num">3</div>
-            <div>
-              <strong>Add groups</strong> — Each group gets a label (A, B, C…) or a custom name. CasTime works out who goes where automatically.
-            </div>
+            <div><strong>Add groups</strong> — Each group gets a label (A, B, C…) or a custom name. CasTime works out who goes where automatically.</div>
           </div>
           <div class="howto-step">
             <div class="howto-num">4</div>
-            <div>
-              <strong>Start the session</strong> — The timer counts down each slot. A "Change places!" overlay appears at the end of each round showing everyone their next activity.
-            </div>
+            <div><strong>Start the session</strong> — The timer counts down each slot. A "Change places!" overlay appears at the end of each round showing everyone their next activity.</div>
           </div>
           <div class="howto-step">
             <div class="howto-num">5</div>
-            <div>
-              <strong>During the session</strong> — Use ⏸ Pause to hold the clock, "Move on early" to skip a round, or tap ⚙ to toggle sounds and timing behaviour on the fly.
-            </div>
+            <div><strong>During the session</strong> — Use ⏸ Pause to hold the clock, "Move on early" to skip a round, or tap ⚙ to toggle sounds and timing behaviour on the fly.</div>
           </div>
         </div>
         <div class="howto-tip">💡 The number of rounds equals the number of activities — so every group visits every station exactly once.</div>
@@ -71,9 +61,18 @@
     <div class="card-title">Session</div>
 
     <div class="session-top">
-      <div class="field" style="flex:1;">
-        <label>Minutes per slot</label>
-        <input type="number" id="slotMins" value="10" min="1" max="120">
+      <div class="timing-mode-wrap">
+        <div class="timing-mode-toggle">
+          <button class="timing-mode-btn timing-mode-btn--active" id="modeSlotBtn" onclick="setTimingMode('slot')">Minutes per slot</button>
+          <button class="timing-mode-btn" id="modeFinishBtn" onclick="setTimingMode('finish')">Finish by time</button>
+        </div>
+        <div id="modeSlotField" class="field timing-field">
+          <input type="number" id="slotMins" value="10" min="1" max="120">
+        </div>
+        <div id="modeFinishField" class="field timing-field" style="display:none;">
+          <input type="time" id="finishBy" onchange="applyFinishBy()">
+          <span class="finish-by-hint" id="finishByHint"></span>
+        </div>
       </div>
       <label class="session-check-label session-fanfare-check">
         <input type="checkbox" id="fanfareSoundToggle" checked>
@@ -166,6 +165,19 @@
     </div>
   </div>
 
+  <!-- Save / Load sessions -->
+  <div class="save-load-bar">
+    <div class="save-load-left">
+      <select id="savedSessionSelect" class="saved-select" onchange="previewSavedSession()">
+        <option value="">— Saved sessions —</option>
+      </select>
+      <button class="btn btn-ghost btn-sm" onclick="loadSession()">Load</button>
+      <button class="btn btn-ghost btn-sm btn-delete-session" onclick="deleteSession()" title="Delete saved session">✕</button>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="saveSession()">💾 Save current</button>
+  </div>
+  <div class="saved-hint" id="savedSessionHint"></div>
+
   <div class="start-row">
     <button class="btn btn-reset" onclick="resetToDefaults()">↺ Reset</button>
     <button class="btn btn-start" onclick="startSession()">Start session →</button>
@@ -176,11 +188,7 @@
 <div id="runner">
   <div class="runner-top">
     <div class="runner-side runner-side--left">
-<<<<<<< HEAD
-      <button class="btn btn-ghost" onclick="resetToSetup()">← Setup</button>
-=======
       <button class="btn btn-pause" id="pauseBtn" onclick="togglePause()">⏸ Pause</button>
->>>>>>> 366ea876ea10c26c4035bb37e7d359e7ce31e4aa
     </div>
     <div class="ring-wrap">
       <svg class="ring-svg" width="100" height="100">
@@ -217,11 +225,7 @@
   <div class="act-grid" id="actGrid"></div>
 
   <div style="text-align:center;margin-top:8px;padding-bottom:48px;display:flex;gap:10px;justify-content:center;">
-<<<<<<< HEAD
-    <button class="btn btn-pause" id="pauseBtn" onclick="togglePause()">⏸ Pause</button>
-=======
     <button class="btn btn-ghost" onclick="resetToSetup()">← Setup</button>
->>>>>>> 366ea876ea10c26c4035bb37e7d359e7ce31e4aa
     <button class="btn btn-skip" onclick="skipRound()">Move on early →</button>
     <button class="btn btn-settings" onclick="toggleLiveSettings()" id="settingsBtn" title="Live settings">⚙</button>
   </div>

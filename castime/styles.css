@@ -574,6 +574,119 @@ input:focus {
   margin-bottom: 20px;
 }
 
+.finish-by-hint {
+  font-size: 0.72rem;
+  color: #00c9a7;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+/* ── Timing mode toggle ── */
+.timing-mode-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.timing-mode-toggle {
+  display: flex;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.timing-mode-btn {
+  flex: 1;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 7px 10px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.timing-mode-btn + .timing-mode-btn {
+  border-left: 1.5px solid var(--border);
+}
+
+.timing-mode-btn--active {
+  background: #111;
+  color: #fff;
+}
+
+[data-theme="dark"] .timing-mode-btn--active {
+  background: #f0f0f0;
+  color: #111;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .timing-mode-btn--active {
+    background: #f0f0f0;
+    color: #111;
+  }
+}
+
+.timing-field input {
+  width: 100%;
+}
+
+/* ── Save / Load bar ── */
+.save-load-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.save-load-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.saved-select {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 10px;
+  color: var(--text);
+  background: var(--bg);
+  cursor: pointer;
+  flex: 1;
+  min-width: 0;
+  transition: border-color 0.15s;
+}
+.saved-select:focus { outline: none; border-color: var(--r4); }
+
+.btn-sm {
+  font-size: 0.78rem;
+  padding: 7px 12px;
+  white-space: nowrap;
+}
+
+.btn-delete-session {
+  color: #ccc;
+}
+.btn-delete-session:hover { border-color: var(--r0); color: var(--r0); }
+
+.saved-hint {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-bottom: 12px;
+  min-height: 1em;
+  padding-left: 2px;
+}
+
 .session-fanfare-check {
   padding-bottom: 10px;
   white-space: nowrap;

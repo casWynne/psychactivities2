@@ -756,4 +756,8 @@ function resetToSetup() {
   document.getElementById('setup').style.display = 'block';
   const pb = document.getElementById('pauseBtn');
   if (pb) pb.textContent = '⏸ Pause';
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 366ea876ea10c26c4035bb37e7d359e7ce31e4aa

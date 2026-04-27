@@ -8,6 +8,15 @@ let currentRound = 0;
 let totalRounds = 0;
 let secsLeft = 600;
 let ticker = null;
+let breakTicker = null;
+let breakSecsLeft = 0;
+let isPaused = false;
+let continuousTiming = false;
+let warnEnabled = true;
+let breakSecs = 0;
+let breakAutoProgress = true;
+let fanfareEnabled = true;
+let warnSoundEnabled = true;
 let warnChirped = false;
 let wakeLock = null;
 let fanfareCtx = null;
@@ -15,13 +24,21 @@ let fanfareCtx = null;
 const RAINBOW = ['#ff4d4d','#ff8c00','#ffd000','#4caf50','#2196f3','#9c27b0','#e91e8c'];
 
 // ── Hardcoded Presets ──────────────────────────────────────────────────────
-// Edit this array to add, remove, or change presets.
-// Each preset has: name, slotMins, warnMins, activities[], groups[], finalTask{}
+// Each preset: name, slotMins, warnMins, warnEnabled, warnSound, fanfare,
+//              breakEnabled, breakMins, breakAutoProgress, continuousTiming,
+//              activities[], groups[], finalTask{}
 const PRESETS = [
   {
     name: 'Applicant Experience Day',
     slotMins: 10,
+    warnEnabled: true,
     warnMins: 2,
+    warnSound: true,
+    fanfare: true,
+    breakEnabled: false,
+    breakMins: 2,
+    breakAutoProgress: true,
+    continuousTiming: false,
     activities: [
       { name: 'Operation Elevation (AS27)' },
       { name: 'Mind Maze (AS27)' },
@@ -42,7 +59,14 @@ const PRESETS = [
   {
     name: 'Workshop Rotation (Short)',
     slotMins: 5,
+    warnEnabled: true,
     warnMins: 1,
+    warnSound: true,
+    fanfare: true,
+    breakEnabled: false,
+    breakMins: 1,
+    breakAutoProgress: true,
+    continuousTiming: false,
     activities: [
       { name: 'Activity 1' },
       { name: 'Activity 2' },
@@ -56,6 +80,28 @@ const PRESETS = [
       { name: null }, // Group D
     ],
     finalTask: { enabled: false, name: 'Final Gathering' },
+  },
+  {
+    name: 'Pomodoro',
+    slotMins: 25,
+    warnEnabled: true,
+    warnMins: 3,
+    warnSound: true,
+    fanfare: true,
+    breakEnabled: true,
+    breakMins: 5,
+    breakAutoProgress: true,
+    continuousTiming: false,
+    activities: [
+      { name: '🍅 Pomodoro 1' },
+      { name: '🍅 Pomodoro 2' },
+      { name: '🍅 Pomodoro 3' },
+      { name: '🍅 Pomodoro 4' },
+    ],
+    groups: [
+      { name: null }, // Solo
+    ],
+    finalTask: { enabled: true, name: '🌿 Long Break' },
   },
   // Add more presets here following the same structure ↑
 ];
@@ -87,7 +133,14 @@ function applyPreset(index) {
   if (!p) return;
 
   document.getElementById('slotMins').value = p.slotMins;
-  document.getElementById('warnMins').value = p.warnMins;
+  document.getElementById('warnToggle').checked = p.warnEnabled ?? true;
+  document.getElementById('warnMins').value = p.warnMins ?? 2;
+  document.getElementById('warnSoundToggle').checked = p.warnSound ?? true;
+  document.getElementById('fanfareSoundToggle').checked = p.fanfare ?? true;
+  document.getElementById('breakToggle').checked = p.breakEnabled ?? false;
+  document.getElementById('breakMins').value = p.breakMins ?? 2;
+  document.getElementById('breakAutoProgress').checked = p.breakAutoProgress ?? true;
+  document.getElementById('continuousToggle').checked = p.continuousTiming ?? false;
 
   activities = p.activities.map(a => ({
     id: Date.now() + Math.random(),
@@ -107,6 +160,8 @@ function applyPreset(index) {
     btn.classList.toggle('preset-pill--active', i === index);
   });
 
+  updateWarnFieldVisibility();
+  updateBreakFieldVisibility();
   renderSetup();
 }
 
@@ -205,76 +260,119 @@ function renderSetup() {
     gl.appendChild(d);
   });
 
-  // Final task
-  const fw = document.getElementById('finalTaskWrap');
-  fw.innerHTML = '';
-  if (finalTask.enabled) {
-    const d = document.createElement('div');
-    d.className = 'entry-row';
-    d.innerHTML = `
-      <div class="dot" style="background:#aaa"></div>
-      <input type="text" placeholder="Final gathering name" value="${finalTask.name}"
-        oninput="finalTask.name = this.value.trim() || 'Final Gathering'">
-      <button class="btn btn-remove" onclick="removeFinalTask()">✕</button>`;
-    fw.appendChild(d);
-  } else {
-    const btn = document.createElement('button');
-    btn.className = 'btn btn-add';
-    btn.textContent = '+ Add final gathering';
-    btn.onclick = () => { finalTask.enabled = true; finalTask.name = 'Final Gathering'; renderSetup(); };
-    fw.appendChild(btn);
-  }
+  // Final gathering — driven by the toggle in HTML, not dynamic DOM
+  const fgToggle = document.getElementById('finalGatheringToggle');
+  const fgName = document.getElementById('finalGatheringName');
+  if (fgToggle) fgToggle.checked = finalTask.enabled;
+  if (fgName) fgName.value = finalTask.name || 'Final Gathering';
+  updateFinalGatheringVisibility();
 }
 
-function removeFinalTask() {
-  finalTask.enabled = false;
-  renderSetup();
-}
-
-// Defaults — load first preset if available, else fall back to sample data
-if (PRESETS.length > 0) {
-  applyPreset(0);
-} else {
-  ['Interview', 'Campus Tour', 'Q&A Session'].forEach(n => addActivity(n));
+// Defaults — blank state with Activity 1, 2, 3
+(function initDefaults() {
+  ['Activity 1', 'Activity 2', 'Activity 3'].forEach(n => addActivity(n));
   [null, null, null].forEach(() => addGroup());
-}
+  updateWarnFieldVisibility();
+  updateBreakFieldVisibility();
+  updateFinalGatheringVisibility();
+})();
 
 renderPresetBar();
 
 // ── Start ──────────────────────────────────────────────────────────────────
 function startSession() {
-  if (activities.length < 2 || groups.length < 2) {
-    alert('Please add at least 2 activities and 2 groups.');
+  if (activities.length < 2 || groups.length < 1) {
+    alert('Please add at least 2 activities and 1 group.');
     return;
   }
   slotSecs = parseInt(document.getElementById('slotMins').value) * 60 || 600;
+  warnEnabled = document.getElementById('warnToggle').checked;
   warnSecs = parseInt(document.getElementById('warnMins').value) * 60 || 120;
+  warnSoundEnabled = document.getElementById('warnToggle').checked && document.getElementById('warnSoundToggle').checked;
+  fanfareEnabled = document.getElementById('fanfareSoundToggle').checked;
+  continuousTiming = document.getElementById('continuousToggle').checked;
+  breakSecs = document.getElementById('breakToggle').checked
+    ? (parseInt(document.getElementById('breakMins').value) * 60 || 0)
+    : 0;
+  breakAutoProgress = document.getElementById('breakAutoProgress').checked;
+  finalTask.enabled = document.getElementById('finalGatheringToggle').checked;
+  finalTask.name = document.getElementById('finalGatheringName').value.trim() || 'Final Gathering';
   totalRounds = activities.length;
   currentRound = 0;
   secsLeft = slotSecs;
   warnChirped = false;
+  isPaused = false;
 
   document.getElementById('setup').style.display = 'none';
   document.getElementById('runner').style.display = 'block';
   buildGrid();
   renderRound();
   acquireWakeLock();
+  syncLiveSettings();
   tick();
   ticker = setInterval(tick, 1000);
 }
 
+function togglePause() {
+  if (isPaused) {
+    isPaused = false;
+    document.getElementById('pauseBtn').textContent = '⏸ Pause';
+    tick();
+    ticker = setInterval(tick, 1000);
+  } else {
+    isPaused = true;
+    document.getElementById('pauseBtn').textContent = '▶ Resume';
+    if (ticker) { clearInterval(ticker); ticker = null; }
+  }
+}
+
+function updateWarnFieldVisibility() {
+  const on = document.getElementById('warnToggle').checked;
+  const input = document.getElementById('warnMins');
+  input.disabled = !on;
+  input.closest('.session-row-right').classList.toggle('session-row-right--disabled', !on);
+}
+
+function updateBreakFieldVisibility() {
+  const on = document.getElementById('breakToggle').checked;
+  const input = document.getElementById('breakMins');
+  input.disabled = !on;
+  input.closest('.session-row-right').classList.toggle('session-row-right--disabled', !on);
+  // Also disable the auto-progress checkbox when break is off
+  const autoProgress = document.getElementById('breakAutoProgress');
+  autoProgress.disabled = !on;
+  autoProgress.closest('.session-check-label').style.opacity = on ? '' : '0.38';
+  autoProgress.closest('.session-check-label').style.pointerEvents = on ? '' : 'none';
+}
+
+function updateFinalGatheringVisibility() {
+  const on = document.getElementById('finalGatheringToggle').checked;
+  finalTask.enabled = on;
+  const field = document.getElementById('finalGatheringField');
+  const input = document.getElementById('finalGatheringName');
+  field.classList.toggle('session-row-right--disabled', !on);
+  input.disabled = !on;
+}
+
 // ── Grid ───────────────────────────────────────────────────────────────────
+function isSingleGroup() { return groups.length === 1; }
+
 function buildGrid() {
   const g = document.getElementById('actGrid');
-  const cols = Math.min(activities.length, 3);
-  g.style.gridTemplateColumns = `repeat(${cols},1fr)`;
-  g.innerHTML = '';
-  activities.forEach((_, i) => {
-    const d = document.createElement('div');
-    d.className = 'act-card';
-    d.id = `ac${i}`;
-    g.appendChild(d);
-  });
+  if (isSingleGroup()) {
+    g.style.gridTemplateColumns = '1fr';
+    g.innerHTML = '<div class="act-card act-card--single" id="ac0"></div>';
+  } else {
+    const cols = Math.min(activities.length, 3);
+    g.style.gridTemplateColumns = `repeat(${cols},1fr)`;
+    g.innerHTML = '';
+    activities.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'act-card';
+      d.id = `ac${i}`;
+      g.appendChild(d);
+    });
+  }
 }
 
 function getAssignments(round) {
@@ -284,27 +382,48 @@ function getAssignments(round) {
 }
 
 function renderRound() {
+  const roundsLeft = totalRounds - currentRound;
   document.getElementById('roundLabel').textContent =
     `Round ${currentRound + 1} of ${totalRounds}`;
-  const assign = getAssignments(currentRound);
-  activities.forEach((a, i) => {
-    const card = document.getElementById(`ac${i}`);
-    const here = assign[i];
-    const color = RAINBOW[i % 7];
+  document.getElementById('roundsLeft').textContent =
+    roundsLeft === 1 ? 'Last round!' : `${roundsLeft} rounds remaining`;
+
+  if (isSingleGroup()) {
+    const a = activities[currentRound % activities.length];
+    const color = RAINBOW[currentRound % 7];
+    const card = document.getElementById('ac0');
     card.style.borderTopColor = color;
     card.innerHTML = `
-      <div class="act-name">${a.name || `Activity ${i + 1}`}</div>
-      <div class="chips">
-        ${here.length
-          ? here.map(g => {
-              const gi = groups.indexOf(g);
-              const c = RAINBOW[gi % 7];
-              return `<span class="chip" style="background:${c}18;color:${c}">${groupDisplayName(g)}</span>`;
-            }).join('')
-          : '<span class="empty-chip">—</span>'
-        }
-      </div>`;
-  });
+      <div class="act-name--single">${a.name || `Activity ${currentRound + 1}`}</div>
+      <div class="act-name-sub">Current activity</div>`;
+    // Show next activity if there is one
+    const nextIdx = (currentRound + 1) % activities.length;
+    const isLast = currentRound + 1 >= totalRounds;
+    if (!isLast) {
+      const next = activities[nextIdx];
+      card.innerHTML += `<div class="act-next">Next: ${next.name || `Activity ${nextIdx + 1}`}</div>`;
+    }
+  } else {
+    const assign = getAssignments(currentRound);
+    activities.forEach((a, i) => {
+      const card = document.getElementById(`ac${i}`);
+      const here = assign[i];
+      const color = RAINBOW[i % 7];
+      card.style.borderTopColor = color;
+      card.innerHTML = `
+        <div class="act-name">${a.name || `Activity ${i + 1}`}</div>
+        <div class="chips">
+          ${here.length
+            ? here.map(g => {
+                const gi = groups.indexOf(g);
+                const c = RAINBOW[gi % 7];
+                return `<span class="chip" style="background:${c}18;color:${c}">${groupDisplayName(g)}</span>`;
+              }).join('')
+            : '<span class="empty-chip">—</span>'
+          }
+        </div>`;
+    });
+  }
 }
 
 // ── Tick ───────────────────────────────────────────────────────────────────
@@ -336,10 +455,10 @@ function updateDisplay() {
     now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
   const wb = document.getElementById('warnBar');
-  if (secsLeft <= warnSecs && secsLeft > 0) {
+  if (warnEnabled && secsLeft <= warnSecs && secsLeft > 0) {
     wb.style.display = 'block';
     wb.textContent = `⏱ Change in ${Math.ceil(secsLeft / 60)} min${Math.ceil(secsLeft / 60) !== 1 ? 's' : ''}`;
-    if (!warnChirped) { warnChirped = true; playChirp(); }
+    if (!warnChirped) { warnChirped = true; if (warnSoundEnabled) playChirp(); }
   } else {
     wb.style.display = 'none';
   }
@@ -362,49 +481,105 @@ function triggerAlarm() {
 
   if (!isLastRound) {
     renderRound();
-    ticker = setInterval(tick, 1000);
+    if (continuousTiming) {
+      ticker = setInterval(tick, 1000);
+    }
   }
 
-  const stopFanfare = playFanfare();
+  const stopFanfare = fanfareEnabled ? playFanfare() : () => {};
 
   if (isLastRound) {
     document.getElementById('overlayTitle').textContent =
       finalTask.enabled ? finalTask.name : 'All done!';
     document.getElementById('overlaySub').textContent =
       finalTask.enabled
-        ? 'Everyone comes together — no timer, enjoy!'
+        ? (isSingleGroup() ? 'No timer — enjoy!' : 'Everyone comes together — no timer, enjoy!')
         : 'Great session — all rounds complete.';
     document.getElementById('overlayCards').innerHTML = finalTask.enabled
-      ? `<div class="ov-card" style="border-top-color:#aaa">
-           <div class="ov-act">All groups</div>
-           <div class="ov-group">${groups.map(g => groupDisplayName(g)).join(', ')}</div>
-         </div>`
+      ? (isSingleGroup()
+          ? ''
+          : `<div class="ov-card" style="border-top-color:#aaa">
+               <div class="ov-act">All groups</div>
+               <div class="ov-group">${groups.map(g => groupDisplayName(g)).join(', ')}</div>
+             </div>`)
       : '';
+    document.getElementById('overlayBreak').style.display = 'none';
     document.getElementById('dismissBtn').textContent = '← Back to setup';
     document.getElementById('dismissBtn').onclick = () => { stopFanfare(); resetToSetup(); };
   } else {
-    const assign = getAssignments(currentRound);
-    document.getElementById('overlayTitle').textContent = 'Change places!';
-    document.getElementById('overlaySub').textContent = 'Timer is running — move now!';
-    document.getElementById('dismissBtn').textContent = "We've moved →";
+    document.getElementById('overlayTitle').textContent = isSingleGroup() ? 'Next up!' : 'Change places!';
+    document.getElementById('dismissBtn').textContent = isSingleGroup() ? "Let's go →" : "We've moved →";
     document.getElementById('dismissBtn').onclick = () => { stopFanfare(); dismissAlarm(); };
-    document.getElementById('overlayCards').innerHTML = assign.map((here, ai) => {
-      const color = RAINBOW[ai % 7];
-      const actName = activities[ai].name || `Activity ${ai + 1}`;
-      const groupNames = here.map(g => groupDisplayName(g)).join(' & ') || '—';
-      return `<div class="ov-card" style="border-top-color:${color}">
-        <div class="ov-act">${actName}</div>
-        <div class="ov-group">${groupNames}</div>
-      </div>`;
-    }).join('');
+
+    if (isSingleGroup()) {
+      const nextAct = activities[currentRound % activities.length];
+      const color = RAINBOW[currentRound % 7];
+      document.getElementById('overlayCards').innerHTML =
+        `<div class="ov-card ov-card--single" style="border-top-color:${color}">
+          <div class="ov-act">Up next</div>
+          <div class="ov-group--single">${nextAct.name || `Activity ${currentRound + 1}`}</div>
+        </div>`;
+    } else {
+      const assign = getAssignments(currentRound);
+      document.getElementById('overlayCards').innerHTML = assign.map((here, ai) => {
+        const color = RAINBOW[ai % 7];
+        const actName = activities[ai].name || `Activity ${ai + 1}`;
+        const groupNames = here.map(g => groupDisplayName(g)).join(' & ') || '—';
+        return `<div class="ov-card" style="border-top-color:${color}">
+          <div class="ov-act">${actName}</div>
+          <div class="ov-group">${groupNames}</div>
+        </div>`;
+      }).join('');
+    }
+
+    // Break countdown
+    if (breakSecs > 0) {
+      breakSecsLeft = breakSecs;
+      updateBreakDisplay();
+      document.getElementById('overlayBreak').style.display = 'block';
+      document.getElementById('overlaySub').textContent = isSingleGroup() ? 'Take a break' : 'Move to your next activity';
+      breakTicker = setInterval(() => {
+        breakSecsLeft--;
+        if (breakSecsLeft <= 0) {
+          clearInterval(breakTicker); breakTicker = null;
+          updateBreakDisplay();
+          if (breakAutoProgress) { stopFanfare(); dismissAlarm(); }
+        } else {
+          updateBreakDisplay();
+        }
+      }, 1000);
+    } else {
+      document.getElementById('overlayBreak').style.display = 'none';
+      if (continuousTiming) {
+        document.getElementById('overlaySub').textContent = isSingleGroup() ? 'Timer is running!' : 'Timer is running — move now!';
+      } else {
+        document.getElementById('overlaySub').textContent = isSingleGroup() ? 'Timer paused — ready?' : 'Timer is paused — move and confirm!';
+      }
+    }
   }
 
   document.getElementById('overlay').classList.add('active');
 }
 
+function updateBreakDisplay() {
+  const m = Math.floor(breakSecsLeft / 60);
+  const s = breakSecsLeft % 60;
+  const str = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  document.getElementById('overlayBreakTime').textContent = str;
+  // Shrink the ring as break counts down
+  const pct = breakSecsLeft / breakSecs;
+  document.getElementById('overlayBreakCircle').style.strokeDashoffset = 207.3 * (1 - pct);
+}
+
 function dismissAlarm() {
+  if (breakTicker) { clearInterval(breakTicker); breakTicker = null; }
   document.getElementById('overlay').classList.remove('active');
   renderRound();
+  if (!continuousTiming) {
+    warnChirped = false;
+    tick();
+    ticker = setInterval(tick, 1000);
+  }
 }
 
 // ── Fanfare ────────────────────────────────────────────────────────────────
@@ -493,6 +668,37 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+// ── How-to accordion ──────────────────────────────────────────────────────
+function toggleHowTo() {
+  const body = document.getElementById('howtoBody');
+  const btn = document.querySelector('.howto-trigger');
+  const isOpen = body.classList.contains('howto-open');
+  body.classList.toggle('howto-open', !isOpen);
+  btn.setAttribute('aria-expanded', String(!isOpen));
+  btn.querySelector('.howto-chevron').style.transform = isOpen ? '' : 'rotate(90deg)';
+}
+
+// ── Live settings panel ───────────────────────────────────────────────────
+function toggleLiveSettings() {
+  document.getElementById('liveSettings').classList.toggle('live-settings--open');
+}
+
+// Close live settings if clicking outside
+document.addEventListener('click', (e) => {
+  const panel = document.getElementById('liveSettings');
+  const btn = document.getElementById('settingsBtn');
+  if (panel && btn && !panel.contains(e.target) && !btn.contains(e.target)) {
+    panel.classList.remove('live-settings--open');
+  }
+});
+
+// Sync live settings toggles to match setup values when session starts
+function syncLiveSettings() {
+  document.getElementById('liveFanfare').checked = fanfareEnabled;
+  document.getElementById('liveWarnSound').checked = warnSoundEnabled;
+  document.getElementById('liveContinuous').checked = continuousTiming;
+}
+
 // ── Theme ──────────────────────────────────────────────────────────────────
 function toggleTheme() {
   const current = document.documentElement.getAttribute('data-theme');
@@ -512,10 +718,42 @@ function toggleTheme() {
 })();
 
 // ── Reset ─────────────────────────────────────────────────────────────────
+function resetToDefaults() {
+  if (!confirm('Reset everything to defaults?')) return;
+  activities = [];
+  groups = [];
+  finalTask = { enabled: true, name: 'Final Gathering' };
+  document.getElementById('slotMins').value = 10;
+  document.getElementById('warnToggle').checked = true;
+  document.getElementById('warnMins').value = 2;
+  document.getElementById('warnSoundToggle').checked = true;
+  document.getElementById('breakToggle').checked = false;
+  document.getElementById('breakMins').value = 2;
+  document.getElementById('breakAutoProgress').checked = false;
+  document.getElementById('fanfareSoundToggle').checked = true;
+  document.getElementById('continuousToggle').checked = false;
+  document.getElementById('finalGatheringToggle').checked = true;
+  document.getElementById('finalGatheringName').value = 'Final Gathering';
+  finalTask = { enabled: true, name: 'Final Gathering' };
+  updateWarnFieldVisibility();
+  updateBreakFieldVisibility();
+  updateFinalGatheringVisibility();
+  // Clear active preset highlight
+  document.querySelectorAll('.preset-pill').forEach(btn => btn.classList.remove('preset-pill--active'));
+  ['Activity 1', 'Activity 2', 'Activity 3'].forEach(n => addActivity(n));
+  [null, null, null].forEach(() => addGroup());
+  renderSetup();
+}
+
 function resetToSetup() {
   clearInterval(ticker); ticker = null;
+  clearInterval(breakTicker); breakTicker = null;
+  isPaused = false;
   releaseWakeLock();
   document.getElementById('overlay').classList.remove('active');
+  document.getElementById('liveSettings').classList.remove('live-settings--open');
   document.getElementById('runner').style.display = 'none';
   document.getElementById('setup').style.display = 'block';
+  const pb = document.getElementById('pauseBtn');
+  if (pb) pb.textContent = '⏸ Pause';
 }

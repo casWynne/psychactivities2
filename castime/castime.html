@@ -22,17 +22,114 @@
     <div class="preset-bar" id="presetBar"></div>
   </div>
 
+  <!-- How to use accordion -->
+  <div class="howto-accordion" id="howtoAccordion">
+    <button class="howto-trigger" onclick="toggleHowTo()" aria-expanded="false">
+      <span>How to use CasTime</span>
+      <span class="howto-chevron">›</span>
+    </button>
+    <div class="howto-body" id="howtoBody">
+      <div class="howto-content">
+        <div class="howto-section">
+          <div class="howto-step">
+            <div class="howto-num">1</div>
+            <div>
+              <strong>Set up your session</strong> — Choose how many minutes each activity slot lasts, and configure warnings, breaks, and sounds to suit your event.
+            </div>
+          </div>
+          <div class="howto-step">
+            <div class="howto-num">2</div>
+            <div>
+              <strong>Add activities</strong> — These are the stations or tasks that groups will rotate through. Drag to reorder them.
+            </div>
+          </div>
+          <div class="howto-step">
+            <div class="howto-num">3</div>
+            <div>
+              <strong>Add groups</strong> — Each group gets a label (A, B, C…) or a custom name. CasTime works out who goes where automatically.
+            </div>
+          </div>
+          <div class="howto-step">
+            <div class="howto-num">4</div>
+            <div>
+              <strong>Start the session</strong> — The timer counts down each slot. A "Change places!" overlay appears at the end of each round showing everyone their next activity.
+            </div>
+          </div>
+          <div class="howto-step">
+            <div class="howto-num">5</div>
+            <div>
+              <strong>During the session</strong> — Use ⏸ Pause to hold the clock, "Move on early" to skip a round, or tap ⚙ to toggle sounds and timing behaviour on the fly.
+            </div>
+          </div>
+        </div>
+        <div class="howto-tip">💡 The number of rounds equals the number of activities — so every group visits every station exactly once.</div>
+      </div>
+    </div>
+  </div>
+
   <div class="card">
     <div class="card-title">Session</div>
-    <div class="row">
-      <div class="field">
+
+    <div class="session-top">
+      <div class="field" style="flex:1;">
         <label>Minutes per slot</label>
         <input type="number" id="slotMins" value="10" min="1" max="120">
       </div>
-      <div class="field">
-        <label>Warn (mins before)</label>
-        <input type="number" id="warnMins" value="2" min="0" max="30">
+      <label class="session-check-label session-fanfare-check">
+        <input type="checkbox" id="fanfareSoundToggle" checked>
+        End of activity fanfare
+      </label>
+    </div>
+
+    <div class="session-rows">
+
+      <div class="session-row">
+        <div class="session-row-left">
+          <span class="session-row-title">Warning before change</span>
+          <label class="session-check-label">
+            <input type="checkbox" id="warnSoundToggle" checked>
+            Play warning sound
+          </label>
+        </div>
+        <label class="toggle-switch session-row-toggle" for="warnToggle">
+          <input type="checkbox" id="warnToggle" checked onchange="updateWarnFieldVisibility()">
+          <span class="toggle-track"></span>
+        </label>
+        <div class="session-row-right">
+          <label>Warn (mins before)</label>
+          <input type="number" id="warnMins" value="2" min="1" max="30">
+        </div>
       </div>
+
+      <div class="session-row">
+        <div class="session-row-left">
+          <span class="session-row-title">Break between activities</span>
+          <label class="session-check-label">
+            <input type="checkbox" id="breakAutoProgress">
+            Auto-progress after break
+          </label>
+        </div>
+        <label class="toggle-switch session-row-toggle" for="breakToggle">
+          <input type="checkbox" id="breakToggle" onchange="updateBreakFieldVisibility()">
+          <span class="toggle-track"></span>
+        </label>
+        <div class="session-row-right">
+          <label>Break (mins)</label>
+          <input type="number" id="breakMins" value="2" min="1" max="30">
+        </div>
+      </div>
+
+      <div class="session-row session-row--no-input">
+        <div class="session-row-left">
+          <span class="session-row-title">Continue timing during changes</span>
+        </div>
+        <label class="toggle-switch session-row-toggle" for="continuousToggle">
+          <input type="checkbox" id="continuousToggle">
+          <span class="toggle-track"></span>
+        </label>
+        <div class="session-row-right session-row-right--empty"></div>
+      </div>
+
     </div>
   </div>
 
@@ -49,21 +146,37 @@
   </div>
 
   <div class="card">
-    <div class="card-title">Final gathering <span style="font-size:0.7rem;font-weight:400;color:var(--muted);text-transform:none;letter-spacing:0">(optional)</span></div>
-    <p style="font-size:0.82rem;color:var(--muted);margin-bottom:14px;line-height:1.5;">After all rotations, everyone comes together here. No timer — shown on the last change overlay.</p>
-    <div id="finalTaskWrap"></div>
+    <div class="card-title">Final gathering</div>
+    <div class="session-rows">
+      <div class="session-row session-row--no-input">
+        <div class="session-row-left">
+          <span class="session-row-title">Enable final gathering</span>
+          <span style="font-size:0.75rem;color:var(--muted);">Shown on the last overlay — no timer</span>
+        </div>
+        <label class="toggle-switch session-row-toggle" for="finalGatheringToggle">
+          <input type="checkbox" id="finalGatheringToggle" checked onchange="updateFinalGatheringVisibility()">
+          <span class="toggle-track"></span>
+        </label>
+        <div class="session-row-right" id="finalGatheringField">
+          <label>Gathering name</label>
+          <input type="text" id="finalGatheringName" value="Final Gathering" placeholder="e.g. Let's Build"
+            oninput="finalTask.name = this.value.trim() || 'Final Gathering'; finalTask.enabled = true;">
+        </div>
+      </div>
+    </div>
   </div>
 
-  <button class="btn btn-start" onclick="startSession()">Start session →</button>
+  <div class="start-row">
+    <button class="btn btn-reset" onclick="resetToDefaults()">↺ Reset</button>
+    <button class="btn btn-start" onclick="startSession()">Start session →</button>
+  </div>
 </div>
 
 <!-- ══ RUNNER ══ -->
 <div id="runner">
   <div class="runner-top">
-    <div>
-      <div class="live-clock" id="liveClock">10:00</div>
-      <div class="round-label" id="roundLabel">Round 1 of 4</div>
-      <div id="wakeLockStatus" style="margin-top:6px;font-size:0.72rem;color:var(--muted);letter-spacing:0.03em;"></div>
+    <div class="runner-side runner-side--left">
+      <button class="btn btn-ghost" onclick="resetToSetup()">← Setup</button>
     </div>
     <div class="ring-wrap">
       <svg class="ring-svg" width="100" height="100">
@@ -85,7 +198,12 @@
         <div class="ring-sub">left</div>
       </div>
     </div>
-    <button class="btn btn-ghost" onclick="resetToSetup()">← Setup</button>
+    <div class="runner-side runner-side--right">
+      <div class="live-clock" id="liveClock">10:00</div>
+      <div class="round-label" id="roundLabel">Round 1 of 4</div>
+      <div class="rounds-left" id="roundsLeft">4 rounds remaining</div>
+      <div id="wakeLockStatus" style="margin-top:6px;font-size:0.72rem;color:var(--muted);letter-spacing:0.03em;"></div>
+    </div>
   </div>
 
   <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
@@ -94,8 +212,36 @@
   <div class="grid-label">Current positions</div>
   <div class="act-grid" id="actGrid"></div>
 
-  <div style="text-align:center;margin-top:8px;padding-bottom:48px;">
+  <div style="text-align:center;margin-top:8px;padding-bottom:48px;display:flex;gap:10px;justify-content:center;">
+    <button class="btn btn-pause" id="pauseBtn" onclick="togglePause()">⏸ Pause</button>
     <button class="btn btn-skip" onclick="skipRound()">Move on early →</button>
+    <button class="btn btn-settings" onclick="toggleLiveSettings()" id="settingsBtn" title="Live settings">⚙</button>
+  </div>
+
+  <!-- Live settings popover -->
+  <div class="live-settings" id="liveSettings">
+    <div class="live-settings-title">Live settings</div>
+    <label class="live-settings-row">
+      <span>End of activity fanfare</span>
+      <label class="toggle-switch" for="liveFanfare">
+        <input type="checkbox" id="liveFanfare" checked onchange="fanfareEnabled = this.checked">
+        <span class="toggle-track"></span>
+      </label>
+    </label>
+    <label class="live-settings-row">
+      <span>Warning chirp</span>
+      <label class="toggle-switch" for="liveWarnSound">
+        <input type="checkbox" id="liveWarnSound" checked onchange="warnSoundEnabled = this.checked">
+        <span class="toggle-track"></span>
+      </label>
+    </label>
+    <label class="live-settings-row">
+      <span>Continue timing during changes</span>
+      <label class="toggle-switch" for="liveContinuous">
+        <input type="checkbox" id="liveContinuous" onchange="continuousTiming = this.checked">
+        <span class="toggle-track"></span>
+      </label>
+    </label>
   </div>
 </div>
 
@@ -104,6 +250,22 @@
   <div class="overlay-title" id="overlayTitle">Change places!</div>
   <div class="overlay-sub" id="overlaySub">Move to your next activity</div>
   <div class="overlay-cards" id="overlayCards"></div>
+  <div class="overlay-break" id="overlayBreak" style="display:none;">
+    <div class="break-ring-wrap">
+      <svg class="break-ring-svg" width="80" height="80">
+        <circle cx="40" cy="40" r="33" fill="none" stroke="var(--border)" stroke-width="6"/>
+        <circle cx="40" cy="40" r="33" fill="none"
+          stroke="#ff8c00" stroke-width="6"
+          stroke-linecap="round"
+          stroke-dasharray="207.3" stroke-dashoffset="0"
+          id="overlayBreakCircle"/>
+      </svg>
+      <div class="break-ring-inner">
+        <div class="break-ring-time" id="overlayBreakTime">—</div>
+        <div class="break-ring-sub">break</div>
+      </div>
+    </div>
+  </div>
   <button class="btn-dismiss" id="dismissBtn" onclick="dismissAlarm()">We've moved →</button>
 </div>
 

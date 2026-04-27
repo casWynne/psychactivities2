@@ -434,6 +434,7 @@ function renderRound() {
 // ── Tick ───────────────────────────────────────────────────────────────────
 function tick() {
   updateDisplay();
+  broadcastProjectorState();
   secsLeft--;
   if (secsLeft < 0) {
     clearInterval(ticker);
@@ -564,6 +565,7 @@ function triggerAlarm() {
   }
 
   document.getElementById('overlay').classList.add('active');
+  broadcastProjectorState();
 }
 
 function updateBreakDisplay() {
@@ -585,6 +587,7 @@ function dismissAlarm() {
     tick();
     ticker = setInterval(tick, 1000);
   }
+  broadcastProjectorState();
 }
 
 // ── Fanfare ────────────────────────────────────────────────────────────────
@@ -665,6 +668,16 @@ document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible' && ticker) acquireWakeLock();
 });
 
+// Listen for dismiss signal from projector window
+window.addEventListener('storage', (e) => {
+  if (e.key === 'castime-projector-dismiss') {
+    const overlay = document.getElementById('overlay');
+    if (overlay.classList.contains('active')) {
+      document.getElementById('dismissBtn').click();
+    }
+  }
+});
+
 // ── Spacebar → dismiss overlay ─────────────────────────────────────────────
 document.addEventListener('keydown', (e) => {
   if (e.code === 'Space' && document.getElementById('overlay').classList.contains('active')) {
@@ -672,6 +685,43 @@ document.addEventListener('keydown', (e) => {
     document.getElementById('dismissBtn').click();
   }
 });
+
+// ── Projector mode ────────────────────────────────────────────────────────
+let projectorWin = null;
+
+function openProjector() {
+  projectorWin = window.open('projector.html', 'CasTimeProjector',
+    'width=1280,height=720,menubar=no,toolbar=no,location=no,status=no');
+  broadcastProjectorState();
+}
+
+function broadcastProjectorState() {
+  const state = {
+    secsLeft,
+    currentSlotSecs: slotSecs,
+    currentRound,
+    totalRounds,
+    isSingle: isSingleGroup(),
+    activityName: activities[currentRound % activities.length]?.name || `Activity ${currentRound + 1}`,
+    assignments: isSingleGroup() ? [] : getAssignments(currentRound).map((here, ai) => ({
+      actName: activities[ai]?.name || `Activity ${ai + 1}`,
+      color: RAINBOW[ai % 7],
+      groups: here.map(g => groupDisplayName(g)),
+    })),
+    overlayActive: document.getElementById('overlay').classList.contains('active'),
+    overlayTitle: document.getElementById('overlayTitle')?.textContent || '',
+    overlayCards: isSingleGroup()
+      ? [{ actName: 'Up next', color: RAINBOW[currentRound % 7], groups: [activities[currentRound % activities.length]?.name || ''] }]
+      : (getAssignments(currentRound).map((here, ai) => ({
+          actName: activities[ai]?.name || `Activity ${ai + 1}`,
+          color: RAINBOW[ai % 7],
+          groups: here.map(g => groupDisplayName(g)),
+        }))),
+    isFinalRound: currentRound >= totalRounds,
+    ts: Date.now(),
+  };
+  try { localStorage.setItem('castime-projector', JSON.stringify(state)); } catch(e) {}
+}
 
 // ── How-to accordion ──────────────────────────────────────────────────────
 function toggleHowTo() {
@@ -784,17 +834,42 @@ function applyFinishBy() {
   const [h, m] = val.split(':').map(Number);
   const end = new Date(now);
   end.setHours(h, m, 0, 0);
-  if (end <= now) end.setDate(end.getDate() + 1); // next day if past
+  if (end <= now) end.setDate(end.getDate() + 1);
 
   const numActs = activities.length || 3;
   const breakEnabled = document.getElementById('breakToggle').checked;
   const breakMinsVal = breakEnabled ? (parseFloat(document.getElementById('breakMins').value) || 0) : 0;
   const totalMins = (end - now) / 60000;
   const totalBreakMins = breakMinsVal * (numActs - 1);
-  const slotMinsCalc = Math.max(1, Math.floor((totalMins - totalBreakMins) / numActs));
+  const availableMins = totalMins - totalBreakMins;
 
-  document.getElementById('slotMins').value = slotMinsCalc;
-  hint.textContent = `→ ${slotMinsCalc} min slots`;
+  // Work out weights: activities with custom mins get their weight relative to default
+  // First pass: find a "unit" — the smallest custom time or 1 if none set
+  const customMins = activities.map(a => a.mins && a.mins > 0 ? a.mins : null);
+  const hasCustom = customMins.some(v => v !== null);
+
+  if (!hasCustom) {
+    // All equal — simple division
+    const slotMinsCalc = Math.max(1, Math.floor(availableMins / numActs));
+    document.getElementById('slotMins').value = slotMinsCalc;
+    hint.textContent = `→ ${slotMinsCalc} min slots`;
+  } else {
+    // Use relative weights: custom values as-is, blanks get the computed default
+    // Find base unit from total weight
+    const weights = customMins.map(v => v !== null ? v : null); // nulls filled after
+    const fixedTotal = weights.filter(v => v !== null).reduce((s, v) => s + v, 0);
+    const blankCount = weights.filter(v => v === null).length;
+    // Solve: fixedTotal + blankCount * x = availableMins → x = (availableMins - fixedTotal) / blankCount
+    const defaultSlot = blankCount > 0
+      ? Math.max(1, Math.floor((availableMins - fixedTotal) / blankCount))
+      : Math.floor(availableMins / numActs);
+    document.getElementById('slotMins').value = defaultSlot;
+    // Show summary
+    const parts = activities.map((a, i) =>
+      `${a.name || `Act ${i+1}`}: ${a.mins && a.mins > 0 ? a.mins : defaultSlot}m`
+    );
+    hint.textContent = `→ default ${defaultSlot} min`;
+  }
 }
 
 // Recalculate if activities/breaks change while in finish-by mode

@@ -88,6 +88,7 @@
       transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
       text-decoration: none;
       display: block;
+      position: relative;
     }
 
     .card:hover {
@@ -122,6 +123,24 @@
       color: var(--muted);
       font-size: 0.72rem;
       font-family: 'DM Mono', monospace;
+    }
+
+    /* ── Video badge ─────────────────────────────────────────── */
+    .video-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      color: var(--text);
+      font-size: 0.65rem;
+      font-family: 'DM Mono', monospace;
+      padding: 3px 7px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     /* ── Empty state ─────────────────────────────────────────── */
@@ -197,16 +216,23 @@
     //    thumb — thumbnail filename in images/thumbnails/
     //            (if omitted, falls back to file — slower)
     //    label — display name
+    //    video — (optional) YouTube URL or video ID. If set, a
+    //            "Watch Video" button appears in the viewer HUD
+    //            and opens a modal with the embedded video.
+    //            Accepts any of:
+    //              "https://www.youtube.com/watch?v=VIDEO_ID"
+    //              "https://youtu.be/VIDEO_ID"
+    //              "VIDEO_ID"
     // ════════════════════════════════════════════════════════════
     const IMAGES = [
       { file: "Mind Maze.png",             thumb: "Mind Maze - thumb.jpg",             label: "Mind Maze" },
       { file: "Putting Pressure.png",      thumb: "Putting Pressure - thumb.jpg",      label: "Putting Pressure" },
-      { file: "Stack Attack.png",          thumb: "Stack Attack - thumb.jpg",          label: "Stack Attack" },
+      { file: "Stack Attack.png",          thumb: "Stack Attack - thumb.jpg",          label: "Stack Attack",
+        video: "https://www.youtube.com/shorts/CVG8pkJshms" },
       { file: "Turbo Trouble.png",         thumb: "TurboTrouble - thumb.jpg",          label: "Turbo Trouble" },
       { file: "Cognitive Curiosities.png", thumb: "Cognitive Curiosities - thumb.jpg", label: "Cognitive Curiosities" },
-      { file: "Operation Elevation.png", thumb: "Operation Elevation - thumb.jpg", label: "Operation Elevation" },
-      { file: "Let's Build.png", thumb: "Let's Build - thumb.jpg", label: "Let's Build" }
-
+      { file: "Operation Elevation.png",   thumb: "Operation Elevation - thumb.jpg",   label: "Operation Elevation" },
+      { file: "Let's Build.png",           thumb: "Let's Build - thumb.jpg",           label: "Let's Build" }
     ];
     // ════════════════════════════════════════════════════════════
 
@@ -223,7 +249,14 @@
       IMAGES.forEach((img, i) => {
         const card = document.createElement('a');
         card.className = 'card';
-        card.href = `viewer.html?img=${encodeURIComponent(img.file)}&label=${encodeURIComponent(img.label || img.file)}`;
+
+        // Build viewer URL — include video param if present
+        const urlParams = new URLSearchParams({
+          img:   img.file,
+          label: img.label || img.file
+        });
+        if (img.video) urlParams.set('video', img.video);
+        card.href = `viewer.html?${urlParams.toString()}`;
 
         const thumb = document.createElement('img');
         thumb.className = 'card-thumb';
@@ -238,6 +271,15 @@
         label.innerHTML = `<strong>${img.label || img.file}</strong><span>${String(i + 1).padStart(2, '0')}</span>`;
 
         card.appendChild(thumb);
+
+        // Show a small badge if this screen has a linked video
+        if (img.video) {
+          const badge = document.createElement('div');
+          badge.className = 'video-badge';
+          badge.innerHTML = '▶ video';
+          card.appendChild(badge);
+        }
+
         card.appendChild(label);
         grid.appendChild(card);
       });

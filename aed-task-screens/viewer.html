@@ -97,7 +97,8 @@
       color: var(--muted);
     }
 
-    #close-btn {
+    /* Shared HUD button base */
+    .hud-btn {
       background: none;
       border: 1px solid rgba(255,255,255,0.15);
       color: var(--text);
@@ -109,9 +110,21 @@
       transition: background 0.15s, border-color 0.15s;
     }
 
-    #close-btn:hover {
+    .hud-btn:hover {
       background: rgba(255,255,255,0.08);
       border-color: rgba(255,255,255,0.3);
+    }
+
+    /* Video button gets an accent treatment */
+    #video-btn {
+      display: none; /* shown by JS when a video is configured */
+      border-color: rgba(230, 57, 70, 0.5);
+      color: var(--text);
+    }
+
+    #video-btn:hover {
+      background: rgba(230, 57, 70, 0.15);
+      border-color: var(--accent);
     }
 
     /* ── Error state ─────────────────────────────────────────── */
@@ -135,6 +148,68 @@
       font-size: 0.82rem;
       font-family: 'DM Mono', monospace;
     }
+
+    /* ── Video modal ─────────────────────────────────────────── */
+    #video-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 40px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    #video-modal.open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .modal-content iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -44px;
+      right: 0;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text);
+      width: 34px;
+      height: 34px;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: background 0.15s, border-color 0.15s;
+      font-family: 'DM Sans', system-ui, sans-serif;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
   </style>
 </head>
 <body>
@@ -155,15 +230,25 @@
         <span id="wake-text">—</span>
       </div>
       <span id="hud-hint">space · close</span>
-      <button id="close-btn" onclick="closeViewer()">✕ Close</button>
+      <button id="video-btn" class="hud-btn" onclick="openVideoModal()">▶ Watch Video</button>
+      <button id="close-btn" class="hud-btn" onclick="closeViewer()">✕ Close</button>
+    </div>
+  </div>
+
+  <!-- Video modal -->
+  <div id="video-modal" onclick="onModalBackdropClick(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeVideoModal()" aria-label="Close video">✕</button>
+      <!-- iframe is inserted/removed dynamically so the video actually stops on close -->
     </div>
   </div>
 
   <script>
     // ── Parse query string ───────────────────────────────────
-    const params = new URLSearchParams(window.location.search);
+    const params  = new URLSearchParams(window.location.search);
     const imgFile = params.get('img')   || '';
     const label   = params.get('label') || imgFile;
+    const video   = params.get('video') || '';
 
     document.title = label ? `${label} — AED Task Screens` : 'AED Task Screens';
     document.getElementById('hud-label').textContent = label || 'AED Task Screens';
@@ -186,6 +271,75 @@
       imgEl.style.display = 'none';
       errorEl.style.display = 'flex';
       errorPath.textContent = 'No image specified';
+    }
+
+    // ── Video modal ──────────────────────────────────────────
+    const videoBtn     = document.getElementById('video-btn');
+    const videoModal   = document.getElementById('video-modal');
+    const modalContent = videoModal.querySelector('.modal-content');
+
+    // Extract YouTube video ID from various URL formats (or a bare ID)
+    function extractYouTubeId(input) {
+      if (!input) return null;
+      const trimmed = input.trim();
+      // Bare 11-char ID
+      if (/^[A-Za-z0-9_-]{11}$/.test(trimmed)) return trimmed;
+      try {
+        const url = new URL(trimmed);
+        // youtu.be/VIDEO_ID
+        if (url.hostname.includes('youtu.be')) {
+          return url.pathname.slice(1).split('/')[0] || null;
+        }
+        // youtube.com/watch?v=VIDEO_ID
+        if (url.hostname.includes('youtube.com')) {
+          const v = url.searchParams.get('v');
+          if (v) return v;
+          // youtube.com/embed/VIDEO_ID or /shorts/VIDEO_ID
+          const parts = url.pathname.split('/').filter(Boolean);
+          if (parts[0] === 'embed' || parts[0] === 'shorts') return parts[1] || null;
+        }
+      } catch (e) {
+        // not a URL — fall through
+      }
+      return null;
+    }
+
+    const videoId = extractYouTubeId(video);
+
+    // Show the button only if we have a valid video ID
+    if (videoId) {
+      videoBtn.style.display = 'inline-block';
+    }
+
+    function openVideoModal() {
+      if (!videoId) return;
+      // Insert iframe fresh each open so the video starts from scratch
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      iframe.title = `${label} — video`;
+      // Replace any existing iframe (keeps the close button intact)
+      const existing = modalContent.querySelector('iframe');
+      if (existing) existing.remove();
+      modalContent.appendChild(iframe);
+      videoModal.classList.add('open');
+    }
+
+    function closeVideoModal() {
+      videoModal.classList.remove('open');
+      // Remove iframe to fully stop playback / audio
+      const iframe = modalContent.querySelector('iframe');
+      if (iframe) iframe.remove();
+    }
+
+    function onModalBackdropClick(e) {
+      // Only close when clicking the backdrop itself, not the video area
+      if (e.target === videoModal) closeVideoModal();
+    }
+
+    function isModalOpen() {
+      return videoModal.classList.contains('open');
     }
 
     // ── Fullscreen ───────────────────────────────────────────
@@ -256,13 +410,21 @@
       window.location.href = 'index.html';
     }
 
-    // ── Space key listener ───────────────────────────────────
+    // ── Keyboard ─────────────────────────────────────────────
     document.addEventListener('keydown', (e) => {
+      // If the modal is open, keys only affect the modal
+      if (isModalOpen()) {
+        if (e.code === 'Escape' || e.code === 'Space' || e.key === ' ') {
+          e.preventDefault();
+          closeVideoModal();
+        }
+        return;
+      }
+
       if (e.code === 'Space' || e.key === ' ') {
         e.preventDefault();
         closeViewer();
       }
-      // Escape also closes (belt-and-braces)
       if (e.code === 'Escape') {
         closeViewer();
       }

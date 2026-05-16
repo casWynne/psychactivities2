@@ -223,13 +223,19 @@
     //              "https://www.youtube.com/watch?v=VIDEO_ID"
     //              "https://youtu.be/VIDEO_ID"
     //              "VIDEO_ID"
+    //    calculator — (optional) set to true to add a "Score
+    //            Calculator" button to the viewer HUD. Opens a
+    //            modal for tallying team scores. Storage is
+    //            namespaced by image filename, so each screen
+    //            keeps its own independent set of groups.
     // ════════════════════════════════════════════════════════════
     const IMAGES = [
       { file: "Mind Maze.png",             thumb: "Mind Maze - thumb.jpg",             label: "Mind Maze" },
       { file: "Putting Pressure.png",      thumb: "Putting Pressure - thumb.jpg",      label: "Putting Pressure" },
       { file: "Stack Attack.png",          thumb: "Stack Attack - thumb.jpg",          label: "Stack Attack",
-        video: "https://www.youtube.com/shorts/CVG8pkJshms" },
-      { file: "Turbo Trouble.png",         thumb: "TurboTrouble - thumb.jpg",          label: "Turbo Trouble" },
+        video: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+      { file: "Turbo Trouble.png",         thumb: "TurboTrouble - thumb.jpg",          label: "Turbo Trouble",
+        calculator: true },
       { file: "Cognitive Curiosities.png", thumb: "Cognitive Curiosities - thumb.jpg", label: "Cognitive Curiosities" },
       { file: "Operation Elevation.png",   thumb: "Operation Elevation - thumb.jpg",   label: "Operation Elevation" },
       { file: "Let's Build.png",           thumb: "Let's Build - thumb.jpg",           label: "Let's Build" }
@@ -250,12 +256,13 @@
         const card = document.createElement('a');
         card.className = 'card';
 
-        // Build viewer URL — include video param if present
+        // Build viewer URL — include feature flags if present
         const urlParams = new URLSearchParams({
           img:   img.file,
           label: img.label || img.file
         });
         if (img.video) urlParams.set('video', img.video);
+        if (img.calculator) urlParams.set('calculator', '1');
         card.href = `viewer.html?${urlParams.toString()}`;
 
         const thumb = document.createElement('img');
@@ -272,11 +279,14 @@
 
         card.appendChild(thumb);
 
-        // Show a small badge if this screen has a linked video
-        if (img.video) {
+        // Show small badges for any extra features on this screen
+        const badges = [];
+        if (img.video)      badges.push('▶ video');
+        if (img.calculator) badges.push('∑ calc');
+        if (badges.length) {
           const badge = document.createElement('div');
           badge.className = 'video-badge';
-          badge.innerHTML = '▶ video';
+          badge.innerHTML = badges.join(' · ');
           card.appendChild(badge);
         }
 

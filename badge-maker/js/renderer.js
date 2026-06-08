@@ -49,28 +49,47 @@ const BadgeRenderer = (() => {
     return { sz, cx, cy, outerR, innerR, arcR, borderThickness, C };
   };
 
-  /**
-   * Visual centroid of the inner area. For triangle this is
-   * shifted downward because the incircle sits below cx,cy.
-   */
-  const innerCentroid = (shape, cx, cy, outerR, innerR) => {
-    if (shape === "triangle") {
-      // Equilateral triangle: centroid is 1/3 from base.
-      // The inner triangle is offset down by (outerR-innerR)*0.15
-      // so we nudge the centroid down a bit more.
-      return { icx: cx, icy: cy + (outerR - innerR) * 0.15 };
-    }
-    return { icx: cx, icy: cy };
-  };
-
   // ─── Triangle geometry ───────────────────────────────────
 
+  /**
+   * Vertices of an equilateral triangle with a given circumradius,
+   * centred at (cx, cy), apex pointing up.
+   * Angles: -90° (top), 30° (bottom-right), 150° (bottom-left).
+   */
   const equilateralVertices = (cx, cy, r) =>
     [-90, 30, 150].map(a => ({
       x: cx + r * Math.cos(toRad(a)),
       y: cy + r * Math.sin(toRad(a))
     }));
 
+  /**
+   * Inset an equilateral triangle's vertices by a perpendicular
+   * edge distance `d` (the desired border thickness in px).
+   *
+   * For an equilateral triangle the circumradius R and inradius r
+   * relate as:  inradius = R / 2  (for a regular triangle, r = R*sin(60°)/... )
+   * More precisely: inradius = R * sin(60°) * 2/3 ... actually:
+   *   For equilateral:  inradius = R / 2   (R = circumradius, r_in = R/2)
+   *
+   * To inset each edge by perpendicular distance d, the new circumradius is:
+   *   R_inner = R - d / sin(60°)   ... which equals R - d * 2/√3
+   *
+   * The centroid stays fixed — no vertical nudge needed.
+   * This guarantees the border is exactly `d` px thick on ALL three edges.
+   *
+   * @param {number} outerR      – circumradius of the outer triangle
+   * @param {number} borderThick – desired perpendicular border thickness in px
+   * @returns {number}           – circumradius of the inner triangle
+   */
+  const triangleInnerR = (outerR, borderThick) => {
+    // sin(60°) = √3/2 ≈ 0.8660
+    return outerR - borderThick / Math.sin(toRad(60));
+  };
+
+  /**
+   * Build a rounded-corner SVG path from an array of vertices.
+   * Uses quadratic bezier curves at each corner.
+   */
   const roundedTrianglePath = (verts, cr) => {
     const n = verts.length;
     let d = "";
@@ -108,22 +127,30 @@ const BadgeRenderer = (() => {
           rx="${cr*0.55}" fill="${cc}" />`;
   };
 
-  const triangleShape = (cx, cy, outerR, innerR, bc, cc, cr) => {
+  /**
+   * Triangle badge shape with geometrically uniform border.
+   * The inner triangle is computed by insetting each edge by the
+   * same perpendicular distance — so all three sides are equal thickness.
+   * The centroid is shared between outer and inner triangles (no nudge).
+   */
+  const triangleShape = (cx, cy, outerR, borderThick, bc, cc, cr) => {
+    const innerR = triangleInnerR(outerR, borderThick);
     const ov = equilateralVertices(cx, cy, outerR);
-    const iv = equilateralVertices(cx, cy + (outerR - innerR) * 0.15, innerR);
+    const iv = equilateralVertices(cx, cy, innerR);   // same centroid
     return `
     <path d="${roundedTrianglePath(ov, cr)}" fill="${bc}" />
-    <path d="${roundedTrianglePath(iv, cr*0.5)}" fill="${cc}" />`;
+    <path d="${roundedTrianglePath(iv, cr * (innerR / outerR))}" fill="${cc}" />`;
   };
 
   // ─── Clip paths ──────────────────────────────────────────
 
   /**
    * Build a <clipPath> matching the inner shape exactly.
-   * This keeps icons/images neatly inside the centre area.
+   * Triangle clip path uses the same inset calculation.
    */
-  const buildClipPath = (shape, cx, cy, innerR, C) => {
-    const id = "inner-clip";
+  const buildClipPath = (shape, cx, cy, outerR, borderThick, C) => {
+    const id     = "inner-clip";
+    const innerR = outerR - borderThick;   // used for circle/square
     if (shape === "circle") {
       return {
         id,
@@ -140,12 +167,14 @@ const BadgeRenderer = (() => {
         </clipPath>`
       };
     }
-    // Triangle: inner verts are offset downward slightly
-    const iv = equilateralVertices(cx, cy + (C.canvasSize/2 - 6 - innerR) * 0.15, innerR);
+    // Triangle: use proper perpendicular inset so clip matches the visual inner shape
+    const triInnerR = triangleInnerR(outerR, borderThick);
+    const iv        = equilateralVertices(cx, cy, triInnerR);
+    const cr        = C.triangleCornerRadius * (triInnerR / outerR);
     return {
       id,
       def: `<clipPath id="${id}">
-        <path d="${roundedTrianglePath(iv, C.triangleCornerRadius*0.5)}" />
+        <path d="${roundedTrianglePath(iv, cr)}" />
       </clipPath>`
     };
   };
@@ -345,9 +374,11 @@ const BadgeRenderer = (() => {
    * @returns {{ icx, icy, innerR }}
    */
   const getInnerBounds = (state) => {
-    const { sz, cx, cy, outerR, innerR } = calcGeometry();
-    const { icx, icy } = innerCentroid(state.shape, cx, cy, outerR, innerR);
-    return { icx, icy, innerR };
+    const { cx, cy, outerR, innerR, borderThickness } = calcGeometry();
+    const contentR = state.shape === "triangle"
+      ? triangleInnerR(outerR, borderThickness)
+      : innerR;
+    return { icx: cx, icy: cy, innerR: contentR };
   };
 
   // ─── Main render ─────────────────────────────────────────
@@ -363,9 +394,14 @@ const BadgeRenderer = (() => {
    *   customImageUrl
    */
   const render = (state) => {
-    const { sz, cx, cy, outerR, innerR, arcR, C } = calcGeometry();
+    const { sz, cx, cy, outerR, innerR, arcR, borderThickness, C } = calcGeometry();
     const { shape, borderColour, centreColour, textColour } = state;
-    const { icx, icy } = innerCentroid(shape, cx, cy, outerR, innerR);
+
+    // For circle/square: innerCentroid is just cx,cy.
+    // For triangle: centroid is now also cx,cy — no nudge needed because
+    // the inset calculation keeps the centroid fixed.
+    const icx = cx;
+    const icy = cy;
 
     // ── Badge shell ──
     let shapeSvg = "";
@@ -374,32 +410,39 @@ const BadgeRenderer = (() => {
     } else if (shape === "square") {
       shapeSvg = squareShape(cx, cy, outerR, innerR, borderColour, centreColour, C.squareCornerRadius);
     } else {
-      shapeSvg = triangleShape(cx, cy, outerR, innerR, borderColour, centreColour, C.triangleCornerRadius);
+      // Pass borderThickness so all three edges are inset equally
+      shapeSvg = triangleShape(cx, cy, outerR, borderThickness, borderColour, centreColour, C.triangleCornerRadius);
     }
 
     // ── Clip path for inner area ──
-    const { id: clipId, def: clipDef } = buildClipPath(shape, cx, cy, innerR, C);
+    const { id: clipId, def: clipDef } = buildClipPath(shape, cx, cy, outerR, borderThickness, C);
 
     // ── Text labels ──
+    // For triangle, compute the correct inner circumradius using the inset formula
+    const triInnerR = shape === "triangle" ? triangleInnerR(outerR, borderThickness) : innerR;
+
     let textSvg = "";
     if (shape === "circle")   textSvg = circleTextArcs(cx, cy, arcR, state);
     if (shape === "square")   textSvg = squareTextLabels(cx, cy, outerR, innerR, state);
-    if (shape === "triangle") textSvg = triangleTextLabels(cx, cy, outerR, innerR, state);
+    if (shape === "triangle") textSvg = triangleTextLabels(cx, cy, outerR, triInnerR, state);
 
     // ── Decorative stars (circle/square only) ──
     const starsSvg = decorativeStars(cx, cy, arcR, C.starSize, textColour, shape);
 
+    // ── Use triInnerR for triangle content sizing, innerR for others ──
+    const contentR = shape === "triangle" ? triInnerR : innerR;
+
     // ── Centre content (image OR icon, then logo on top) ──
     const customImgSvg = state.customImageUrl
-      ? customImageElement(icx, icy, innerR, clipId, state)
+      ? customImageElement(icx, icy, contentR, clipId, state)
       : "";
 
     const iconSvg = (!state.customImageUrl && state.iconName)
-      ? tablerIconElement(icx, icy, innerR, state)
+      ? tablerIconElement(icx, icy, contentR, state)
       : "";
 
     const logoSvg = (state.showLogo && state.logoDataUrl)
-      ? universityLogoElement(icx, icy, innerR, state)
+      ? universityLogoElement(icx, icy, contentR, state)
       : "";
 
     return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"

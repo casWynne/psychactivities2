@@ -7,14 +7,17 @@
   <style>
     :root {
       --bg:     #000;
+      --surface: #161a1f;
+      --border: #2a2f38;
       --text:   #e8eaed;
       --muted:  rgba(255,255,255,0.35);
+      --muted-strong: #6b7280;
       --accent: #e63946;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
 
     body {
       background: var(--bg);
@@ -58,17 +61,9 @@
       flex-shrink: 0;
     }
 
-    #hud-label {
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--text);
-    }
+    #hud-label { font-size: 0.82rem; font-weight: 500; color: var(--text); }
 
-    #hud-right {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
+    #hud-right { display: flex; align-items: center; gap: 20px; }
 
     #wake-status {
       font-size: 0.72rem;
@@ -80,13 +75,11 @@
     }
 
     #wake-dot {
-      width: 7px;
-      height: 7px;
+      width: 7px; height: 7px;
       border-radius: 50%;
       background: #6b7280;
       transition: background 0.3s;
     }
-
     #wake-dot.active   { background: #22c55e; }
     #wake-dot.inactive { background: #f59e0b; }
     #wake-dot.error    { background: var(--accent); }
@@ -97,7 +90,6 @@
       color: var(--muted);
     }
 
-    /* Shared HUD button base */
     .hud-btn {
       background: none;
       border: 1px solid rgba(255,255,255,0.15);
@@ -109,20 +101,16 @@
       cursor: pointer;
       transition: background 0.15s, border-color 0.15s;
     }
-
     .hud-btn:hover {
       background: rgba(255,255,255,0.08);
       border-color: rgba(255,255,255,0.3);
     }
 
-    /* Video button gets an accent treatment */
-    #video-btn {
-      display: none; /* shown by JS when a video is configured */
+    #video-btn, #calc-btn {
+      display: none; /* shown by JS when configured */
       border-color: rgba(230, 57, 70, 0.5);
-      color: var(--text);
     }
-
-    #video-btn:hover {
+    #video-btn:hover, #calc-btn:hover {
       background: rgba(230, 57, 70, 0.15);
       border-color: var(--accent);
     }
@@ -138,19 +126,11 @@
       padding: 40px;
       text-align: center;
     }
+    #error h2 { font-size: 1rem; color: var(--text); }
+    #error p  { font-size: 0.82rem; font-family: 'DM Mono', monospace; }
 
-    #error h2 {
-      font-size: 1rem;
-      color: var(--text);
-    }
-
-    #error p {
-      font-size: 0.82rem;
-      font-family: 'DM Mono', monospace;
-    }
-
-    /* ── Video modal ─────────────────────────────────────────── */
-    #video-modal {
+    /* ── Modal shell (shared) ────────────────────────────────── */
+    .modal {
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.85);
@@ -163,13 +143,10 @@
       opacity: 0;
       transition: opacity 0.2s ease;
     }
+    .modal.open { display: flex; opacity: 1; }
 
-    #video-modal.open {
-      display: flex;
-      opacity: 1;
-    }
-
-    .modal-content {
+    /* ── Video modal ─────────────────────────────────────────── */
+    .video-content {
       position: relative;
       width: 100%;
       max-width: 1200px;
@@ -180,23 +157,16 @@
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
+    .video-content iframe { width: 100%; height: 100%; border: 0; display: block; }
 
-    .modal-content iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-      display: block;
-    }
-
-    .modal-close {
+    .modal-close-floating {
       position: absolute;
       top: -44px;
       right: 0;
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.15);
       color: var(--text);
-      width: 34px;
-      height: 34px;
+      width: 34px; height: 34px;
       border-radius: 6px;
       font-size: 1rem;
       cursor: pointer;
@@ -205,10 +175,231 @@
       transition: background 0.15s, border-color 0.15s;
       font-family: 'DM Sans', system-ui, sans-serif;
     }
-
-    .modal-close:hover {
+    .modal-close-floating:hover {
       background: rgba(255, 255, 255, 0.15);
       border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    /* ── Calculator modal ────────────────────────────────────── */
+    .calc-content {
+      width: 100%;
+      max-width: 1100px;
+      max-height: calc(100vh - 80px);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .calc-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .calc-header h2 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .calc-header-actions { display: flex; gap: 8px; }
+
+    .calc-body {
+      padding: 16px 20px 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .groups { display: flex; flex-direction: column; gap: 10px; }
+
+    .group {
+      background: #1c2128;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: grid;
+      grid-template-columns: 110px 1fr auto auto auto auto;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .group-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text);
+      padding: 4px 6px;
+      border-radius: 4px;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      width: 100%;
+      min-width: 0;
+    }
+    .group-name:hover  { border-color: rgba(255,255,255,0.1); }
+    .group-name:focus  { outline: none; border-color: var(--accent); background: rgba(0,0,0,0.3); }
+
+    .scores {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      font-size: 0.78rem;
+      font-family: 'DM Mono', monospace;
+      cursor: pointer;
+      transition: background 0.12s, border-color 0.12s;
+      user-select: none;
+    }
+    .chip:hover { background: rgba(255,255,255,0.08); }
+    .chip input { accent-color: var(--accent); cursor: pointer; }
+    .chip.checked {
+      background: rgba(230, 57, 70, 0.12);
+      border-color: rgba(230, 57, 70, 0.5);
+    }
+    .chip.mr-hands {
+      border-color: rgba(245, 158, 11, 0.35);
+    }
+    .chip.mr-hands.checked {
+      background: rgba(245, 158, 11, 0.12);
+      border-color: rgba(245, 158, 11, 0.7);
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .field label {
+      font-size: 0.65rem;
+      font-family: 'DM Mono', monospace;
+      color: var(--muted-strong);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .time-input, .bonus-input {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 5px 8px;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      font-family: 'DM Mono', monospace;
+      width: 64px;
+    }
+    .time-input:focus, .bonus-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .time-pair { display: flex; align-items: center; gap: 4px; }
+    .time-pair .sep { color: var(--muted-strong); font-family: 'DM Mono', monospace; }
+
+    .total {
+      min-width: 84px;
+      text-align: right;
+      font-size: 1.15rem;
+      font-weight: 700;
+      font-family: 'DM Mono', monospace;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      padding-left: 8px;
+      border-left: 1px solid var(--border);
+    }
+    .total.negative { color: var(--accent); }
+
+    .remove-group {
+      background: none;
+      border: 1px solid transparent;
+      color: var(--muted-strong);
+      width: 26px;
+      height: 26px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: grid;
+      place-items: center;
+      transition: background 0.12s, color 0.12s, border-color 0.12s;
+    }
+    .remove-group:hover {
+      background: rgba(230, 57, 70, 0.12);
+      color: var(--accent);
+      border-color: rgba(230, 57, 70, 0.4);
+    }
+
+    .calc-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .calc-footer .left-actions { display: flex; gap: 8px; }
+
+    .btn {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 7px 14px;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.12s, border-color 0.12s;
+    }
+    .btn:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.25);
+    }
+    .btn-danger:hover {
+      background: rgba(230,57,70,0.12);
+      border-color: rgba(230,57,70,0.5);
+      color: var(--accent);
+    }
+    .btn-primary {
+      background: rgba(230,57,70,0.15);
+      border-color: rgba(230,57,70,0.5);
+    }
+    .btn-primary:hover {
+      background: rgba(230,57,70,0.25);
+      border-color: var(--accent);
+    }
+
+    .saved-hint {
+      font-size: 0.7rem;
+      font-family: 'DM Mono', monospace;
+      color: var(--muted-strong);
+    }
+
+    /* Narrower layout fallback */
+    @media (max-width: 900px) {
+      .group {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .total {
+        text-align: left;
+        border-left: 0;
+        border-top: 1px solid var(--border);
+        padding-top: 8px;
+        padding-left: 0;
+      }
     }
   </style>
 </head>
@@ -230,32 +421,56 @@
         <span id="wake-text">—</span>
       </div>
       <span id="hud-hint">space · close</span>
+      <button id="calc-btn"  class="hud-btn" onclick="openCalcModal()">∑ Calculator</button>
       <button id="video-btn" class="hud-btn" onclick="openVideoModal()">▶ Watch Video</button>
       <button id="close-btn" class="hud-btn" onclick="closeViewer()">✕ Close</button>
     </div>
   </div>
 
   <!-- Video modal -->
-  <div id="video-modal" onclick="onModalBackdropClick(event)">
-    <div class="modal-content">
-      <button class="modal-close" onclick="closeVideoModal()" aria-label="Close video">✕</button>
+  <div id="video-modal" class="modal" onclick="onVideoBackdropClick(event)">
+    <div class="video-content">
+      <button class="modal-close-floating" onclick="closeVideoModal()" aria-label="Close video">✕</button>
       <!-- iframe is inserted/removed dynamically so the video actually stops on close -->
+    </div>
+  </div>
+
+  <!-- Calculator modal -->
+  <div id="calc-modal" class="modal" onclick="onCalcBackdropClick(event)">
+    <div class="calc-content">
+      <div class="calc-header">
+        <h2>Score Calculator</h2>
+        <div class="calc-header-actions">
+          <button class="btn" onclick="closeCalcModal()">✕ Close</button>
+        </div>
+      </div>
+      <div class="calc-body">
+        <div id="groups" class="groups"></div>
+      </div>
+      <div class="calc-footer">
+        <div class="left-actions">
+          <button class="btn btn-primary" onclick="addGroup()">＋ Add group</button>
+          <button class="btn btn-danger"  onclick="clearStorage()">⟲ Clear storage</button>
+        </div>
+        <span id="saved-hint" class="saved-hint">auto-saved</span>
+      </div>
     </div>
   </div>
 
   <script>
     // ── Parse query string ───────────────────────────────────
-    const params  = new URLSearchParams(window.location.search);
-    const imgFile = params.get('img')   || '';
-    const label   = params.get('label') || imgFile;
-    const video   = params.get('video') || '';
+    const params        = new URLSearchParams(window.location.search);
+    const imgFile       = params.get('img')   || '';
+    const label         = params.get('label') || imgFile;
+    const video         = params.get('video') || '';
+    const hasCalculator = params.get('calculator') === '1';
 
     document.title = label ? `${label} — AED Task Screens` : 'AED Task Screens';
     document.getElementById('hud-label').textContent = label || 'AED Task Screens';
 
     // ── Load image ───────────────────────────────────────────
-    const imgEl    = document.getElementById('img');
-    const errorEl  = document.getElementById('error');
+    const imgEl     = document.getElementById('img');
+    const errorEl   = document.getElementById('error');
     const errorPath = document.getElementById('error-path');
 
     if (imgFile) {
@@ -273,102 +488,367 @@
       errorPath.textContent = 'No image specified';
     }
 
-    // ── Video modal ──────────────────────────────────────────
-    const videoBtn     = document.getElementById('video-btn');
-    const videoModal   = document.getElementById('video-modal');
-    const modalContent = videoModal.querySelector('.modal-content');
+    // ════════════════════════════════════════════════════════════
+    //  VIDEO MODAL
+    // ════════════════════════════════════════════════════════════
+    const videoBtn        = document.getElementById('video-btn');
+    const videoModal      = document.getElementById('video-modal');
+    const videoModalInner = videoModal.querySelector('.video-content');
 
-    // Extract YouTube video ID from various URL formats (or a bare ID)
     function extractYouTubeId(input) {
       if (!input) return null;
       const trimmed = input.trim();
-      // Bare 11-char ID
       if (/^[A-Za-z0-9_-]{11}$/.test(trimmed)) return trimmed;
       try {
         const url = new URL(trimmed);
-        // youtu.be/VIDEO_ID
         if (url.hostname.includes('youtu.be')) {
           return url.pathname.slice(1).split('/')[0] || null;
         }
-        // youtube.com/watch?v=VIDEO_ID
         if (url.hostname.includes('youtube.com')) {
           const v = url.searchParams.get('v');
           if (v) return v;
-          // youtube.com/embed/VIDEO_ID or /shorts/VIDEO_ID
           const parts = url.pathname.split('/').filter(Boolean);
           if (parts[0] === 'embed' || parts[0] === 'shorts') return parts[1] || null;
         }
-      } catch (e) {
-        // not a URL — fall through
-      }
+      } catch (e) {}
       return null;
     }
 
     const videoId = extractYouTubeId(video);
-
-    // Show the button only if we have a valid video ID
-    if (videoId) {
-      videoBtn.style.display = 'inline-block';
-    }
+    if (videoId) videoBtn.style.display = 'inline-block';
 
     function openVideoModal() {
       if (!videoId) return;
-      // Insert iframe fresh each open so the video starts from scratch
       const iframe = document.createElement('iframe');
       iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
       iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
       iframe.allowFullscreen = true;
       iframe.title = `${label} — video`;
-      // Replace any existing iframe (keeps the close button intact)
-      const existing = modalContent.querySelector('iframe');
+      const existing = videoModalInner.querySelector('iframe');
       if (existing) existing.remove();
-      modalContent.appendChild(iframe);
+      videoModalInner.appendChild(iframe);
       videoModal.classList.add('open');
     }
 
     function closeVideoModal() {
       videoModal.classList.remove('open');
-      // Remove iframe to fully stop playback / audio
-      const iframe = modalContent.querySelector('iframe');
+      const iframe = videoModalInner.querySelector('iframe');
       if (iframe) iframe.remove();
     }
 
-    function onModalBackdropClick(e) {
-      // Only close when clicking the backdrop itself, not the video area
+    function onVideoBackdropClick(e) {
       if (e.target === videoModal) closeVideoModal();
     }
 
-    function isModalOpen() {
+    function isVideoModalOpen() {
       return videoModal.classList.contains('open');
     }
 
-    // ── Fullscreen ───────────────────────────────────────────
-    async function requestFullscreen() {
+    // ════════════════════════════════════════════════════════════
+    //  CALCULATOR MODAL
+    // ════════════════════════════════════════════════════════════
+    const calcBtn   = document.getElementById('calc-btn');
+    const calcModal = document.getElementById('calc-modal');
+    const groupsEl  = document.getElementById('groups');
+    const savedHint = document.getElementById('saved-hint');
+
+    // Storage key is namespaced per image so different screens
+    // could each have an independent calculator state.
+    const STORAGE_KEY = `aed-calc:${imgFile || 'default'}`;
+
+    const SCORE_VALUES = [20, 40, 60, 100];
+    const MR_HANDS_PENALTY = 50;
+
+    function defaultState() {
+      return {
+        groups: [
+          freshGroup('Group A'),
+          freshGroup('Group B'),
+        ]
+      };
+    }
+
+    function freshGroup(name) {
+      return {
+        id: makeId(),
+        name,
+        scores: { 20: false, 40: false, 60: false, 100: false },
+        mrHands: false,
+        minutes: '',
+        seconds: '',
+        bonus: ''
+      };
+    }
+
+    function makeId() {
+      return 'g_' + Math.random().toString(36).slice(2, 9);
+    }
+
+    let state = loadState();
+
+    function loadState() {
       try {
-        await document.documentElement.requestFullscreen();
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return defaultState();
+        const parsed = JSON.parse(raw);
+        if (!parsed || !Array.isArray(parsed.groups) || parsed.groups.length === 0) {
+          return defaultState();
+        }
+        parsed.groups = parsed.groups.map(g => ({
+          id: g.id || makeId(),
+          name: typeof g.name === 'string' ? g.name : 'Group',
+          scores: {
+            20:  !!(g.scores && g.scores[20]),
+            40:  !!(g.scores && g.scores[40]),
+            60:  !!(g.scores && g.scores[60]),
+            100: !!(g.scores && g.scores[100]),
+          },
+          mrHands: !!g.mrHands,
+          minutes: g.minutes ?? '',
+          seconds: g.seconds ?? '',
+          bonus:   g.bonus   ?? ''
+        }));
+        return parsed;
       } catch (e) {
-        console.warn('Fullscreen unavailable:', e);
+        console.warn('Calc state load failed:', e);
+        return defaultState();
       }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        flashSaved();
+      } catch (e) {
+        console.warn('Calc state save failed:', e);
+      }
+    }
+
+    let savedTimer;
+    function flashSaved() {
+      savedHint.textContent = 'saved';
+      savedHint.style.color = '#22c55e';
+      clearTimeout(savedTimer);
+      savedTimer = setTimeout(() => {
+        savedHint.textContent = 'auto-saved';
+        savedHint.style.color = '';
+      }, 900);
+    }
+
+    // Formula: sum(checked scores) − (Mr Hands ? 50 : 0)
+    //          − totalSeconds + bonus
+    function totalFor(group) {
+      let total = 0;
+      for (const v of SCORE_VALUES) if (group.scores[v]) total += v;
+      if (group.mrHands) total -= MR_HANDS_PENALTY;
+      const mins = parseInt(group.minutes, 10);
+      const secs = parseInt(group.seconds, 10);
+      const totalSecs = (isNaN(mins) ? 0 : mins) * 60 + (isNaN(secs) ? 0 : secs);
+      total -= totalSecs;
+      const bonus = parseInt(group.bonus, 10);
+      if (!isNaN(bonus)) total += bonus;
+      return total;
+    }
+
+    function render() {
+      groupsEl.innerHTML = '';
+      state.groups.forEach((group, idx) => {
+        groupsEl.appendChild(renderGroup(group, idx));
+      });
+    }
+
+    function renderGroup(group, idx) {
+      const row = document.createElement('div');
+      row.className = 'group';
+      row.dataset.id = group.id;
+
+      // Name (editable)
+      const nameInput = document.createElement('input');
+      nameInput.type = 'text';
+      nameInput.className = 'group-name';
+      nameInput.value = group.name;
+      nameInput.addEventListener('input', () => {
+        group.name = nameInput.value;
+        saveState();
+      });
+      row.appendChild(nameInput);
+
+      // Score chips + Mr Hands
+      const scoresWrap = document.createElement('div');
+      scoresWrap.className = 'scores';
+      SCORE_VALUES.forEach(v => {
+        scoresWrap.appendChild(makeChip(group, v, `${v}`, false));
+      });
+      scoresWrap.appendChild(makeChip(group, 'mrHands', 'Mr Hands −50', true));
+      row.appendChild(scoresWrap);
+
+      // Time field
+      const timeField = document.createElement('div');
+      timeField.className = 'field';
+      timeField.innerHTML = `<label>Time</label>`;
+      const timePair = document.createElement('div');
+      timePair.className = 'time-pair';
+
+      const minIn = document.createElement('input');
+      minIn.type = 'number'; minIn.min = '0'; minIn.placeholder = 'mm';
+      minIn.className = 'time-input'; minIn.value = group.minutes;
+      minIn.addEventListener('input', () => {
+        group.minutes = minIn.value;
+        updateTotal(row, group);
+        saveState();
+      });
+
+      const sep = document.createElement('span'); sep.className = 'sep'; sep.textContent = ':';
+
+      const secIn = document.createElement('input');
+      secIn.type = 'number'; secIn.min = '0'; secIn.max = '59'; secIn.placeholder = 'ss';
+      secIn.className = 'time-input'; secIn.value = group.seconds;
+      secIn.addEventListener('input', () => {
+        group.seconds = secIn.value;
+        updateTotal(row, group);
+        saveState();
+      });
+
+      timePair.append(minIn, sep, secIn);
+      timeField.appendChild(timePair);
+      row.appendChild(timeField);
+
+      // Bonus field
+      const bonusField = document.createElement('div');
+      bonusField.className = 'field';
+      bonusField.innerHTML = `<label>Bonus</label>`;
+      const bonusIn = document.createElement('input');
+      bonusIn.type = 'number'; bonusIn.placeholder = '0';
+      bonusIn.className = 'bonus-input'; bonusIn.value = group.bonus;
+      bonusIn.addEventListener('input', () => {
+        group.bonus = bonusIn.value;
+        updateTotal(row, group);
+        saveState();
+      });
+      bonusField.appendChild(bonusIn);
+      row.appendChild(bonusField);
+
+      // Total
+      const total = document.createElement('div');
+      total.className = 'total';
+      row.appendChild(total);
+      updateTotal(row, group);
+
+      // Remove button
+      const remove = document.createElement('button');
+      remove.className = 'remove-group';
+      remove.title = 'Remove group';
+      remove.textContent = '✕';
+      remove.addEventListener('click', () => {
+        if (state.groups.length <= 1) return;
+        state.groups = state.groups.filter(g => g.id !== group.id);
+        saveState();
+        render();
+      });
+      row.appendChild(remove);
+
+      return row;
+    }
+
+    function makeChip(group, key, labelText, isMrHands) {
+      const wrapper = document.createElement('label');
+      wrapper.className = 'chip' + (isMrHands ? ' mr-hands' : '');
+
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      const checked = isMrHands ? group.mrHands : !!group.scores[key];
+      cb.checked = checked;
+      if (checked) wrapper.classList.add('checked');
+
+      cb.addEventListener('change', () => {
+        if (isMrHands) {
+          group.mrHands = cb.checked;
+        } else {
+          group.scores[key] = cb.checked;
+        }
+        wrapper.classList.toggle('checked', cb.checked);
+        const row = wrapper.closest('.group');
+        updateTotal(row, group);
+        saveState();
+      });
+
+      const text = document.createElement('span');
+      text.textContent = labelText;
+
+      wrapper.append(cb, text);
+      return wrapper;
+    }
+
+    function updateTotal(row, group) {
+      const totalEl = row.querySelector('.total');
+      const t = totalFor(group);
+      totalEl.textContent = t;
+      totalEl.classList.toggle('negative', t < 0);
+    }
+
+    function addGroup() {
+      const nextLetter = String.fromCharCode(65 + state.groups.length); // A=65
+      const name = nextLetter && nextLetter.charCodeAt(0) <= 90
+        ? `Group ${nextLetter}`
+        : `Group ${state.groups.length + 1}`;
+      state.groups.push(freshGroup(name));
+      saveState();
+      render();
+    }
+
+    function clearStorage() {
+      if (!confirm('Clear all calculator data for this screen?')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      state = defaultState();
+      render();
+      flashSaved();
+    }
+
+    function openCalcModal() {
+      calcModal.classList.add('open');
+      render();
+    }
+
+    function closeCalcModal() {
+      calcModal.classList.remove('open');
+    }
+
+    function onCalcBackdropClick(e) {
+      if (e.target === calcModal) closeCalcModal();
+    }
+
+    function isCalcModalOpen() {
+      return calcModal.classList.contains('open');
+    }
+
+    if (hasCalculator) {
+      calcBtn.style.display = 'inline-block';
+    }
+
+    // ════════════════════════════════════════════════════════════
+    //  FULLSCREEN
+    // ════════════════════════════════════════════════════════════
+    async function requestFullscreen() {
+      try { await document.documentElement.requestFullscreen(); }
+      catch (e) { console.warn('Fullscreen unavailable:', e); }
     }
 
     async function exitFullscreen() {
       try {
-        if (document.fullscreenElement) {
-          await document.exitFullscreen();
-        }
-      } catch (e) {
-        console.warn('Exit fullscreen failed:', e);
-      }
+        if (document.fullscreenElement) await document.exitFullscreen();
+      } catch (e) { console.warn('Exit fullscreen failed:', e); }
     }
 
-    // ── Wake Lock ────────────────────────────────────────────
+    // ════════════════════════════════════════════════════════════
+    //  WAKE LOCK
+    // ════════════════════════════════════════════════════════════
     const dot      = document.getElementById('wake-dot');
     const wakeText = document.getElementById('wake-text');
     let wakeLock   = null;
 
-    function setWakeStatus(state, text) {
-      dot.className   = '';
-      dot.classList.add(state);
+    function setWakeStatus(s, text) {
+      dot.className = '';
+      dot.classList.add(s);
       wakeText.textContent = text;
     }
 
@@ -390,33 +870,46 @@
     }
 
     async function releaseWakeLock() {
-      if (wakeLock) {
-        await wakeLock.release();
-        wakeLock = null;
-      }
+      if (wakeLock) { await wakeLock.release(); wakeLock = null; }
     }
 
-    // Reacquire if tab comes back into focus
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible' && !wakeLock) {
         acquireWakeLock();
       }
     });
 
-    // ── Close ────────────────────────────────────────────────
+    // ════════════════════════════════════════════════════════════
+    //  CLOSE VIEWER
+    // ════════════════════════════════════════════════════════════
     async function closeViewer() {
       await releaseWakeLock();
       await exitFullscreen();
       window.location.href = 'index.html';
     }
 
-    // ── Keyboard ─────────────────────────────────────────────
+    // ════════════════════════════════════════════════════════════
+    //  KEYBOARD
+    // ════════════════════════════════════════════════════════════
     document.addEventListener('keydown', (e) => {
-      // If the modal is open, keys only affect the modal
-      if (isModalOpen()) {
+      // Video modal open: Esc/Space close it
+      if (isVideoModalOpen()) {
         if (e.code === 'Escape' || e.code === 'Space' || e.key === ' ') {
           e.preventDefault();
           closeVideoModal();
+        }
+        return;
+      }
+
+      // Calculator modal open: typing should never close the viewer.
+      // Esc closes the modal (or blurs an input first).
+      if (isCalcModalOpen()) {
+        if (e.code === 'Escape') {
+          if (document.activeElement && document.activeElement.tagName === 'INPUT') {
+            document.activeElement.blur();
+            return;
+          }
+          closeCalcModal();
         }
         return;
       }
@@ -430,7 +923,9 @@
       }
     });
 
-    // ── Init: fullscreen + wake lock on load ─────────────────
+    // ════════════════════════════════════════════════════════════
+    //  INIT
+    // ════════════════════════════════════════════════════════════
     (async () => {
       await requestFullscreen();
       await acquireWakeLock();

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DigiLearn Badge Maker — Leeds Trinity University</title>
+  <meta name="description" content="Create Moodle-ready Open Badges for the Psychology degree programme." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="app-shell">
+
+    <!-- ── Header ────────────────────────────────────────── -->
+    <header class="app-header">
+      <img src="assets/ltu-logo.svg" alt="Leeds Trinity University" class="header-logo" />
+      <div class="header-titles">
+        <span id="app-title">DigiLearn Badge Maker</span>
+        <span id="app-subtitle">Leeds Trinity University · Psychology</span>
+      </div>
+
+      <!-- Storage status indicator + reset button (right-aligned) -->
+      <div class="header-actions">
+        <span class="save-indicator" id="save-indicator" title="Settings are automatically saved to your browser">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" width="13" height="13">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+            <polyline points="17 21 17 13 7 13 7 21"/>
+            <polyline points="7 3 7 8 15 8"/>
+          </svg>
+          Saved
+        </span>
+        <button class="header-reset-btn" id="reset-btn" title="Reset all badge settings to defaults">
+          Reset defaults
+        </button>
+      </div>
+    </header>
+
+    <!-- ── Main body ─────────────────────────────────────── -->
+    <div class="app-body">
+
+      <aside class="sidebar">
+        <div class="sidebar-scroll">
+          <div id="control-panel"></div>
+        </div>
+      </aside>
+
+      <!-- Draggable resize handle (6px gutter) -->
+      <div class="resize-handle" id="resize-handle" title="Drag to resize · Double-click to reset"></div>
+
+      <main class="preview-area">
+        <span class="preview-label">Live Preview</span>
+        <div id="badge-preview">
+          <p class="preview-loading">Loading…</p>
+        </div>
+        <p class="preview-hint">
+          Preview at 320 × 320px &nbsp;·&nbsp;
+          Export at 500 × 500px (Moodle recommended)
+        </p>
+      </main>
+
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════
+       SCRIPTS  —  load order: config → storage → state →
+                   renderer → exporter → ui → app
+       ══════════════════════════════════════════════════════ -->
+
+  <!-- 1. Configuration (all editable presets and defaults) -->
+  <script src="js/config.js"></script>
+
+  <!-- 2. localStorage wrapper (must load before state.js) -->
+  <script src="js/storage.js"></script>
+
+  <!-- 3. State store (hydrates from storage on first run) -->
+  <script src="js/state.js"></script>
+
+  <!-- 4. SVG badge renderer -->
+  <script src="js/renderer.js"></script>
+
+  <!-- 5. PNG exporter -->
+  <script src="js/exporter.js"></script>
+
+  <!-- 6. UI module -->
+  <script src="js/ui.js"></script>
+
+  <!-- 7. App entry point -->
+  <script src="js/app.js"></script>
+
+  <!-- ══════════════════════════════════════════════════════
+       SIDEBAR RESIZE  +  SAVE INDICATOR
+       Inline because it needs to run after the DOM is ready
+       but doesn't depend on the badge modules.
+       ══════════════════════════════════════════════════════ -->
+  <script>
+    (() => {
+      const handle    = document.getElementById("resize-handle");
+      const sidebar   = document.querySelector(".sidebar");
+      const indicator = document.getElementById("save-indicator");
+      const resetBtn  = document.getElementById("reset-btn");
+      const MIN_W     = 260;
+      const MAX_W     = 620;
+
+      // ── Restore saved sidebar width from localStorage ────
+      const savedW = BadgeStorage.loadSidebarWidth();
+      if (savedW) {
+        sidebar.style.width = savedW + "px";
+        document.documentElement.style.setProperty("--panel-width", savedW + "px");
+      }
+
+      // ── Show/hide the "Saved" indicator ─────────────────
+      // Flash it briefly whenever the state is written.
+      // We hook into storage events so this works even if
+      // another tab saves simultaneously.
+      const flashSaved = () => {
+        indicator.classList.add("visible");
+        clearTimeout(indicator._timer);
+        indicator._timer = setTimeout(() =>
+          indicator.classList.remove("visible"), 2500);
+      };
+
+      // Listen for state saves (storage.js fires these)
+      window.addEventListener("badge-saved", flashSaved);
+
+      // ── Reset button ─────────────────────────────────────
+      resetBtn.addEventListener("click", () => {
+        if (!confirm("Reset all badge settings to defaults?\n\nThis cannot be undone.")) return;
+        BadgeState.resetToDefaults();
+        // Reload the page so all UI controls re-hydrate cleanly
+        location.reload();
+      });
+
+      // ── Sidebar drag-resize ──────────────────────────────
+      let dragging = false, startX = 0, startW = 0;
+
+      handle.addEventListener("mousedown", e => {
+        dragging = true;
+        startX   = e.clientX;
+        startW   = sidebar.getBoundingClientRect().width;
+        document.body.style.cursor     = "col-resize";
+        document.body.style.userSelect = "none";
+        e.preventDefault();
+      });
+
+      window.addEventListener("mousemove", e => {
+        if (!dragging) return;
+        const newW = Math.min(MAX_W, Math.max(MIN_W, startW + (e.clientX - startX)));
+        sidebar.style.width = newW + "px";
+        document.documentElement.style.setProperty("--panel-width", newW + "px");
+      });
+
+      window.addEventListener("mouseup", () => {
+        if (!dragging) return;
+        dragging = false;
+        document.body.style.cursor     = "";
+        document.body.style.userSelect = "";
+        const finalW = sidebar.getBoundingClientRect().width;
+        BadgeStorage.saveSidebarWidth(finalW);  // persist to localStorage
+        flashSaved();
+      });
+
+      // Double-click handle → reset sidebar to default width
+      handle.addEventListener("dblclick", () => {
+        sidebar.style.width = "340px";
+        document.documentElement.style.setProperty("--panel-width", "340px");
+        BadgeStorage.saveSidebarWidth(340);
+        flashSaved();
+      });
+
+      // Show indicator once on load if settings were restored
+      if (BadgeStorage.loadBadge()) {
+        indicator.classList.add("visible");
+        indicator._timer = setTimeout(() =>
+          indicator.classList.remove("visible"), 3000);
+      }
+    })();
+  </script>
+
+</body>
+</html>

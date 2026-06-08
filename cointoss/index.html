@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Toss</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="stage">
+
+  <header>
+    <p class="eyebrow">Est. MCMCC · The Eternal Question</p>
+    <h1>Heads or <em>Tails?</em></h1>
+  </header>
+
+  <div class="scene">
+    <div class="coin idle" id="coin" style="--face-rot:0deg; --start-rot:0deg;">
+      <div class="coin-glow"></div>
+
+      <!-- HEADS -->
+      <div class="face heads">
+        <div class="face-content">
+          <img class="face-img" id="headsImg" alt="Heads" />
+        </div>
+      </div>
+
+      <!-- TAILS -->
+      <div class="face tails">
+        <div class="face-content">
+          <img class="face-img" id="tailsImg" alt="Tails" />
+        </div>
+      </div>
+
+    </div><!-- .coin -->
+  </div><!-- .scene -->
+
+  <div class="result" id="result">—</div>
+
+  <button class="toss-btn" id="tossBtn">Toss the Coin</button>
+
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-num" id="headsCount">0</span>
+      Heads
+    </div>
+    <div class="divider"></div>
+    <div class="stat">
+      <span class="stat-num" id="totalCount">0</span>
+      Tosses
+    </div>
+    <div class="divider"></div>
+    <div class="stat">
+      <span class="stat-num" id="tailsCount">0</span>
+      Tails
+    </div>
+  </div>
+
+</div><!-- .stage -->
+
+<script src="cointoss.js"></script>
+</body>
+</html>

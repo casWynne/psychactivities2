@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CPD Badge Maker — Leeds Trinity University</title>
+  <meta name="description" content="Create CPD Moodle badges for the Psychology department." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="app-shell">
+
+    <header class="app-header">
+      <img src="assets/ltu-logo.svg" alt="Leeds Trinity University" class="header-logo" />
+      <div class="header-titles">
+        <span id="app-title">CPD Badge Maker</span>
+        <span id="app-subtitle">Leeds Trinity University · Psychology</span>
+      </div>
+      <div class="header-actions">
+        <span class="save-indicator" id="save-indicator"
+              title="Settings are automatically saved to your browser">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" width="13" height="13">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+            <polyline points="17 21 17 13 7 13 7 21"/>
+            <polyline points="7 3 7 8 15 8"/>
+          </svg>
+          Saved
+        </span>
+        <button class="header-reset-btn" id="reset-btn"
+                title="Reset all settings to defaults">Reset defaults</button>
+      </div>
+    </header>
+
+    <div class="app-body">
+      <aside class="sidebar">
+        <div class="sidebar-scroll">
+          <div id="control-panel"></div>
+        </div>
+      </aside>
+
+      <div class="resize-handle" id="resize-handle"
+           title="Drag to resize · Double-click to reset"></div>
+
+      <main class="preview-area">
+        <span class="preview-label">Live Preview</span>
+        <div id="badge-preview">
+          <p class="preview-loading">Loading…</p>
+        </div>
+        <p class="preview-hint">
+          Preview 320 × 320px &nbsp;·&nbsp; Export 500 × 500px (Moodle)
+        </p>
+      </main>
+    </div>
+  </div>
+
+  <!-- Load order: config → state → renderer → exporter → ui → app -->
+  <script src="js/config.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/renderer.js"></script>
+  <script src="js/exporter.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    (() => {
+      const handle    = document.getElementById("resize-handle");
+      const sidebar   = document.querySelector(".sidebar");
+      const indicator = document.getElementById("save-indicator");
+      const resetBtn  = document.getElementById("reset-btn");
+      const MIN_W = 260, MAX_W = 620;
+
+      // Restore saved width
+      const savedW = BadgeState.loadSidebarWidth();
+      if (savedW) {
+        sidebar.style.width = savedW + "px";
+        document.documentElement.style.setProperty("--panel-width", savedW + "px");
+      }
+
+      // Save indicator
+      const flash = () => {
+        indicator.classList.add("visible");
+        clearTimeout(indicator._t);
+        indicator._t = setTimeout(() => indicator.classList.remove("visible"), 2500);
+      };
+      window.addEventListener("badge-saved", flash);
+
+      // Reset button
+      resetBtn.addEventListener("click", () => {
+        if (!confirm("Reset all badge settings to defaults?\nThis cannot be undone.")) return;
+        BadgeState.resetToDefaults();
+        location.reload();
+      });
+
+      // Drag resize
+      let dragging = false, startX = 0, startW = 0;
+      handle.addEventListener("mousedown", e => {
+        dragging = true; startX = e.clientX;
+        startW = sidebar.getBoundingClientRect().width;
+        document.body.style.cursor = "col-resize";
+        document.body.style.userSelect = "none";
+        e.preventDefault();
+      });
+      window.addEventListener("mousemove", e => {
+        if (!dragging) return;
+        const w = Math.min(MAX_W, Math.max(MIN_W, startW + (e.clientX - startX)));
+        sidebar.style.width = w + "px";
+        document.documentElement.style.setProperty("--panel-width", w + "px");
+      });
+      window.addEventListener("mouseup", () => {
+        if (!dragging) return;
+        dragging = false;
+        document.body.style.cursor = "";
+        document.body.style.userSelect = "";
+        BadgeState.saveSidebarWidth(sidebar.getBoundingClientRect().width);
+        flash();
+      });
+      handle.addEventListener("dblclick", () => {
+        sidebar.style.width = "360px";
+        document.documentElement.style.setProperty("--panel-width", "360px");
+        BadgeState.saveSidebarWidth(360);
+        flash();
+      });
+
+      // Flash indicator if settings were restored from storage
+      try {
+        if (localStorage.getItem("cpdbadge:state")) {
+          indicator.classList.add("visible");
+          indicator._t = setTimeout(() => indicator.classList.remove("visible"), 3000);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</body>
+</html>

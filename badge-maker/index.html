@@ -1,182 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DigiLearn Badge Maker — Leeds Trinity University</title>
-  <meta name="description" content="Create Moodle-ready Open Badges for the Psychology degree programme." />
-  <link rel="stylesheet" href="css/style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Badge Maker 2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <div class="app-shell">
-
-    <!-- ── Header ────────────────────────────────────────── -->
-    <header class="app-header">
-      <img src="assets/ltu-logo.svg" alt="Leeds Trinity University" class="header-logo" />
-      <div class="header-titles">
-        <span id="app-title">Badge Maker</span>
-        <span id="app-subtitle">Leeds Trinity University · Psychology</span>
-      </div>
-
-      <!-- Storage status indicator + reset button (right-aligned) -->
-      <div class="header-actions">
-        <span class="save-indicator" id="save-indicator" title="Settings are automatically saved to your browser">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-               stroke-linecap="round" stroke-linejoin="round" width="13" height="13">
-            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
-            <polyline points="17 21 17 13 7 13 7 21"/>
-            <polyline points="7 3 7 8 15 8"/>
-          </svg>
-          Saved
-        </span>
-        <button class="header-reset-btn" id="reset-btn" title="Reset all badge settings to defaults">
-          Reset defaults
-        </button>
-      </div>
-    </header>
-
-    <!-- ── Main body ─────────────────────────────────────── -->
-    <div class="app-body">
-
-      <aside class="sidebar">
-        <div class="sidebar-scroll">
-          <div id="control-panel"></div>
-        </div>
-      </aside>
-
-      <!-- Draggable resize handle (6px gutter) -->
-      <div class="resize-handle" id="resize-handle" title="Drag to resize · Double-click to reset"></div>
-
-      <main class="preview-area">
-        <span class="preview-label">Live Preview</span>
-        <div id="badge-preview">
-          <p class="preview-loading">Loading…</p>
-        </div>
-        <p class="preview-hint">
-          Preview at 320 × 320px &nbsp;·&nbsp;
-          Export at 500 × 500px (Moodle recommended)
-        </p>
-      </main>
-
+<header class="app-header">
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z" fill="currentColor"/></svg>
+    <div>
+      <h1>Badge Maker <span>2.0</span></h1>
+      <p class="tagline">Create Moodle badges for your module</p>
     </div>
   </div>
+  <div class="header-actions">
+    <button class="btn ghost" id="btn-autofit" title="Tidy the layout so everything sits within the badge face">✨ Auto-fit</button>
+    <button class="btn" id="btn-import-badge" title="Re-open a badge SVG exported from Badge Maker">⬆ Import badge</button>
+    <input type="file" id="import-badge-file" accept=".svg,image/svg+xml" hidden>
+    <button class="btn primary" id="btn-export">Export badge</button>
+  </div>
+</header>
 
+<main class="workspace">
 
-  <!-- ══════════════════════════════════════════════════════
-       SCRIPTS  —  load order: config → storage → state →
-                   renderer → exporter → ui → app
-       ══════════════════════════════════════════════════════ -->
+  <!-- ======== PREVIEW STAGE ======== -->
+  <section class="stage" aria-label="Badge preview">
+    <div class="stage-toolbar">
+      <label class="toggle">
+        <input type="checkbox" id="toggle-grid">
+        <span class="toggle-track"></span>
+        <span class="toggle-label">Positioning grid</span>
+      </label>
+      <span class="stage-hint" id="stage-hint">Tip: use the panel on the right to build your badge →</span>
+    </div>
+    <div class="stage-canvas" id="stage-canvas">
+      <!-- Live SVG badge is injected here -->
+    </div>
+  </section>
 
-  <!-- 1. Configuration (all editable presets and defaults) -->
-  <script src="js/config.js"></script>
+  <!-- ======== EDIT PANEL (right) ======== -->
+  <aside class="panel" aria-label="Edit badge">
+    <div class="panel-scroll">
 
-  <!-- 2. localStorage wrapper (must load before state.js) -->
-  <script src="js/storage.js"></script>
+      <!-- 1. SHAPE -->
+      <section class="card" id="card-shape">
+        <header class="card-head">
+          <h2><span class="step">1</span> Badge shape</h2>
+          <button class="help-btn" data-help="shape" aria-label="Help: badge shape">?</button>
+        </header>
+        <div class="shape-row" id="shape-row">
+          <button class="shape-opt" data-shape="circle" aria-pressed="true">
+            <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="16"/></svg><span>Circle</span>
+          </button>
+          <button class="shape-opt" data-shape="square">
+            <svg viewBox="0 0 40 40"><rect x="5" y="5" width="30" height="30" rx="7"/></svg><span>Square</span>
+          </button>
+          <button class="shape-opt" data-shape="hexagon">
+            <svg viewBox="0 0 40 40"><polygon points="20,3 35,11.5 35,28.5 20,37 5,28.5 5,11.5"/></svg><span>Hexagon</span>
+          </button>
+        </div>
+        <details class="advanced">
+          <summary>Advanced shape settings</summary>
+          <div class="adv-body">
+            <label class="toggle small">
+              <input type="checkbox" id="adv-scallops">
+              <span class="toggle-track"></span>
+              <span class="toggle-label">Scalloped edge (rosette)</span>
+            </label>
+            <div class="field-grid">
+              <label>Scallop count
+                <input type="number" id="adv-scallop-count" min="6" max="40" step="1" value="14">
+              </label>
+              <label>Scallop depth
+                <input type="number" id="adv-scallop-depth" min="2" max="20" step="1" value="9">
+              </label>
+              <label>Border width
+                <input type="number" id="adv-border-width" min="20" max="80" step="1" value="46">
+              </label>
+            </div>
+          </div>
+        </details>
+      </section>
 
-  <!-- 3. State store (hydrates from storage on first run) -->
-  <script src="js/state.js"></script>
+      <!-- 2. COLOURS -->
+      <section class="card" id="card-colour">
+        <header class="card-head">
+          <h2><span class="step">2</span> Colour style</h2>
+          <button class="help-btn" data-help="colour" aria-label="Help: colour style">?</button>
+        </header>
+        <div class="swatch-grid" id="swatch-grid"><!-- built by JS --></div>
+        <details class="advanced">
+          <summary>Advanced colour settings</summary>
+          <div class="adv-body">
+            <p class="adv-note">Edit each gradient point below, or add and remove points (minimum 2).</p>
+            <div id="stop-list" class="stop-list"></div>
+            <button class="btn tiny" id="btn-add-stop">＋ Add colour point</button>
+          </div>
+        </details>
+      </section>
 
-  <!-- 4. SVG badge renderer -->
-  <script src="js/renderer.js"></script>
+      <!-- 3. TEXT -->
+      <section class="card" id="card-text">
+        <header class="card-head">
+          <h2><span class="step">3</span> Badge text</h2>
+          <button class="help-btn" data-help="text" aria-label="Help: badge text">?</button>
+        </header>
+        <label class="field">
+          <span class="field-label">Title <em class="req">required</em> <span class="counter" id="count-title">0/12</span></span>
+          <input type="text" id="input-title" placeholder="e.g. RESEARCH" autocomplete="off">
+        </label>
+        <label class="field">
+          <span class="field-label">Subtitle <em class="opt">optional</em> <span class="counter" id="count-subtitle">0/24</span></span>
+          <input type="text" id="input-subtitle" placeholder="e.g. Methods Star 2026" autocomplete="off">
+        </label>
+        <details class="advanced">
+          <summary>Advanced text settings</summary>
+          <div class="adv-body">
+            <div class="field-grid">
+              <label>Title size
+                <input type="number" id="adv-title-size" min="18" max="72" step="1" value="46">
+              </label>
+              <label>Title colour
+                <input type="color" id="adv-title-color" value="#3b3f8c">
+              </label>
+              <label>Subtitle size
+                <input type="number" id="adv-subtitle-size" min="10" max="40" step="1" value="20">
+              </label>
+              <label>Subtitle colour
+                <input type="color" id="adv-subtitle-color" value="#5a5f73">
+              </label>
+            </div>
+            <p class="adv-note">Character limits adjust automatically so text fits the badge face.</p>
+          </div>
+        </details>
+      </section>
 
-  <!-- 5. PNG exporter -->
-  <script src="js/exporter.js"></script>
+      <!-- 4. ICONS -->
+      <section class="card" id="card-icons">
+        <header class="card-head">
+          <h2><span class="step">4</span> Icons</h2>
+          <button class="help-btn" data-help="icons" aria-label="Help: icons">?</button>
+        </header>
+        <div id="icon-categories"><!-- built by JS --></div>
+        <details class="advanced">
+          <summary>Import your own icon (Tabler)</summary>
+          <div class="adv-body">
+            <ol class="adv-steps">
+              <li>Open <a href="https://tabler.io/icons" target="_blank" rel="noopener">tabler.io/icons</a> and find an icon you like.</li>
+              <li>Click the icon, then choose <strong>Copy SVG</strong>.</li>
+              <li>Paste the copied code into the box below and select <strong>Add to badge</strong>.</li>
+            </ol>
+            <textarea id="import-svg" rows="3" placeholder="Paste SVG code here…"></textarea>
+            <button class="btn tiny" id="btn-import-icon">Add to badge</button>
+            <p class="adv-note" id="import-msg"></p>
+          </div>
+        </details>
+        <div id="placed-icons" class="placed-list"><!-- built by JS --></div>
+      </section>
 
-  <!-- 6. UI module -->
-  <script src="js/ui.js"></script>
+      <!-- 5. DECORATIONS -->
+      <section class="card" id="card-decor">
+        <header class="card-head">
+          <h2><span class="step">5</span> Decorations</h2>
+          <button class="help-btn" data-help="decor" aria-label="Help: decorations">?</button>
+        </header>
+        <div id="decor-tiles" class="tile-grid"><!-- built by JS --></div>
+        <div id="placed-decor" class="placed-list"><!-- built by JS --></div>
+      </section>
 
-  <!-- 7. App entry point -->
-  <script src="js/app.js"></script>
+    </div>
+  </aside>
+</main>
 
-  <!-- ══════════════════════════════════════════════════════
-       SIDEBAR RESIZE  +  SAVE INDICATOR
-       Inline because it needs to run after the DOM is ready
-       but doesn't depend on the badge modules.
-       ══════════════════════════════════════════════════════ -->
-  <script>
-    (() => {
-      const handle    = document.getElementById("resize-handle");
-      const sidebar   = document.querySelector(".sidebar");
-      const indicator = document.getElementById("save-indicator");
-      const resetBtn  = document.getElementById("reset-btn");
-      const MIN_W     = 260;
-      const MAX_W     = 620;
+<!-- ======== HELP MODAL ======== -->
+<div class="modal-backdrop" id="help-backdrop" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="help-title">
+    <header><h3 id="help-title">Help</h3><button class="modal-close" id="help-close" aria-label="Close help">×</button></header>
+    <div class="modal-body" id="help-body"></div>
+  </div>
+</div>
 
-      // ── Restore saved sidebar width from localStorage ────
-      const savedW = BadgeStorage.loadSidebarWidth();
-      if (savedW) {
-        sidebar.style.width = savedW + "px";
-        document.documentElement.style.setProperty("--panel-width", savedW + "px");
-      }
+<!-- ======== EXPORT MODAL ======== -->
+<div class="modal-backdrop" id="export-backdrop" hidden>
+  <div class="modal wide" role="dialog" aria-modal="true" aria-labelledby="export-title">
+    <header><h3 id="export-title">Export your badge</h3><button class="modal-close" id="export-close" aria-label="Close export">×</button></header>
+    <div class="modal-body">
+      <p class="export-note">Moodle accepts both formats. Maximum file size: <strong>256 KB</strong>.</p>
+      <div class="export-grid">
+        <div class="export-card">
+          <h4>SVG <span class="size-pill" id="size-svg">—</span></h4>
+          <ul class="pros-cons">
+            <li class="pro">Crisp at any size — never pixelated</li>
+            <li class="pro">Very small file size</li>
+            <li class="pro">Easy to edit later</li>
+            <li class="con">Not previewed by some older software</li>
+          </ul>
+          <button class="btn primary full" id="btn-dl-svg">Download SVG</button>
+        </div>
+        <div class="export-card">
+          <h4>JPG <span class="size-pill" id="size-jpg">—</span></h4>
+          <ul class="pros-cons">
+            <li class="pro">Opens everywhere, very compatible</li>
+            <li class="pro">Good for previews and documents</li>
+            <li class="con">Fixed resolution — blurry if enlarged</li>
+            <li class="con">No transparency (white background)</li>
+          </ul>
+          <button class="btn primary full" id="btn-dl-jpg">Download JPG</button>
+        </div>
+      </div>
+      <p class="adv-note" id="export-warn"></p>
+    </div>
+  </div>
+</div>
 
-      // ── Show/hide the "Saved" indicator ─────────────────
-      // Flash it briefly whenever the state is written.
-      // We hook into storage events so this works even if
-      // another tab saves simultaneously.
-      const flashSaved = () => {
-        indicator.classList.add("visible");
-        clearTimeout(indicator._timer);
-        indicator._timer = setTimeout(() =>
-          indicator.classList.remove("visible"), 2500);
-      };
-
-      // Listen for state saves (storage.js fires these)
-      window.addEventListener("badge-saved", flashSaved);
-
-      // ── Reset button ─────────────────────────────────────
-      resetBtn.addEventListener("click", () => {
-        if (!confirm("Reset all badge settings to defaults?\n\nThis cannot be undone.")) return;
-        BadgeState.resetToDefaults();
-        // Reload the page so all UI controls re-hydrate cleanly
-        location.reload();
-      });
-
-      // ── Sidebar drag-resize ──────────────────────────────
-      let dragging = false, startX = 0, startW = 0;
-
-      handle.addEventListener("mousedown", e => {
-        dragging = true;
-        startX   = e.clientX;
-        startW   = sidebar.getBoundingClientRect().width;
-        document.body.style.cursor     = "col-resize";
-        document.body.style.userSelect = "none";
-        e.preventDefault();
-      });
-
-      window.addEventListener("mousemove", e => {
-        if (!dragging) return;
-        const newW = Math.min(MAX_W, Math.max(MIN_W, startW + (e.clientX - startX)));
-        sidebar.style.width = newW + "px";
-        document.documentElement.style.setProperty("--panel-width", newW + "px");
-      });
-
-      window.addEventListener("mouseup", () => {
-        if (!dragging) return;
-        dragging = false;
-        document.body.style.cursor     = "";
-        document.body.style.userSelect = "";
-        const finalW = sidebar.getBoundingClientRect().width;
-        BadgeStorage.saveSidebarWidth(finalW);  // persist to localStorage
-        flashSaved();
-      });
-
-      // Double-click handle → reset sidebar to default width
-      handle.addEventListener("dblclick", () => {
-        sidebar.style.width = "340px";
-        document.documentElement.style.setProperty("--panel-width", "340px");
-        BadgeStorage.saveSidebarWidth(340);
-        flashSaved();
-      });
-
-      // Show indicator once on load if settings were restored
-      if (BadgeStorage.loadBadge()) {
-        indicator.classList.add("visible");
-        indicator._timer = setTimeout(() =>
-          indicator.classList.remove("visible"), 3000);
-      }
-    })();
-  </script>
-
+<script src="app.js"></script>
 </body>
 </html>

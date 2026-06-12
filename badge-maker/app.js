@@ -334,7 +334,54 @@ function render(){
   mini100.innerHTML = mini;
   mini60.innerHTML = mini;
   updateCounters();
+  snapshot();
 }
+
+/* ---- undo history (in-memory only; resets on refresh) ----
+   A snapshot of the design is kept after every change. Rapid edits
+   (typing, slider drags) within 800 ms coalesce into one undo step. */
+const HISTORY_LIMIT = 60;
+let history = [];
+let lastSnapTime = 0;
+let restoring = false;
+
+function snapshot(){
+  if (restoring) return;
+  const snap = JSON.stringify(serializeState());
+  if (history[history.length-1] === snap) return;
+  const now = Date.now();
+  if (history.length > 1 && now - lastSnapTime < 800){
+    history[history.length-1] = snap;        // coalesce with previous step
+  } else {
+    history.push(snap);
+    if (history.length > HISTORY_LIMIT) history.shift();
+  }
+  lastSnapTime = now;
+  updateUndoBtn();
+}
+function undo(){
+  if (history.length < 2) return;
+  history.pop();                             // discard the current state
+  const prev = history[history.length-1];
+  restoring = true;
+  try{ applyImportedState(JSON.parse(prev)); }
+  finally{ restoring = false; }
+  lastSnapTime = 0;                          // next edit starts a fresh step
+  updateUndoBtn();
+}
+function updateUndoBtn(){
+  document.getElementById("btn-undo").disabled = history.length < 2;
+}
+document.getElementById("btn-undo").addEventListener("click", undo);
+document.addEventListener("keydown", e=>{
+  if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key.toLowerCase() === "z"){
+    // let native text-field undo work while typing; act everywhere else
+    const t = e.target;
+    if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.tagName === "SELECT")) return;
+    e.preventDefault();
+    undo();
+  }
+});
 
 /* =====================================================================
    5. PANEL — build + events

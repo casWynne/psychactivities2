@@ -39,7 +39,19 @@
       <span class="stage-hint" id="stage-hint">Tip: use the panel on the right to build your badge →</span>
     </div>
     <div class="stage-canvas" id="stage-canvas">
-      <!-- Live SVG badge is injected here -->
+      <aside class="mini-preview" aria-label="Badge previewed at Moodle display sizes">
+        <p class="mini-title">Moodle preview</p>
+        <div class="mini-row">
+          <div class="mini-badge" id="mini-100"></div>
+          <span class="mini-label">100 px<br>profile page</span>
+        </div>
+        <div class="mini-row">
+          <div class="mini-badge small" id="mini-60"></div>
+          <span class="mini-label">60 px<br>badge list</span>
+        </div>
+        <p class="mini-note">Updates live — if text is hard to read here, make it bigger or shorter.</p>
+      </aside>
+      <div id="badge-holder"><!-- Live SVG badge is injected here --></div>
     </div>
   </section>
 
@@ -114,48 +126,70 @@
           <span class="field-label">Title <em class="req">required</em> <span class="counter" id="count-title">0/12</span></span>
           <input type="text" id="input-title" placeholder="e.g. RESEARCH" autocomplete="off">
         </label>
-        <div class="curve-row">
-          <label>Curve
-            <select id="title-arch">
-              <option value="none">Straight</option>
-              <option value="up">Arch over top</option>
-              <option value="down">Arch under bottom</option>
-            </select>
-          </label>
-          <label>Curve radius <input type="number" id="title-arch-r" min="60" max="220" step="2" value="150"></label>
-        </div>
         <label class="field">
           <span class="field-label">Subtitle <em class="opt">optional</em> <span class="counter" id="count-subtitle">0/24</span></span>
           <input type="text" id="input-subtitle" placeholder="e.g. Methods Star 2026" autocomplete="off">
         </label>
-        <div class="curve-row">
-          <label>Curve
-            <select id="subtitle-arch">
-              <option value="none">Straight</option>
-              <option value="up">Arch over top</option>
-              <option value="down">Arch under bottom</option>
-            </select>
-          </label>
-          <label>Curve radius <input type="number" id="subtitle-arch-r" min="60" max="220" step="2" value="158"></label>
-        </div>
         <details class="advanced">
           <summary>Advanced text settings</summary>
           <div class="adv-body">
-            <div class="field-grid">
-              <label>Title size
-                <input type="number" id="adv-title-size" min="18" max="72" step="1" value="46">
-              </label>
-              <label>Title colour
-                <input type="color" id="adv-title-color" value="#3b3f8c">
-              </label>
-              <label>Subtitle size
-                <input type="number" id="adv-subtitle-size" min="10" max="40" step="1" value="20">
-              </label>
-              <label>Subtitle colour
-                <input type="color" id="adv-subtitle-color" value="#5a5f73">
-              </label>
+            <div class="adv-text-group">
+              <h4>Title</h4>
+              <div class="field-grid">
+                <label>Size
+                  <input type="number" id="adv-title-size" min="18" max="72" step="1" value="46">
+                </label>
+                <label>Colour
+                  <input type="color" id="adv-title-color" value="#3b3f8c">
+                </label>
+                <label>X
+                  <input type="number" id="adv-title-x" step="2" value="0">
+                </label>
+                <label>Y
+                  <input type="number" id="adv-title-y" step="2" value="62">
+                </label>
+                <label>Curve
+                  <select id="title-arch">
+                    <option value="none">Straight</option>
+                    <option value="up">Arch over top</option>
+                    <option value="down">Arch under bottom</option>
+                  </select>
+                </label>
+                <label>Curve radius
+                  <input type="number" id="title-arch-r" min="60" max="220" step="2" value="150">
+                </label>
+              </div>
+              <div class="text-align" data-target="title"></div>
             </div>
-            <p class="adv-note">Character limits adjust automatically so text fits the badge face.</p>
+            <div class="adv-text-group">
+              <h4>Subtitle</h4>
+              <div class="field-grid">
+                <label>Size
+                  <input type="number" id="adv-subtitle-size" min="10" max="40" step="1" value="20">
+                </label>
+                <label>Colour
+                  <input type="color" id="adv-subtitle-color" value="#5a5f73">
+                </label>
+                <label>X
+                  <input type="number" id="adv-subtitle-x" step="2" value="0">
+                </label>
+                <label>Y
+                  <input type="number" id="adv-subtitle-y" step="2" value="14">
+                </label>
+                <label>Curve
+                  <select id="subtitle-arch">
+                    <option value="none">Straight</option>
+                    <option value="up">Arch over top</option>
+                    <option value="down">Arch under bottom</option>
+                  </select>
+                </label>
+                <label>Curve radius
+                  <input type="number" id="subtitle-arch-r" min="60" max="220" step="2" value="158">
+                </label>
+              </div>
+              <div class="text-align" data-target="subtitle"></div>
+            </div>
+            <p class="adv-note">Character limits adjust automatically so text fits the badge face. X/Y and Align apply to straight text; arched text is positioned by its curve radius. Switching shape resets text to that shape's standard positions.</p>
           </div>
         </details>
       </section>

@@ -67,7 +67,28 @@ body{
   border:1px solid var(--line); border-radius:var(--radius); box-shadow:inset 0 1px 3px rgba(28,35,48,.04);
   overflow:hidden; position:relative;
 }
-.stage-canvas svg.badge{width:min(72vh,560px); max-width:92%; height:auto; filter:drop-shadow(0 10px 22px rgba(28,35,48,.18))}
+#badge-holder{display:flex; align-items:center; justify-content:center; width:100%; height:100%}
+#badge-holder svg.badge{width:min(72vh,560px); max-width:92%; height:auto; filter:drop-shadow(0 10px 22px rgba(28,35,48,.18))}
+
+/* Moodle-size live preview */
+.mini-preview{
+  position:absolute; top:.8rem; left:.8rem; z-index:2;
+  background:rgba(255,255,255,.92); border:1px solid var(--line); border-radius:12px;
+  padding:.6rem .7rem; width:158px; box-shadow:var(--shadow); backdrop-filter:blur(3px);
+}
+.mini-title{margin:0 0 .5rem; font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--muted)}
+.mini-row{display:flex; align-items:center; gap:.6rem; margin-bottom:.55rem}
+.mini-badge{width:100px; flex:none}
+.mini-badge.small{width:60px}
+.mini-badge svg{width:100%; height:auto; display:block}
+.mini-label{font-size:.62rem; color:var(--muted); line-height:1.35}
+.mini-note{margin:.1rem 0 0; font-size:.6rem; color:var(--muted); line-height:1.4}
+@media (max-width:1100px){
+  .mini-preview{width:120px; padding:.5rem .55rem}
+  .mini-badge{width:72px}
+  .mini-badge.small{width:48px}
+  .mini-note{display:none}
+}
 
 /* ---------- right panel ---------- */
 .panel{
@@ -129,9 +150,10 @@ body{
 .opt{color:var(--muted); font-style:normal; font-size:.68rem}
 .counter{margin-left:auto; font-size:.72rem; color:var(--muted); font-variant-numeric:tabular-nums}
 .counter.over{color:#b3261e; font-weight:700}
-.curve-row{display:flex; gap:.7rem; align-items:end; margin:-.3rem 0 .75rem}
-.curve-row label{display:flex; flex-direction:column; gap:.25rem; font-size:.72rem; color:var(--muted); font-weight:600}
-.curve-row select{
+.adv-text-group{border:1px dashed var(--line); border-radius:10px; padding:.55rem .6rem .6rem; margin-bottom:.55rem}
+.adv-text-group h4{margin:.1rem 0 .45rem; font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted)}
+.adv-text-group .text-align{display:flex; align-items:center; gap:.5rem; margin-top:.5rem}
+.field-grid select{
   font:inherit; font-size:.78rem; padding:.32rem .35rem; border:1px solid var(--line); border-radius:7px;
   background:#fff; color:var(--ink);
 }

@@ -147,8 +147,8 @@ const state = {
   borderWidth:46,
   preset:"rainbow",
   stops: COLOR_PRESETS.rainbow.stops.map(s=>({...s})),
-  title:   { text:"RESEARCH", size:46, color:"#3b3f8c", arch:"none", archRadius:150 },
-  subtitle:{ text:"Skills Award", size:20, color:"#5a5f73", arch:"none", archRadius:158 },
+  title:   { text:"RESEARCH", size:46, color:"#3b3f8c", x:0, y:62, arch:"none", archRadius:150 },
+  subtitle:{ text:"Skills Award", size:20, color:"#5a5f73", x:0, y:14, arch:"none", archRadius:158 },
   icons:[],        // {uid, iconId, custom?, svg, label, x, y, scale, color|null}
   decorations:[],  // {uid, decorId, x, y, scale, color|null}
   grid:false,
@@ -207,7 +207,9 @@ const faceRadius = () => R_OUT - state.borderWidth - (state.scallops? state.scal
 /* =====================================================================
    4. RENDER BADGE
    ===================================================================== */
-const stage = document.getElementById("stage-canvas");
+const stage   = document.getElementById("badge-holder");
+const mini100 = document.getElementById("mini-100");
+const mini60  = document.getElementById("mini-60");
 
 function gradientDefs(){
   const stops = [...state.stops].sort((a,b)=>a.at-b.at)
@@ -295,7 +297,7 @@ function badgeSVG({forExport=false} = {}){
       ? `font-family="'Sora','Inter',sans-serif" font-weight="700" font-size="${t.size}" letter-spacing="2" fill="${t.color}"`
       : `font-family="'Inter',sans-serif" font-weight="600" font-size="${t.size}" letter-spacing="3" fill="${t.color}"`;
     if (t.arch === "none"){
-      return `<text x="${CX}" y="${CY - L[k].y}" text-anchor="middle" ${fontAttrs}>${content}</text>`;
+      return `<text x="${CX + t.x}" y="${CY - t.y}" text-anchor="middle" ${fontAttrs}>${content}</text>`;
     }
     // Arched text: a semicircular path centred on the badge; sweep=1 runs
     // over the top (text upright above), sweep=0 under the bottom.
@@ -328,6 +330,9 @@ const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>
 
 function render(){
   stage.innerHTML = badgeSVG();
+  const mini = badgeSVG({forExport:true});   // grid-free copy for the minis
+  mini100.innerHTML = mini;
+  mini60.innerHTML = mini;
   updateCounters();
 }
 
@@ -341,11 +346,14 @@ document.querySelectorAll(".shape-opt").forEach(btn=>{
     document.querySelectorAll(".shape-opt").forEach(b=>b.setAttribute("aria-pressed","false"));
     btn.setAttribute("aria-pressed","true");
     state.shape = btn.dataset.shape;
-    // re-seat decorations on their per-shape defaults
+    // re-seat decorations and text on their per-shape defaults
     state.decorations.forEach(d=>{
       const def = DECOR_DEFAULTS[state.shape][d.decorId];
       if (def) Object.assign(d, def);
     });
+    state.title.x = 0;    state.title.y = SHAPES[state.shape].title.y;
+    state.subtitle.x = 0; state.subtitle.y = SHAPES[state.shape].subtitle.y;
+    syncTextPositionInputs();
     buildPlacedLists(); render();
   });
 });
@@ -456,6 +464,42 @@ bindColor("adv-subtitle-color", state.subtitle);
 });
 bindNumber("title-arch-r","archRadius",state.title);
 bindNumber("subtitle-arch-r","archRadius",state.subtitle);
+// text position controls + align buttons
+bindNumber("adv-title-x","x",state.title);
+bindNumber("adv-title-y","y",state.title);
+bindNumber("adv-subtitle-x","x",state.subtitle);
+bindNumber("adv-subtitle-y","y",state.subtitle);
+
+function syncTextPositionInputs(){
+  document.getElementById("adv-title-x").value = state.title.x;
+  document.getElementById("adv-title-y").value = state.title.y;
+  document.getElementById("adv-subtitle-x").value = state.subtitle.x;
+  document.getElementById("adv-subtitle-y").value = state.subtitle.y;
+}
+
+document.querySelectorAll(".text-align").forEach(holder=>{
+  const k = holder.dataset.target;            // "title" | "subtitle"
+  holder.innerHTML = `
+    <span class="align-label">Align</span>
+    <span class="align-group" role="group" aria-label="Align ${k} horizontally">
+      <button class="alg" data-x="${-ALIGN_STEP_X}" title="Align left">L</button>
+      <button class="alg" data-x="0" title="Centre horizontally">C</button>
+      <button class="alg" data-x="${ALIGN_STEP_X}" title="Align right">R</button>
+    </span>
+    <span class="align-group" role="group" aria-label="Align ${k} vertically">
+      <button class="alg" data-y="${ALIGN_STEP_Y}" title="Align top">T</button>
+      <button class="alg" data-y="0" title="Centre vertically">M</button>
+      <button class="alg" data-y="${-ALIGN_STEP_Y}" title="Align bottom">B</button>
+    </span>`;
+  holder.querySelectorAll(".alg").forEach(b=>{
+    b.addEventListener("click", ()=>{
+      if (b.dataset.x !== undefined) state[k].x = Number(b.dataset.x);
+      if (b.dataset.y !== undefined) state[k].y = Number(b.dataset.y);
+      syncTextPositionInputs();
+      render();
+    });
+  });
+});
 function bindColor(id, obj){
   const el = document.getElementById(id);
   el.value = obj.color;
@@ -830,8 +874,8 @@ const HELP = {
     <p>Every badge needs a <strong>title</strong> — keep it short and bold (e.g. RESEARCH). The <strong>subtitle</strong> is optional and sits underneath.</p>
     <ul>
       <li>The counter (e.g. 6/9) shows how many characters fit on the badge face. It adjusts automatically when you change the text size — and gets more generous when text is arched (a curve holds more letters than a straight line).</li>
-      <li><strong>Curve</strong> bends the text into an arch over the top or under the bottom of the badge — the classic seal look. <strong>Curve radius</strong> moves the arch nearer to (smaller) or further from (larger) the centre. It suits the circle best, but works on any shape.</li>
-      <li>Straight text positions are fixed per shape so badges stay consistent across a module.</li>
+      <li><strong>Advanced settings</strong> hold each text's size, colour, X/Y position with quick <strong>Align</strong> buttons (L/C/R and T/M/B), and the <strong>Curve</strong> option, which bends text into an arch over the top or under the bottom of the badge — the classic seal look. Curve radius moves the arch nearer to (smaller) or further from (larger) the centre.</li>
+      <li>X/Y and Align apply to straight text; arched text is positioned by its curve radius instead. Switching shape resets text to that shape's standard positions, so badges stay consistent across a module.</li>
     </ul>`},
   icons:{ title:"Icons", body:`
     <p>Icons live in collapsible categories — click a category name to open it, then click any tile to add that icon to the badge. New icons drop into sensible slots; fine-tune them in the list at the bottom of this card.</p>
@@ -996,8 +1040,10 @@ function applyImportedState(s){
     : COLOR_PRESETS[state.preset].stops.map(p=>({...p}));
   const safeArch = v => ["none","up","down"].includes(v) ? v : "none";
   Object.assign(state.title,    { text:String(s.title.text||"").slice(0,60),    size:clamp(Number(s.title.size)||46,12,72),    color:safeColor(s.title.color,"#3b3f8c"),
+    x:num(s.title.x ?? 0), y:(s.title.y !== undefined ? num(s.title.y) : SHAPES[state.shape].title.y),
     arch:safeArch(s.title.arch),    archRadius:clamp(Number(s.title.archRadius)||150,60,220) });
   Object.assign(state.subtitle, { text:String(s.subtitle?.text||"").slice(0,60), size:clamp(Number(s.subtitle?.size)||20,10,40), color:safeColor(s.subtitle?.color,"#5a5f73"),
+    x:num(s.subtitle?.x ?? 0), y:(s.subtitle?.y !== undefined ? num(s.subtitle.y) : SHAPES[state.shape].subtitle.y),
     arch:safeArch(s.subtitle?.arch), archRadius:clamp(Number(s.subtitle?.archRadius)||158,60,220) });
   state.icons = (Array.isArray(s.icons)? s.icons:[]).map(i=>{
     const base = {
@@ -1062,6 +1108,7 @@ function syncPanel(){
   document.getElementById("title-arch-r").value = state.title.archRadius;
   document.getElementById("subtitle-arch").value = state.subtitle.arch;
   document.getElementById("subtitle-arch-r").value = state.subtitle.archRadius;
+  syncTextPositionInputs();
   buildPlacedLists();
 }
 

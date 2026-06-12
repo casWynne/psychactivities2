@@ -1,4 +1,4 @@
-# Badge Maker 2.0
+# CasBadge
 
 A static, single-page tool for academic staff to design Moodle badges for undergraduate psychology students. Built with vanilla HTML/CSS/JS — no build step, no data storage, no server.
 
@@ -16,7 +16,7 @@ Open `index.html` in a browser, or host the three files anywhere static.
 - **Shapes:** circle, square, hexagon — with optional scalloped (rosette) edge, scallop count/depth and border width in advanced settings.
 - **Colour styles:** rainbow, bronze, silver, gold + 7 single-hue presets; full gradient-point editor (add/remove/recolour points, min 2).
 - **Text:** required title + optional subtitle, fixed positions per shape, live character counters that adapt to font size.
-- **Icons:** curated, categorised library (4 per category) + import any icon from [tabler.io/icons](https://tabler.io/icons) via Copy SVG → paste.
+- **Icons:** curated, categorised library shown as **collapsed accordions** (categories and counts generated automatically from `ICON_LIBRARY`) + in-app **search of 200,000+ icons across ~200 open icon sets** via the free Iconify API (`api.iconify.design` — keyless, CORS-enabled). The search has a **set-filter dropdown** (edit `ICON_SET_FILTERS` in `app.js` to change the options), **Show more** paging (fetches up to 256 matches, renders 24 at a time — both tunable via `SEARCH_FETCH_LIMIT` / `SEARCH_PAGE_SIZE`), and a link to the full catalogue at [icon-sets.iconify.design](https://icon-sets.iconify.design/). Each result's tooltip names its icon set; most sets use open licences (MIT/Apache/CC). Manual import from [tabler.io/icons](https://tabler.io/icons) via Copy SVG → paste also works.
 - **Decorations:** laurels, sparkle, divider with per-shape default positions.
 - **Positioning grid:** toggleable Cartesian overlay; all items use centre-origin X/Y number boxes (Gorilla-style).
 - **Auto-fit:** shrinks oversized text and pulls icons/decorations back inside the badge face.
@@ -36,6 +36,14 @@ Coordinates are centre-origin: **x → right, y → up**, canvas 512×512 (so ro
 
 ## Notes
 
+- Icon search is the app's only network call (to `api.iconify.design`). Everything else — including all built-in icons, decorations and export — works fully offline. If Iconify is unreachable, the search box fails gracefully with a message.
 - The exported SVG uses common font fallbacks so it renders consistently in Moodle without bundled fonts.
 - JPG export renders at 1024×1024 on a white background (JPG has no transparency).
 - Nothing is saved or sent anywhere; refreshing the page resets the design.
+
+## v1.2 additions
+
+- **Quick alignment** — every placed icon/decoration has L/C/R and T/M/B snap buttons (offsets configurable via `ALIGN_STEP_X` / `ALIGN_STEP_Y` in `app.js`).
+- **More decorations** — ribbon banner, crown, dot divider and starburst, each with per-shape defaults in `DECOR_DEFAULTS`.
+- **Image upload** — embed a PNG/JPG (square transparent PNGs ~200–300 px recommended). The importer rejects non-PNG/JPG and files over 2 MB, auto-resizes anything over 320 px or 120 KB, and warns when the embedded image (~180 KB+) risks exceeding the 256 KB badge limit. Embedded images survive badge export/import round-trips (validated as strict PNG/JPG data URLs on re-import).
+- **Arched text** — each text box has a Curve control (Straight / Arch over top / Arch under bottom) with an adjustable radius (60–220). Implemented with SVG `textPath`, so arches stay crisp in both SVG and JPG exports, survive badge import round-trips, and the character counter automatically allows more characters on a curve.

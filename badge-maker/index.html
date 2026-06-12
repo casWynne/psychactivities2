@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Badge Maker 2.0</title>
+<title>CasBadge — badge maker for Moodle</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
@@ -14,7 +14,7 @@
   <div class="brand">
     <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z" fill="currentColor"/></svg>
     <div>
-      <h1>Badge Maker <span>2.0</span></h1>
+      <h1>Cas<span>Badge</span></h1>
       <p class="tagline">Create Moodle badges for your module</p>
     </div>
   </div>
@@ -114,10 +114,30 @@
           <span class="field-label">Title <em class="req">required</em> <span class="counter" id="count-title">0/12</span></span>
           <input type="text" id="input-title" placeholder="e.g. RESEARCH" autocomplete="off">
         </label>
+        <div class="curve-row">
+          <label>Curve
+            <select id="title-arch">
+              <option value="none">Straight</option>
+              <option value="up">Arch over top</option>
+              <option value="down">Arch under bottom</option>
+            </select>
+          </label>
+          <label>Curve radius <input type="number" id="title-arch-r" min="60" max="220" step="2" value="150"></label>
+        </div>
         <label class="field">
           <span class="field-label">Subtitle <em class="opt">optional</em> <span class="counter" id="count-subtitle">0/24</span></span>
           <input type="text" id="input-subtitle" placeholder="e.g. Methods Star 2026" autocomplete="off">
         </label>
+        <div class="curve-row">
+          <label>Curve
+            <select id="subtitle-arch">
+              <option value="none">Straight</option>
+              <option value="up">Arch over top</option>
+              <option value="down">Arch under bottom</option>
+            </select>
+          </label>
+          <label>Curve radius <input type="number" id="subtitle-arch-r" min="60" max="220" step="2" value="158"></label>
+        </div>
         <details class="advanced">
           <summary>Advanced text settings</summary>
           <div class="adv-body">
@@ -147,6 +167,18 @@
           <button class="help-btn" data-help="icons" aria-label="Help: icons">?</button>
         </header>
         <div id="icon-categories"><!-- built by JS --></div>
+        <div class="icon-search-block">
+          <h3 class="search-head">Search for more icons</h3>
+          <div class="icon-search">
+            <input type="search" id="icon-search-input" placeholder="e.g. brain, dna, calculator…" aria-label="Search icons">
+            <select id="icon-set-filter" aria-label="Limit search to one icon set"></select>
+            <button class="btn tiny" id="btn-icon-search">Search</button>
+          </div>
+          <div id="icon-search-results" class="tile-grid"></div>
+          <button class="btn tiny full" id="btn-more-icons" hidden>Show more results</button>
+          <p class="adv-note" id="icon-search-msg"></p>
+          <p class="adv-note">Searches the open icon sets indexed by Iconify — browse the full catalogue at <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener">icon-sets.iconify.design</a>. Internet connection needed; the built-in icons above always work.</p>
+        </div>
         <details class="advanced">
           <summary>Import your own icon (Tabler)</summary>
           <div class="adv-body">
@@ -158,6 +190,15 @@
             <textarea id="import-svg" rows="3" placeholder="Paste SVG code here…"></textarea>
             <button class="btn tiny" id="btn-import-icon">Add to badge</button>
             <p class="adv-note" id="import-msg"></p>
+          </div>
+        </details>
+        <details class="advanced">
+          <summary>Upload your own image (PNG or JPG)</summary>
+          <div class="adv-body">
+            <p class="adv-note">Best results: a <strong>square PNG with a transparent background</strong>, around <strong>200–300 px</strong> wide and under <strong>100 KB</strong>. Logos and simple graphics work well; photographs rarely look crisp on a badge.</p>
+            <p class="adv-note">Oversized images are automatically shrunk so your badge stays under Moodle's 256 KB limit.</p>
+            <input type="file" id="upload-image" accept="image/png,image/jpeg">
+            <p class="adv-note" id="upload-msg"></p>
           </div>
         </details>
         <div id="placed-icons" class="placed-list"><!-- built by JS --></div>

@@ -129,6 +129,12 @@ body{
 .opt{color:var(--muted); font-style:normal; font-size:.68rem}
 .counter{margin-left:auto; font-size:.72rem; color:var(--muted); font-variant-numeric:tabular-nums}
 .counter.over{color:#b3261e; font-weight:700}
+.curve-row{display:flex; gap:.7rem; align-items:end; margin:-.3rem 0 .75rem}
+.curve-row label{display:flex; flex-direction:column; gap:.25rem; font-size:.72rem; color:var(--muted); font-weight:600}
+.curve-row select{
+  font:inherit; font-size:.78rem; padding:.32rem .35rem; border:1px solid var(--line); border-radius:7px;
+  background:#fff; color:var(--ink);
+}
 input[type=text], textarea{
   width:100%; font:inherit; padding:.5rem .6rem; border:1px solid var(--line); border-radius:8px;
   background:#fff; color:var(--ink);
@@ -181,6 +187,38 @@ details.advanced[open] summary::before{content:"▾ "}
 .tile svg{width:26px;height:26px; stroke:var(--ink); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
 .tile-label{font-size:.6rem; color:var(--muted)}
 
+/* icon category accordions */
+details.icon-cat{
+  border:1px solid var(--line); border-radius:10px; background:#fbfcfe; margin-bottom:.45rem;
+}
+details.icon-cat summary{
+  list-style:none; cursor:pointer; display:flex; align-items:center; gap:.4rem;
+  padding:.55rem .65rem; font-size:.78rem; font-weight:600; color:var(--ink);
+}
+details.icon-cat summary::-webkit-details-marker{display:none}
+details.icon-cat summary::before{content:"▸"; color:var(--accent); font-size:.7rem}
+details.icon-cat[open] summary::before{content:"▾"}
+.cat-count{
+  margin-left:auto; font-size:.66rem; font-weight:700; color:var(--accent);
+  background:var(--accent-soft); border-radius:999px; padding:.1rem .5rem;
+}
+details.icon-cat .tile-grid{padding:.15rem .6rem .6rem}
+
+/* icon search */
+.icon-search-block{margin-top:.7rem; border-top:1px dashed var(--line); padding-top:.55rem}
+.search-head{font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:.1rem 0 .4rem}
+.icon-search{display:flex; gap:.4rem; margin-bottom:.5rem; flex-wrap:wrap}
+.icon-search input[type=search]{
+  flex:1 1 130px; font:inherit; padding:.45rem .6rem; border:1px solid var(--line); border-radius:8px; background:#fff;
+}
+.icon-search select{
+  font:inherit; font-size:.78rem; padding:.4rem .35rem; border:1px solid var(--line); border-radius:8px;
+  background:#fff; color:var(--ink); max-width:130px;
+}
+#btn-more-icons{margin-bottom:.4rem}
+#icon-search-results:empty{display:none}
+#icon-search-results{margin-bottom:.4rem}
+
 /* placed items */
 .placed-list{display:flex; flex-direction:column; gap:.5rem; margin-top:.7rem}
 .placed{
@@ -194,6 +232,15 @@ details.advanced[open] summary::before{content:"▾ "}
 .placed-fields label{display:flex; flex-direction:column; gap:.2rem; font-size:.66rem; color:var(--muted); font-weight:600}
 .placed-fields input[type=number]{width:62px}
 .placed-fields input[type=color]{width:40px;height:28px;border:1px solid var(--line);border-radius:6px;padding:1px;background:#fff}
+.placed-align{display:flex; align-items:center; gap:.5rem; margin-top:.45rem}
+.align-label{font-size:.66rem; color:var(--muted); font-weight:600}
+.align-group{display:inline-flex; gap:2px}
+.alg{
+  border:1px solid var(--line); background:#fff; border-radius:6px; cursor:pointer;
+  font:inherit; font-size:.66rem; font-weight:700; color:var(--muted); padding:.22rem .5rem;
+}
+.alg:hover{border-color:var(--accent); color:var(--accent)}
+input[type=file]{font-size:.74rem; color:var(--muted)}
 .del{
   border:none; background:transparent; color:var(--muted); cursor:pointer; font-size:.95rem; line-height:1;
   padding:.2rem .35rem; border-radius:6px;

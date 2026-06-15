@@ -1,48 +1,304 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
-
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Resource Database — CCTK</title>
-  <link rel="stylesheet" href="../shared/cctk.css" />
-  <script defer src="../shared/cctk-nav.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Psychology Department Project Database - Equipment and resource management tool">
+  <meta name="color-scheme" content="light dark">
+  
+  <title>Project Database - Psychology Department Equipment</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/index.css">
+
+  <!-- Preload fonts if using web fonts (optional) -->
+  <!-- <link rel="preload" href="fonts/your-font.woff2" as="font" type="font/woff2" crossorigin> -->
+
+  <!-- Theme color for browser UI -->
+  <meta name="theme-color" content="#8B9DC3">
+
+  <!-- Icon (if you have one) -->
+  <!-- <link rel="icon" type="image/svg+xml" href="assets/favicon.svg"> -->
 </head>
 
 <body>
-  <nav class="cctk-nav" aria-label="CCTK navigation">
-    <a class="cctk-nav__logo" href="../index.html">CCTK</a>
-    <span class="cctk-nav__sep" aria-hidden="true">›</span>
-    <span class="cctk-nav__current">Resource Database</span>
-    <span class="cctk-badge cctk-nav__back" data-status="planned" style="margin-left:auto;">
-      <span class="cctk-dot"></span> Planned
-    </span>
-  </nav>
+  <!-- Skip to main content link for keyboard users -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <div class="cctk-container" style="max-width: 640px;">
-    <header class="cctk-header" style="margin-bottom: var(--space-6);">
-      <div class="cctk-stack" style="gap: var(--space-2);">
-        <h1 class="cctk-title">Resource Database</h1>
-        <p class="cctk-subtitle">Searchable directory of equipment, software, and research kits.</p>
-      </div>
-    </header>
+  <!-- HEADER -->
+  <header role="banner" class="header">
+    <div class="container">
+      <nav role="navigation" aria-label="Main navigation" class="nav-main">
+        <div class="logo-section">
+          <h1 class="site-title">Project Database</h1>
+        </div>
 
-    <div class="cctk-card cctk-card--soft" data-accent="orange">
-      <div class="cctk-card__inner cctk-stack" style="gap: var(--space-4);">
-        <p style="margin:0;">
-          This tool is <strong>planned</strong> but not yet built. When complete, it will let you:
-        </p>
-        <ul style="margin:0; padding-left: var(--space-5); color: var(--text-2);">
-          <li>Browse available lab equipment and research kits</li>
-          <li>Search licensed software and digital tools</li>
-          <li>Filter by type, location, or availability</li>
+        <ul class="nav-links">
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li>
+            <button 
+              id="theme-toggle" 
+              class="btn btn-ghost btn-sm" 
+              aria-label="Toggle dark mode"
+              title="Toggle dark mode"
+            >
+              <span id="theme-icon">🌙</span>
+            </button>
+          </li>
+          <li><a href="#help" class="nav-link">Help</a></li>
         </ul>
-        <a href="../index.html" class="cctk-btn cctk-btn--ghost" style="align-self:flex-start;">← Back to CCTK</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main role="main" id="main-content">
+    <div class="container">
+
+      <!-- INTRODUCTION SECTION -->
+      <section class="intro-section" aria-labelledby="intro-heading">
+        <h2 id="intro-heading" class="visually-hidden">Introduction</h2>
+        <div class="intro-box">
+          <p id="intro-text">
+            The Project Database provides access to all equipment and resources available to our Psychology department. 
+            Use the search bar to find items by name, or filter by equipment type. Click any item to view full details, 
+            training requirements, and contact information for support.
+          </p>
+        </div>
+      </section>
+
+      <!-- HOW TO USE SECTION -->
+      <section class="how-to-section" aria-labelledby="how-to-heading">
+        <details class="collapsible">
+          <summary id="how-to-heading" class="collapsible-trigger">
+            How to Use This Database
+            <span class="collapsible-icon" aria-hidden="true">▼</span>
+          </summary>
+          <div class="collapsible-content how-to-content" id="how-to-content">
+            <!-- Content populated from JSON -->
+          </div>
+        </details>
+      </section>
+
+      <!-- EQUIPMENT LIST SECTION -->
+      <section class="equipment-section" aria-labelledby="equipment-heading">
+        <div class="section-header">
+          <h2 id="equipment-heading" class="section-title">Equipment & Resources</h2>
+          <div class="section-actions">
+            <span class="result-count" aria-live="polite" aria-atomic="true">
+              <!-- Populated by JavaScript -->
+            </span>
+          </div>
+        </div>
+
+        <!-- FILTERS & SEARCH -->
+        <div class="filters-container" role="region" aria-labelledby="filters-heading">
+          <h3 id="filters-heading" class="visually-hidden">Search and filter options</h3>
+
+          <div class="filter-row">
+            <!-- Search Input -->
+            <div class="filter-input-group">
+              <label for="search-input" class="filter-label">Search by name</label>
+              <div class="input-group">
+                <input
+                  type="search"
+                  id="search-input"
+                  class="search-input"
+                  placeholder="e.g., Polar H10, WAIS-IV"
+                  aria-label="Search equipment by name"
+                  aria-describedby="search-help"
+                >
+                <button 
+                  id="search-clear" 
+                  class="btn btn-ghost btn-sm" 
+                  aria-label="Clear search"
+                  title="Clear search"
+                >
+                  ✕
+                </button>
+              </div>
+              <small id="search-help" class="text-muted">Start typing to search</small>
+            </div>
+
+            <!-- Type Filter -->
+            <fieldset class="filter-fieldset">
+              <legend class="filter-label">Filter by type</legend>
+              <div class="checkbox-group" id="type-filters">
+                <!-- Populated by JavaScript -->
+              </div>
+            </fieldset>
+
+            <!-- Sort -->
+            <div class="filter-input-group">
+              <label for="sort-select" class="filter-label">Sort by</label>
+              <select id="sort-select" class="sort-select" aria-label="Sort equipment list">
+                <option value="name-asc">Name (A-Z)</option>
+                <option value="name-desc">Name (Z-A)</option>
+                <option value="quantity-high">Quantity (High to Low)</option>
+                <option value="quantity-low">Quantity (Low to High)</option>
+                <option value="type">Equipment Type</option>
+              </select>
+            </div>
+
+            <!-- Clear Filters Button -->
+            <button 
+              id="clear-filters" 
+              class="btn btn-outline btn-sm"
+              aria-label="Clear all filters and search"
+            >
+              Clear All
+            </button>
+          </div>
+        </div>
+
+        <!-- NO RESULTS MESSAGE -->
+        <div id="no-results" class="alert alert-info" role="status" aria-live="polite" hidden>
+          <strong>No items found.</strong> Try adjusting your search or filters.
+        </div>
+
+        <!-- EQUIPMENT LIST (Mobile: Cards, Desktop: Table) -->
+        <div id="equipment-list" class="equipment-list" role="region" aria-labelledby="equipment-heading">
+          <!-- Mobile: Item Cards -->
+          <div id="card-view" class="card-view">
+            <!-- Populated by JavaScript -->
+          </div>
+
+          <!-- Desktop: Table View (shown on larger screens) -->
+          <div id="table-view" class="table-view">
+            <table role="table" aria-label="Equipment list with details">
+              <thead>
+                <tr>
+                  <th scope="col">Image</th>
+                  <th scope="col">
+                    Name
+                    <span class="tooltip-icon" title="Click an item to view full details">ℹ</span>
+                  </th>
+                  <th scope="col">
+                    Type
+                    <span class="tooltip-icon" title="Category of equipment">ℹ</span>
+                  </th>
+                  <th scope="col">
+                    Manual
+                    <span class="tooltip-icon" title="Documentation available">ℹ</span>
+                  </th>
+                  <th scope="col">
+                    Risk Assessment
+                    <span class="tooltip-icon" title="Safety documentation available">ℹ</span>
+                  </th>
+                  <th scope="col">
+                    Quantity
+                    <span class="tooltip-icon" title="Total units available">ℹ</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="table-body">
+                <!-- Populated by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer role="contentinfo" class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Psychology Department</h3>
+          <p>
+            For more information about equipment or to report issues, 
+            <a href="#contact">contact the Psychology Technician</a>.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h3>Accessibility</h3>
+          <p>
+            This site is designed to be fully accessible. 
+            <a href="#accessibility-statement">Read our accessibility statement</a>.
+          </p>
+        </div>
+        <div class="footer-section">
+          <small>&copy; 2026 Psychology Department. All rights reserved.</small>
+        </div>
       </div>
     </div>
+  </footer>
 
-    <footer class="cctk-footer">Made by Caspar Wynne</footer>
-  </div>
+  <!-- TEMPLATES FOR DYNAMIC CONTENT -->
+
+  <!-- Item Card Template -->
+  <template id="item-card-template">
+    <article class="item-card card">
+      <img 
+        src="" 
+        alt="" 
+        class="card-image" 
+        loading="lazy"
+      >
+      <div class="card-body">
+        <h3 class="card-title"></h3>
+        <dl class="card-details">
+          <dt>Type</dt>
+          <dd class="item-type"></dd>
+          <dt>Quantity</dt>
+          <dd class="item-quantity"></dd>
+        </dl>
+      </div>
+      <a href="#" class="btn btn-primary btn-full">View Details</a>
+    </article>
+  </template>
+
+  <!-- Item Table Row Template -->
+  <template id="item-row-template">
+    <tr class="item-row" role="row">
+      <td>
+        <a href="#" class="item-row-link">
+          <img 
+            src="" 
+            alt="" 
+            class="item-row-image" 
+            loading="lazy"
+          >
+        </a>
+      </td>
+      <td>
+        <a href="#" class="item-name-link"></a>
+      </td>
+      <td class="item-type"></td>
+      <td class="item-manual">
+        <span aria-label="Manual available">✓</span>
+      </td>
+      <td class="item-risk">
+        <span aria-label="Risk assessment available">✓</span>
+      </td>
+      <td class="item-quantity"></td>
+    </tr>
+  </template>
+
+  <!-- Type Filter Checkbox Template -->
+  <template id="filter-checkbox-template">
+    <div class="checkbox-item">
+      <input 
+        type="checkbox" 
+        id="" 
+        name="type" 
+        value="" 
+        class="type-filter"
+      >
+      <label for=""></label>
+    </div>
+  </template>
+
+  <!-- SCRIPTS -->
+  <script src="js/theme.js"></script>
+  <script src="js/app.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,261 @@
+{
+  "meta": {
+    "version": "1.0",
+    "lastUpdated": "2026-06-15T10:30:00Z",
+    "psychtechEmails": [
+      "psychology.tech@university.ac.uk"
+    ],
+    "trainingDropInTimetable": {
+      "day": "Tuesdays",
+      "time": "2:00 PM - 4:00 PM",
+      "location": "Psychology Lab, Room 204",
+      "format": "In-person and online available (Zoom link sent weekly)",
+      "notes": "Drop-in sessions run during term time only. No booking required."
+    },
+    "howToUse": "The Project Database provides access to all equipment and resources available to our Psychology department. Use the search bar to find specific items by name, or filter by equipment type. Click on any item to view full details, including instructions, training requirements, and how to contact the psychology technician. For items requiring training, book a one-to-one session or attend our weekly drop-in support sessions."
+  },
+  "equipmentTypes": [
+    {
+      "id": "bio-physical-sensors",
+      "label": "Bio Physical Sensors",
+      "description": "Devices that measure physiological responses such as heart rate, galvanic skin response, respiration, and EEG. These sensors capture biological signals during psychological experiments and allow researchers to examine the relationship between psychological states and bodily responses."
+    },
+    {
+      "id": "physical-equipment",
+      "label": "Physical Equipment",
+      "description": "Tangible apparatus and equipment used in psychological research and practical sessions, including experimental apparatus, testing materials, and laboratory equipment."
+    },
+    {
+      "id": "assessment-kits",
+      "label": "Assessment Kits",
+      "description": "Standardised psychological assessment tools and test batteries for measuring cognitive abilities, personality traits, behavioural patterns, and emotional functioning. These are professionally developed instruments used in clinical, educational, and research settings."
+    },
+    {
+      "id": "software",
+      "label": "Software",
+      "description": "Digital tools and applications for experimental presentation, data collection, statistical analysis, psychophysiological monitoring, and psychological assessment. Includes both standalone applications and cloud-based platforms."
+    },
+    {
+      "id": "templates",
+      "label": "Templates",
+      "description": "Reusable digital templates typically in JSON, ZIP, Word, or Excel format containing questionnaires, experimental protocols, task designs, and survey structures for use in platforms like Gorilla, JISC Online Surveys, and Qualtrics."
+    }
+  ],
+  "trainingRequirements": [
+    {
+      "id": "health-safety-induction",
+      "label": "Health & Safety Induction",
+      "icon": "⚠️",
+      "description": "In-person health and safety training required before use. This covers safe handling, emergency procedures, and risk awareness."
+    },
+    {
+      "id": "tool-training",
+      "label": "Tool Training",
+      "icon": "📚",
+      "description": "Specific training on how to use this equipment or software correctly, including setup, operation, and troubleshooting."
+    },
+    {
+      "id": "certification",
+      "label": "Professional Certification",
+      "icon": "🏆",
+      "description": "Formal certification or professional qualification required for use. This may include standardised test administration credentials (e.g., WISC/WAIS) or advanced software training."
+    }
+  ],
+  "items": [
+    {
+      "id": "polar-h10",
+      "name": "Polar H10 Heart Rate Monitor",
+      "type": "bio-physical-sensors",
+      "quantity": 8,
+      "description": "The Polar H10 is a chest-worn heart rate sensor that provides accurate RR (inter-beat intervals) and HR (heart rate) data in real-time. It connects via Bluetooth to compatible devices and applications (phones, tablets, computers). Ideal for laboratory and field-based psychophysiological research. The sensor is water-resistant and can be used during physical activity studies.",
+      "images": [
+        "assets/images/polarh10.jpg"
+      ],
+      "useCases": "Used in studies measuring cardiovascular responses to psychological stressors, emotion induction paradigms, or physical exertion. Commonly paired with Biopac for simultaneous recording of multiple psychophysiological signals. Also used in biofeedback applications and stress management training.",
+      "restrictions": "Must be returned in good working order. Requires charging between uses (USB). Do not use with individuals who have metal implants in the chest area or are sensitive to elastic materials. Clean strap regularly with warm soapy water.",
+      "worksWithItems": ["biopac-r35"],
+      "trainingRequired": [
+        {
+          "requirementId": "tool-training",
+          "method": "one-to-one",
+          "notes": "Quick 30-minute training covering pairing, data collection, and basic troubleshooting."
+        }
+      ],
+      "documents": {
+        "manuals": [
+          {
+            "filename": "Polar_H10_User_Manual.pdf",
+            "path": "assets/documents/Polar_H10_User_Manual.pdf",
+            "type": "pdf"
+          }
+        ],
+        "riskAssessments": [
+          {
+            "filename": "Polar_H10_Risk_Assessment.docx",
+            "path": "assets/documents/polar-h10/risk-assessments/Polar_H10_Risk_Assessment.docx",
+            "type": "docx"
+          }
+        ],
+        "other": []
+      }
+    },
+    {
+      "id": "biopac-r35",
+      "name": "Biopac MP150 Data Acquisition Unit with R35 Respiration Module",
+      "type": "bio-physical-sensors",
+      "quantity": 2,
+      "description": "The Biopac MP150 is a professional-grade data acquisition system for recording multiple psychophysiological signals including ECG, GSR (galvanic skin response), respiration, EMG, and temperature. The R35 respiration module measures chest and abdominal breathing patterns. Works with AcqKnowledge software for real-time visualization and post-hoc analysis. Designed for laboratory research and clinical applications.",
+      "images": [
+        "assets/images/biopac-r35/1.BiopacMP150.jpg"
+      ],
+      "useCases": "Essential equipment for comprehensive psychophysiological research. Used in studies of stress, emotion, anxiety, and autonomic nervous system function. Valuable for teaching psychophysiology methods to students. Can be integrated with stimulus presentation software (e.g., E-Prime, PsychoPy).",
+      "restrictions": "Requires specialised knowledge to operate safely and correctly. Must be set up by trained personnel. Sensitive electronic equipment - handle with care. Keep away from water and electromagnetic sources. Equipment must be calibrated before use each session.",
+      "worksWithItems": ["polar-h10", "gsr-sensors"],
+      "trainingRequired": [
+        {
+          "requirementId": "tool-training",
+          "method": "one-to-one",
+          "notes": "Comprehensive training (2-3 hours) covering setup, electrode placement, calibration, data collection, and troubleshooting. Must be completed before independent use."
+        }
+      ],
+      "documents": {
+        "manuals": [
+          {
+            "filename": "Biopac_MP150_Getting_Started.pdf",
+            "path": "assets/documents/biopac-r35/manuals/Biopac_MP150_Getting_Started.pdf",
+            "type": "pdf"
+          },
+          {
+            "filename": "Biopac_R35_Respiration_Module_Guide.pdf",
+            "path": "assets/documents/biopac-r35/manuals/Biopac_R35_Respiration_Module_Guide.pdf",
+            "type": "pdf"
+          }
+        ],
+        "riskAssessments": [
+          {
+            "filename": "Biopac_Risk_Assessment.docx",
+            "path": "assets/documents/biopac-r35/risk-assessments/Biopac_Risk_Assessment.docx",
+            "type": "docx"
+          }
+        ],
+        "other": []
+      }
+    },
+    {
+      "id": "wais-iv",
+      "name": "WAIS-IV (Wechsler Adult Intelligence Scale - 4th Edition)",
+      "type": "assessment-kits",
+      "quantity": 3,
+      "description": "The WAIS-IV is a comprehensive standardised assessment of cognitive abilities for adults aged 16-90 years. It measures four major index scores: Verbal Comprehension (vocabulary, similarities, information), Perceptual Reasoning (block design, matrix reasoning, visual puzzles), Working Memory (digit span, arithmetic), and Processing Speed (symbol search, coding). Provides a Full Scale IQ score. This is a restricted assessment tool with strict security and ethical requirements.",
+      "images": [
+        "assets/images/WAIS-IV-Kit.webp"
+      ],
+      "useCases": "Used for clinical assessment, neuropsychological evaluation, educational assessment, and research into cognitive functioning. Particularly useful in identifying cognitive strengths and weaknesses, assessing for intellectual disability or giftedness, and evaluating effects of brain injury or neurodegenerative conditions.",
+      "restrictions": "**RESTRICTED ASSESSMENT TOOL** - Only to be used by trained and accredited practitioners with appropriate qualifications in psychological or educational assessment. Cannot be used on individuals under 16 years old. Test materials must remain secure and confidential at all times. All scoring and interpretation must be carried out by qualified personnel. Test kits must not be left unattended. Photocopying or reproducing test materials is strictly prohibited.",
+      "worksWithItems": [],
+      "trainingRequired": [
+        {
+          "requirementId": "certification",
+          "method": "one-to-one",
+          "notes": "Must complete WAIS-IV accreditation course (typically 2-3 day workshop). Contact psychology technician for approved training providers and scheduling. Certification is renewable every 3 years."
+        }
+      ],
+      "documents": {
+        "manuals": [
+          {
+            "filename": "WAIS-IV_Administration_and_Scoring_Manual.pdf",
+            "path": "assets/documents/wais-iv/manuals/WAIS-IV_Administration_and_Scoring_Manual.pdf",
+            "type": "pdf"
+          },
+          {
+            "filename": "WAIS-IV_Technical_and_Interpretive_Manual.pdf",
+            "path": "assets/documents/wais-iv/manuals/WAIS-IV_Technical_and_Interpretive_Manual.pdf",
+            "type": "pdf"
+          }
+        ],
+        "riskAssessments": [
+          {
+            "filename": "WAIS-IV_Risk_Assessment.docx",
+            "path": "assets/documents/wais-iv/risk-assessments/WAIS-IV_Risk_Assessment.docx",
+            "type": "docx"
+          }
+        ],
+        "other": []
+      }
+    },
+    {
+      "id": "gorilla-platform",
+      "name": "Gorilla Experimental Builder (Software License)",
+      "type": "software",
+      "quantity": 1,
+      "description": "Gorilla is a cloud-based platform for creating and running psychological experiments, including surveys, reaction-time tasks, cognitive tests, and questionnaire studies. No programming required - build experiments using a drag-and-drop interface. Supports data collection from diverse participant pools, real-time visualisation, and export to multiple statistical formats. Accessible from any device with a web browser.",
+      "images": [
+        "assets/images/gorilla.png"
+      ],
+      "useCases": "Ideal for running studies during remote learning periods. Supports lab-based data collection when paired with participant management tools. Used for teaching experimental design to students. Useful for cross-national or international studies. Can integrate stimulus presentation with data collection and analysis.",
+      "restrictions": "Access requires institutional license login. Data must be stored securely in compliance with data protection regulations (GDPR). Only use for approved research protocols. Do not share login credentials. Session data should be downloaded and stored locally regularly.",
+      "worksWithItems": [],
+      "trainingRequired": [
+        {
+          "requirementId": "tool-training",
+          "method": "drop-in",
+          "notes": "Introductory tutorials available on platform. For advanced features, attend drop-in sessions or request one-to-one support."
+        }
+      ],
+      "documents": {
+        "manuals": [
+          {
+            "filename": "Gorilla_Getting_Started_Guide.pdf",
+            "path": "assets/documents/gorilla-platform/manuals/Gorilla_Getting_Started_Guide.pdf",
+            "type": "pdf"
+          }
+        ],
+        "riskAssessments": [],
+        "other": [
+          {
+            "filename": "Gorilla_GDPR_Compliance_Guide.md",
+            "path": "assets/documents/gorilla-platform/other/Gorilla_GDPR_Compliance_Guide.md",
+            "type": "markdown"
+          }
+        ]
+      }
+    },
+    {
+      "id": "oq-45-template",
+      "name": "OQ-45 Therapy Outcome Measure Template (Gorilla)",
+      "type": "templates",
+      "quantity": 1,
+      "description": "Pre-built Gorilla experiment template implementing the OQ-45.2 (Outcome Questionnaire-45), a widely-used 45-item self-report measure of psychological distress and functioning. Template includes automated scoring, result feedback, and data export. Customisable for different research or clinical applications.",
+      "images": [
+        "assets/images/oq-45-template/1.OQ45_Template_Screenshot.png"
+      ],
+      "useCases": "Used for measuring psychotherapy outcomes, monitoring treatment progress in clinical settings, and research on psychological intervention effectiveness. Useful as a teaching tool for introducing outcome measurement in psychology education.",
+      "restrictions": "Use only for appropriately trained clinicians or researchers. Ensure informed consent obtained from all participants. Maintain confidentiality of participant responses. Delete data securely after research completion if required by ethics protocol.",
+      "worksWithItems": ["gorilla-platform"],
+      "trainingRequired": [
+        {
+          "requirementId": "tool-training",
+          "method": "drop-in",
+          "notes": "Demonstrates how to customise Gorilla templates. 15-20 minute overview in drop-in sessions."
+        }
+      ],
+      "documents": {
+        "manuals": [
+          {
+            "filename": "OQ45_Template_Instructions.md",
+            "path": "assets/documents/oq-45-template/manuals/OQ45_Template_Instructions.md",
+            "type": "markdown"
+          }
+        ],
+        "riskAssessments": [],
+        "other": [
+          {
+            "filename": "OQ45_Scoring_Guide.pdf",
+            "path": "assets/documents/oq-45-template/other/OQ45_Scoring_Guide.pdf",
+            "type": "pdf"
+          }
+        ]
+      }
+    }
+  ]
+}

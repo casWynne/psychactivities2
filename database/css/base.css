@@ -1,0 +1,505 @@
+/* ==========================================================================
+   BASE STYLES - HTML ELEMENTS & TYPOGRAPHY
+   ========================================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================================================================
+   ROOT & BODY
+   ========================================================================= */
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+/* =========================================================================
+   TYPOGRAPHY - HEADINGS
+   ========================================================================= */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  margin-bottom: var(--space-4);
+  color: var(--color-text-primary);
+}
+
+h1 {
+  font-size: var(--text-5xl);
+  margin-bottom: var(--space-6);
+  font-weight: var(--font-weight-bold);
+}
+
+h2 {
+  font-size: var(--text-3xl);
+  margin-bottom: var(--space-5);
+}
+
+h3 {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-4);
+}
+
+h4 {
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-3);
+}
+
+h5 {
+  font-size: var(--text-lg);
+  margin-bottom: var(--space-3);
+}
+
+h6 {
+  font-size: var(--text-base);
+  margin-bottom: var(--space-2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+/* =========================================================================
+   TYPOGRAPHY - PARAGRAPHS & TEXT
+   ========================================================================= */
+
+p {
+  margin-bottom: var(--space-4);
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+small {
+  font-size: var(--text-sm);
+}
+
+strong, b {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+em, i {
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+
+/* =========================================================================
+   LINKS
+   ========================================================================= */
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  position: relative;
+  cursor: pointer;
+}
+
+a:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: var(--border-width-thick) solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--border-radius-sm);
+}
+
+a:active {
+  color: var(--color-primary-dark);
+}
+
+a:visited {
+  color: var(--color-secondary);
+}
+
+/* Distinguish external links */
+a[target="_blank"]::after {
+  content: " ↗";
+  font-size: 0.85em;
+  margin-left: 0.25em;
+}
+
+/* =========================================================================
+   LISTS
+   ========================================================================= */
+
+ul, ol {
+  margin-bottom: var(--space-4);
+  margin-left: var(--space-6);
+}
+
+ul > li, ol > li {
+  margin-bottom: var(--space-2);
+}
+
+li {
+  line-height: var(--line-height-relaxed);
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-top: var(--space-2);
+  margin-bottom: 0;
+}
+
+dl {
+  margin-bottom: var(--space-4);
+}
+
+dt {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-top: var(--space-2);
+}
+
+dd {
+  color: var(--color-text-secondary);
+  margin-left: var(--space-4);
+  margin-bottom: var(--space-2);
+}
+
+/* =========================================================================
+   CODE
+   ========================================================================= */
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background-color: var(--color-bg-secondary);
+  color: var(--color-accent-dark);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--border-radius-sm);
+}
+
+pre {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  padding: var(--space-4);
+  border-radius: var(--border-radius-lg);
+  overflow-x: auto;
+  margin-bottom: var(--space-4);
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+/* =========================================================================
+   BLOCKQUOTE
+   ========================================================================= */
+
+blockquote {
+  border-left: 4px solid var(--color-primary);
+  padding-left: var(--space-4);
+  margin: var(--space-4) 0;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* =========================================================================
+   FORM ELEMENTS
+   ========================================================================= */
+
+label {
+  display: block;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+textarea,
+select {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-secondary);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--border-radius-base);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  appearance: none;
+  margin-bottom: var(--space-4);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+input[type="datetime-local"]:focus,
+input[type="month"]:focus,
+input[type="week"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(139, 157, 195, 0.1);
+}
+
+input[type="search"] {
+  -webkit-appearance: none;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: var(--font-body);
+}
+
+select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right var(--space-3) center;
+  background-size: 1.5em;
+  padding-right: var(--space-10);
+  cursor: pointer;
+}
+
+/* Checkboxes & Radios */
+input[type="checkbox"],
+input[type="radio"] {
+  width: auto;
+  margin-right: var(--space-2);
+  margin-bottom: 0;
+  cursor: pointer;
+  accent-color: var(--color-primary);
+}
+
+input[type="checkbox"]:focus,
+input[type="radio"]:focus {
+  outline: var(--border-width-base) solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Checkbox/Radio Label Associations */
+.checkbox-group,
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.checkbox-item,
+.radio-item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkbox-item input,
+.radio-item input {
+  margin-bottom: 0;
+  margin-right: var(--space-2);
+}
+
+.checkbox-item label,
+.radio-item label {
+  margin-bottom: 0;
+  cursor: pointer;
+  font-weight: var(--font-weight-normal);
+}
+
+/* =========================================================================
+   BUTTONS (Base, detailed in components)
+   ========================================================================= */
+
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-normal);
+  cursor: pointer;
+  border: none;
+  border-radius: var(--border-radius-base);
+  padding: var(--space-3) var(--space-6);
+  transition: all var(--transition-fast);
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+}
+
+button:focus,
+input[type="button"]:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus {
+  outline: var(--border-width-thick) solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* =========================================================================
+   TABLES
+   ========================================================================= */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--space-4);
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+}
+
+thead {
+  background-color: var(--color-bg-secondary);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+}
+
+th {
+  padding: var(--space-4);
+  text-align: left;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  border-right: var(--border-width-thin) solid var(--color-border);
+}
+
+th:last-child {
+  border-right: none;
+}
+
+td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: var(--border-width-thin) solid var(--color-divider);
+  color: var(--color-text-secondary);
+}
+
+tbody tr:hover {
+  background-color: var(--color-bg-primary);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* =========================================================================
+   IMAGES & MEDIA
+   ========================================================================= */
+
+img, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+figure {
+  margin: var(--space-4) 0;
+}
+
+figcaption {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-2);
+  font-style: italic;
+}
+
+/* =========================================================================
+   HORIZONTAL RULE
+   ========================================================================= */
+
+hr {
+  border: none;
+  border-top: var(--border-width-thin) solid var(--color-divider);
+  margin: var(--space-8) 0;
+}
+
+/* =========================================================================
+   UTILITY - SCREEN READER ONLY
+   ========================================================================= */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* =========================================================================
+   UTILITY - SKIP LINK
+   ========================================================================= */
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-primary);
+  color: var(--color-bg-primary);
+  padding: var(--space-2) var(--space-4);
+  text-decoration: none;
+  z-index: var(--z-fixed);
+  border-radius: 0 0 var(--border-radius-base) 0;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: none;
+}
+
+/* =========================================================================
+   FOCUS OUTLINE ENHANCEMENTS
+   ========================================================================= */
+
+:focus-visible {
+  outline: var(--border-width-thick) solid var(--color-primary);
+  outline-offset: 2px;
+}

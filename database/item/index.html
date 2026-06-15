@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Equipment details - Psychology Department Project Database">
+  <meta name="color-scheme" content="light dark">
+  
+  <title>Equipment Details - Project Database</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/item.css">
+
+  <meta name="theme-color" content="#8B9DC3">
+</head>
+
+<body>
+  <!-- Skip to main content link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- HEADER -->
+  <header role="banner" class="header">
+    <div class="container">
+      <nav role="navigation" aria-label="Main navigation" class="nav-main">
+        <div class="logo-section">
+          <a href="../" class="site-title-link">Project Database</a>
+        </div>
+
+        <ul class="nav-links">
+          <li><a href="../#about" class="nav-link">About</a></li>
+          <li>
+            <button 
+              id="theme-toggle" 
+              class="btn btn-ghost btn-sm" 
+              aria-label="Toggle dark mode"
+              title="Toggle dark mode"
+            >
+              <span id="theme-icon">🌙</span>
+            </button>
+          </li>
+          <li><a href="../#help" class="nav-link">Help</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main role="main" id="main-content">
+    <div class="container">
+
+      <!-- Back Button -->
+      <div class="back-link-container">
+        <a href="../" class="back-link">← Back to Equipment List</a>
+      </div>
+
+      <!-- LOADING STATE -->
+      <div id="loading" class="loading-container" role="status" aria-live="polite" style="display: block;">
+        <div class="spinner"></div>
+        <p>Loading equipment details...</p>
+      </div>
+
+      <!-- ERROR STATE -->
+      <div id="error" class="alert alert-error" role="alert" hidden style="display: none;">
+        <strong>Error:</strong> <span id="error-message"></span>
+      </div>
+
+      <!-- ITEM DETAILS (populated by JavaScript) -->
+      <article id="item-content" class="item-detail" hidden style="display: none;">
+
+        <!-- HEADER SECTION -->
+        <section class="item-header" aria-labelledby="item-title">
+          <h1 id="item-title" class="item-title"></h1>
+          <div class="item-meta">
+            <span class="item-type-badge"></span>
+            <span class="item-quantity-info"></span>
+          </div>
+        </section>
+
+        <!-- IMAGE GALLERY SECTION -->
+        <section class="item-gallery" aria-labelledby="gallery-heading">
+          <h2 id="gallery-heading" class="section-title">Images</h2>
+          
+          <div class="gallery-container">
+            <div class="gallery-main">
+              <img 
+                id="gallery-image" 
+                src="" 
+                alt="" 
+                class="gallery-image"
+              >
+              <div class="gallery-counter" role="status" aria-live="polite" aria-atomic="true">
+                <span id="gallery-current">1</span> of <span id="gallery-total">1</span>
+              </div>
+            </div>
+
+            <!-- Gallery Controls -->
+            <div class="gallery-controls">
+              <button 
+                id="gallery-prev" 
+                class="btn btn-ghost btn-sm gallery-btn" 
+                aria-label="Previous image"
+                title="Previous image (← key)"
+              >
+                ← Previous
+              </button>
+              <button 
+                id="gallery-next" 
+                class="btn btn-ghost btn-sm gallery-btn" 
+                aria-label="Next image"
+                title="Next image (→ key)"
+              >
+                Next →
+              </button>
+            </div>
+
+            <!-- Gallery Thumbnails -->
+            <div class="gallery-thumbnails" role="region" aria-label="Image thumbnails">
+              <!-- Populated by JavaScript -->
+            </div>
+          </div>
+        </section>
+
+        <!-- TYPE DESCRIPTION SECTION -->
+        <section class="item-type-section" aria-labelledby="type-heading">
+          <h2 id="type-heading" class="section-title">Equipment Type</h2>
+          <div class="type-badge-large">
+            <span id="item-type-label" class="type-label"></span>
+          </div>
+          <p id="item-type-description" class="type-description"></p>
+        </section>
+
+        <!-- DESCRIPTION SECTION -->
+        <section class="item-description-section" aria-labelledby="description-heading">
+          <h2 id="description-heading" class="section-title">Description</h2>
+          <div id="item-description" class="item-description"></div>
+        </section>
+
+        <!-- TRAINING REQUIREMENTS SECTION -->
+        <section class="item-training-section" aria-labelledby="training-heading" id="training-section" hidden>
+          <h2 id="training-heading" class="section-title">Training Required</h2>
+          <div id="item-training" class="training-badges">
+            <!-- Populated by JavaScript -->
+          </div>
+        </section>
+
+        <!-- USE CASES SECTION -->
+        <section class="item-use-cases-section" aria-labelledby="use-cases-heading">
+          <h2 id="use-cases-heading" class="section-title">Use Cases</h2>
+          <p id="item-use-cases" class="item-text"></p>
+        </section>
+
+        <!-- RESTRICTIONS SECTION -->
+        <section class="item-restrictions-section" aria-labelledby="restrictions-heading" id="restrictions-section" hidden>
+          <h2 id="restrictions-heading" class="section-title">Restrictions</h2>
+          <div id="item-restrictions" class="item-text restrictions-text"></div>
+        </section>
+
+        <!-- WORKS WITH SECTION -->
+        <section class="item-works-with-section" aria-labelledby="works-with-heading" id="works-with-section" hidden>
+          <h2 id="works-with-heading" class="section-title">Works With</h2>
+          <ul id="item-works-with" class="works-with-list">
+            <!-- Populated by JavaScript -->
+          </ul>
+        </section>
+
+        <!-- MANUALS SECTION -->
+        <section class="item-documents-section" aria-labelledby="manuals-heading" id="manuals-section" hidden>
+          <h2 id="manuals-heading" class="section-title">Manuals</h2>
+          <div id="item-manuals" class="documents-grid">
+            <!-- Populated by JavaScript -->
+          </div>
+        </section>
+
+        <!-- RISK ASSESSMENTS SECTION -->
+        <section class="item-documents-section" aria-labelledby="risk-heading" id="risk-section" hidden>
+          <h2 id="risk-heading" class="section-title">Risk Assessments</h2>
+          <div id="item-risk-assessments" class="documents-grid">
+            <!-- Populated by JavaScript -->
+          </div>
+        </section>
+
+        <!-- OTHER DOCUMENTS SECTION -->
+        <section class="item-documents-section" aria-labelledby="other-docs-heading" id="other-docs-section" hidden>
+          <h2 id="other-docs-heading" class="section-title">Other Documents</h2>
+          <div id="item-other-documents" class="documents-grid">
+            <!-- Populated by JavaScript -->
+          </div>
+        </section>
+
+        <!-- SIMILAR EQUIPMENT SECTION -->
+        <section class="item-similar-section" aria-labelledby="similar-heading" id="similar-section" hidden>
+          <h2 id="similar-heading" class="section-title">Similar Equipment</h2>
+          <ul id="item-similar" class="similar-equipment-list">
+            <!-- Populated by JavaScript -->
+          </ul>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section class="item-contact-section" aria-labelledby="contact-heading">
+          <h2 id="contact-heading" class="section-title">Questions or Need Training?</h2>
+          <p class="contact-intro">
+            Contact the Psychology Technician for more information, training, or to arrange equipment use.
+          </p>
+          <button 
+            id="contact-btn" 
+            class="btn btn-primary btn-lg"
+            aria-label="Send enquiry to psychology technician about this equipment"
+          >
+            Contact Psychology Technician
+          </button>
+        </section>
+
+      </article>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer role="contentinfo" class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Psychology Department</h3>
+          <p>
+            For more information about equipment or to report issues, 
+            contact the Psychology Technician.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h3>Accessibility</h3>
+          <p>
+            This site is designed to be fully accessible. 
+            Read our accessibility statement.
+          </p>
+        </div>
+        <div class="footer-section">
+          <small>&copy; 2026 Psychology Department. All rights reserved.</small>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- TEMPLATES -->
+
+  <!-- Training Badge Template -->
+  <template id="training-badge-template">
+    <span class="training-badge">
+      <span class="training-icon" aria-hidden="true"></span>
+      <span class="training-label"></span>
+    </span>
+  </template>
+
+  <!-- Document Tile Template -->
+  <template id="document-tile-template">
+    <a href="#" class="document-tile" target="_blank" rel="noopener noreferrer">
+      <span class="document-icon" aria-hidden="true"></span>
+      <span class="document-name"></span>
+      <span class="document-type" aria-hidden="true"></span>
+    </a>
+  </template>
+
+  <!-- Similar Equipment Item Template -->
+  <template id="similar-item-template">
+    <li>
+      <a href="#" class="similar-link"></a>
+    </li>
+  </template>
+
+  <!-- Gallery Thumbnail Template -->
+  <template id="gallery-thumbnail-template">
+    <button 
+      class="gallery-thumbnail" 
+      aria-label=""
+      role="tab"
+      aria-selected="false"
+    >
+      <img src="" alt="" class="thumbnail-image">
+    </button>
+  </template>
+
+  <!-- SCRIPTS -->
+  <script src="../js/theme.js"></script>
+  <script src="../js/item.js"></script>
+</body>
+
+</html>

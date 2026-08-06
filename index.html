@@ -1,577 +1,278 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<!doctype html>
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WALTER — HRV Analyser</title>
-  <link rel="stylesheet" href="index.css">
-  <script type="module" src="index.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <script
-    src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjs@12.4.0/lib/browser/math.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CCTK — Caspar's Cool Tool Kit</title>
+  <meta name="description" content="A small collection of research and teaching tools for psychology staff and students." />
+  <link rel="stylesheet" href="shared/cctk.css" />
+  <script defer src="shared/cctk-nav.js"></script>
 </head>
 
 <body>
+  <main class="cctk-container">
 
-  <header id="appHeader">
-    <div class="header-left">
-      <h1>WALTER</h1>
-      <p>HRV Analyser — Heart Rate Variability for psychology students</p>
-    </div>
-    <div class="header-actions">
-      <!-- Add files button — only visible after data is loaded -->
-      <button class="btn btn-sm header-action-btn" id="btnHeaderAddFiles" style="display:none;"
-        onclick="document.getElementById('fileInput').click()">＋ Add files</button>
-
-      <!-- Charts dropdown — only visible after data is loaded -->
-      <div class="header-dropdown" id="headerChartsDropdown" style="display:none;">
-        <button class="btn btn-sm header-action-btn" onclick="toggleHeaderCharts()">Charts ▾</button>
-        <div class="header-dropdown-panel" id="headerChartsPanel" style="display:none;">
-          <div class="header-dropdown-title">Show / hide charts</div>
-          <label><input type="checkbox" id="hdr_chartTachogram" checked
-              onchange="syncChartCheckbox(this,'chartTachogram','rrChart')"> Tachogram</label>
-          <label><input type="checkbox" id="hdr_chartHR" onchange="syncChartCheckbox(this,'chartHR','hrChart')"> Heart
-            rate</label>
-          <label><input type="checkbox" id="hdr_chartRmssd"
-              onchange="syncChartCheckbox(this,'chartRmssd','rmssdOverTimeChart')"> RMSSD over time</label>
-          <label><input type="checkbox" id="hdr_chartPoincare"
-              onchange="syncChartCheckbox(this,'chartPoincare','poincareChart')"> Poincaré plot</label>
-          <label><input type="checkbox" id="hdr_chartHistogram"
-              onchange="syncChartCheckbox(this,'chartHistogram','histogramChart')"> Histogram</label>
-          <label><input type="checkbox" id="hdr_chartAccelerometer"
-              onchange="syncChartCheckbox(this,'chartAccelerometer','accelerometerChart')">Accelerometer</label>
-        </div>
+    <header class="cctk-header">
+      <div class="cctk-stack" style="gap: var(--space-2);">
+        <h1 class="cctk-title">CCTK</h1>
+        <p class="cctk-subtitle">
+          Caspar's Cool Tool Kit — a set of research and teaching tools for psychology
+          staff and students. Hosted on GitHub Pages.
+        </p>
       </div>
+      <button class="cctk-iconbtn" data-cctk-theme-toggle title="Toggle theme" aria-label="Toggle theme">🌗</button>
+    </header>
 
-      <button class="btn btn-sm header-action-btn" onclick="toggleDarkMode()">Dark mode</button>
-    </div>
-  </header>
+    <hr class="cctk-divider" />
 
-  <main>
-    <div class="error-box" id="errorBox"></div>
+    <div class="cctk-grid">
 
-    <!-- Single file tab -->
-    <div id="panelSingle">
-      <div id="dropZone" class="drop-zone">
-        <p> Drop Harvey CSV files here or click to select </p>
-        <p> Single files, Multiple Files, Whole Folders</p>
-
-        <div class="drop-buttons">
-          <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()"> Choose files </button>
-          <button class="btn btn-primary" onclick="document.getElementById('folderInput').click()"> Choose folders
-          </button>
-        </div>
-      </div>
-
-      <!-- Hidden file inputs — kept outside dropZone so they work when dropZone is hidden -->
-      <input type="file" id="fileInput" multiple style="display:none;">
-      <input type="file" id="folderInput" webkitdirectory multiple style="display:none;">
-
-      <!-- Manifest panel — shown after files are dropped, before processing -->
-      <div id="manifestPanel" style="display:none;" class="card">
-        <div class="card-header">
-          <span class="card-title">Manifest</span>
-        </div>
-        <div id="manifestWarnings" class="manifest-warnings" style="display:none;"></div>
-        <div id="manifestList" style="margin-bottom:16px;"></div>
-        <label style="display:flex; align-items:center; gap:6px; cursor:pointer; font-size:13px; margin-bottom:16px;">
-          <input type="checkbox" id="excludeUnmatchedDuo" style="accent-color:var(--accent);">
-          Exclude unmatched Duo files from output
-        </label>
-        <div style="display:flex; gap:12px;">
-          <button class="btn" onclick="document.getElementById('fileInput').click()">Add more files</button>
-          <button class="btn btn-primary" id="btnProcessManifest">Process files</button>
-        </div>
-      </div>
-
-      <!-- Session tray — visible during and after processing when 2+ sessions are loaded -->
-      <div id="sessionTray" style="display:none;">
-        <div class="session-tray">
-          <div class="session-tray-title">Session tray</div>
-          <div id="trayList"></div>
-          <button class="btn tray-add-btn" onclick="document.getElementById('fileInput').click()">＋ Add files</button>
-        </div>
-      </div>
-
-      <!-- Output table — shown after processing -->
-      <div id="outputPanel" style="display:none;">
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Results — all participants</span>
-            <div style="display:flex; gap:8px;">
-              <button class="btn btn-sm" id="btnDownloadOutput" onclick="downloadCSV()">Download CSV
-                (SPSS-ready)</button>
-              <button class="btn btn-sm" onclick="downloadQualityCSV()">Download quality CSV</button>
+      <!-- Q-Sort -->
+      <article class="cctk-card cctk-tool cctk-col-4" data-accent="teal">
+        <div class="cctk-card__inner cctk-stack">
+          <div class="cctk-tool__top">
+            <div>
+              <h2 class="cctk-tool__name">Q-Sort Tool</h2>
+              <p class="cctk-tool__tagline">Drag-and-drop Q-sort for research &amp; teaching</p>
             </div>
+            <span class="cctk-badge" data-status="active">
+              <span class="cctk-dot"></span> Active
+            </span>
           </div>
-          <div id="outputProgress" class="muted-text" style="margin-bottom:12px; display:none;"></div>
-          <div style="overflow-x:auto">
-            <table id="outputTable"></table>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title"> Group summary - mean/SD </span>
-          </div>
-          <div style="overflow-x: auto;">
-            <table id="groupSummaryTable"></table>
+          <p class="cctk-tool__desc">
+            Rank statements on a grid from "most like me" to "least like me". Supports
+            custom cards, presets, JSON export, and print-ready output.
+          </p>
+          <div class="cctk-tool__actions">
+            <a href="q-sort/index.html" class="cctk-btn cctk-btn--primary" data-accent="teal">Launch →</a>
           </div>
         </div>
+      </article>
 
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title"> RMSSD trajectory -all participants </span>
-            <button class="btn btn-sm" onclick="downloadChart('trajectoryChart', 'walter_trajectory.png')"> Donwload PNG
-            </button>
-          </div>
-          <div class="chart-wrap"><canvas id="trajectoryChart"> </canvas></div>
-        </div>
-
-        <div style="text-align:center; margin-bottom:24px;">
-          <button class="btn" onclick="resetManifest()">&#8617; Start again</button>
-        </div>
-      </div>
-
-      <div class="results" id="results">
-        <div class="card" id="sessionMetaCard">
-          <div class="card-header">
-            <span class="card-title">Session details</span>
-          </div>
-          <div id="sessionMeta"></div>
-        </div>
-
-        <div class="phase-legend" id="phaseLegend"></div>
-        <div class="metrics-grid" id="metricsGrid"></div>
-
-        <!-- Per-session detailed summary table — populated by renderTable() -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Phase-by-phase summary</span>
-          </div>
-          <div style="overflow-x:auto">
-            <table id="summaryTable"></table>
-          </div>
-        </div>
-
-        <div class="chart-card" id="card-rrChart" style="display:block;">
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">Tachogram — RR intervals over time</span>
-              <div style="display:flex; gap:8px;">
-                <button class="btn btn-sm" onclick="resetZoom('rrChart')">Reset zoom</button>
-                <button class="btn btn-sm" onclick="applyAPA7Style('rrChart')">APA7 Preset</button>
-                <button class="btn btn-sm" onclick="resetChartStyle('rrChart')">Reset style</button>
-                <button class="btn btn-sm" onclick="copyChart('rrChart')">Copy</button>
-                <button class="btn btn-sm" onclick="downloadChart('rrChart', 'walter_tachogram.png')">Download
-                  PNG</button>
-              </div>
+      <!-- MOP2 -->
+      <article class="cctk-card cctk-tool cctk-col-4" data-accent="indigo">
+        <div class="cctk-card__inner cctk-stack">
+          <div class="cctk-tool__top">
+            <div>
+              <h2 class="cctk-tool__name">Module Option Planner</h2>
+              <p class="cctk-tool__tagline">New programme — AY 2627+</p>
             </div>
-
-            <details>
-              <summary>Chart options</summary>
-              <div>
-                <label><input type="checkbox" id="rrChart_showPoints" onchange="applyChartOptions('rrChart')"> Show data
-                  points</label>
-                <label><input type="checkbox" id="rrChart_showPhaseShading" checked
-                    onchange="applyChartOptions('rrChart')"> Show phase shading</label>
-                <label><input type="checkbox" id="rrChart_showArtefacts" checked
-                    onchange="applyChartOptions('rrChart')"> Show artefact markers</label>
-                <label><input type="checkbox" id="rrChart_whiteBg" onchange="applyChartOptions('rrChart')"> White
-                  background</label>
-                <label><input type="radio" name="rrChart_smoothing" value="raw" checked
-                    onchange="applyChartOptions('rrChart')"> Raw</label>
-                <label><input type="radio" name="rrChart_smoothing" value="smooth"
-                    onchange="applyChartOptions('rrChart')"> Smooth</label>
-                <label><input type="checkbox" id="rrChart_showGrid" checked onchange="applyChartOptions('rrChart')">
-                  Grid lines</label>
-              </div>
-            </details>
-            <div class="chart-hint">
-              Scroll to zoom · Drag to pan · Double-click to reset
-            </div>
-            <div class="chart-wrap"><canvas id="rrChart"></canvas></div>
+            <span class="cctk-badge" data-status="active">
+              <span class="cctk-dot"></span> Active
+            </span>
+          </div>
+          <p class="cctk-tool__desc">
+            Step-by-step wizard for planning module choices across Years 1–3.
+            Shows pathways, timetables, and credit counts.
+          </p>
+          <div class="cctk-tool__actions">
+            <a href="mop2/index.html" class="cctk-btn cctk-btn--primary" data-accent="indigo">Launch →</a>
           </div>
         </div>
+      </article>
 
-        <div class="chart-card" id="card-hrChart" style="display:none;">
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">Heart rate over time</span>
-              <div style="display:flex; gap:8px;">
-                <button class="btn btn-sm" onclick="resetZoom('hrChart')">Reset zoom</button>
-                <button class="btn btn-sm" onclick="applyAPA7Style('hrChart')">APA7 Preset</button>
-                <button class="btn btn-sm" onclick="resetChartStyle('hrChart')">Reset style</button>
-                <button class="btn btn-sm" onclick="copyChart('hrChart')">Copy</button>
-                <button class="btn btn-sm" onclick="downloadChart('hrChart', 'walter_hr.png')">Download PNG</button>
-              </div>
+      <!-- RedditRambler -->
+      <article class="cctk-card cctk-tool cctk-col-4" data-accent="indigo">
+        <div class="cctk-card__inner cctk-stack">
+          <div class="cctk-tool__top">
+            <div>
+              <h2 class="cctk-tool__name">Reddit Rambler</h2>
+              <p class="cctk-tool__tagline">Extraction tool for posts and comment data from Reddit</p>
             </div>
-            <details>
-              <summary>Chart options</summary>
-              <div>
-                <label><input type="checkbox" id="hrChart_showPoints" onchange="applyChartOptions('hrChart')"> Show data
-                  points</label>
-                <label><input type="checkbox" id="hrChart_showPhaseShading" checked
-                    onchange="applyChartOptions('hrChart')"> Show phase shading</label>
-                <label><input type="checkbox" id="hrChart_whiteBg" onchange="applyChartOptions('hrChart')"> White
-                  background</label>
-                <label><input type="radio" name="hrChart_smoothing" value="raw" checked
-                    onchange="applyChartOptions('hrChart')"> Raw</label>
-                <label><input type="radio" name="hrChart_smoothing" value="smooth"
-                    onchange="applyChartOptions('hrChart')"> Smooth</label>
-                <label><input type="checkbox" id="hrChart_showGrid" checked onchange="applyChartOptions('hrChart')">
-                  Grid lines</label>
-              </div>
-            </details>
-            <div class="chart-hint">
-              Scroll to zoom · Drag to pan · Double-click to reset
-            </div>
-            <div class="chart-wrap"><canvas id="hrChart"></canvas></div>
+            <span class="cctk-badge" data-status="active">
+              <span class="cctk-dot"></span> Active
+            </span>
+          </div>
+          <p class="cctk-tool__desc">
+            Bespoke tool for processing .JSON Files from Reddit posts, anonymising user information and exporting it to .txt, .csv, or PDF for analysis.
+          </p>
+          <div class="cctk-tool__actions">
+            <a href="redditRambler/index.html" class="cctk-btn cctk-btn--primary" data-accent="indigo">Launch →</a>
           </div>
         </div>
+      </article>
 
-        <div class="chart-card" id="card-poincareChart" style="display:none;">
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">Poincaré plot — RR[n] vs RR[n+1]</span>
-              <div style="display:flex; gap:8px;">
-                <button class="btn btn-sm" onclick="resetZoom('poincareChart')">Reset zoom</button>
-                <button class="btn btn-sm" onclick="applyAPA7Style('poincareChart')">APA7 Preset</button>
-                <button class="btn btn-sm" onclick="resetChartStyle('poincareChart')">Reset style</button>
-                <button class="btn btn-sm" onclick="copyChart('poincareChart')">Copy</button>
-                <button class="btn btn-sm" onclick="downloadChart('poincareChart', 'walter_poincare.png')">Download
-                  PNG</button>
-              </div>
+      <!-- Supervisor Finder (debugging) -->
+      <article class="cctk-card cctk-tool cctk-col-4" data-accent="purple">
+        <div class="cctk-card__inner cctk-stack">
+          <div class="cctk-tool__top">
+            <div>
+              <h2 class="cctk-tool__name">Supervisor Finder</h2>
+              <p class="cctk-tool__tagline">Dissertation idea &amp; supervisor directory</p>
             </div>
-            <details>
-              <summary>Chart options</summary>
-              <div>
-                <label><input type="checkbox" id="poincareChart_showIdentity" checked
-                    onchange="applyChartOptions('poincareChart')"> Identity line</label>
-                <label><input type="checkbox" id="poincareChart_showEllipse" checked
-                    onchange="applyChartOptions('poincareChart')"> SD1/SD2 ellipse</label>
-                <label><input type="checkbox" id="poincareChart_whiteBg" onchange="applyChartOptions('poincareChart')">
-                  White background</label>
-                <label><input type="checkbox" id="poincareChart_showGrid" checked
-                    onchange="applyChartOptions('poincareChart')"> Grid lines</label>
-              </div>
-            </details>
-            <div class="chart-hint">
-              Scroll to zoom · Drag to pan · Double-click to reset
+            <span class="cctk-badge" data-status="active">
+              <span class="cctk-dot"></span> Active
+            </span>
+          </div>
+          <p class="cctk-tool__desc">
+            Browse staff research interests and find a dissertation supervisor that matches
+            your project idea.
+          </p>
+          <div class="cctk-tool__actions">
+            <a href="tasks/projectSuper/projectSuper.html" class="cctk-btn cctk-btn--primary" data-accent="indigo">Launch →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- CasTime -->
+      <article class="cctk-card cctk-tool cctk-col-4" data-accent="teal">
+        <div class="cctk-card__inner cctk-stack">
+          <div class="cctk-tool__top">
+            <div>
+              <h2 class="cctk-tool__name">CasTime</h2>
+              <p class="cctk-tool__tagline">Round-robin activity scheduler</p>
             </div>
-            <div class="chart-wrap"><canvas id="poincareChart"></canvas></div>
+            <span class="cctk-badge" data-status="active">
+              <span class="cctk-dot"></span> Active
+            </span>
+          </div>
+          <p class="cctk-tool__desc">
+            Timed round-robin scheduler for applicant days and group activities. Manages
+            group rotations, plays changeover alerts, and tracks session progress.
+          </p>
+          <div class="cctk-tool__actions">
+            <a href="castime/castime.html" class="cctk-btn cctk-btn--primary" data-accent="teal">Launch →</a>
           </div>
         </div>
+      </article>
 
-        <div class="chart-card" id="card-histogramChart" style="display:none;">
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">RR interval histogram</span>
-              <div style="display:flex; gap:8px;">
-                <button class="btn btn-sm" onclick="applyAPA7Style('histogramChart')">APA7 Preset</button>
-                <button class="btn btn-sm" onclick="resetChartStyle('histogramChart')">Reset style</button>
-                <button class="btn btn-sm" onclick="copyChart('histogramChart')">Copy</button>
-                <button class="btn btn-sm" onclick="downloadChart('histogramChart', 'walter_histogram.png')">Download
-                  PNG</button>
-              </div>
+      <!-- Database (planned) -->
+      <article class="cctk-card cctk-tool cctk-col-4" data-accent="orange">
+        <div class="cctk-card__inner cctk-stack">
+          <div class="cctk-tool__top">
+            <div>
+              <h2 class="cctk-tool__name">Resource Database</h2>
+              <p class="cctk-tool__tagline">Equipment, software &amp; kit directory</p>
             </div>
-            <details>
-              <summary>Chart options</summary>
-              <div>
-                <label><input type="checkbox" id="histogramChart_whiteBg"
-                    onchange="applyChartOptions('histogramChart')"> White background</label>
-                <label><input type="checkbox" id="histogramChart_showGrid" checked
-                    onchange="applyChartOptions('histogramChart')"> Grid lines</label>
-              </div>
-            </details>
-            <div class="chart-wrap"><canvas id="histogramChart"></canvas></div>
+            <span class="cctk-badge" data-status="planned">
+              <span class="cctk-dot"></span> Planned
+            </span>
+          </div>
+          <p class="cctk-tool__desc">
+            Searchable directory of lab equipment, licensed software, and research kits
+            available to psychology students and staff.
+          </p>
+          <div class="cctk-tool__actions">
+            <a href="database/index.html" class="cctk-btn cctk-btn--ghost">Coming soon</a>
           </div>
         </div>
+      </article>
 
-        <div class="chart-card" id="card-rmssdOverTimeChart" style="display:none;">
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">RMSSD over time — rolling 20-beat window</span>
-              <div style="display:flex; gap:8px;">
-                <button class="btn btn-sm" onclick="resetZoom('rmssdOverTimeChart')">Reset zoom</button>
-                <button class="btn btn-sm" onclick="applyAPA7Style('rmssdOverTimeChart')">APA7 Preset</button>
-                <button class="btn btn-sm" onclick="resetChartStyle('rmssdOverTimeChart')">Reset style</button>
-                <button class="btn btn-sm" onclick="copyChart('rmssdOverTimeChart')">Copy</button>
-                <button class="btn btn-sm"
-                  onclick="downloadChart('rmssdOverTimeChart', 'walter_rmssd_time.png')">Download PNG</button>
-              </div>
+      <!-- MOP (archived) -->
+      <article class="cctk-card cctk-tool cctk-col-4" data-accent="indigo">
+        <div class="cctk-card__inner cctk-stack">
+          <div class="cctk-tool__top">
+            <div>
+              <h2 class="cctk-tool__name">Module Option Planner <span class="cctk-small cctk-muted">(legacy)</span></h2>
+              <p class="cctk-tool__tagline">Old programme — pre-2627</p>
             </div>
-            <details>
-              <summary>Chart options</summary>
-              <div>
-                <label><input type="checkbox" id="rmssdOverTimeChart_showPoints"
-                    onchange="applyChartOptions('rmssdOverTimeChart')"> Show data points</label>
-                <label><input type="checkbox" id="rmssdOverTimeChart_showPhaseShading" checked
-                    onchange="applyChartOptions('rmssdOverTimeChart')"> Show phase shading</label>
-                <label><input type="checkbox" id="rmssdOverTimeChart_whiteBg"
-                    onchange="applyChartOptions('rmssdOverTimeChart')"> White background</label>
-                <label><input type="radio" name="rmssdOverTimeChart_smoothing" value="raw" checked
-                    onchange="applyChartOptions('rmssdOverTimeChart')"> Raw</label>
-                <label><input type="radio" name="rmssdOverTimeChart_smoothing" value="smooth"
-                    onchange="applyChartOptions('rmssdOverTimeChart')"> Smooth</label>
-                <label><input type="checkbox" id="rmssdOverTimeChart_showGrid" checked
-                    onchange="applyChartOptions('rmssdOverTimeChart')"> Grid lines</label>
-              </div>
-            </details>
-            <div class="chart-hint">
-              Scroll to zoom · Drag to pan · Double-click to reset
+            <span class="cctk-badge" data-status="archived">
+              <span class="cctk-dot"></span> Archived
+            </span>
+          </div>
+          <p class="cctk-tool__desc">
+            The original Level 6 module options planner. Kept for reference — superseded
+            by the new Module Option Planner above.
+          </p>
+          <div class="cctk-tool__actions">
+            <a href="mop/index.html" class="cctk-btn cctk-btn--ghost">View archived</a>
+          </div>
+        </div>
+      </article>
+<!-- AED Task Screens -->
+      <article class="cctk-card cctk-tool cctk-col-4" data-accent="red">
+        <div class="cctk-card__inner cctk-stack">
+          <div class="cctk-tool__top">
+            <div>
+              <h2 class="cctk-tool__name">AED Task Screens</h2>
+              <p class="cctk-tool__tagline">Fullscreen task instruction display</p>
             </div>
-            <div class="chart-wrap"><canvas id="rmssdOverTimeChart"></canvas></div>
+            <span class="cctk-badge" data-status="active">
+              <span class="cctk-dot"></span> Active
+            </span>
+          </div>
+          <p class="cctk-tool__desc">
+            Fullscreen image viewer for AED task instruction screens. Keeps the display
+            awake via Wake Lock and exits on spacebar press.
+          </p>
+          <div class="cctk-tool__actions">
+            <a href="aed-task-screens/index.html" class="cctk-btn cctk-btn--primary" data-accent="red">Launch →</a>
           </div>
         </div>
+      </article>
 
-        <div class="chart-card" id="card-accelerometerChart" style="display:none;">
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">Accelerometer data (X / Y / Z)</span>
-              <div style="display:flex; gap:8px;">
-                <button class="btn btn-sm" onclick="resetZoom('accelerometerChart')">Reset zoom</button>
-                <button class="btn btn-sm" onclick="applyAPA7Style('accelerometerChart')">APA7 Preset</button>
-                <button class="btn btn-sm" onclick="resetChartStyle('accelerometerChart')">Reset style</button>
-                <button class="btn btn-sm" onclick="copyChart('accelerometerChart')">Copy</button>
-                <button class="btn btn-sm"
-                  onclick="downloadChart('accelerometerChart', 'walter_accelerometer.png')">Download PNG</button>
-              </div>
+    <!-- AED Task Screens -->
+      <article class="cctk-card cctk-tool cctk-col-4" data-accent="red">
+        <div class="cctk-card__inner cctk-stack">
+          <div class="cctk-tool__top">
+            <div>
+              <h2 class="cctk-tool__name">CasBadge</h2>
+              <p class="cctk-tool__tagline">Create custom badges for Moodle</p>
             </div>
-            <details>
-              <summary>Chart options</summary>
-              <div>
-                <label><input type="checkbox" id="accelerometerChart_whiteBg"
-                    onchange="applyChartOptions('accelerometerChart')"> White background</label>
-                <label><input type="checkbox" id="accelerometerChart_showGrid" checked
-                    onchange="applyChartOptions('accelerometerChart')"> Grid lines</label>
-              </div>
-            </details>
-            <div class="chart-hint">
-              Scroll to zoom · Drag to pan · Double-click to reset
+            <span class="cctk-badge" data-status="active">
+              <span class="cctk-dot"></span> Active
+            </span>
+          </div>
+          <p class="cctk-tool__desc">
+            Create custom badges for Moodle courses.
+          </p>
+          <div class="cctk-tool__actions">
+            <a href="badge-maker/index.html" class="cctk-btn cctk-btn--primary" data-accent="green">Launch →</a>
+          </div>
+        </div>
+      </article>
+      <!-- Cointoss -->
+      <article class="cctk-card cctk-tool cctk-col-4" data-accent="yellow">
+        <div class="cctk-card__inner cctk-stack">
+          <div class="cctk-tool__top">
+            <div>
+              <h2 class="cctk-tool__name">The Toss</h2>
+              <p class="cctk-tool__tagline">A coin flip, dressed up</p>
             </div>
-            <div class="chart-wrap"><canvas id="accelerometerChart"></canvas></div>
+            <span class="cctk-badge" data-status="active">
+              <span class="cctk-dot"></span> Active
+            </span>
+          </div>
+          <p class="cctk-tool__desc">
+            Simple heads-or-tails coin toss for settling decisions in class or in the lab,
+            with a running tally of results.
+          </p>
+          <div class="cctk-tool__actions">
+            <a href="cointoss/index.html" class="cctk-btn cctk-btn--primary" data-accent="yellow">Launch →</a>
           </div>
         </div>
+      </article>
 
-        <!-- Data quality summary — missing wrapper <div class="card"> was added back -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Data quality summary</span>
-            <button class="btn btn-sm" onclick="downloadQualityCSV()">Download CSV</button>
+      <article class="cctk-card cctk-tool cctk-col-4" data-accent="red">
+        <div class="cctk-card__inner cctk-stack">
+          <div class="cctk-tool__top">
+            <div>
+              <h2 class="cctk-tool__name">WALTER</h2>
+              <p class="cctk-tool__tagline">Heart Rate Variability analyser</p>
+            </div>
+            <span class="cctk-badge" data-status="active">
+              <span class="cctk-dot"></span> Active
+            </span>
           </div>
-          <div style="overflow-x:auto">
-            <table id="qualityTable"></table>
+          <p class="cctk-tool__desc">
+            Browser-based HRV analyser for Polar H10 data recorded via HARVEY. Computes
+            time-domain, frequency-domain and Poincaré metrics, with SPSS-ready CSV and
+            APA7 export. All processing stays in the browser.
+          </p>
+          <div class="cctk-tool__actions">
+            <a href="walter/index.html" class="cctk-btn cctk-btn--primary" data-accent="red">Launch →</a>
           </div>
         </div>
+      </article>
 
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Session notes</span>
-          </div>
-          <textarea id="sessionNotes" class="input-area"
-            placeholder="Add any notes about this session here (e.g. participant was nervous during Phase 2). Notes will be saved as a comment line in the exported CSV."
-            style="min-height:80px;">
-        </textarea>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title"> APA7 Results Draft </span>
-            <button class="btn btn-sm" onclick="showAPAReport()"> Generate Draft</button>
-          </div>
-          <textarea id="apaReportBox" class="input-area" readonly style="min-height:120px;"></textarea>
-        </div>
-
-        <div style="text-align:center; margin-top:24px;">
-          <button class="btn" onclick="resetApp()">&#8617; Upload another file</button>
-        </div>
-      </div>
     </div>
 
-    <div id="panelAbout" style="display:none;">
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">About WALTER</span>
-          <a href="#" onclick="switchTab('single'); return false;"
-            style="color:var(--blueText); font-size:13px;">&#8617; Back</a>
-        </div>
-        <p style="font-size:14px; line-height:1.6; margin-bottom:12px;">
-          <strong>WALTER</strong> is a browser-based Heart Rate Variability (HRV) analysis tool for
-          undergraduate psychology students. It reads CSV files produced by the HARVEY recorder
-          (including Harvey Duo pairs) and computes time-domain, frequency-domain and Poincaré HRV
-          metrics directly in the browser — no data is ever sent to a server.
-        </p>
-
-        <h3 style="font-size:15px; margin:20px 0 8px;">The story of WALTER</h3>
-
-        <p style="font-size:14px; line-height:1.6; margin-bottom:12px;">
-          WALTER grew out of a practical problem. Following earlier research projects that examined
-          HRV using Polar H10 chest sensors, it became clear that recording HRV reliably depended on
-          <em>Polar Sensor Logger</em> — an application available only on Android. Given how common
-          Apple devices are among students and researchers, this was a real barrier. Caspar set out to
-          find an alternative method of collecting data from Polar H10 sensors that was phone-agnostic
-          and kept data-protection concerns at its centre.
-        </p>
-
-        <p style="font-size:14px; line-height:1.6; margin-bottom:12px;">
-          Inspired by several IoT projects and after getting to know the Raspberry Pi Zero 2 W, Caspar
-          developed <strong>HARVEY</strong> — a dedicated data-acquisition unit. The name is a play on
-          the abbreviation <em>HRV</em> (HRV → Harvey), and also honours
-          <strong>William Harvey</strong>, the 17th-century English physician who described the
-          circulation of the blood and demonstrated that the heart pumps it. HARVEY uses the Bluetooth
-          adapter on the Pi Zero 2 W to connect to a Polar H10 and writes the collected data straight
-          to CSV. As the unit matured, its use case expanded: from a single H10 to a dual-sensor setup,
-          using an HTTP hotspot to record from two devices simultaneously — and, in principle, from
-          more than two HARVEY units, though this is not yet implemented. This paired configuration
-          became <strong>Harvey Duo</strong>, which includes a Bluetooth search function to discover
-          local H10 sensors.
-        </p>
-
-        <p style="font-size:14px; line-height:1.6; margin-bottom:12px;">
-          After months of development, the HARVEY units were working — and it became apparent that a
-          data-processing tool was needed to turn the raw CSV output into something friendly for
-          students and analysis. Hence <strong>WALTER</strong>, named after
-          <strong>Walter Bradford Cannon</strong>, the physiologist known for his work on homeostasis
-          and the "fight-or-flight" response. Caspar wrote a design brief and asked two Computer
-          Science placement students to build it. Together, Caspar and the students —
-          <strong>Euan Bell</strong> and <strong>Kyoka Nomoto</strong> — built the initial tool and
-          helped test the Harvey Duo joint-unit system.
-        </p>
-
-        <h3 style="font-size:15px; margin:20px 0 8px;">What WALTER does, and how</h3>
-
-        <p style="font-size:14px; line-height:1.6; margin-bottom:12px;">
-          WALTER accepts single files, multiple files, or whole folders. RR intervals are first
-          filtered to a physiologically plausible range (300–2000 ms). Artefactual beats — those
-          deviating more than a set percentage (default 20%) from the preceding beat — are then either
-          interpolated (replaced with the average of their neighbours) or deleted. Where a beat is
-          deleted, WALTER deliberately skips the successive difference across that gap, since the beats
-          on either side were never truly consecutive. Each session is then given a data-quality
-          rating from the percentage of beats retained: <strong>Good</strong> (≥95%),
-          <strong>Fair</strong> (85–95%) or <strong>Poor</strong> (&lt;85%).
-        </p>
-
-        <h3 style="font-size:15px; margin:20px 0 8px;">What the measures mean</h3>
-
-        <p style="font-size:14px; line-height:1.6; margin-bottom:6px;"><strong>Time-domain metrics</strong> (from the
-          cleaned RR series):</p>
-        <ul style="font-size:14px; line-height:1.6; margin-left:20px;">
-          <li><strong>Mean RR</strong> — the average interval between heartbeats, in milliseconds.</li>
-          <li><strong>Mean HR</strong> — the average heart rate in beats per minute.</li>
-          <li><strong>RMSSD</strong> — the root mean square of successive RR differences; short-term, beat-to-beat
-            variability and the primary index of parasympathetic (vagal) activity.</li>
-          <li><strong>SDNN</strong> — the standard deviation of all RR intervals; a global measure of overall
-            variability across the recording.</li>
-          <li><strong>pNN50</strong> — the percentage of successive RR differences greater than 50 ms; another
-            vagally-mediated marker that tends to track with RMSSD.</li>
-        </ul>
-
-        <p style="font-size:14px; line-height:1.6; margin:12px 0 6px;"><strong>Frequency-domain metrics</strong> (RR
-          series resampled to a 4 Hz grid, then FFT; Task Force 1996 bands):</p>
-        <ul style="font-size:14px; line-height:1.6; margin-left:20px;">
-          <li><strong>LF</strong> — low-frequency power, 0.04–0.15 Hz.</li>
-          <li><strong>HF</strong> — high-frequency power, 0.15–0.40 Hz, primarily reflecting respiratory/parasympathetic
-            activity.</li>
-          <li><strong>LF/HF</strong> — the ratio of the two, often read as a rough index of autonomic balance. A minimum
-            of 60 seconds of recording is required for a reliable estimate.</li>
-        </ul>
-
-        <p style="font-size:14px; line-height:1.6; margin:12px 0 6px;"><strong>Poincaré analysis</strong> (each RR
-          interval plotted against the next, with a fitted ellipse):</p>
-        <ul style="font-size:14px; line-height:1.6; margin-left:20px;">
-          <li><strong>SD1</strong> — dispersion perpendicular to the identity line; short-term variability (closely
-            related to RMSSD).</li>
-          <li><strong>SD2</strong> — dispersion along the identity line; long-term variability.</li>
-          <li><strong>SD1/SD2</strong> — the ratio of the two axes, describing the shape of the scatter.</li>
-        </ul>
-
-        <p style="font-size:14px; line-height:1.6; margin:12px 0 6px;"><strong>Duo synchrony</strong>:</p>
-        <ul style="font-size:14px; line-height:1.6; margin-left:20px;">
-          <li>For paired Harvey Duo recordings, WALTER resamples each participant's RMSSD onto a common 1-second grid
-            and computes the <strong>Pearson correlation (r)</strong> between the two, per phase — a measure of how
-            closely two people's variability moves together. If a <code>SYNC_LOST</code> event is present, the
-            correlation is withheld rather than reported.</li>
-        </ul>
-
-        <p style="font-size:14px; line-height:1.6; margin-top:12px;">
-          Results are presented per-phase and per-group (mean/SD), with charts (tachogram, HR, rolling
-          RMSSD, Poincaré, histogram, accelerometer). WALTER exports an SPSS-ready CSV, a data-quality
-          CSV, and can generate an APA-7 methods/results draft.
-        </p>
-
-        <p style="font-size:13px; color:var(--grayText); margin-top:16px;">
-          ℹ All data, including demographics, is processed entirely in your browser. Nothing is sent to any server.
-        </p>
-
-        <h3 style="font-size:15px; margin:20px 0 8px;">How to cite WALTER</h3>
-        <p style="font-size:13px; line-height:1.6; margin-bottom:12px;">
-          Wynne, C., Bell, E., &amp; Nomoto, K. (2026). <em>WALTER: A browser-based heart rate
-            variability analyser</em> (Version 1.1.0) [Computer software]. Psychology, School of Social
-          Sciences, Leeds Trinity University.
-          <a href="https://github.com/casWynne/walter" target="_blank"
-            rel="noopener">https://github.com/kyooblume/walter</a>
-        </p>
-
-        <p style="font-size:13px; margin-top:16px;">
-          Developed by Caspar Wynne, Euan Bell and Kyoka Nomoto.<br>
-          Psychology, School of Social Sciences, Leeds Trinity University.<br>
-          Repository: <a href="https://github.com/casWynne/walter" target="_blank"
-            rel="noopener">github.com/kyooblume/walter</a><br>
-          Licence: MIT (see <code>LICENSE</code> file).<br>
-          Version: <span id="aboutVersion">1.1.0</span>
-        </p>
-      </div>
-    </div>
-
-    <div id="panelLicence" style="display:none;">
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Licence</span>
-          <a href="#" onclick="switchTab('single'); return false;"
-            style="color:var(--blueText); font-size:13px;">&#8617; Back</a>
-        </div>
-        <p style="font-size:14px; line-height:1.6; margin-bottom:12px;">
-          WALTER is released under the <strong>MIT License</strong>.
-        </p>
-        <pre style="font-size:13px; line-height:1.6; white-space:pre-wrap; font-family:inherit; margin:0;">MIT License
-
-Copyright (c) 2026 Caspar Wynne, Euan Bell and Kyoka Nomoto
-Psychology, School of Social Sciences, Leeds Trinity University
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.</pre>
-      </div>
-    </div>
+    <footer class="cctk-footer">
+      <span>© <span id="year"></span> CCTK</span>
+      &nbsp;·&nbsp;
+      <span>Made by Caspar Wynne</span>
+    </footer>
 
   </main>
-
-  <!-- Persistent footer — Caspar requested this so authors stay credited. -->
-  <footer class="site-footer">
-    WALTER — HRV Analyser ·
-    <a href="#" onclick="switchTab('about'); return false;">About</a> ·
-    <a href="https://github.com/casWynne/walter" target="_blank" rel="noopener">GitHub</a> ·
-    <a href="#" onclick="switchTab('licence'); return false;">MIT Licence</a>  </footer>
 </body>
-
 </html>

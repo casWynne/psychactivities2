@@ -2,8 +2,8 @@
 //  CONFIG — edit these paths to your PNG files
 // ──────────────────────────────────────────────
 const IMAGES = {
-  heads: 'heads.png',
-  tails: 'tails.png'
+  heads: 'images/heads.png',
+  tails: 'images/tails.png'
 };
 
 // ──────────────────────────────────────────────
@@ -41,11 +41,8 @@ function toss() {
   // Decide outcome
   const outcome = Math.random() < 0.5 ? 'heads' : 'tails';
 
-  // Remove idle bob + any previous landing class
-  coin.classList.remove('idle', 'land-heads', 'land-tails');
-
-  // Set start rotation CSS variable
-  coin.style.setProperty('--start-rot', currentRot + 'deg');
+  // Remove idle bob + any previous landing class, and hide both faces
+  coin.classList.remove('idle', 'land-heads', 'land-tails', 'show-heads', 'show-tails');
 
   // Start toss
   coin.classList.add('tossing');
@@ -63,12 +60,10 @@ function toss() {
       coin.removeEventListener('animationend', onLand);
       coin.classList.remove(landClass);
 
-      // Set final resting rotation
-      currentRot = outcome === 'heads' ? 0 : 180;
-      coin.style.setProperty('--face-rot', currentRot + 'deg');
+      // Reveal the correct face image
+      coin.classList.add(outcome === 'heads' ? 'show-heads' : 'show-tails');
 
-      // Resume idle at correct face
-      coin.style.transform = `rotateY(${currentRot}deg)`;
+      // Resume idle bob
       coin.classList.add('idle');
 
       // Update counters & label

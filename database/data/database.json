@@ -73,7 +73,9 @@
       ],
       "useCases": "Used in studies measuring cardiovascular responses to psychological stressors, emotion induction paradigms, or physical exertion. Commonly paired with Biopac for simultaneous recording of multiple psychophysiological signals. Also used in biofeedback applications and stress management training.",
       "restrictions": "Must be returned in good working order. Requires charging between uses (USB). Do not use with individuals who have metal implants in the chest area or are sensitive to elastic materials. Clean strap regularly with warm soapy water.",
-      "worksWithItems": ["biopac-r35"],
+      "worksWithItems": [
+        "biopac-r35"
+      ],
       "trainingRequired": [
         {
           "requirementId": "tool-training",
@@ -110,7 +112,10 @@
       ],
       "useCases": "Essential equipment for comprehensive psychophysiological research. Used in studies of stress, emotion, anxiety, and autonomic nervous system function. Valuable for teaching psychophysiology methods to students. Can be integrated with stimulus presentation software (e.g., E-Prime, PsychoPy).",
       "restrictions": "Requires specialised knowledge to operate safely and correctly. Must be set up by trained personnel. Sensitive electronic equipment - handle with care. Keep away from water and electromagnetic sources. Equipment must be calibrated before use each session.",
-      "worksWithItems": ["polar-h10", "gsr-sensors"],
+      "worksWithItems": [
+        "polar-h10",
+        "gsr-sensors"
+      ],
       "trainingRequired": [
         {
           "requirementId": "tool-training",
@@ -156,8 +161,7 @@
       "trainingRequired": [
         {
           "requirementId": "certification",
-          "method": "one-to-one",
-          "notes": "Must complete WAIS-IV accreditation course (typically 2-3 day workshop). Contact psychology technician for approved training providers and scheduling. Certification is renewable every 3 years."
+          "method": "one-to-one"
         }
       ],
       "documents": {
@@ -231,7 +235,9 @@
       ],
       "useCases": "Used for measuring psychotherapy outcomes, monitoring treatment progress in clinical settings, and research on psychological intervention effectiveness. Useful as a teaching tool for introducing outcome measurement in psychology education.",
       "restrictions": "Use only for appropriately trained clinicians or researchers. Ensure informed consent obtained from all participants. Maintain confidentiality of participant responses. Delete data securely after research completion if required by ethics protocol.",
-      "worksWithItems": ["gorilla-platform"],
+      "worksWithItems": [
+        "gorilla-platform"
+      ],
       "trainingRequired": [
         {
           "requirementId": "tool-training",
@@ -256,6 +262,414 @@
           }
         ]
       }
+    },
+    {
+      "id": "clicker-counters",
+      "name": "Clicker Counters",
+      "type": "physical-equipment",
+      "quantity": 48,
+      "description": "A clicker counter is a portable mechanical device used for counting real-time frequencies of a target behaviour.",
+      "useCases": "Self-monitoring: clicker counters can be used to measure the frequency of a habbit, e.g. smoking/vaping as and when the habit is observed or the individual does it.\n\nInterrupting autopilot: The physical act of pressing the button forces a conscious pause. This breaks the automatic cycle of a habit, drawing attention to the act.\n\nObjective metrics: In Applied Behavioural Analysis or clinical research, observers use clickers to log the exact frequency of speciifc actions (like outbursts or positive social interactions) without relying on memory. ",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "stopwatches",
+      "name": "Stopwatches",
+      "type": "physical-equipment",
+      "quantity": 20,
+      "description": "A precise time-measuring tool used to track the duration (how long a behaviour lasts) or latency (the delay before a response begins).",
+      "useCases": "Timing behaviours, recording time duration of a task e.g. CPT.",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "sony-headphones",
+      "name": "Sony WH-CH720N Noise Cancelling Headphones",
+      "type": "physical-equipment",
+      "quantity": 2,
+      "description": "High quality headphones with optional noise cancelling.",
+      "useCases": "Used to present auditory stimuli to participants, or for reviewing audio recordings of interviews, focus groups, or stimuli evaluation. ",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "30cm-rulers",
+      "name": "Rulers",
+      "type": "physical-equipment",
+      "quantity": 1,
+      "description": "A standard 30cm clear plastic ruler.",
+      "useCases": "Useful for measuring things. \n\nCan also be used as a rudimentary reaction time demonstration.",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "mini-peak-flow",
+      "name": "Mini Wright Peak Flow Meter",
+      "type": "physical-equipment",
+      "quantity": 5,
+      "description": "A peak flow measurement tool. Peak flow is a measurement of how fast you can push air out of your lungs. ",
+      "useCases": "Can be used to assess the phsyical impact of anxiety on participants breathing.\n\nUsed to measure the effectiveness of breathing intervention such as Pranayama breathing techniques\n\nCan be used as a measure to contribute daily mood with physical stamina",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "ishihara-colour-blind-test",
+      "name": "Ishihara Colour Blind Test 38 plate",
+      "type": "assessment-kits",
+      "quantity": 1,
+      "description": "The Ishihara Colour Blind Test is a widely recognized psychophysical evaluation tool used to diagnose congenital red-green colour vision deficiencies.",
+      "useCases": "Controlling visiual confounders\n\nNeurophyschological screening",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "snellen-chart",
+      "name": "Snellen 3m Chart",
+      "type": "physical-equipment",
+      "quantity": 1,
+      "description": "A compact optometric tool used to measure visual acuity (sharpness of vision) from a standardized distance of 3 metres.",
+      "useCases": "Sensory screening,\n\nVisual acuity,\n\n",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "drager-6000",
+      "name": "Drager Alcotests 6000",
+      "type": "bio-physical-sensors",
+      "quantity": 1,
+      "description": "A professional, law-enforcement-grade digital breathalyser used to measure Blood Alcohol Concentration (BAC) through breath alcohol analysis.",
+      "useCases": "Screening\n\nQuantifying Cognitive and Motor Impairment\n\nStudying Risk-Taking and Impulsivity\n\n",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "drager-mouthpiece",
+      "name": "Drager Alcotest 6000 Mouthpieces",
+      "type": "bio-physical-sensors",
+      "quantity": 200,
+      "description": "Drager Alcotest MouthPieces",
+      "useCases": "Required for using Alcotest 6000",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "pico-smokerlyzer",
+      "name": "Bedfont piCO™ Smokerlyzer®",
+      "type": "bio-physical-sensors",
+      "quantity": 1,
+      "description": "A handheld, medical-grade breath carbon monoxide (CO) monitor designed to biochemically verify smoking status and track smoking cessation progress",
+      "useCases": "Screening out participants based on recorded CO\n\nSmoking intervention/cessation tracking\n\n",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "pico-d-piece",
+      "name": "Pico D-Pieces",
+      "type": "bio-physical-sensors",
+      "quantity": 3,
+      "description": "A d-piece adapter for the Pico Smokerlyzer to be used with the SteriBreath mouth pieces.",
+      "useCases": "Used to attach the SteriBreath mouthpieces to the Smokerlyzer",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "steribreath-mouth-piece",
+      "name": "SteriBreath Mouth Pieces",
+      "type": "bio-physical-sensors",
+      "quantity": 150,
+      "description": "Used with the Pico Smokerlyzer and d-piece to record CO levels in participants breath",
+      "useCases": "Required to take CO measurements",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "tape-measures",
+      "name": "Tape Measures",
+      "type": "physical-equipment",
+      "quantity": 30,
+      "description": "Fabric tape measures used to take body measurements, or any other measurement.",
+      "useCases": "Measure body parts e.g. waist, neck, arms etc.\n\nCan be used to measure short distances (up to a meter).",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "darwin-taste-strips",
+      "name": "Darwin Taste Strips",
+      "type": "bio-physical-sensors",
+      "quantity": 11,
+      "description": " Chemically impregnated paper filters used in psychophysical, genetic, and nutritional psychology research to evaluate variations in human taste perception",
+      "useCases": "Can be used for: \n\n- Personality and Food Neophobia research\n- Disorder and Dependency Vulnerability research\n- Sensation Seeking Behavior research",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "dictophones",
+      "name": "Digitial voice recorders",
+      "type": "physical-equipment",
+      "quantity": 7,
+      "description": "Small pocket sized voice recorders used to record interviews and focus groups or note taking. ",
+      "useCases": "One on one interviews, focus groups, or audio note-taking",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "body-fat-calipers",
+      "name": "Body Fat Callipers",
+      "type": "physical-equipment",
+      "quantity": 3,
+      "description": "Body fat calipers are mechanical tools used to measure the thickness of subcutaneous fat folds at specific anatomical sites.",
+      "useCases": "- Body image perception research\n- Eating Disorders\n- Accuracy of physical self-assessment",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "omron-m2-blood-pressure",
+      "name": "OMRON M2 Basic Automatic Blood Pressure Monitor",
+      "type": "bio-physical-sensors",
+      "quantity": 1,
+      "description": "A clinically validated, digital upper-arm monitor used to measure systolic blood pressure, diastolic blood pressure, and pulse rate.",
+      "useCases": "Measuring Cardiovascular Reactivity to Stress\n\nWhite-Coat Hypertension & Panic Assessment\n\nBiofeedback and Relaxation Tracking\n\nPersonality Traits with Cardiovascular Health",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "clinical-thermometer",
+      "name": "Brannan Clinical Thermometer",
+      "type": "physical-equipment",
+      "quantity": 20,
+      "description": "Medical-grade, highly precise temperature measurement device",
+      "useCases": "Can be used to track core body temperature fluctuations, which directly correlate with autonomic nervous system arousal, stress responses, and circadian rhythms.",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "aesthesiometer",
+      "name": "Aesthesiometer",
+      "type": "physical-equipment",
+      "quantity": 12,
+      "description": "A psychophysical diagnostic tool used to measure tactile sensitivity and the two-point discrimination threshold.",
+      "useCases": "Can be used in cognitive psychology, sensory neuroscience, and neuropsychology, it is a foundational device for mapping the somatosensory cortex and assessing nerve function.",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "wisc-v",
+      "name": "WISC-V",
+      "type": "assessment-kits",
+      "quantity": 1,
+      "description": "The Wechsler Intelligence Scale for Children – Fifth Edition (WISC-V) is the gold-standard, individually administered clinical instrument used to measure the cognitive ability and intellectual functioning of children aged 6 to 16. Widely used in forensic, developmental, and cognitive contexts.\n\nMeasures: \n- Verbal Comprehension (VCI): Measures vocabulary, verbal expression, and abstract conceptual reasoning.\n- Visual Spatial (VSI): Measures the ability to evaluate visual details and understand spatial relationships.\n- Fluid Reasoning (FRI): Measures inductive logic, abstract problem-solving, and quantitative thinking.\n- Working Memory (WMI): Measures short-term attention, information retention, and active mental manipulation.\n- Processing Speed (PSI): Measures visual scanning efficiency, decision-making speed, and rapid motor execution.",
+      "useCases": "Screening and assessment",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "wrat5",
+      "name": "WRAT-5",
+      "type": "assessment-kits",
+      "quantity": 1,
+      "description": "The Wide Range Achievement Test – Fifth Edition (WRAT-5) is a highly efficient, norm-referenced clinical instrument used to measure foundational academic skills in reading, spelling, and maths for individuals aged 5 to 85+. Widely used in developmental, educational and language learning assessment and research.\n\nMeasures: \n- Word Reading: Measures letter identification, phonetic decoding, and sight-word recognition by having the participant read a list of individual words aloud.\n- Sentence Comprehension: Measures the ability to understand written information and extract meaning using a fill-in-the-blank (cloze) sentence procedure.\n- Spelling: Measures written language mechanics, evaluating the ability to spell dictated words correctly after hearing them used in a sentence.\n- Math Computation: Measures essential numerical skills, including counting, number identification, and solving timed written arithmetic problems (from basic addition to algebra).",
+      "useCases": "Assessment and screening",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "minnesota-dex-task",
+      "name": "Minnesota Dexterity Task",
+      "type": "physical-equipment",
+      "quantity": 1,
+      "description": "The Minnesota Manual Dexterity Test (MMDT) is a standardized, apparatus-based psychomotor instrument used to measure rapid hand-eye coordination, gross arm-hand dexterity, and bimanual manipulation speed.",
+      "useCases": "Screening\nEnvironmental Stress research\nIntervention progress",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "ctopp-2",
+      "name": "CTOPP-2",
+      "type": "assessment-kits",
+      "quantity": 1,
+      "description": "The Minnesota Manual Dexterity Test (MMDT) is a standardized, apparatus-based psychomotor instrument used to measure rapid hand-eye coordination, gross arm-hand dexterity, and bimanual manipulation speed. Widely used in cogntive, language, and developmental research and assessment.\n\nMeasures:\n- Phonological Awareness: Measures the ability to isolate, manipulate, and synthesize the individual sounds (phonemes) that make up spoken words [Comprehensive Test of Phonological Processing | Second Edition].\n- Phonological Memory: Measures the capacity of short-term working memory to temporarily store and code auditory information [Comprehensive Test of Phonological Processing | Second Edition].\n- Rapid Naming: Measures the speed and automaticity with which an individual can retrieve phonological information from long-term memory [Comprehensive Test of Phonological Processing | Second Edition].",
+      "useCases": "Assessment and screening",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
+    },
+    {
+      "id": "towre-2",
+      "name": "TOWRE-2",
+      "type": "assessment-kits",
+      "quantity": 1,
+      "description": "The Test of Word Reading Efficiency – Second Edition (TOWRE-2) is a highly structured, norm-referenced instrument used to measure an individual's ability to pronounce printed words accurately and fluently within individuals aged 6 to 24. Widely used in language, cogntivie and developmental contexts.\n\nMeasures:\n- Sight Word Efficiency (SWE): Measures the ability to recognize and pronounce real printed words rapidly and accurately under a strict time limit, isolating an individual's automated sight-word vocabulary [Test of Word Reading Efficiency – Second Edition].\n- Phonemic Decoding Efficiency (PDE): Measures the ability to pronounce phonetically regular nonsense words (pseudowords) rapidly and accurately under pressure, isolating an individual's pure phonetic decoding and sound-mapping skills [Test of Word Reading Efficiency – Second Edition].",
+      "useCases": "Assessment and screening",
+      "restrictions": "",
+      "images": [],
+      "documents": {
+        "manuals": [],
+        "riskAssessments": [],
+        "other": []
+      },
+      "worksWithItems": [],
+      "trainingRequired": []
     }
   ]
 }

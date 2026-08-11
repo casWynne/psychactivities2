@@ -317,9 +317,10 @@ function badgeSVG({forExport=false} = {}){
     const t = state[k];
     if (!t.text) return "";
     const content = k==="subtitle" ? esc(t.text.toUpperCase()) : esc(t.text);
+    const drawSize = t.arch === "none" ? fittedSize(k) : t.size;   // straight text auto-shrinks to fit
     const fontAttrs = k==="title"
-      ? `font-family="'Sora','Inter',sans-serif" font-weight="700" font-size="${t.size}" letter-spacing="2" fill="${t.color}"`
-      : `font-family="'Inter',sans-serif" font-weight="600" font-size="${t.size}" letter-spacing="3" fill="${t.color}"`;
+      ? `font-family="'Sora','Inter',sans-serif" font-weight="700" font-size="${drawSize}" letter-spacing="2" fill="${t.color}"`
+      : `font-family="'Inter',sans-serif" font-weight="600" font-size="${drawSize}" letter-spacing="3" fill="${t.color}"`;
     if (t.arch === "none"){
       return `<text x="${CX + t.x}" y="${CY - t.y}" text-anchor="middle" ${fontAttrs}>${content}</text>`;
     }
@@ -351,6 +352,46 @@ function badgeSVG({forExport=false} = {}){
 }
 
 const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+
+/* ---- text fitting --------------------------------------------------
+   Pixel-accurate width measurement (Canvas measureText) replaces the
+   old glyph-width estimate, so any font/size/spacing fits correctly.
+   Text renders at the chosen size, but auto-shrinks toward a readable
+   floor if it would overflow. Input is only capped when even the floor
+   size can't fit the text — and never below MIN_CHARS characters.    */
+const MIN_CHARS   = 10;   // counter never caps below this
+const TITLE_FLOOR = 24;   // smallest px size the title will shrink to
+const SUB_FLOOR   = 13;   // smallest px size the subtitle will shrink to
+const floorFor = which => which==="title" ? TITLE_FLOOR : SUB_FLOOR;
+
+const _measureCanvas = document.createElement("canvas");
+const _measureCtx = _measureCanvas.getContext("2d");
+/* Width of `text` in SVG user units at a given size, including the
+   per-letter tracking the badge applies (letter-spacing is added
+   between glyphs: n-1 gaps). */
+function measureTextWidth(text, which, size){
+  if (!text) return 0;
+  const spacing = which==="title" ? 2 : 3;
+  const family  = which==="title" ? "'Sora','Inter',sans-serif" : "'Inter',sans-serif";
+  const weight  = which==="title" ? 700 : 600;
+  _measureCtx.font = `${weight} ${size}px ${family}`;
+  const upper = which==="subtitle" ? text.toUpperCase() : text;
+  const base = _measureCtx.measureText(upper).width;
+  const gaps = Math.max(0, upper.length - 1) * spacing;
+  return base + gaps;
+}
+/* Largest size <= the chosen size that fits the available width, but
+   never below the readable floor. Used both to render and to fit. */
+function fittedSize(which){
+  const t = state[which];
+  const maxW = maxWFor(which);
+  const floor = floorFor(which);
+  let size = t.size;
+  while (size > floor && measureTextWidth(t.text, which, size) > maxW){
+    size -= 1;
+  }
+  return Math.max(floor, Math.min(t.size, size));
+}
 
 function render(){
   stage.innerHTML = badgeSVG();
@@ -507,9 +548,17 @@ function maxWFor(which){
   const t = state[which];
   return t.arch !== "none" ? Math.PI * t.archRadius * 0.58 : SHAPES[state.shape][which].maxW;
 }
+/* How many characters can fit before even the floor size overflows.
+   Measured at the floor size (the smallest we'll shrink to), so the
+   badge can always display up to this many. Never below MIN_CHARS. */
 function maxChars(which){
-  const factor = which==="title" ? 0.66 : 0.62;  // rough glyph width incl. letter-spacing
-  return Math.max(4, Math.floor(maxWFor(which) / (state[which].size * factor)));
+  const maxW = maxWFor(which);
+  const floor = floorFor(which);
+  // widen a representative average-width string until it overflows
+  const sample = which==="title" ? "N" : "M";   // wide-ish caps
+  let n = 0;
+  while (n < 60 && measureTextWidth(sample.repeat(n+1), which, floor) <= maxW) n++;
+  return Math.max(MIN_CHARS, n);
 }
 function updateCounters(){
   [["title",inputTitle,"count-title"],["subtitle",inputSubtitle,"count-subtitle"]].forEach(([k,inp,cid])=>{
@@ -517,7 +566,11 @@ function updateCounters(){
     inp.maxLength = max;
     if (state[k].text.length > max){ state[k].text = state[k].text.slice(0,max); inp.value = state[k].text; }
     const c = document.getElementById(cid);
-    c.textContent = `${state[k].text.length}/${max}`;
+    // note when the text has auto-shrunk below the chosen size
+    const shrunk = state[k].arch === "none" && state[k].text && fittedSize(k) < state[k].size;
+    c.textContent = shrunk
+      ? `${state[k].text.length}/${max} · fit ${fittedSize(k)}px`
+      : `${state[k].text.length}/${max}`;
     c.classList.toggle("over", state[k].text.length >= max);
   });
 }
@@ -903,11 +956,10 @@ document.getElementById("toggle-grid").addEventListener("change", e=>{
 /* ---- auto-fit ---- */
 document.getElementById("btn-autofit").addEventListener("click", ()=>{
   const fr = faceRadius();
-  // shrink text until it fits its max width
+  // commit each straight text to the size that actually fits (measured)
   ["title","subtitle"].forEach(k=>{
-    const factor = k==="title"? 0.66:0.62;
-    while (state[k].text.length * state[k].size * factor > maxWFor(k) && state[k].size > 12){
-      state[k].size -= 1;
+    if (state[k].arch === "none" && state[k].text){
+      state[k].size = fittedSize(k);
     }
   });
   document.getElementById("adv-title-size").value = state.title.size;
@@ -944,7 +996,7 @@ const HELP = {
   text:{ title:"Badge text", body:`
     <p>Every badge needs a <strong>title</strong> — keep it short and bold (e.g. RESEARCH). The <strong>subtitle</strong> is optional and sits underneath.</p>
     <ul>
-      <li>The counter (e.g. 6/9) shows how many characters fit on the badge face. It adjusts automatically when you change the text size — and gets more generous when text is arched (a curve holds more letters than a straight line).</li>
+      <li>Straight text <strong>auto-shrinks to fit</strong>: type freely and, if the text is longer than fits at your chosen size, it scales down just enough to fit (down to a readable minimum) — so short titles stay big and long ones still fit. The counter shows the current fitted size (e.g. "fit 38px") whenever this happens. At least 10 characters always fit; the counter's cap adjusts to the shape and is more generous when text is arched (a curve holds more letters than a straight line).</li>
       <li><strong>Advanced settings</strong> hold each text's size, colour, X/Y position with quick <strong>Align</strong> buttons (L/C/R and T/M/B), and the <strong>Curve</strong> option, which bends text into an arch over the top or under the bottom of the badge — the classic seal look. Curve radius moves the arch nearer to (smaller) or further from (larger) the centre.</li>
       <li>X/Y and Align apply to straight text; arched text is positioned by its curve radius instead. Switching shape resets text to that shape's standard positions, so badges stay consistent across a module.</li>
     </ul>`},
@@ -1239,4 +1291,13 @@ function syncPanel(){
   });
   buildPlacedLists();
   render();
+  // Text fitting relies on measureText, which needs the web fonts (Sora,
+  // Inter) loaded to be pixel-accurate. Re-render once they're ready so
+  // the first paint corrects any fallback-font mismeasurement.
+  if (document.fonts && document.fonts.ready){
+    document.fonts.ready.then(()=>{
+      restoring = true;                 // don't create an undo step for this
+      try { render(); } finally { restoring = false; }
+    });
+  }
 })();

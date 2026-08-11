@@ -279,7 +279,7 @@ input[type=file]{font-size:.74rem; color:var(--muted)}
   background:var(--panel); border-radius:14px; width:min(440px,100%); box-shadow:0 20px 60px rgba(0,0,0,.25);
   animation:pop .18s ease-out;
 }
-.modal.wide{width:min(640px,100%)}
+.modal.wide{width:min(760px,100%)}
 @keyframes pop{from{transform:scale(.96); opacity:0} to{transform:scale(1); opacity:1}}
 @media (prefers-reduced-motion: reduce){ .modal{animation:none} }
 .modal header{display:flex; align-items:center; justify-content:space-between; padding:.9rem 1.1rem; border-bottom:1px solid var(--line)}
@@ -291,7 +291,7 @@ input[type=file]{font-size:.74rem; color:var(--muted)}
 
 /* export modal */
 .export-note{margin-top:0}
-.export-grid{display:grid; grid-template-columns:1fr 1fr; gap:.8rem}
+.export-grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:.8rem}
 .export-card{border:1px solid var(--line); border-radius:12px; padding:.8rem}
 .export-card h4{margin:.1rem 0 .5rem; display:flex; align-items:center; gap:.5rem}
 .size-pill{

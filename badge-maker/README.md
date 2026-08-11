@@ -20,7 +20,7 @@ Open `index.html` in a browser, or host the three files anywhere static.
 - **Decorations:** laurels, sparkle, divider with per-shape default positions.
 - **Positioning grid:** toggleable Cartesian overlay; all items use centre-origin X/Y number boxes (Gorilla-style).
 - **Auto-fit:** shrinks oversized text and pulls icons/decorations back inside the badge face.
-- **Export:** SVG or JPG with live file-size estimates, 256 KB limit enforced for JPG by stepping quality down, pros/cons listed in the export window.
+- **Export:** PNG, JPG or SVG with live file-size estimates and the 256 KB limit enforced automatically — JPG by stepping quality down, PNG by stepping pixel dimensions down (1024→512). PNG and JPG are the formats Moodle's badge system accepts; PNG keeps the badge's transparency. SVG is offered too (rightmost, secondary button) because it is re-openable here for editing, but it is **not** accepted by Moodle's badge system. Pros/cons are listed per format in the export window.
 - **Import badge:** the ⬆ Import badge button (header) re-opens any SVG previously exported from Badge Maker, with every setting restored for further editing. Exported SVGs carry their design as embedded metadata, so the image file *is* the save file — nothing is stored by the app. SVGs from other sources can't be re-opened (they have no design data) and trigger a friendly explanation instead.
 
 ## Extending it (all in `app.js`, top section)

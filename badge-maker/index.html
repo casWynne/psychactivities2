@@ -269,27 +269,37 @@
   <div class="modal wide" role="dialog" aria-modal="true" aria-labelledby="export-title">
     <header><h3 id="export-title">Export your badge</h3><button class="modal-close" id="export-close" aria-label="Close export">×</button></header>
     <div class="modal-body">
-      <p class="export-note">Moodle accepts both formats. Maximum file size: <strong>256 KB</strong>.</p>
+      <p class="export-note">Moodle's badge system accepts <strong>PNG</strong> and <strong>JPG</strong>. Maximum file size: <strong>256 KB</strong>.</p>
       <div class="export-grid">
         <div class="export-card">
-          <h4>SVG <span class="size-pill" id="size-svg">—</span></h4>
+          <h4>PNG <span class="size-pill" id="size-png">—</span></h4>
           <ul class="pros-cons">
-            <li class="pro">Crisp at any size — never pixelated</li>
-            <li class="pro">Very small file size</li>
-            <li class="pro">Easy to edit later</li>
-            <li class="con">Not previewed by some older software</li>
+            <li class="pro">Works in Moodle's badge system</li>
+            <li class="pro">Keeps transparency — clean shape edges</li>
+            <li class="pro">Crisp, lossless at its export size</li>
+            <li class="con">Fixed resolution — blurry if enlarged</li>
           </ul>
-          <button class="btn primary full" id="btn-dl-svg">Download SVG</button>
+          <button class="btn primary full" id="btn-dl-png">Download PNG</button>
         </div>
         <div class="export-card">
           <h4>JPG <span class="size-pill" id="size-jpg">—</span></h4>
           <ul class="pros-cons">
-            <li class="pro">Opens everywhere, very compatible</li>
-            <li class="pro">Good for previews and documents</li>
+            <li class="pro">Works in Moodle's badge system</li>
+            <li class="pro">Smallest file for photo-style badges</li>
             <li class="con">Fixed resolution — blurry if enlarged</li>
             <li class="con">No transparency (white background)</li>
           </ul>
           <button class="btn primary full" id="btn-dl-jpg">Download JPG</button>
+        </div>
+        <div class="export-card">
+          <h4>SVG <span class="size-pill" id="size-svg">—</span></h4>
+          <ul class="pros-cons">
+            <li class="pro">Crisp at any size — never pixelated</li>
+            <li class="pro">Very small file; easy to edit later</li>
+            <li class="pro">Re-openable here for further editing</li>
+            <li class="con">Not accepted by Moodle's badge system — use PNG or JPG for the badge itself</li>
+          </ul>
+          <button class="btn full" id="btn-dl-svg">Download SVG</button>
         </div>
       </div>
       <p class="adv-note" id="export-warn"></p>

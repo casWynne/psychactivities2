@@ -984,6 +984,7 @@ helpBackdrop.addEventListener("click", e=>{ if (e.target===helpBackdrop) helpBac
 const exportBackdrop = document.getElementById("export-backdrop");
 const fmtKB = b => (b/1024).toFixed(1) + " KB";
 let jpgBlob = null;
+let pngBlob = null;
 
 document.getElementById("btn-export").addEventListener("click", async ()=>{
   if (!state.title.text.trim()){
@@ -999,16 +1000,30 @@ document.getElementById("btn-export").addEventListener("click", async ()=>{
   const svgBytes = new Blob([svgText], {type:"image/svg+xml"}).size;
   setPill("size-svg", svgBytes);
 
+  // --- PNG size (transparent, rendered at up to 1024px, scaled to fit) ---
+  document.getElementById("size-png").textContent = "estimating…";
+  pngBlob = null;
+  makePNG(svgText).then(b=>{
+    pngBlob = b;
+    setPill("size-png", b.size);
+    if (b.size > MAX_EXPORT_BYTES)
+      warn.textContent = "The PNG couldn't be squeezed under 256 KB — try JPG, or simplify the badge (fewer or smaller embedded images).";
+  }).catch(()=>{
+    document.getElementById("size-png").textContent = "unavailable";
+    warn.textContent = "PNG preview failed in this browser — JPG still works.";
+  });
+
   // --- JPG size (rendered at 1024px, quality stepped to fit 256 KB) ---
   document.getElementById("size-jpg").textContent = "estimating…";
+  jpgBlob = null;
   try{
     jpgBlob = await makeJPG(svgText);
     setPill("size-jpg", jpgBlob.size);
     if (jpgBlob.size > MAX_EXPORT_BYTES)
-      warn.textContent = "The JPG could not be compressed under 256 KB — try the SVG instead.";
+      warn.textContent = "The JPG could not be compressed under 256 KB — try PNG, or simplify the badge.";
   }catch{
     document.getElementById("size-jpg").textContent = "unavailable";
-    warn.textContent = "JPG preview failed in this browser — the SVG download still works.";
+    warn.textContent = "JPG preview failed in this browser — try PNG instead.";
   }
 });
 function setPill(id, bytes){
@@ -1056,6 +1071,33 @@ function makeJPG(svgText){
     img.src = url;
   });
 }
+/* PNG keeps the badge's transparency (no white background). PNG has no
+   quality setting, so to fit the 256 KB limit we step the pixel size
+   down (1024 → 768 → 640 → 512) until it fits or we run out of sizes. */
+function makePNG(svgText){
+  return new Promise((resolve, reject)=>{
+    const img = new Image();
+    const url = URL.createObjectURL(new Blob([svgText], {type:"image/svg+xml"}));
+    img.onload = ()=>{
+      URL.revokeObjectURL(url);
+      const sizes = [1024, 768, 640, 512];
+      const trySize = (i)=>{
+        const dim = sizes[i];
+        const c = document.createElement("canvas");
+        c.width = c.height = dim;
+        c.getContext("2d").drawImage(img, 0, 0, dim, dim);   // transparent bg preserved
+        c.toBlob(b=>{
+          if (!b) return reject();
+          if (b.size <= MAX_EXPORT_BYTES || i === sizes.length-1) resolve(b);
+          else trySize(i+1);
+        }, "image/png");
+      };
+      trySize(0);
+    };
+    img.onerror = ()=>{ URL.revokeObjectURL(url); reject(); };
+    img.src = url;
+  });
+}
 function download(blob, name){
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
@@ -1066,6 +1108,10 @@ function download(blob, name){
 const fileStem = ()=> (state.title.text.trim().toLowerCase().replace(/[^a-z0-9]+/g,"-") || "badge");
 document.getElementById("btn-dl-svg").addEventListener("click", ()=>{
   download(new Blob([exportSVGText()], {type:"image/svg+xml"}), fileStem()+".svg");
+});
+document.getElementById("btn-dl-png").addEventListener("click", async ()=>{
+  if (!pngBlob) pngBlob = await makePNG(exportSVGText());
+  download(pngBlob, fileStem()+".png");
 });
 document.getElementById("btn-dl-jpg").addEventListener("click", async ()=>{
   if (!jpgBlob) jpgBlob = await makeJPG(exportSVGText());

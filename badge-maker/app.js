@@ -100,6 +100,16 @@ const DECOR_DEFAULTS = {
     dots:           { x:   0, y: -88, scale:2.2 },
     burst:          { x:   0, y: 146, scale:1.6 },
   },
+  pentagon:{
+    "laurel-left":  { x:-82, y:-96, scale:1.9 },
+    "laurel-right": { x: 82, y:-96, scale:1.9 },
+    sparkle:        { x:  0, y:-104, scale:1.6 },
+    divider:        { x:  0, y:  26, scale:3.0 },
+    ribbon:         { x:  0, y:-120, scale:2.9 },
+    crown:          { x:  0, y: 96, scale:1.5 },
+    dots:           { x:  0, y: -64, scale:1.8 },
+    burst:          { x:  0, y: 102, scale:1.4 },
+  },
   hexagon:{
     "laurel-left":  { x:-78, y:-104, scale:1.9 },
     "laurel-right": { x: 78, y:-104, scale:1.9 },
@@ -123,6 +133,11 @@ const SHAPES = {
     title:   { y: 72, maxW:320 },
     subtitle:{ y: 22, maxW:300 },
     iconSlots:[ {x:-92,y:-52},{x:0,y:-52},{x:92,y:-52},{x:0,y:128} ],
+  },
+  pentagon:{ label:"Pentagon",
+    title:   { y: 46, maxW:240 },
+    subtitle:{ y: 4, maxW:220 },
+    iconSlots:[ {x:-66,y:-36},{x:0,y:-36},{x:66,y:-36},{x:0,y:88} ],
   },
   hexagon:{ label:"Hexagon",
     title:   { y: 56, maxW:250 },
@@ -175,9 +190,18 @@ function outlinePoint(shape, t, R){
     const len = Math.hypot(x,y)||1;
     return { x:CX+x, y:CY+y, nx:x/len, ny:y/len };
   }
-  // hexagon: flat polar formula (pointy-top)
-  const seg = Math.PI/3;
-  const local = ((a%seg)+seg)%seg - seg/2;
+  // pentagon / hexagon: regular polygon.
+  // Orient so the shape is symmetric about the vertical axis and sits
+  // upright: pentagon points straight up (vertex at top), hexagon keeps
+  // its original pointy-top orientation.
+  const sides = shape === "pentagon" ? 5 : 6;
+  const seg = (Math.PI*2) / sides;
+  // Angle of the nearest vertex direction, measured from the top.
+  // For both shapes a vertex sits at the top (a = -PI/2), so we measure
+  // the angular distance to the closest vertex and use the standard
+  // "distance from centre to a polygon edge" formula.
+  const rel = a + Math.PI/2;                       // 0 = straight up
+  const local = ((rel % seg) + seg) % seg - seg/2; // signed offset to nearest vertex
   const r = R * Math.cos(seg/2) / Math.cos(local);
   const x = r*Math.cos(a), y = r*Math.sin(a);
   const len = Math.hypot(x,y)||1;

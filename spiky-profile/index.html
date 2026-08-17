@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Spiky Profile</title>
+<style>
+  :root {
+    --ink: #1c1b22;
+    --muted: #5c5a68;
+    --paper: #faf8f5;
+    --card: #ffffff;
+    --line: #e6e3dd;
+    --focus: #2b2a33;
+    /* six axis hues — a full spectrum sweep */
+    --h0: #e53935; /* Memory      */
+    --h1: #fb8c00; /* Focus       */
+    --h2: #fdd835; /* Empathy     */
+    --h3: #43a047; /* Patterns    */
+    --h4: #1e88e5; /* Verbal      */
+    --h5: #8e24aa; /* Organising  */
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 940px; margin: 0 auto; padding: clamp(20px, 4vw, 48px); }
+  header { margin-bottom: 28px; }
+  .eyebrow {
+    font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); font-weight: 600; margin: 0 0 8px;
+  }
+  h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.9rem, 5vw, 3rem); line-height: 1.05;
+    margin: 0 0 10px; font-weight: 700; letter-spacing: -0.01em;
+  }
+  .lede { color: var(--muted); max-width: 54ch; margin: 0; font-size: 1.02rem; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px; padding: clamp(18px, 3vw, 26px);
+  }
+
+  .skill { margin-bottom: 20px; }
+  .skill:last-child { margin-bottom: 0; }
+  .skill-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+  .skill-name { font-weight: 650; display: flex; align-items: center; gap: 9px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; flex: none; }
+  .skill-desc { font-size: 0.85rem; color: var(--muted); margin: 2px 0 10px 21px; }
+  .val { font-variant-numeric: tabular-nums; font-weight: 700; font-size: 1.05rem; min-width: 1.6ch; text-align: right; }
+
+  input[type="range"] {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 8px; border-radius: 999px; margin: 0;
+    background: var(--track, #eee); cursor: pointer;
+  }
+  input[type="range"]:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--thumb, #333); border: 3px solid #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,.28);
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--thumb, #333); border: 3px solid #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,.28);
+  }
+
+  .plot-panel { position: sticky; top: 24px; }
+  svg { width: 100%; height: auto; display: block; }
+  .axis-line { stroke: var(--line); stroke-width: 1; }
+  .ring { fill: none; stroke: var(--line); stroke-width: 1; }
+  .ring-outer { stroke: #cfcbc2; }
+  .axis-label { font-size: 13px; font-weight: 600; fill: var(--ink); }
+
+  .caption { text-align: center; color: var(--muted); font-size: 0.9rem; margin: 14px 0 0; }
+  .actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+  button {
+    font: inherit; font-weight: 600; cursor: pointer;
+    border-radius: 10px; padding: 11px 18px; border: 1px solid var(--line);
+    background: var(--card); color: var(--ink);
+  }
+  button.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+  button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+  button:hover { transform: translateY(-1px); }
+  .note {
+    margin-top: 26px; padding: 16px 18px; background: #f1eef8;
+    border: 1px solid #e0d7f0; border-radius: 12px; font-size: 0.92rem; color: #3f3a4a;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    polygon.shape, circle.vertex { transition: all .28s cubic-bezier(.4,0,.2,1); }
+    button { transition: transform .12s ease; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Neurodiversity workshop</p>
+    <h1>Build your spiky profile</h1>
+    <p class="lede">Rate yourself on six everyday skills. Nobody scores flat across the board — the jagged shape you get is the point. That spikiness is human, and for neurodivergent people it's just more pronounced.</p>
+  </header>
+
+  <div class="grid">
+    <section class="panel" aria-label="Rate your skills">
+      <div id="sliders"></div>
+    </section>
+
+    <section class="panel plot-panel" aria-label="Your profile plot">
+      <svg id="plot" viewBox="-60 0 520 400" role="img" aria-labelledby="plot-title">
+        <title id="plot-title">Radar plot of your six self-rated skills</title>
+      </svg>
+      <p class="caption">Drag the sliders and watch your shape change.</p>
+      <div class="actions">
+        <button class="primary" id="download">Save as image</button>
+        <button id="reset">Reset to middle</button>
+      </div>
+    </section>
+  </div>
+
+  <p class="note"><strong>Talking point:</strong> compare shapes with the person next to you. Two people can reach the same overall "score" through completely different spikes — which is exactly why a single number never captures how someone actually works.</p>
+</div>
+
+<script>
+const SKILLS = [
+  { name: "Memory",     desc: "Holding and recalling information",        hue: "var(--h0)", raw: "#e53935" },
+  { name: "Focus",      desc: "Sustaining attention on one thing",        hue: "var(--h1)", raw: "#fb8c00" },
+  { name: "Empathy",    desc: "Reading and sharing how others feel",      hue: "var(--h2)", raw: "#fdd835" },
+  { name: "Patterns",   desc: "Spotting connections and structure",       hue: "var(--h3)", raw: "#43a047" },
+  { name: "Verbal",     desc: "Explaining things out loud",               hue: "var(--h4)", raw: "#1e88e5" },
+  { name: "Organising", desc: "Planning, ordering, keeping on top",       hue: "var(--h5)", raw: "#8e24aa" },
+];
+
+const values = SKILLS.map(() => 5);
+const CX = 200, CY = 200, R = 140, N = SKILLS.length;
+
+// Build sliders
+const slidersEl = document.getElementById("sliders");
+SKILLS.forEach((s, i) => {
+  const row = document.createElement("div");
+  row.className = "skill";
+  row.innerHTML = `
+    <div class="skill-head">
+      <span class="skill-name"><span class="dot" style="background:${s.raw}"></span>${s.name}</span>
+      <span class="val" id="val-${i}">5</span>
+    </div>
+    <p class="skill-desc">${s.desc}</p>
+    <input type="range" min="1" max="10" step="1" value="5"
+      id="slider-${i}"
+      style="--track:linear-gradient(90deg, ${s.raw}22, ${s.raw}); --thumb:${s.raw}"
+      aria-label="${s.name}: ${s.desc}. Rate 1 to 10.">
+  `;
+  slidersEl.appendChild(row);
+  row.querySelector("input").addEventListener("input", (e) => {
+    values[i] = +e.target.value;
+    document.getElementById(`val-${i}`).textContent = e.target.value;
+    draw();
+  });
+});
+
+function pointAt(i, radius) {
+  const angle = (Math.PI * 2 * i / N) - Math.PI / 2;
+  return [CX + Math.cos(angle) * radius, CY + Math.sin(angle) * radius];
+}
+
+const svg = document.getElementById("plot");
+const NS = "http://www.w3.org/2000/svg";
+
+function draw() {
+  [...svg.querySelectorAll(".dynamic")].forEach(n => n.remove());
+  const frag = document.createDocumentFragment();
+
+  // rings
+  [0.25, 0.5, 0.75, 1].forEach(f => {
+    const ring = document.createElementNS(NS, "circle");
+    ring.setAttribute("cx", CX); ring.setAttribute("cy", CY);
+    ring.setAttribute("r", R * f);
+    ring.setAttribute("class", "dynamic ring" + (f === 1 ? " ring-outer" : ""));
+    frag.appendChild(ring);
+  });
+
+  // axes + labels
+  SKILLS.forEach((s, i) => {
+    const [x, y] = pointAt(i, R);
+    const line = document.createElementNS(NS, "line");
+    line.setAttribute("x1", CX); line.setAttribute("y1", CY);
+    line.setAttribute("x2", x); line.setAttribute("y2", y);
+    line.setAttribute("class", "dynamic axis-line");
+    frag.appendChild(line);
+
+    const [lx, ly] = pointAt(i, R + 26);
+    const label = document.createElementNS(NS, "text");
+    label.setAttribute("x", lx); label.setAttribute("y", ly);
+    label.setAttribute("class", "dynamic axis-label");
+    label.setAttribute("fill", s.raw);
+    label.setAttribute("text-anchor", lx < CX - 5 ? "end" : lx > CX + 5 ? "start" : "middle");
+    label.setAttribute("dominant-baseline", "middle");
+    label.textContent = s.name;
+    frag.appendChild(label);
+  });
+
+  // gradient def for the shape fill (rainbow sweep)
+  let defs = svg.querySelector("defs");
+  if (!defs) {
+    defs = document.createElementNS(NS, "defs");
+    const grad = document.createElementNS(NS, "linearGradient");
+    grad.setAttribute("id", "rainbow");
+    grad.setAttribute("x1", "0"); grad.setAttribute("y1", "0");
+    grad.setAttribute("x2", "1"); grad.setAttribute("y2", "1");
+    SKILLS.forEach((s, i) => {
+      const stop = document.createElementNS(NS, "stop");
+      stop.setAttribute("offset", `${(i / (N - 1)) * 100}%`);
+      stop.setAttribute("stop-color", s.raw);
+      grad.appendChild(stop);
+    });
+    defs.appendChild(grad);
+    svg.appendChild(defs);
+  }
+
+  // the shape
+  const pts = values.map((v, i) => pointAt(i, R * (v / 10)).join(",")).join(" ");
+  const poly = document.createElementNS(NS, "polygon");
+  poly.setAttribute("points", pts);
+  poly.setAttribute("class", "dynamic shape");
+  poly.setAttribute("fill", "url(#rainbow)");
+  poly.setAttribute("fill-opacity", "0.35");
+  poly.setAttribute("stroke", "url(#rainbow)");
+  poly.setAttribute("stroke-width", "2.5");
+  poly.setAttribute("stroke-linejoin", "round");
+  frag.appendChild(poly);
+
+  // vertices in each axis hue
+  values.forEach((v, i) => {
+    const [x, y] = pointAt(i, R * (v / 10));
+    const c = document.createElementNS(NS, "circle");
+    c.setAttribute("cx", x); c.setAttribute("cy", y); c.setAttribute("r", 5);
+    c.setAttribute("class", "dynamic vertex");
+    c.setAttribute("fill", SKILLS[i].raw);
+    c.setAttribute("stroke", "#fff"); c.setAttribute("stroke-width", "2");
+    frag.appendChild(c);
+  });
+
+  svg.appendChild(frag);
+}
+
+document.getElementById("reset").addEventListener("click", () => {
+  SKILLS.forEach((_, i) => {
+    values[i] = 5;
+    document.getElementById(`slider-${i}`).value = 5;
+    document.getElementById(`val-${i}`).textContent = "5";
+  });
+  draw();
+});
+
+document.getElementById("download").addEventListener("click", () => {
+  const clone = svg.cloneNode(true);
+  clone.setAttribute("width", 800); clone.setAttribute("height", 800);
+  const data = new XMLSerializer().serializeToString(clone);
+  const img = new Image();
+  const svgBlob = new Blob([data], { type: "image/svg+xml;charset=utf-8" });
+  const url = URL.createObjectURL(svgBlob);
+  img.onload = () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 800; canvas.height = 800;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#faf8f5"; ctx.fillRect(0, 0, 800, 800);
+    ctx.drawImage(img, 0, 0);
+    URL.revokeObjectURL(url);
+    canvas.toBlob(b => {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(b);
+      a.download = "my-spiky-profile.png";
+      a.click();
+    });
+  };
+  img.src = url;
+});
+
+draw();
+</script>
+</body>
+</html>

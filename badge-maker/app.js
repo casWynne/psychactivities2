@@ -39,29 +39,35 @@ const COLOR_PRESETS = {
 
 /* Icons are 24×24, Tabler-style strokes. `svg` is the inner markup.   */
 const ICON_LIBRARY = {
-  "Research skills":{
-    flask:{ label:"Flask", svg:'<path d="M10 3v6l-4.6 8.1A2 2 0 0 0 7.2 20h9.6a2 2 0 0 0 1.8-2.9L14 9V3"/><path d="M9 3h6"/><path d="M8.5 14h7"/>' },
+  "Research Methods":{
+    "qualitative":{ label:"Qualitative approaches", svg:'<path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10"/><path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2"/>' },
+    "quantitative":{ label:"Quantitative approaches", svg:'<path d="M3 3v18h18"/><path d="M20 18v3"/><path d="M16 16v5"/><path d="M12 13v8"/><path d="M8 16v5"/><path d="M3 11c6 0 5 -5 9 -5s3 5 9 5"/>' },
+    "participation":{ label:"Research participation", svg:'<path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1"/><path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path d="M17 10h2a2 2 0 0 1 2 2v1"/><path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path d="M3 13v-1a2 2 0 0 1 2 -2h2"/>' },
     "bell-curve":{ label:"Bell curve", svg:'<path d="M3 19h18"/><path d="M4 19c4.5 0 5-12 8-12s3.5 12 8 12"/>' },
-    search:{ label:"Magnifier", svg:'<circle cx="10" cy="10" r="6.5"/><path d="M15 15l5.5 5.5"/>' },
-    "clipboard-check":{ label:"Clipboard", svg:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/><path d="M9 13.5l2 2 4-4.5"/>' },
+    flask:{ label:"Flask", svg:'<path d="M10 3v6l-4.6 8.1A2 2 0 0 0 7.2 20h9.6a2 2 0 0 0 1.8-2.9L14 9V3"/><path d="M9 3h6"/><path d="M8.5 14h7"/>' },
   },
-  "Employability":{
-    briefcase:{ label:"Briefcase", svg:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/>' },
+  "Academic Skills":{
+    "referencing":{ label:"Referencing", svg:'<path d="M10 11h-4a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h3a1 1 0 0 1 1 1v6c0 2.667 -1.333 4.333 -4 5"/><path d="M19 11h-4a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h3a1 1 0 0 1 1 1v6c0 2.667 -1.333 4.333 -4 5"/>' },
+    "support-services":{ label:"Support services", svg:'<path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/><path d="M15 15l3.35 3.35"/><path d="M9 15l-3.35 3.35"/><path d="M5.65 5.65l3.35 3.35"/><path d="M18.35 5.65l-3.35 3.35"/>' },
+    "who-to-contact":{ label:"Who to contact", svg:'<path d="M12 18.5l-3 -1.5l-6 3v-13l6 -3l6 3l6 -3v7.5"/><path d="M9 4v13"/><path d="M15 7v5.5"/><path d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.125 1.045 2.121 1.879c1.051 -.89 1.759 -1.516 2.121 -1.879"/><path d="M19 18v.01"/>' },
     award:{ label:"Award", svg:'<circle cx="12" cy="9" r="5"/><path d="M9.2 13.4L7.8 21l4.2-2.7L16.2 21l-1.4-7.6"/>' },
-    target:{ label:"Target", svg:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/>' },
-    presentation:{ label:"Presentation", svg:'<rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M8 20h8"/><path d="M7 12l3-3 2 2 4-4"/>' },
   },
-  "Academic":{
-    book:{ label:"Book", svg:'<path d="M5 19.5V5a2 2 0 0 1 2-2h12v16H7a2 2 0 0 0-2 2z"/><path d="M5 19.5A2.5 2.5 0 0 0 7.5 22H19v-3"/>' },
-    pencil:{ label:"Pencil", svg:'<path d="M4 20h4L19.5 8.5a2.1 2.1 0 0 0-3-3L5 17v3z"/><path d="M13.5 6.5l3 3"/>' },
-    "grad-cap":{ label:"Graduation", svg:'<path d="M22 9L12 5 2 9l10 4 10-4z"/><path d="M6 11.2V15c0 1.6 2.7 3 6 3s6-1.4 6-3v-3.8"/><path d="M22 9v5"/>' },
-    bulb:{ label:"Idea", svg:'<path d="M12 3a6 6 0 0 0-4 10.4c.7.6 1 1.6 1 2.6h6c0-1 .3-2 1-2.6A6 6 0 0 0 12 3z"/><path d="M9.5 19h5M10.5 22h3"/>' },
+  "Professional Identity":{
+    "psychfest":{ label:"PsychFest attendance", svg:'<path d="M11 21h-5a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v3.5"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h11"/><path d="M17.8 20.817l-2.172 1.138a.392 .392 0 0 1 -.568 -.41l.415 -2.411l-1.757 -1.707a.389 .389 0 0 1 .217 -.665l2.428 -.352l1.086 -2.193a.392 .392 0 0 1 .702 0l1.086 2.193l2.428 .352a.39 .39 0 0 1 .217 .665l-1.757 1.707l.414 2.41a.39 .39 0 0 1 -.567 .411l-2.172 -1.138"/>' },
+    "future-planning":{ label:"Future planning", svg:'<path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4"/><path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5"/>' },
+    "volunteering":{ label:"Volunteering & community", svg:'<path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"/><path d="M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1 -1a3.182 3.182 0 0 1 4.5 0l2.25 2.25"/><path d="M12.5 15.5l2 2"/><path d="M15 13l2 2"/>' },
+    briefcase:{ label:"Briefcase", svg:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/>' },
   },
-  "Community & wellbeing":{
-    heart:{ label:"Heart", svg:'<path d="M12 20s-7.2-4.6-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-1.8 4.4-9 9-9 9z"/>' },
-    users:{ label:"People", svg:'<circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.2 2.6-5 6-5s6 1.8 6 5"/><circle cx="17" cy="9" r="2.5"/><path d="M17.5 14.6c2.3.4 3.5 2.1 3.5 4.4"/>' },
-    star:{ label:"Star", svg:'<path d="M12 3l2.7 5.6 6.1.8-4.5 4.3 1.1 6.1L12 17l-5.4 2.8 1.1-6.1L3.2 9.4l6.1-.8z"/>' },
-    trophy:{ label:"Trophy", svg:'<path d="M8 4h8v6a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3.2 4M16 5h3a3 3 0 0 1-3.2 4"/><path d="M12 14v4M8 21h8M9.5 18h5"/>' },
+  "Digital Skills":{
+    "university-setup":{ label:"University setup", svg:'<path d="M3 19l18 0"/><path d="M5 7a1 1 0 0 1 1 -1h12a1 1 0 0 1 1 1v8a1 1 0 0 1 -1 1h-12a1 1 0 0 1 -1 -1l0 -8"/>' },
+    "ms-office":{ label:"MS Office", svg:'<path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4"/><path d="M5 15v6h1a2 2 0 0 0 2 -2v-2a2 2 0 0 0 -2 -2h-1"/><path d="M20 16.5a1.5 1.5 0 0 0 -3 0v3a1.5 1.5 0 0 0 3 0"/><path d="M12.5 15a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1 -3 0v-3a1.5 1.5 0 0 1 1.5 -1.5"/>' },
+    "questionnaire":{ label:"Questionnaire building", svg:'<path d="M12 3a3 3 0 0 0 -3 3v12a3 3 0 0 0 3 3"/><path d="M6 3a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3"/><path d="M13 7h7a1 1 0 0 1 1 1v8a1 1 0 0 1 -1 1h-7"/><path d="M5 7h-1a1 1 0 0 0 -1 1v8a1 1 0 0 0 1 1h1"/><path d="M17 12h.01"/><path d="M13 12h.01"/>' },
+    "email":{ label:"Email", svg:'<path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"/><path d="M3 7l9 6l9 -6"/>' },
+  },
+  "Communication Skills":{
+    "presentation-skills":{ label:"Presentation skills", svg:'<path d="M3 4l18 0"/><path d="M4 4v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-10"/><path d="M12 16l0 4"/><path d="M9 20l6 0"/><path d="M8 12l3 -3l2 2l3 -3"/>' },
+    "written-skills":{ label:"Written skills", svg:'<path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"/><path d="M13.5 6.5l4 4"/>' },
+    "group-work":{ label:"Working in groups", svg:'<path d="M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"/><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0 -3 -3.85"/>' },
   },
 };
 

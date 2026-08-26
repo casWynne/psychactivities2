@@ -22,9 +22,7 @@ The page expects the shared CCTK assets at `../shared/cctk.css` and `../shared/c
 ## Before going live — two placeholders to fill in
 
 1. **Psychology Technician email** — the very first line of `planner-data.js` sets `window.TECHNICIAN_EMAIL`. Change it there once and it updates everywhere the technician is a contact (currently `c.w@universityof.ac.uk`).
-2. **`meta.guideBase`** — the URL of your guides folder on GitHub, e.g.
-   `https://github.com/your-org/cctk-guides/blob/main/guides/`
-   Use `/blob/main/` for a GitHub viewer page with a download button, or `/raw/main/` for direct download. Each guide's link is `guideBase + file`.
+2. **`meta.guideBase`** — a **relative path** to the folder holding your guide PDFs, from the app page. The planner sits one level down, so the default `../guides/` points at a `guides/` folder in the site root — a single shared location you can point other CCTK apps at too. Relative paths work wherever the site is hosted and don't need editing per environment. Keep the trailing slash. Each guide's link is `guideBase + file`.
 
 Every guide in the `guides` block has a placeholder filename (e.g. `ms-teams-interview-guide.pdf`). Rename these to match the actual files in your repo — filenames only, the base URL is prepended automatically.
 
@@ -32,13 +30,12 @@ Every guide in the `guides` block has a placeholder filename (e.g. `ms-teams-int
 
 Every guide link in the app — each study guide in the student's pack, and the app-guide PDF in the Help panel — is built the same way: **`meta.guideBase` + the guide's `file`**. Two things to set:
 
-1. **`meta.guideBase`** — the URL of the folder your PDFs live in, ending in a slash. Put all the PDFs in one folder in your repo (e.g. `/guides/`) and point `guideBase` at it:
-   - `https://github.com/you/repo/blob/main/guides/` → each link opens GitHub's PDF viewer, which has a download button (good default).
-   - `https://github.com/you/repo/raw/main/guides/` → each link opens/downloads the raw PDF directly.
-   - GitHub **Pages** instead: `https://you.github.io/repo/guides/` serves the PDF inline in the browser.
+1. **`meta.guideBase`** — a relative path to your guides folder, from the app page, ending in a slash. The default is `../guides/`, i.e. a `guides/` folder in the site root (the app lives one level down in `project-planner/`, so `../` steps up to root). Put every PDF in that one folder — you can point other CCTK apps at the same location. Relative means it just works wherever you host, with no per-environment editing.
 2. **Each guide's `file`** — in the `guides` block, every entry has a placeholder filename. Rename each to match the actual PDF. Filenames only; `guideBase` is prepended automatically. `label` is just the display text.
 
-So: create one `guides/` folder, drop every PDF in it (including the app-guide PDF), set `guideBase` once, and make sure each `file:` matches a real filename. Nothing else references URLs — move the folder later and every link in the app *and* the worksheet updates from that one line. To check names, the browser console logs a 404 for any missing file, and your repo's file list shows the exact filenames to copy.
+So: create one `guides/` folder in the site root, drop every PDF in it (including the app-guide PDF), and make sure each `file:` matches a real filename. Move or rename the folder later and you change only the one `guideBase` line.
+
+**A note on the worksheet's links.** The links *inside the downloaded .docx worksheet* can't be relative — a Word file opened on someone's desktop has no web page to resolve `../guides/…` against. The app handles this automatically: at the moment a student downloads their worksheet, it converts each relative guide path into the full absolute URL of wherever the app is currently hosted, so the links in the worksheet are clickable. This means the worksheet links are only correct once the app is hosted at its real URL (not when opened from a `file://` path during local testing) — which is fine for normal use.
 
 ## The Help panel
 

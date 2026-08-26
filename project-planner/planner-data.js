@@ -32,10 +32,12 @@ window.PLANNER_DATA = {
     appTitle: "Project Planner",
     appTagline: "Plan your dissertation study step by step and leave with an editable worksheet, the right guides, and the right people to contact.",
     // ── EDIT ME ─────────────────────────────────────────────────────────
-    // Base URL for guide files. Point at the folder on your GitHub repo.
-    // Use ".../blob/main/guides/" for a viewer page with a download button,
-    // or ".../raw/main/guides/" for a direct download.
-    guideBase: "https://github.com/YOUR-USERNAME/YOUR-REPO/blob/main/guides/",
+    // Where the guide PDFs live. This is a RELATIVE path from the app page,
+    // so it works wherever the site is hosted and can be shared across apps.
+    // The planner sits one level down (e.g. /project-planner/), so "../guides/"
+    // points at a "guides" folder in the site root. Keep the trailing slash.
+    // Each guide link is built as: guideBase + the guide's filename.
+    guideBase: "../guides/",
     storageKey: "cctk_planner_v1",
     version: "1.0",
 

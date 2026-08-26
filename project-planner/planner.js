@@ -1035,8 +1035,18 @@
 
   /* ---------- Summary ---------- */
 
+  // Relative path for in-app links (there's a page for it to resolve against).
   function guideURL(id) {
     return D.meta.guideBase + D.guides[id].file;
+  }
+
+  // Absolute URL for links baked into the downloaded worksheet — a relative
+  // path has no page to resolve against once the .docx is opened elsewhere,
+  // so anchor it to wherever the app is actually hosted right now.
+  function guideURLAbsolute(id) {
+    const rel = guideURL(id);
+    try { return new URL(rel, window.location.href).href; }
+    catch (e) { return rel; }
   }
 
   function summaryGuides() {
@@ -1282,7 +1292,7 @@
     const guideParas = summaryGuides().map(id => new Paragraph({
       bullet: { level: 0 },
       children: [new ExternalHyperlink({
-        link: guideURL(id),
+        link: guideURLAbsolute(id),
         children: [new TextRun({ text: D.guides[id].label, style: "Hyperlink" })]
       })]
     }));

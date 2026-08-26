@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Planner — CCTK</title>
+    <meta name="description" content="Plan your dissertation study step by step: get an editable worksheet, the right guides, and the right people to contact." />
+
+    <link rel="stylesheet" href="../shared/cctk.css" />
+    <link rel="stylesheet" href="planner.css" />
+
+    <!-- docx: builds the editable Word worksheet entirely in the browser -->
+    <script defer src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
+
+    <script defer src="../shared/cctk-nav.js"></script>
+    <script defer src="planner-data.js"></script>
+    <script defer src="planner.js"></script>
+</head>
+
+<body>
+    <nav class="cctk-nav" role="navigation" aria-label="CCTK navigation">
+        <a class="cctk-nav__logo" href="../index.html">CCTK</a>
+        <span class="cctk-nav__sep">/</span>
+        <span class="cctk-nav__current">Project Planner</span>
+        <span style="margin-left:auto;"></span>
+        <button class="cctk-iconbtn" type="button" data-cctk-theme-toggle title="Toggle light/dark">◐</button>
+    </nav>
+
+    <main class="pl-wrap">
+        <header class="pl-masthead">
+            <h1>Plan your dissertation project</h1>
+            <p>Answer a handful of questions about your study. You'll leave with an editable Word worksheet, the guides you actually need, and the right people to contact.</p>
+        </header>
+
+        <details class="pl-help-panel" id="plHelp" hidden>
+            <summary class="pl-help-panel__summary">
+                <span class="pl-help-panel__icon" aria-hidden="true">?</span>
+                Help &amp; guides
+            </summary>
+            <div class="pl-help-panel__body" id="plHelpBody"></div>
+        </details>
+
+        <div class="pl-toolbar" id="plToolbar" role="group" aria-label="Plan actions" hidden>
+            <button class="cctk-btn cctk-btn--ghost pl-tool" id="plSaveJson" type="button">Save plan (JSON)</button>
+            <label class="cctk-btn cctk-btn--ghost pl-tool" id="plLoadLabel">
+                Load plan
+                <input type="file" id="plLoadJson" accept="application/json,.json" hidden />
+            </label>
+            <button class="cctk-btn cctk-btn--ghost pl-tool pl-tool--danger" id="plClear" type="button">Clear saved data</button>
+        </div>
+
+        <div id="app" aria-live="polite">
+            <noscript>
+                <div class="cctk-card pl-card">
+                    <p>This planner needs JavaScript to run. Please enable it and reload the page.</p>
+                </div>
+            </noscript>
+        </div>
+    </main>
+
+    <footer class="cctk-footer">
+        <span>CCTK · Psychology · <span id="year"></span></span>
+    </footer>
+</body>
+
+</html>

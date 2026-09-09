@@ -119,7 +119,7 @@ const DECOR_DEFAULTS = {
   hexagon:{
     "laurel-left":  { x:-78, y:-104, scale:1.9 },
     "laurel-right": { x: 78, y:-104, scale:1.9 },
-    sparkle:        { x:  0, y:-112, scale:1.6 },
+    sparkle:        { x:  0, y:-140, scale:1.6 },
     divider:        { x:  0, y:  30, scale:3.0 },
     ribbon:         { x:  0, y:-128, scale:2.8 },
     crown:          { x:  0, y: 114, scale:1.5 },
@@ -134,21 +134,25 @@ const SHAPES = {
     title:   { y: 62, maxW:280 },
     subtitle:{ y: 14, maxW:260 },
     iconSlots:[ {x:-82,y:-48},{x:0,y:-48},{x:82,y:-48},{x:0,y:118} ],
+    levelY: -92,   // "LEVEL n" pill, sitting above the bottom decorations
   },
   square:{ label:"Square",
     title:   { y: 72, maxW:320 },
     subtitle:{ y: 22, maxW:300 },
     iconSlots:[ {x:-92,y:-52},{x:0,y:-52},{x:92,y:-52},{x:0,y:128} ],
+    levelY: -100,
   },
   pentagon:{ label:"Pentagon",
     title:   { y: 46, maxW:240 },
     subtitle:{ y: 4, maxW:220 },
     iconSlots:[ {x:-66,y:-36},{x:0,y:-36},{x:66,y:-36},{x:0,y:88} ],
+    levelY: -74,
   },
   hexagon:{ label:"Hexagon",
     title:   { y: 56, maxW:250 },
     subtitle:{ y: 10, maxW:230 },
     iconSlots:[ {x:-70,y:-44},{x:0,y:-44},{x:70,y:-44},{x:0,y:104} ],
+    levelY: -80,
   },
 };
 
@@ -172,6 +176,7 @@ const state = {
   subtitle:{ text:"Skills Award", size:20, color:"#5a5f73", x:0, y:14, arch:"none", archRadius:158 },
   icons:[],        // {uid, iconId, custom?, svg, label, x, y, scale, color|null}
   decorations:[],  // {uid, decorId, x, y, scale, color|null}
+  level:0,         // 0 = off, or 4 / 5 / 6 — shows a "LEVEL n" pill
   grid:false,
 };
 let uidCounter = 1;
@@ -322,13 +327,30 @@ function badgeSVG({forExport=false} = {}){
   const textEl = (k)=>{
     const t = state[k];
     if (!t.text) return "";
-    const content = k==="subtitle" ? esc(t.text.toUpperCase()) : esc(t.text);
-    const drawSize = t.arch === "none" ? fittedSize(k) : t.size;   // straight text auto-shrinks to fit
+    const raw = k==="subtitle" ? t.text.toUpperCase() : t.text;
+    const content = esc(raw);
+    // Straight subtitle wraps onto up to 2 lines; its fitted size accounts
+    // for the wrap. Everything else uses the single-line fit.
+    const wrapSub = k==="subtitle" && t.arch === "none";
+    const drawSize = t.arch !== "none" ? t.size
+      : wrapSub ? fittedSubtitleSize(maxWFor("subtitle")) : fittedSize(k);
     const fontAttrs = k==="title"
       ? `font-family="'Sora','Inter',sans-serif" font-weight="700" font-size="${drawSize}" letter-spacing="2" fill="${t.color}"`
       : `font-family="'Inter',sans-serif" font-weight="600" font-size="${drawSize}" letter-spacing="3" fill="${t.color}"`;
     if (t.arch === "none"){
-      return `<text x="${CX + t.x}" y="${CY - t.y}" text-anchor="middle" ${fontAttrs}>${content}</text>`;
+      const anchorX = CX + t.x;
+      if (wrapSub){
+        const lines = wrapLines(raw, "subtitle", drawSize, maxWFor("subtitle"), SUBTITLE_MAX_LINES);
+        if (lines.length > 1){
+          const lh = drawSize * SUBTITLE_LINE_H;
+          // vertically centre the block on the subtitle's Y anchor
+          const y0 = (CY - t.y) - lh * (lines.length - 1) / 2;
+          const tspans = lines.map((ln,i)=>
+            `<tspan x="${anchorX}" y="${(y0 + i*lh).toFixed(1)}">${esc(ln)}</tspan>`).join("");
+          return `<text text-anchor="middle" ${fontAttrs}>${tspans}</text>`;
+        }
+      }
+      return `<text x="${anchorX}" y="${CY - t.y}" text-anchor="middle" ${fontAttrs}>${content}</text>`;
     }
     // Arched text: a semicircular path centred on the badge; sweep=1 runs
     // over the top (text upright above), sweep=0 under the bottom.
@@ -344,6 +366,7 @@ function badgeSVG({forExport=false} = {}){
 
   const icons = state.icons.map(i=>iconMarkup(i,"icon")).join("");
   const decor = state.decorations.map(d=>iconMarkup(d,"decor")).join("");
+  const level = levelMarkup(L);
 
   return `<svg class="badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Badge: ${esc(state.title.text)}">
   ${gradientDefs()}
@@ -353,8 +376,33 @@ function badgeSVG({forExport=false} = {}){
   <path d="${face}" fill="url(#bm-face)"/>
   <path d="${face}" fill="none" stroke="url(#bm-grad)" stroke-opacity="0.35" stroke-width="1.5"/>
   <ellipse cx="380" cy="105" rx="60" ry="26" transform="rotate(38 380 105)" fill="url(#bm-shine)" opacity="0.8"/>
-  ${text}${icons}${decor}${forExport? "":gridMarkup()}
+  ${text}${icons}${decor}${level}${forExport? "":gridMarkup()}
   </svg>`;
+}
+
+/* "LEVEL n" pill — a rounded rectangle filled with the badge gradient
+   and light text, sitting above the bottom decorations. Hidden when
+   state.level is 0. */
+function levelMarkup(L){
+  if (!state.level) return "";
+  const label = `LEVEL ${state.level}`;
+  const size = 20, padX = 16, h = 30;
+  const w = measureLevelWidth(label, size) + padX*2;
+  const cx = CX, cy = CY - (L.levelY ?? -92);
+  const x = cx - w/2, y = cy - h/2;
+  return `<g>
+    <rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h}" rx="${h/2}"
+          fill="url(#bm-grad)" stroke="#ffffff" stroke-opacity="0.6" stroke-width="1.5"/>
+    <text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="central"
+          font-family="'Sora','Inter',sans-serif" font-weight="700" font-size="${size}"
+          letter-spacing="2" fill="#ffffff">${label}</text>
+  </g>`;
+}
+/* Width of the pill's label at its fixed size (reuses the shared canvas
+   context; letter-spacing of 2 matches the rendered text). */
+function measureLevelWidth(label, size){
+  _measureCtx.font = `700 ${size}px 'Sora','Inter',sans-serif`;
+  return _measureCtx.measureText(label).width + Math.max(0, label.length-1)*2;
 }
 
 const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
@@ -369,6 +417,46 @@ const MIN_CHARS   = 10;   // counter never caps below this
 const TITLE_FLOOR = 24;   // smallest px size the title will shrink to
 const SUB_FLOOR   = 13;   // smallest px size the subtitle will shrink to
 const floorFor = which => which==="title" ? TITLE_FLOOR : SUB_FLOOR;
+
+/* Straight subtitles wrap onto up to this many centred lines. Titles
+   never wrap — they stay a single line and auto-shrink instead. */
+const SUBTITLE_MAX_LINES = 2;
+const SUBTITLE_LINE_H    = 1.15;   // line height as a multiple of font size
+
+/* Greedy word-wrap into at most `maxLines` lines that each fit `maxW`
+   at the given size. Returns an array of line strings. Never exceeds
+   maxLines: any overflow is packed into the final line (the size will
+   already have been shrunk so this rarely bites). */
+function wrapLines(text, which, size, maxW, maxLines){
+  const words = String(text).split(/\s+/).filter(Boolean);
+  if (words.length <= 1) return [text];
+  const lines = [];
+  let cur = "";
+  for (const w of words){
+    const trial = cur ? cur + " " + w : w;
+    if (cur && measureTextWidth(trial, which, size) > maxW && lines.length < maxLines-1){
+      lines.push(cur); cur = w;
+    } else {
+      cur = trial;
+    }
+  }
+  if (cur) lines.push(cur);
+  return lines.slice(0, maxLines);
+}
+/* Largest size (down to floor) at which the subtitle fits maxLines. */
+function fittedSubtitleSize(maxW){
+  const t = state.subtitle, floor = SUB_FLOOR;
+  let size = t.size;
+  const upper = t.text.toUpperCase();
+  while (size > floor){
+    const lines = wrapLines(upper, "subtitle", size, maxW, SUBTITLE_MAX_LINES);
+    const packed = lines.length <= SUBTITLE_MAX_LINES
+      && lines.every(l => measureTextWidth(l, "subtitle", size) <= maxW);
+    if (packed) break;
+    size -= 1;
+  }
+  return Math.max(floor, Math.min(t.size, size));
+}
 
 const _measureCanvas = document.createElement("canvas");
 const _measureCtx = _measureCanvas.getContext("2d");
@@ -560,10 +648,20 @@ function maxWFor(which){
 function maxChars(which){
   const maxW = maxWFor(which);
   const floor = floorFor(which);
-  // widen a representative average-width string until it overflows
-  const sample = which==="title" ? "N" : "M";   // wide-ish caps
-  let n = 0;
-  while (n < 60 && measureTextWidth(sample.repeat(n+1), which, floor) <= maxW) n++;
+  // Average glyph width, measured from a representative mixed-case sample
+  // rather than a run of the widest cap — real titles like "Research
+  // Skills" are far narrower than N×"N", so the wide-cap probe used to
+  // under-count badly. Dividing the sample's width by its length gives a
+  // realistic per-character budget.
+  const sample = which==="title"
+    ? "Research Skills Award"          // typical title vocabulary
+    : "The Methods Star Programme";    // typical subtitle vocabulary
+  const avgGlyph = measureTextWidth(sample, which, floor) / sample.length;
+  // A straight subtitle now wraps onto up to 2 lines, so its budget is
+  // effectively double the single-line width.
+  const lineBudget = (which==="subtitle" && state.subtitle.arch === "none")
+    ? maxW * SUBTITLE_MAX_LINES : maxW;
+  const n = Math.floor(lineBudget / avgGlyph);
   return Math.max(MIN_CHARS, n);
 }
 function updateCounters(){
@@ -572,10 +670,12 @@ function updateCounters(){
     inp.maxLength = max;
     if (state[k].text.length > max){ state[k].text = state[k].text.slice(0,max); inp.value = state[k].text; }
     const c = document.getElementById(cid);
+    const fit = (k==="subtitle" && state[k].arch === "none")
+      ? fittedSubtitleSize(maxWFor("subtitle")) : fittedSize(k);
     // note when the text has auto-shrunk below the chosen size
-    const shrunk = state[k].arch === "none" && state[k].text && fittedSize(k) < state[k].size;
+    const shrunk = state[k].arch === "none" && state[k].text && fit < state[k].size;
     c.textContent = shrunk
-      ? `${state[k].text.length}/${max} · fit ${fittedSize(k)}px`
+      ? `${state[k].text.length}/${max} · fit ${fit}px`
       : `${state[k].text.length}/${max}`;
     c.classList.toggle("over", state[k].text.length >= max);
   });
@@ -892,6 +992,20 @@ Object.entries(DECORATIONS).forEach(([id, d])=>{
   });
   decorTiles.appendChild(t);
 });
+
+/* ---- level marker (Off / 4 / 5 / 6) ---- */
+const levelOpts = document.getElementById("level-opts");
+levelOpts.querySelectorAll(".lvl").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    state.level = Number(b.dataset.level) || 0;
+    syncLevelButtons();
+    render();
+  });
+});
+function syncLevelButtons(){
+  levelOpts.querySelectorAll(".lvl").forEach(b=>
+    b.setAttribute("aria-pressed", Number(b.dataset.level) === state.level ? "true" : "false"));
+}
 
 /* ---- placed item editors (icons + decorations) ---- */
 function buildPlacedLists(){
@@ -1241,6 +1355,7 @@ function applyImportedState(s){
     .filter(d=>DECORATIONS[d.decorId])
     .map(d=>({ uid:uid(), decorId:d.decorId, x:num(d.x), y:num(d.y),
                scale:clamp(Number(d.scale)||2,.3,8), color:d.color? safeColor(d.color):null }));
+  state.level = [4,5,6].includes(Number(s.level)) ? Number(s.level) : 0;
   syncPanel();
   render();
 }
@@ -1284,6 +1399,7 @@ function syncPanel(){
   document.getElementById("subtitle-arch").value = state.subtitle.arch;
   document.getElementById("subtitle-arch-r").value = state.subtitle.archRadius;
   syncTextPositionInputs();
+  syncLevelButtons();
   buildPlacedLists();
 }
 

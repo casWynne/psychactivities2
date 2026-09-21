@@ -1137,6 +1137,17 @@ const HELP = {
       <li>Adjust position, scale and colour in the list below the tiles, exactly like icons.</li>
     </ul>`},
 };
+
+/* ---- user guide modal ---- */
+const guideBackdrop = document.getElementById("guide-backdrop");
+document.getElementById("btn-help-guide").addEventListener("click", ()=>{
+  guideBackdrop.hidden = false;
+  document.getElementById("guide-close").focus();
+});
+document.getElementById("guide-close").addEventListener("click", ()=>guideBackdrop.hidden = true);
+guideBackdrop.addEventListener("click", e=>{ if (e.target===guideBackdrop) guideBackdrop.hidden = true; });
+
+
 const helpBackdrop = document.getElementById("help-backdrop");
 document.querySelectorAll(".help-btn").forEach(b=>{
   b.addEventListener("click", ()=>{

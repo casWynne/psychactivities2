@@ -172,8 +172,8 @@ const state = {
   borderWidth:46,
   preset:"rainbow",
   stops: COLOR_PRESETS.rainbow.stops.map(s=>({...s})),
-  title:   { text:"RESEARCH", size:46, color:"#3b3f8c", x:0, y:62, arch:"none", archRadius:150, bevel:true },
-  subtitle:{ text:"Skills Award", size:20, color:"#5a5f73", x:0, y:14, arch:"none", archRadius:158, bevel:true },
+  title:   { text:"RESEARCH", size:46, color:"#3b3f8c", x:0, y:62, arch:"none", archRadius:150, bevel:true, constrain:true },
+  subtitle:{ text:"Skills Award", size:20, color:"#5a5f73", x:0, y:14, arch:"none", archRadius:158, bevel:true, constrain:true },
   icons:[],        // {uid, iconId, custom?, svg, label, x, y, scale, color|null}
   decorations:[],  // {uid, decorId, x, y, scale, color|null}
   grid:false,
@@ -277,6 +277,11 @@ function gradientDefs(){
       <stop offset="78%" stop-color="#fbfaff"/>
       <stop offset="100%" stop-color="#eef0f7"/>
     </radialGradient>
+    <radialGradient id="bm-plate" cx="0.5" cy="0.4" r="0.75">
+      <stop offset="0%"  stop-color="#eef1f6"/>
+      <stop offset="70%" stop-color="#dde1ea"/>
+      <stop offset="100%" stop-color="#c8cdda"/>
+    </radialGradient>
     <radialGradient id="bm-shine" cx="0.5" cy="0.5" r="0.5">
       <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
       <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
@@ -338,8 +343,8 @@ function loopMarkup(){
   const cx = topSvgX;
   const cy = topSvgY - rO*0.7;   // above the edge, overlapping down into it
   return `<g>
-    <circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${rO.toFixed(1)}" fill="#3a3f5c"/>
-    <circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${rH.toFixed(1)}" fill="#eef0f7"/>
+    <circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${rO.toFixed(1)}" fill="url(#bm-plate)" stroke="#9aa3b5" stroke-opacity="0.6" stroke-width="1.2"/>
+    <circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${rH.toFixed(1)}" fill="#f4f6fa"/>
   </g>`;
 }
 
@@ -386,8 +391,11 @@ function frameMarkup(){
   if (rInner <= 20) return "";
   const outerPath = shapePath(state.shape, rOuter, false);
   const innerPath = shapePath(state.shape, rInner, false);
-  // filled band = outer minus inner, using even-odd fill
-  return `<path d="${outerPath} ${innerPath}" fill="#3a3f5c" fill-opacity="0.9" fill-rule="evenodd"/>`;
+  // filled band = outer minus inner, using even-odd fill. A mid-slate grey
+  // reads as a raised frame sitting on the pale medal plate (both visible),
+  // with a soft top highlight so it looks proud of the surface.
+  return `<path d="${outerPath} ${innerPath}" fill="#6b7285" fill-rule="evenodd"/>
+    <path d="${outerPath}" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1"/>`;
 }
 
 function gridMarkup(){
@@ -447,13 +455,32 @@ function badgeSVG({forExport=false} = {}){
   const decor = state.decorations.map(d=>iconMarkup(d,"decor")).join("");
   const level = levelMarkup(L);
 
-  return `<svg class="badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Badge: ${esc(state.title.text)}">
-  ${gradientDefs()}
-  <path d="${outer}" fill="url(#bm-grad)"/>
+  // In 3D (medal) mode the on-screen preview stands in for a single-colour
+  // printed plate, so paint the WHOLE shape as a pale grey medallion body
+  // (with a soft rim + shine for form) rather than the colourful badge
+  // gradient. The raised inner frame is then drawn a distinct darker grey
+  // on top, so you can see both the full medal shape AND the frame.
+  // IMPORTANT: the pale-grey plate is PREVIEW-ONLY. For export (forExport),
+  // medal mode must keep the original bm-grad/bm-face plate paths, because
+  // the STL relief mask (reliefSVGText) identifies and removes the body by
+  // its bm-grad/metal/face fills. If we painted bm-plate here for export,
+  // the whole disc would survive into the relief mask and be traced as a
+  // giant solid feature. So bm-plate is used only when !forExport.
+  const medal = state.mode === "medal";
+  const body = (medal && !forExport)
+    ? `<path d="${outer}" fill="url(#bm-plate)"/>
+  <path d="${outer}" fill="url(#bm-metal)"/>
+  <path d="${rim}" fill="none" stroke="#ffffff" stroke-opacity="0.8" stroke-width="2.5"/>
+  <path d="${outer}" fill="none" stroke="#9aa3b5" stroke-opacity="0.55" stroke-width="1.5"/>`
+    : `<path d="${outer}" fill="url(#bm-grad)"/>
   <path d="${outer}" fill="url(#bm-metal)"/>
   <path d="${rim}" fill="none" stroke="#ffffff" stroke-opacity="0.75" stroke-width="2.5"/>
   <path d="${face}" fill="url(#bm-face)"/>
-  <path d="${face}" fill="none" stroke="url(#bm-grad)" stroke-opacity="0.35" stroke-width="1.5"/>
+  <path d="${face}" fill="none" stroke="url(#bm-grad)" stroke-opacity="0.35" stroke-width="1.5"/>`;
+
+  return `<svg class="badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Badge: ${esc(state.title.text)}">
+  ${gradientDefs()}
+  ${body}
   <ellipse cx="380" cy="105" rx="60" ry="26" transform="rotate(38 380 105)" fill="url(#bm-shine)" opacity="0.8"/>
   ${forExport? "":loopMarkup()}${forExport? "":frameMarkup()}${text}${icons}${decor}${level}${forExport? "":gridMarkup()}
   </svg>`;
@@ -512,9 +539,13 @@ function measureTextWidth(text, which, size){
   return base + gaps;
 }
 /* Largest size <= the chosen size that fits the available width, but
-   never below the readable floor. Used both to render and to fit. */
+   never below the readable floor. Used both to render and to fit.
+   When this text's `constrain` is OFF, the user has opted out of the
+   fit caps entirely, so we render at exactly the chosen size (no shrink,
+   no floor) — in both badge and medal mode.                            */
 function fittedSize(which){
   const t = state[which];
+  if (t.constrain === false) return t.size;   // unconstrained: honour the raw size
   const maxW = maxWFor(which);
   const floor = floorFor(which);
   let size = t.size;
@@ -543,7 +574,7 @@ function render(){
 function capTextToLimits(){
   [["title",inputTitle],["subtitle",inputSubtitle]].forEach(([k,inp])=>{
     const max = maxChars(k);
-    if (state[k].text.length > max){
+    if (Number.isFinite(max) && state[k].text.length > max){
       state[k].text = state[k].text.slice(0, max);
       if (inp) inp.value = state[k].text;
     }
@@ -719,7 +750,10 @@ function updatePrintCheck(){
 const MEDAL_DECOR_BOOST = 1.35;
 function scaleDecorationsForMedal(){
   [...state.icons, ...state.decorations].forEach(it=>{
-    it.scale = clamp((it.scale||1) * MEDAL_DECOR_BOOST, 0.3, 8);
+    // unconstrained items keep their user-set scale (and wider cap)
+    it.scale = it.constrain === false
+      ? clamp((it.scale||1) * MEDAL_DECOR_BOOST, 0.05, 100)
+      : clamp((it.scale||1) * MEDAL_DECOR_BOOST, 0.3, 8);
   });
   nudgeApartOnce();
 }
@@ -728,7 +762,7 @@ function scaleDecorationsForMedal(){
    face back toward a safe spot. Deliberate-action only (mode/preset),
    never continuous, so it can't fight the user mid-edit.                */
 function nudgeApartOnce(){
-  const movable = collectElements().filter(e=> e.kind==="icon" || e.kind==="decor");
+  const movable = collectElements().filter(e=> (e.kind==="icon" || e.kind==="decor") && e.ref.constrain !== false);
   const fr = faceRadius();
   movable.forEach(e=>{
     // pull inside the face first
@@ -750,8 +784,10 @@ function nudgeApartOnce(){
       for (let j=i+1;j<els.length;j++){
         const a=els[i], b=els[j];
         if (!boxesOverlap(a.box,b.box)) continue;
-        // only move icons/decorations (leave text anchored)
-        const bMove = (b.kind==="icon"||b.kind==="decor") ? b : (a.kind==="icon"||a.kind==="decor") ? a : null;
+        // only move icons/decorations (leave text anchored); and never move
+        // an item whose constrain is off — the user placed it deliberately.
+        const canMove = el => (el.kind==="icon"||el.kind==="decor") && el.ref.constrain !== false;
+        const bMove = canMove(b) ? b : canMove(a) ? a : null;
         if (!bMove) continue;
         const other = bMove===b ? a : b;
         let dx = ((bMove.box.x0+bMove.box.x1)/2) - ((other.box.x0+other.box.x1)/2);
@@ -839,12 +875,20 @@ document.getElementById("adv-scallops").addEventListener("change", e=>{
   state.scallops = e.target.checked; render();
 });
 
-function bindNumber(id, key, obj=state){
+function bindNumber(id, key, obj=state, unclamp=null){
   const el = document.getElementById(id);
   el.value = obj[key];
   el.addEventListener("input", ()=>{
     const v = Number(el.value);
-    if (!Number.isNaN(v)) { obj[key] = clamp(v, Number(el.min)||-999, Number(el.max)||999); render(); }
+    if (!Number.isNaN(v)) {
+      // when `unclamp` says this field is currently unconstrained, take the
+      // raw value (still guarded to a sane absolute range); otherwise clamp
+      // to the input's own min/max as before.
+      obj[key] = (unclamp && unclamp())
+        ? clamp(v, -100000, 100000)
+        : clamp(v, Number(el.min)||-999, Number(el.max)||999);
+      render();
+    }
   });
 }
 const clamp = (v,lo,hi)=>Math.min(hi,Math.max(lo,v));
@@ -914,6 +958,7 @@ function maxWFor(which){
    Measured at the floor size (the smallest we'll shrink to), so the
    badge can always display up to this many. Never below MIN_CHARS. */
 function maxChars(which){
+  if (state[which].constrain === false) return Infinity;   // unconstrained: no character cap
   const maxW = maxWFor(which);
   const floor = floorFor(which);
   // widen a representative average-width string until it overflows
@@ -925,9 +970,17 @@ function maxChars(which){
 function updateCounters(){
   [["title",inputTitle,"count-title"],["subtitle",inputSubtitle,"count-subtitle"]].forEach(([k,inp,cid])=>{
     const max = maxChars(k);
-    inp.maxLength = max;
-    if (state[k].text.length > max){ state[k].text = state[k].text.slice(0,max); inp.value = state[k].text; }
+    const unconstrained = !Number.isFinite(max);
+    // maxLength must be a finite integer; remove the attribute when unconstrained
+    if (unconstrained) inp.removeAttribute("maxLength");
+    else { inp.maxLength = max; if (state[k].text.length > max){ state[k].text = state[k].text.slice(0,max); inp.value = state[k].text; } }
     const c = document.getElementById(cid);
+    if (unconstrained){
+      // no cap: just show the count, and note that fit is off
+      c.textContent = `${state[k].text.length} · unconstrained`;
+      c.classList.remove("over","print-warn");
+      return;
+    }
     const shrunk = state[k].arch === "none" && state[k].text && fittedSize(k) < state[k].size;
     let label = shrunk
       ? `${state[k].text.length}/${max} · fit ${fittedSize(k)}px`
@@ -945,8 +998,8 @@ function updateCounters(){
 }
 inputTitle.addEventListener("input", ()=>{ state.title.text = inputTitle.value; render(); });
 inputSubtitle.addEventListener("input", ()=>{ state.subtitle.text = inputSubtitle.value; render(); });
-bindNumber("adv-title-size","size",state.title);
-bindNumber("adv-subtitle-size","size",state.subtitle);
+bindNumber("adv-title-size","size",state.title, ()=>state.title.constrain===false);
+bindNumber("adv-subtitle-size","size",state.subtitle, ()=>state.subtitle.constrain===false);
 bindColor("adv-title-color", state.title);
 bindColor("adv-subtitle-color", state.subtitle);
 // arch (curve) controls
@@ -966,6 +1019,26 @@ bindNumber("subtitle-arch-r","archRadius",state.subtitle);
     state[k].bevel = el.checked;
     snapshot();
     if (typeof exportBackdrop !== "undefined" && !exportBackdrop.hidden && typeof window.__refreshSTL === "function") window.__refreshSTL();
+  });
+});
+// per-text constrain toggles: when OFF, size/length caps and auto-fit are
+// lifted for that text (badge and medal alike). Default ON.
+[["title-constrain","title"],["subtitle-constrain","subtitle"]].forEach(([id,k])=>{
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.checked = state[k].constrain !== false;
+  el.addEventListener("change", ()=>{
+    state[k].constrain = el.checked;
+    // widen/tighten the size input's own min/max hint so the field lets the
+    // user type larger values when unconstrained (the clamp is bypassed in
+    // bindNumber, but the browser's spinner should allow it too).
+    const sizeEl = document.getElementById(k==="title" ? "adv-title-size" : "adv-subtitle-size");
+    if (sizeEl){
+      if (el.checked){ sizeEl.min = k==="title" ? 18 : 10; sizeEl.max = k==="title" ? 72 : 40; }
+      else { sizeEl.min = 1; sizeEl.max = 400; }
+    }
+    render();
+    snapshot();
   });
 });
 // text position controls + align buttons
@@ -1038,7 +1111,7 @@ function addIcon(id, ic){
   state.icons.push({
     uid:uid(), iconId:id, svg:ic.svg, label:ic.label,
     w:ic.w||24, h:ic.h||24, selfPainted:!!ic.selfPainted,
-    x:slot.x, y:slot.y, scale:1.9, color:null
+    x:slot.x, y:slot.y, scale:1.9, color:null, constrain:true
   });
   buildPlacedLists(); render();
 }
@@ -1176,7 +1249,7 @@ document.getElementById("btn-import-icon").addEventListener("click", ()=>{
     state.icons.push({
       uid:uid(), iconId:"custom", svg:svg.innerHTML, label:"Imported icon",
       w, h, selfPainted:true,
-      ...SHAPES[state.shape].iconSlots[state.icons.length % 4], scale:1.9, color:null
+      ...SHAPES[state.shape].iconSlots[state.icons.length % 4], scale:1.9, color:null, constrain:true
     });
     box.value = ""; msg.textContent = "Icon added to the badge ✓";
     buildPlacedLists(); render();
@@ -1223,7 +1296,7 @@ uploadInput.addEventListener("change", ()=>{
       state.icons.push({
         uid:uid(), iconId:"image", isImage:true, dataUrl, svg:"",
         label:(file.name || "Image").slice(0,24), w:fw, h:fh, selfPainted:false,
-        x:slot.x, y:slot.y, scale:2.2, color:null
+        x:slot.x, y:slot.y, scale:2.2, color:null, constrain:true
       });
       buildPlacedLists(); render();
       uploadMsg.textContent = `Image added (~${kb} KB)` + (warnings.length? `. Note: ${warnings.join("; ")}.` : ".");
@@ -1261,7 +1334,7 @@ Object.entries(DECORATIONS).forEach(([id, d])=>{
   t.innerHTML = `<svg viewBox="0 0 24 24" ${d.fill? 'style="fill:#1c2330;stroke:none"':""}>${d.svg}</svg>`;
   t.addEventListener("click", ()=>{
     const def = DECOR_DEFAULTS[state.shape][id] || {x:0,y:0,scale:2};
-    state.decorations.push({ uid:uid(), decorId:id, ...def, color:null });
+    state.decorations.push({ uid:uid(), decorId:id, ...def, color:null, constrain:true });
     buildPlacedLists(); render();
   });
   decorTiles.appendChild(t);
@@ -1305,9 +1378,14 @@ function buildPlaced(containerId, list, nameFn, thumbFn){
       <div class="placed-fields">
         <label>X <input class="f-x" type="number" step="2" value="${it.x}"></label>
         <label>Y <input class="f-y" type="number" step="2" value="${it.y}"></label>
-        <label>Scale <input class="f-scale" type="number" step="0.1" min="0.3" max="8" value="${it.scale}"></label>
+        <label>Scale <input class="f-scale" type="number" step="0.1" min="${it.constrain===false?0.05:0.3}" max="${it.constrain===false?100:8}" value="${it.scale}"></label>
         ${colourBits}
       </div>
+      <label class="toggle small placed-constrain">
+        <input class="f-constrain" type="checkbox" ${it.constrain!==false?"checked":""}>
+        <span class="toggle-track"></span>
+        <span class="toggle-label">Constrain scale</span>
+      </label>
       <div class="placed-align">
         <span class="align-label">Align</span>
         <span class="align-group" role="group" aria-label="Align horizontally">
@@ -1324,11 +1402,28 @@ function buildPlaced(containerId, list, nameFn, thumbFn){
     const nx = card.querySelector(".f-x"), ny = card.querySelector(".f-y"), ns = card.querySelector(".f-scale");
     nx.addEventListener("input", ()=>{ it.x = Number(nx.value)||0; render(); });
     ny.addEventListener("input", ()=>{ it.y = Number(ny.value)||0; render(); });
-    ns.addEventListener("input", ()=>{ it.scale = clamp(Number(ns.value)||1, .3, 8); render(); });
+    ns.addEventListener("input", ()=>{
+      const v = Number(ns.value)||1;
+      // unconstrained items may scale beyond the 0.3–8 range (still guarded
+      // to a sane absolute cap); constrained items keep the printable range.
+      it.scale = it.constrain === false ? clamp(v, 0.05, 100) : clamp(v, .3, 8);
+      render();
+    });
     const nc = card.querySelector(".f-col");
     if (nc){
       nc.addEventListener("input", ()=>{ it.color = nc.value; render(); });
       card.querySelector(".f-style").addEventListener("click", ()=>{ it.color = null; nc.value = "#888888"; render(); });
+    }
+    const ncon = card.querySelector(".f-constrain");
+    if (ncon){
+      ncon.addEventListener("change", ()=>{
+        it.constrain = ncon.checked;
+        // widen/tighten the scale input's own min/max so its spinner allows
+        // the larger range when unconstrained.
+        if (ncon.checked){ ns.min = 0.3; ns.max = 8; it.scale = clamp(it.scale, .3, 8); ns.value = it.scale; }
+        else { ns.min = 0.05; ns.max = 100; }
+        render();
+      });
     }
     card.querySelectorAll(".alg").forEach(b=>{
       b.addEventListener("click", ()=>{
@@ -1350,16 +1445,21 @@ document.getElementById("toggle-grid").addEventListener("change", e=>{
 /* ---- auto-fit ---- */
 document.getElementById("btn-autofit").addEventListener("click", ()=>{
   const fr = faceRadius();
-  // commit each straight text to the size that actually fits (measured)
+  // commit each straight text to the size that actually fits (measured).
+  // Unconstrained text opts out of fitting, so leave its size untouched
+  // (fittedSize already returns the raw size for it, but skip to be explicit).
   ["title","subtitle"].forEach(k=>{
+    if (state[k].constrain === false) return;
     if (state[k].arch === "none" && state[k].text){
       state[k].size = fittedSize(k);
     }
   });
   document.getElementById("adv-title-size").value = state.title.size;
   document.getElementById("adv-subtitle-size").value = state.subtitle.size;
-  // pull icons/decorations inside the face
+  // pull icons/decorations inside the face — but leave unconstrained items
+  // where the user put them (they've opted out of the size/position caps).
   [...state.icons, ...state.decorations].forEach(it=>{
+    if (it.constrain === false) return;
     const half = 12 * it.scale;
     const dist = Math.hypot(it.x, it.y);
     const maxDist = fr - half - 8;
@@ -1423,6 +1523,15 @@ document.querySelectorAll(".help-btn").forEach(b=>{
 });
 document.getElementById("help-close").addEventListener("click", ()=>helpBackdrop.hidden = true);
 helpBackdrop.addEventListener("click", e=>{ if (e.target===helpBackdrop) helpBackdrop.hidden = true; });
+
+/* ---- user guide modal ---- */
+const guideBackdrop = document.getElementById("guide-backdrop");
+document.getElementById("btn-help-guide").addEventListener("click", ()=>{
+  guideBackdrop.hidden = false;
+  document.getElementById("guide-close").focus();
+});
+document.getElementById("guide-close").addEventListener("click", ()=>guideBackdrop.hidden = true);
+guideBackdrop.addEventListener("click", e=>{ if (e.target===guideBackdrop) guideBackdrop.hidden = true; });
 
 /* =====================================================================
    7. EXPORT
@@ -1602,20 +1711,28 @@ function applyImportedState(s){
     ? s.stops.map(p=>({ color:safeColor(p.color), at:clamp(Number(p.at)||0,0,100) }))
     : COLOR_PRESETS[state.preset].stops.map(p=>({...p}));
   const safeArch = v => ["none","up","down"].includes(v) ? v : "none";
-  Object.assign(state.title,    { text:String(s.title.text||"").slice(0,60),    size:clamp(Number(s.title.size)||46,12,72),    color:safeColor(s.title.color,"#3b3f8c"),
+  // read each text's constrain flag first (default true); when false, size is
+  // not clamped to the normal range so oversized text round-trips intact.
+  const tCon = s.title.constrain === undefined ? true : !!s.title.constrain;
+  const sCon = s.subtitle?.constrain === undefined ? true : !!s.subtitle.constrain;
+  const tSize = tCon ? clamp(Number(s.title.size)||46,12,72) : (Number(s.title.size)||46);
+  const sSize = sCon ? clamp(Number(s.subtitle?.size)||20,10,40) : (Number(s.subtitle?.size)||20);
+  Object.assign(state.title,    { text:tCon ? String(s.title.text||"").slice(0,60) : String(s.title.text||""),    size:tSize,    color:safeColor(s.title.color,"#3b3f8c"),
     x:num(s.title.x ?? 0), y:(s.title.y !== undefined ? num(s.title.y) : SHAPES[state.shape].title.y),
     arch:safeArch(s.title.arch),    archRadius:clamp(Number(s.title.archRadius)||150,60,220),
-    bevel: s.title.bevel === undefined ? true : !!s.title.bevel });
-  Object.assign(state.subtitle, { text:String(s.subtitle?.text||"").slice(0,60), size:clamp(Number(s.subtitle?.size)||20,10,40), color:safeColor(s.subtitle?.color,"#5a5f73"),
+    bevel: s.title.bevel === undefined ? true : !!s.title.bevel, constrain: tCon });
+  Object.assign(state.subtitle, { text:sCon ? String(s.subtitle?.text||"").slice(0,60) : String(s.subtitle?.text||""), size:sSize, color:safeColor(s.subtitle?.color,"#5a5f73"),
     x:num(s.subtitle?.x ?? 0), y:(s.subtitle?.y !== undefined ? num(s.subtitle.y) : SHAPES[state.shape].subtitle.y),
     arch:safeArch(s.subtitle?.arch), archRadius:clamp(Number(s.subtitle?.archRadius)||158,60,220),
-    bevel: s.subtitle?.bevel === undefined ? true : !!s.subtitle.bevel });
+    bevel: s.subtitle?.bevel === undefined ? true : !!s.subtitle.bevel, constrain: sCon });
   state.icons = (Array.isArray(s.icons)? s.icons:[]).map(i=>{
+    const iCon = i.constrain === undefined ? true : !!i.constrain;
+    const iScale = iCon ? clamp(Number(i.scale)||1.9,.3,8) : clamp(Number(i.scale)||1.9, 0.05, 100);
     const base = {
       uid:uid(), iconId:String(i.iconId||"custom"), label:String(i.label||"Icon").slice(0,40),
       w:clamp(Number(i.w)||24,1,2048), h:clamp(Number(i.h)||24,1,2048),
-      x:num(i.x), y:num(i.y), scale:clamp(Number(i.scale)||1.9,.3,8),
-      color:i.color? safeColor(i.color):null,
+      x:num(i.x), y:num(i.y), scale:iScale,
+      color:i.color? safeColor(i.color):null, constrain:iCon,
     };
     if (i.isImage){
       // only accept well-formed PNG/JPG data URLs of sane length
@@ -1629,8 +1746,12 @@ function applyImportedState(s){
   }).filter(Boolean);
   state.decorations = (Array.isArray(s.decorations)? s.decorations:[])
     .filter(d=>DECORATIONS[d.decorId])
-    .map(d=>({ uid:uid(), decorId:d.decorId, x:num(d.x), y:num(d.y),
-               scale:clamp(Number(d.scale)||2,.3,8), color:d.color? safeColor(d.color):null }));
+    .map(d=>{
+      const dCon = d.constrain === undefined ? true : !!d.constrain;
+      const dScale = dCon ? clamp(Number(d.scale)||2,.3,8) : clamp(Number(d.scale)||2, 0.05, 100);
+      return { uid:uid(), decorId:d.decorId, x:num(d.x), y:num(d.y),
+               scale:dScale, color:d.color? safeColor(d.color):null, constrain:dCon };
+    });
   state.level = [4,5,6].includes(Number(s.level)) ? Number(s.level) : 0;
   // STL / 3D-print settings (validated; falls back to sane defaults)
   const st = s.stl || {};
@@ -1694,9 +1815,98 @@ function syncPanel(){
   document.getElementById("subtitle-arch-r").value = state.subtitle.archRadius;
   const tb = document.getElementById("title-bevel"); if (tb) tb.checked = state.title.bevel !== false;
   const sb = document.getElementById("subtitle-bevel"); if (sb) sb.checked = state.subtitle.bevel !== false;
+  // constrain toggles + size-input ranges (so unconstrained values re-show)
+  [["title","adv-title-size","title-constrain",18,72],["subtitle","adv-subtitle-size","subtitle-constrain",10,40]].forEach(([k,sizeId,conId,lo,hi])=>{
+    const con = state[k].constrain !== false;
+    const cEl = document.getElementById(conId); if (cEl) cEl.checked = con;
+    const sizeEl = document.getElementById(sizeId);
+    if (sizeEl){ if (con){ sizeEl.min=lo; sizeEl.max=hi; } else { sizeEl.min=1; sizeEl.max=400; } sizeEl.value = state[k].size; }
+  });
   syncTextPositionInputs();
   syncLevelButtons();
   buildPlacedLists();
+}
+
+/* =====================================================================
+   8b. TINY ZIP WRITER (store method, no compression)
+   =====================================================================
+   The STL download is bundled as a .zip that also contains the editable
+   .svg (the STL itself carries no design data, so it can't be re-opened;
+   the SVG can). This writer is ~60 lines, needs no library and no network,
+   so it keeps the app's "works fully offline" guarantee. Files are stored
+   uncompressed (method 0) — an STL/SVG pair is tiny and this avoids
+   pulling in a DEFLATE implementation.
+   ===================================================================== */
+
+/* CRC-32 (IEEE) with a lazily-built lookup table. */
+const _crcTable = (()=>{
+  const t = new Uint32Array(256);
+  for (let n=0; n<256; n++){
+    let c = n;
+    for (let k=0; k<8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+    t[n] = c >>> 0;
+  }
+  return t;
+})();
+function crc32(bytes){
+  let c = 0xFFFFFFFF;
+  for (let i=0; i<bytes.length; i++) c = _crcTable[(c ^ bytes[i]) & 0xFF] ^ (c >>> 8);
+  return (c ^ 0xFFFFFFFF) >>> 0;
+}
+/* Build a ZIP Blob from [{name, bytes:Uint8Array}]. Store method only. */
+function makeZip(files){
+  const enc = new TextEncoder();
+  const chunks = [];       // body: local headers + data
+  const central = [];      // central directory records
+  let offset = 0;
+  const u16 = v => { const b = new Uint8Array(2); b[0]=v&0xFF; b[1]=(v>>>8)&0xFF; return b; };
+  const u32 = v => { const b = new Uint8Array(4); b[0]=v&0xFF; b[1]=(v>>>8)&0xFF; b[2]=(v>>>16)&0xFF; b[3]=(v>>>24)&0xFF; return b; };
+  const push = (arr, b)=>{ arr.push(b); return b.length; };
+
+  files.forEach(f=>{
+    const nameBytes = enc.encode(f.name);
+    const data = f.bytes;
+    const crc = crc32(data);
+    // local file header
+    let n = 0;
+    n += push(chunks, u32(0x04034b50));  // signature
+    n += push(chunks, u16(20));          // version needed
+    n += push(chunks, u16(0));           // flags
+    n += push(chunks, u16(0));           // method: store
+    n += push(chunks, u16(0));           // mod time
+    n += push(chunks, u16(0x21));        // mod date (arbitrary valid date)
+    n += push(chunks, u32(crc));
+    n += push(chunks, u32(data.length)); // compressed size
+    n += push(chunks, u32(data.length)); // uncompressed size
+    n += push(chunks, u16(nameBytes.length));
+    n += push(chunks, u16(0));           // extra len
+    n += push(chunks, nameBytes);
+    n += push(chunks, data);
+    // central directory record
+    const c = [];
+    push(c, u32(0x02014b50));
+    push(c, u16(20)); push(c, u16(20)); push(c, u16(0)); push(c, u16(0));
+    push(c, u16(0)); push(c, u16(0x21));
+    push(c, u32(crc));
+    push(c, u32(data.length)); push(c, u32(data.length));
+    push(c, u16(nameBytes.length)); push(c, u16(0)); push(c, u16(0));
+    push(c, u16(0)); push(c, u16(0)); push(c, u32(0));
+    push(c, u32(offset));
+    push(c, nameBytes);
+    central.push({ parts:c });
+    offset += n;
+  });
+
+  const cdStart = offset;
+  let cdSize = 0;
+  central.forEach(rec=>{ rec.parts.forEach(p=>{ chunks.push(p); cdSize += p.length; }); });
+  // end of central directory
+  chunks.push(u32(0x06054b50));
+  chunks.push(u16(0)); chunks.push(u16(0));
+  chunks.push(u16(files.length)); chunks.push(u16(files.length));
+  chunks.push(u32(cdSize)); chunks.push(u32(cdStart));
+  chunks.push(u16(0));
+  return new Blob(chunks, { type:"application/zip" });
 }
 
 /* =====================================================================
@@ -2382,7 +2592,45 @@ function syncStlPanel(){
       btn.disabled = true;
       try { stlBlob = (await makeSTL()).blob; } catch { return; } finally { btn.disabled = false; }
     }
-    download(stlBlob, fileStem()+".stl");
+    // Bundle the STL together with the editable SVG. The STL is geometry
+    // only and can't be re-opened here; the SVG carries the full design in
+    // its metadata, so pairing them means the download is both printable
+    // AND re-importable for future edits. A short README explains the two.
+    try{
+      const stem = fileStem();
+      const enc  = new TextEncoder();
+      const stlBytes = new Uint8Array(await stlBlob.arrayBuffer());
+      const svgBytes = enc.encode(exportSVGText());
+      const readme =
+`${stem} — CasBadge 3D medal export
+================================================
+
+This zip contains two files:
+
+  • ${stem}.stl  — the 3D model. Send this to your slicer
+                   (Cura, PrusaSlicer, Bambu Studio, …) and print it.
+                   The STL is geometry only: it holds no colours and no
+                   editable design data.
+
+  • ${stem}.svg  — the editable design. Open CasBadge and use
+                   “⬆ Import badge” to re-open THIS file and change the
+                   text, icons, size or 3D settings, then re-export.
+                   (The .stl cannot be re-imported — always keep this .svg
+                   if you may want to edit the medal later.)
+
+Nothing is stored by the app, so this .svg is your save file.
+`;
+      const zip = makeZip([
+        { name: stem + ".stl", bytes: stlBytes },
+        { name: stem + ".svg", bytes: svgBytes },
+        { name: "README.txt",  bytes: enc.encode(readme) },
+      ]);
+      download(zip, stem + "-medal.zip");
+    }catch(err){
+      // if zipping ever fails, fall back to the plain STL so the user
+      // still gets their printable model.
+      download(stlBlob, fileStem()+".stl");
+    }
   });
 })();
 
@@ -2477,7 +2725,7 @@ function syncStlPanel(){
 (function seed(){
   // a starter layout echoing the CPD Day badge: icons row + laurels + sparkle
   ["laurel-left","laurel-right","sparkle"].forEach(id=>{
-    state.decorations.push({ uid:uid(), decorId:id, ...DECOR_DEFAULTS.circle[id], color:null });
+    state.decorations.push({ uid:uid(), decorId:id, ...DECOR_DEFAULTS.circle[id], color:null, constrain:true });
   });
   buildPlacedLists();
   render();

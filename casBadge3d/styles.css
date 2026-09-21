@@ -20,6 +20,7 @@
 html,body{margin:0;height:100%}
 body{
   font-family:'Inter',system-ui,sans-serif; color:var(--ink); background:var(--bg);
+  overflow:hidden;
   display:flex; flex-direction:column;
 }
 
@@ -30,8 +31,22 @@ body{
 }
 .brand{display:flex; gap:.7rem; align-items:center}
 .brand-mark{width:34px;height:34px;color:var(--gold)}
-.brand h1{font-family:'Sora',sans-serif; font-size:1.15rem; margin:0; letter-spacing:-.01em}
+.brand h1{font-family:'Sora',sans-serif; font-size:1.15rem; margin:0; letter-spacing:-.01em; display:flex; align-items:center; gap:.4rem}
 .brand h1 span{color:var(--accent)}
+/* "3D" accent: gold to nod to the printed-medal side of the app */
+.brand h1 span.brand-3d{
+  color:var(--gold); font-weight:700;
+  background:linear-gradient(135deg,#e6c14d,#b98a1f);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+/* BETA pill — small, soft, unobtrusive */
+.beta-pill{
+  font-family:'Inter',sans-serif; font-size:.56rem; font-weight:700; letter-spacing:.09em;
+  color:var(--accent); background:var(--accent-soft);
+  border:1px solid #d7d3f7; border-radius:999px; padding:.12rem .42rem;
+  text-transform:uppercase; line-height:1; position:relative; top:-.5px;
+  -webkit-text-fill-color:initial;   /* guard against the clip rule above */
+}
 .tagline{margin:0; font-size:.75rem; color:var(--muted)}
 .header-actions{display:flex; gap:.6rem}
 
@@ -329,6 +344,20 @@ details.icon-cat .tile-grid{padding:.15rem .6rem .6rem}
 .placed-fields input[type=number]{width:62px}
 .placed-fields input[type=color]{width:40px;height:28px;border:1px solid var(--line);border-radius:6px;padding:1px;background:#fff}
 .placed-align{display:flex; align-items:center; gap:.5rem; margin-top:.45rem}
+/* per-item "Constrain scale" toggle sits between the fields and align row */
+.placed-constrain{margin-top:.5rem}
+.placed-constrain .toggle-label{font-size:.7rem; color:var(--muted); font-weight:600}
+/* when an item is unconstrained (toggle off) its Scale box is wider-ranged;
+   give it a faint highlight so it's clear the caps are lifted */
+.placed:has(.f-constrain:not(:checked)) .f-scale{
+  border-color:var(--gold); box-shadow:0 0 0 2px rgba(201,162,39,.15);
+}
+/* same cue for unconstrained title/subtitle size boxes */
+#adv-title-size, #adv-subtitle-size{transition:box-shadow .15s, border-color .15s}
+body .adv-text-group:has(#title-constrain:not(:checked)) #adv-title-size,
+body .adv-text-group:has(#subtitle-constrain:not(:checked)) #adv-subtitle-size{
+  border-color:var(--gold); box-shadow:0 0 0 2px rgba(201,162,39,.15);
+}
 .align-label{font-size:.66rem; color:var(--muted); font-weight:600}
 .align-group{display:inline-flex; gap:2px}
 .alg{
@@ -377,6 +406,19 @@ input[type=file]{font-size:.74rem; color:var(--muted)}
 .pros-cons li{padding-left:1.2rem; position:relative; margin-bottom:.25rem; color:var(--muted)}
 .pros-cons .pro::before{content:"✓"; position:absolute; left:0; color:#1a7f4b; font-weight:700}
 .pros-cons .con::before{content:"✕"; position:absolute; left:0; color:#b3261e; font-weight:700}
+
+/* guide modal */
+.guide-body{max-height:calc(90vh - 60px); overflow-y:auto}
+.video-frame{position:relative; width:100%; aspect-ratio:16/9; border-radius:12px; overflow:hidden; background:var(--accent-soft); border:1px solid var(--line); margin-bottom:1rem}
+.video-frame iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
+.video-placeholder{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:.2rem; color:var(--muted)}
+.video-placeholder p{margin:0}
+.guide-download{display:flex; flex-direction:column; align-items:flex-start; gap:.3rem; margin-bottom:1.2rem; padding-bottom:1rem; border-bottom:1px solid var(--line)}
+.guide-download .btn{text-decoration:none}
+.guide-text h4{margin:1.1rem 0 .3rem; font-family:'Sora',sans-serif; font-size:.92rem; color:var(--ink)}
+.guide-text h4:first-child{margin-top:0}
+.guide-text p{margin:.3rem 0}
+.guide-text code{background:var(--accent-soft); padding:.05rem .3rem; border-radius:4px; font-size:.8rem}
 
 /* responsive */
 @media (max-width:900px){
